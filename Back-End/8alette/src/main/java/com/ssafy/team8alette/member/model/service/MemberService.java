@@ -37,17 +37,13 @@ public class MemberService {
 		this.nullValueChecker = nullValueChecker;
 	}
 
-	public Member getMemberInfo(Long memberNumber) {
-		return memberRepository.findMemberByMemberNumber(memberNumber);
-	}
-
 	public void register(Map<String, String> registerMemberInfo) throws NoSuchAlgorithmException {
 
-		Long memberNumber = Long.parseLong(registerMemberInfo.get("member_number"));
-		String memberPassword = registerMemberInfo.get("member_password");
-		String memberPasswordRepeat = registerMemberInfo.get("member_password_repeat");
-		String memberName = registerMemberInfo.get("member_name");
-		String memberNickname = registerMemberInfo.get("member_nickname");
+		Long memberNumber = Long.parseLong(registerMemberInfo.get("member_number").trim());
+		String memberPassword = registerMemberInfo.get("member_password").trim();
+		String memberPasswordRepeat = registerMemberInfo.get("member_password_repeat").trim();
+		String memberName = registerMemberInfo.get("member_name").trim();
+		String memberNickname = registerMemberInfo.get("member_nickname").trim();
 
 		nullValueChecker.check(
 			memberName,
@@ -80,16 +76,31 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 
-	public void changePassword(Long memberNumber, String curPassword, String newPassword,
+	public Member getMemberInfo(Long memberNumber) {
+		return memberRepository.findMemberByMemberNumber(memberNumber);
+	}
+
+	public void editMemberInfo(Long memberNumber, String memberEmail, String memberNickname, String memberIntro) {
+
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+
+		if (memberEmail != null && memberEmail.equals("") != true)
+			member.setMemberEmail(memberEmail);
+		if (memberNickname != null && memberNickname.equals("") != true)
+			member.setMemberNickname(memberNickname);
+
+		member.setMemberIntro(memberIntro);
+
+		memberRepository.save(member);
+	}
+
+	public void changeMemberPassword(Long memberNumber, String newPassword,
 		String newPasswordRepeat) throws
 		NoSuchAlgorithmException {
 
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
-		nullValueChecker.check(curPassword, newPassword, newPasswordRepeat);
-
-		if (passwordEncryptor.match(curPassword, member.getMemberPassword()) != true)
-			throw new InvalidMemberPasswordException("현재 비밀번호가 일치하지 않습니다.");
+		nullValueChecker.check(newPassword, newPasswordRepeat);
 
 		if (regexChecker.checkValidationRegisterPassword(newPassword) != true)
 			throw new RegexException("비밀번호 형식이 맞지 않습니다.");
@@ -100,7 +111,14 @@ public class MemberService {
 		String newPasswordEncoded = passwordEncryptor.encodePassword(newPassword);
 
 		member.setMemberPassword(newPasswordEncoded);
+
 		memberRepository.save(member);
 	}
 
+	public boolean checkValid(String memberEmail, String memberPassword) throws NoSuchAlgorithmException {
+
+		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
+
+		return passwordEncryptor.match(memberPassword, member.getMemberPassword());
+	}
 }
