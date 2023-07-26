@@ -8,7 +8,6 @@ import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 
 @Repository
 public class MemberLoginInfoRepository {
-
 	public void insertMemberLoginInfo(Long memberNumber, String refreshToken, boolean isSocialLogin) throws
 		SQLException {
 		//레디스 저장 쿼리

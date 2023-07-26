@@ -22,7 +22,7 @@ public class MemberControllerAdviser {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		return new ResponseEntity<>(token, status);
 	}
-
+	
 	@ExceptionHandler(RegexException.class)
 	public ResponseEntity<Map<String, Object>> regexHandler(RegexException exception) {
 		Map<String, Object> token = new HashMap<>();

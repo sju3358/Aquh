@@ -136,7 +136,6 @@ public class MemberController {
 		String memberPassword = param.get("member_password").trim();
 
 		boolean isValid = memberService.checkValid(memberEmail, memberPassword);
-
 		Map<String, Object> data = new HashMap<>();
 		data.put("isValid", isValid);
 

@@ -66,8 +66,9 @@ public class MemberService {
 	public Member getMemberInfo(Long memberNumber) {
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
-		if (member == null)
+		if (member == null) {
 			throw new MemberNotExistException();
+		}
 
 		return member;
 	}
@@ -75,8 +76,9 @@ public class MemberService {
 	public Member getMemberInfo(String memberEmail) {
 		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
 
-		if (member == null)
+		if (member == null) {
 			throw new MemberNotExistException();
+		}
 
 		return member;
 	}

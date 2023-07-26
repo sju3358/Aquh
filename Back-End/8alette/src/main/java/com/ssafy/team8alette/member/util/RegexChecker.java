@@ -14,17 +14,20 @@ public class RegexChecker {
 	private final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$";
 
 	public void checkEmailPattern(String targetString) {
-		if (Pattern.matches(emailPattern, targetString) == false)
+		if (Pattern.matches(emailPattern, targetString) == false) {
 			throw new RegexException("이메일 형식이 일치하지 않습니다.");
+		}
 	}
 
 	public void checkNicknamePattern(String targetString) {
-		if (Pattern.matches(nicknamePattern, targetString) == false)
+		if (Pattern.matches(nicknamePattern, targetString) == false) {
 			throw new RegexException("닉네임 형식이 일치하지 않습니다.");
+		}
 	}
 
 	public void checkPasswordPattern(String targetString) {
-		if (Pattern.matches(passwordPattern, targetString) == false)
+		if (Pattern.matches(passwordPattern, targetString) == false) {
 			throw new RegexException("비밀번호 형식이 일치하지 않습니다.");
+		}
 	}
 }

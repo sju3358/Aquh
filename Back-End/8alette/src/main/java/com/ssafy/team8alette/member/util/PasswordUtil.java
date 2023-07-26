@@ -24,8 +24,9 @@ public class PasswordUtil {
 	}
 
 	public void match(String rawPassword, String targetPassword) throws NoSuchAlgorithmException {
-		if (encodePassword(rawPassword).equals(targetPassword) != true)
+		if (encodePassword(rawPassword).equals(targetPassword) != true) {
 			throw new MemberPasswordInvalidException("비밀번호가 일치하지 않습니다");
+		}
 	}
 
 	public String getRandomPassword() {

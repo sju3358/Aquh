@@ -42,7 +42,7 @@ public class MemberAuthControllerAdviser {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		return new ResponseEntity<>(token, status);
 	}
-
+	
 	@ExceptionHandler(UnAuthorizedException.class)
 	public ResponseEntity<Map<String, Object>> unAuthHandler(MemberDuplicatedException exception) {
 		Map<String, Object> token = new HashMap<>();

@@ -31,6 +31,5 @@ public class TokenValidCheckInterceptor implements HandlerInterceptor {
 		} else {
 			throw new UnAuthorizedException();
 		}
-
 	}
 }
