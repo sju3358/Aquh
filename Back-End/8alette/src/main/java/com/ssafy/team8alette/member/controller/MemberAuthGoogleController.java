@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.ssafy.team8alette.member.exception.NullValueException;
-import com.ssafy.team8alette.member.model.service.MemberAuthNaverService;
+import com.ssafy.team8alette.member.model.service.MemberAuthGoogleService;
 import com.ssafy.team8alette.member.model.service.MemberService;
 import com.ssafy.team8alette.member.util.JwtTokenProvider;
 
@@ -34,7 +34,7 @@ public class MemberAuthGoogleController {
 	private final String CLIENT_ID = "953911532873-0ve3ob0gtc2eq0fdp8ui67mue02pufpr.apps.googleusercontent.com";
 	private final String CLIENT_SECRET = "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";
 
-	private final MemberAuthNaverService memberNaverService;
+	private final MemberAuthGoogleService memberAuthGoogleService;
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
@@ -43,36 +43,34 @@ public class MemberAuthGoogleController {
 		Exception {
 
 		String code = param.get("code").toString();
-		String redirect_uri = "http://localhost:8080";
 
-		HttpEntity<MultiValueMap<String, String>> AuthCodeRequest = generateAuthCodeRequest(code, redirect_uri);
+		HttpEntity<MultiValueMap<String, String>> AuthCodeRequest = generateAuthCodeRequest(code);
 		ResponseEntity<String> AuthCodeResponse = requestAccessToken(AuthCodeRequest);
 		String jsonData = AuthCodeResponse.getBody().toString();
 		Map<String, String> tokenInfo = getTokenInfo(jsonData);
-		String googleAccessToken = tokenInfo.get("access_token");
+		String googleAccessToken = tokenInfo.get("accessToken");
+		String googleIdToken = tokenInfo.get("idToken");
 
-		ResponseEntity<String> profileInfo = requestProfile(googleAccessToken);
+		ResponseEntity<String> profileInfo = requestProfile(googleAccessToken, googleIdToken);
 
 		JSONParser parser = new JSONParser();
 		JSONObject profileData = (JSONObject)parser.parse(profileInfo.getBody().toString());
 
-		String googleResponseData = profileData.get("response").toString();
+		String googleResponseData = profileData.toString();
 		JSONObject googleMemberData = (JSONObject)parser.parse(googleResponseData);
 
-		String googleMemberEmail = googleMemberData.get("").toString().trim();
-		String googleMemberName = googleMemberData.get("").toString().trim();
-		String googleMemberNickname = googleMemberData.get("").toString().trim();
-		int googleMemberAge = Integer.parseInt(googleMemberData.get("").toString().trim());
+		String googleMemberEmail = googleMemberData.get("email").toString().trim();
+		String googleMemberName = googleMemberData.get("family_name").toString().trim();
+		String googleMemberNickname = googleMemberData.get("name").toString().trim();
 
 		Long memberNumber = -1L;
 		try {
 			memberNumber = memberService.getMemberInfo(googleMemberEmail).getMemberNumber();
 		} catch (NullValueException exception) {
-			memberNaverService.register(
+			memberAuthGoogleService.register(
 				googleMemberEmail,
 				googleMemberName,
-				googleMemberNickname,
-				googleMemberAge
+				googleMemberNickname
 			);
 			memberNumber = memberService.getMemberInfo(googleMemberEmail).getMemberNumber();
 		}
@@ -80,7 +78,7 @@ public class MemberAuthGoogleController {
 		Map tokens = jwtTokenProvider.getTokens(googleMemberEmail);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
-		memberNaverService.login(memberNumber, refreshToken);
+		memberAuthGoogleService.login(memberNumber, refreshToken);
 
 		Map<String, Object> loginData = new HashMap<>();
 		loginData.put("member_number", memberNumber);
@@ -102,13 +100,12 @@ public class MemberAuthGoogleController {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject)jsonParser.parse(json);
 
-		tokens.put("access_token", jsonObject.get("access_token").toString());
-		tokens.put("expires_in", jsonObject.get("expires_in").toString());
-		tokens.put("token_type", jsonObject.get("token_type").toString());
+		tokens.put("accessToken", jsonObject.get("access_token").toString());
+		tokens.put("idToken", jsonObject.get("id_token").toString());
 		return tokens;
 	}
 
-	private HttpEntity<MultiValueMap<String, String>> generateAuthCodeRequest(String authCode, String redirect_uri) {
+	private HttpEntity<MultiValueMap<String, String>> generateAuthCodeRequest(String code) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -116,8 +113,8 @@ public class MemberAuthGoogleController {
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", CLIENT_ID);
 		params.add("client_secret", CLIENT_SECRET);
-		params.add("code", authCode);
-		params.add("redirect_uri", redirect_uri);
+		params.add("code", code);
+		params.add("redirect_uri", "http://localhost:8080");
 		return new HttpEntity<>(params, headers);
 	}
 
@@ -131,24 +128,22 @@ public class MemberAuthGoogleController {
 		);
 	}
 
-	public ResponseEntity<String> requestProfile(String accessToken) {
+	public ResponseEntity<String> requestProfile(String accessToken, String idToken) {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Bearer " + accessToken);
-		System.out.println("Authorization: " + "Bearer " + accessToken);
+		headers.set("Authorization", "Bearer " + idToken);
 
 		HttpEntity request = new HttpEntity(headers);
 
 		RestTemplate restTemplate = new RestTemplate();
 
 		ResponseEntity<String> response = restTemplate.exchange(
-			"https://www.googleapis.com/oauth2/v3/userinfo",
+			"https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken,
 			HttpMethod.GET,
 			request,
 			String.class
 		);
 
-		System.out.println("response.getBody() = " + response.getBody());
 		return response;
 	}
 
