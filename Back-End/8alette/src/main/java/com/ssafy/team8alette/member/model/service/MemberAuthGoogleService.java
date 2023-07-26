@@ -29,14 +29,13 @@ public class MemberAuthGoogleService {
 
 	}
 
-	public void register(String memberEmail, String memberName, String memberNickname, int memberAge) throws
+	public void register(String memberEmail, String memberName, String memberNickname) throws
 		NoSuchAlgorithmException {
 		Member member = new Member();
 		member.setMemberState(1);
 		member.setMemberEmail(memberEmail);
 		member.setMemberName(memberName);
-		member.setMemberNickname("NAVER_" + memberNickname);
-		member.setMemberAge(memberAge);
+		member.setMemberNickname("Google" + memberNickname);
 		member.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
 		memberRepository.save(member);
 	}
