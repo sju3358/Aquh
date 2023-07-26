@@ -32,17 +32,15 @@ import lombok.RequiredArgsConstructor;
 public class MemberAuthNaverController {
 
 	private final String CLIENT_ID = "0jXgPVDyLQu_ekRssB20";
-	private final String CLIENT_SECRET = "3MjVF30KIu";
+	private final String CLIENT_SECRET = "meJ2fmVdZi";
 
 	private final MemberAuthNaverService memberNaverService;
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping("/auth")
+	@PostMapping("/")
 	public ResponseEntity<Map<String, Object>> naverLoginRequest(@RequestBody Map<String, String> param) throws
 		Exception {
-
-		System.out.println("네이버로그인");
 
 		String code = param.get("code").toString();
 		String state = param.get("state").toString();
@@ -63,7 +61,7 @@ public class MemberAuthNaverController {
 
 		String naverMemberEmail = naverMemberData.get("").toString().trim();
 		String naverMemberName = naverMemberData.get("").toString().trim();
-		String naverMemberNickname = naverMemberData.get("").toString().trim();
+		String naverMemberNickname = naverMemberData.get("nickname").toString().trim();
 		int naverMemberAge = Integer.parseInt(naverMemberData.get("").toString().trim());
 
 		Long memberNumber = -1L;
