@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.member.exception.MemberPasswordInvalidException;
+
 @Component
 public class PasswordUtil {
 
@@ -21,8 +23,9 @@ public class PasswordUtil {
 		return builder.toString();
 	}
 
-	public boolean match(String rawPassword, String targetPassword) throws NoSuchAlgorithmException {
-		return encodePassword(rawPassword).equals(targetPassword);
+	public void match(String rawPassword, String targetPassword) throws NoSuchAlgorithmException {
+		if (encodePassword(rawPassword).equals(targetPassword) != true)
+			throw new MemberPasswordInvalidException("비밀번호가 일치하지 않습니다");
 	}
 
 	public String getRandomPassword() {

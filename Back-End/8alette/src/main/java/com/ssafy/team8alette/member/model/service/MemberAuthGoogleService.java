@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.team8alette.member.exception.NullValueException;
+import com.ssafy.team8alette.member.exception.MemberDuplicatedException;
 import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
@@ -24,7 +24,7 @@ public class MemberAuthGoogleService {
 	public void login(Long memberNumber, String refreshToken) throws SQLException {
 
 		if (memberNumber == -1)
-			throw new NullValueException("회원이 존재하지 않습니다");
+			throw new MemberDuplicatedException("회원이 존재하지 않습니다");
 		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, true);
 
 	}

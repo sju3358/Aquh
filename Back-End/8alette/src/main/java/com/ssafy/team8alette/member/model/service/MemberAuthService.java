@@ -5,9 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.team8alette.member.exception.DuplicatedMemberException;
-import com.ssafy.team8alette.member.exception.InvalidMemberPasswordException;
-import com.ssafy.team8alette.member.exception.NullValueException;
+import com.ssafy.team8alette.member.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.member.exception.MemberNotExistException;
 import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
@@ -35,16 +34,14 @@ public class MemberAuthService {
 		Member member = memberRepository.findMemberByMemberEmail(loginEmail);
 
 		if (member == null) {
-			throw new NullValueException("존재하지 않는 회원입니다.");
+			throw new MemberNotExistException();
 		}
 
 		if (memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(member.getMemberNumber()) != null) {
-			throw new DuplicatedMemberException("이미 로그인 중입니다.");
+			throw new MemberDuplicatedException("이미 로그인 중입니다.");
 		}
 
-		if (passwordUtil.match(member.getMemberPassword(), loginPassword) != true) {
-			throw new InvalidMemberPasswordException("비밀번호가 일치하지 않습니다.");
-		}
+		passwordUtil.match(member.getMemberPassword(), loginPassword);
 
 		return member.getMemberNumber();
 	}
