@@ -69,6 +69,4 @@ public class MemberAuthController {
 		return new ResponseEntity<Map<String, Object>>(responseData, HttpStatus.OK);
 	}
 
-	//1. 회원 인증할 url 보내기
-	//2. 임시비밀번호 발급 url 보내기
 }

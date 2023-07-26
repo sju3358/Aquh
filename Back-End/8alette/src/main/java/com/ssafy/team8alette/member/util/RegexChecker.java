@@ -4,20 +4,27 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.member.exception.RegexException;
+
 @Component
 public class RegexChecker {
 
-	//숫자랑 영어만
-	private final String regexPattern1 = "^[a-zA-Z0-9]*$";
+	private final String emailPattern = "^[a-z0-9\\.\\-_]+@([a-z0-9\\-]+\\.)+[a-z]{2,6}$";
+	private final String nicknamePattern = "^[ㄱ-ㅎ가-힣a-zA-Z0-9]{2,8}$";
+	private final String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$";
 
-	//숫자, 영어, 특수문자 10글자이상
-	private final String regexPattern2 = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{10,}$";
-
-	public boolean checkValidationRegisterId(String targetString) {
-		return Pattern.matches(regexPattern1, targetString);
+	public void checkEmailPattern(String targetString) {
+		if (Pattern.matches(emailPattern, targetString) == false)
+			throw new RegexException("이메일 형식이 일치하지 않습니다.");
 	}
 
-	public boolean checkValidationRegisterPassword(String targetString) {
-		return Pattern.matches(regexPattern2, targetString);
+	public void checkNicknamePattern(String targetString) {
+		if (Pattern.matches(nicknamePattern, targetString) == false)
+			throw new RegexException("닉네임 형식이 일치하지 않습니다.");
+	}
+
+	public void checkPasswordPattern(String targetString) {
+		if (Pattern.matches(passwordPattern, targetString) == false)
+			throw new RegexException("비밀번호 형식이 일치하지 않습니다.");
 	}
 }

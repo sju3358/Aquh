@@ -1,14 +1,12 @@
 package com.ssafy.team8alette.member.model.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.team8alette.member.exception.DuplicatedMemberException;
-import com.ssafy.team8alette.member.exception.InvalidMemberPasswordException;
-import com.ssafy.team8alette.member.exception.NullValueException;
-import com.ssafy.team8alette.member.exception.RegexException;
+import com.ssafy.team8alette.member.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.member.exception.MemberNotExistException;
+import com.ssafy.team8alette.member.exception.MemberPasswordInvalidException;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 import com.ssafy.team8alette.member.util.NullValueChecker;
@@ -35,16 +33,16 @@ public class MemberService {
 			memberPasswordRepeat,
 			memberNickname);
 
-		if (memberRepository.findMemberByMemberNickname(memberNickname) != null) {
-			throw new DuplicatedMemberException();
-		}
+		regexChecker.checkEmailPattern(memberEmail);
+		regexChecker.checkNicknamePattern(memberNickname);
+		regexChecker.checkPasswordPattern(memberPassword);
 
-		if (regexChecker.checkValidationRegisterPassword(memberPassword) != true) {
-			throw new RegexException("비밀번호 형식이 맞지 않습니다.");
+		if (memberRepository.findMemberByMemberNickname(memberNickname) != null) {
+			throw new MemberDuplicatedException();
 		}
 
 		if (memberPassword.equals(memberPasswordRepeat) != true) {
-			throw new InvalidMemberPasswordException("비밀번호를 다시 확인해주세요");
+			throw new MemberPasswordInvalidException("비밀번호를 다시 확인해주세요");
 		}
 
 		String memberPasswordEncoded = passwordUtil.encodePassword(memberPassword);
@@ -59,7 +57,7 @@ public class MemberService {
 		return member.getMemberNumber();
 	}
 
-	public void deactivate(Long memberNumber) throws SQLException {
+	public void deactivate(Long memberNumber) {
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 		member.setMemberState(2);
 		memberRepository.save(member);
@@ -69,7 +67,7 @@ public class MemberService {
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
 		if (member == null)
-			throw new NullValueException("회원이 존재하지 않습니다");
+			throw new MemberNotExistException();
 
 		return member;
 	}
@@ -78,7 +76,7 @@ public class MemberService {
 		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
 
 		if (member == null)
-			throw new NullValueException("회원이 존재하지 않습니다");
+			throw new MemberNotExistException();
 
 		return member;
 	}
@@ -113,12 +111,10 @@ public class MemberService {
 
 		nullValueChecker.check(newPassword, newPasswordRepeat);
 
-		if (regexChecker.checkValidationRegisterPassword(newPassword) != true) {
-			throw new RegexException("비밀번호 형식이 맞지 않습니다.");
-		}
+		regexChecker.checkPasswordPattern(newPassword);
 
 		if (newPassword.equals(newPasswordRepeat) != true) {
-			throw new InvalidMemberPasswordException("변경할 비밀번호가 일치 하지 않습니다.");
+			throw new MemberPasswordInvalidException("변경할 비밀번호가 일치 하지 않습니다.");
 		}
 
 		String newPasswordEncoded = passwordUtil.encodePassword(newPassword);
@@ -144,6 +140,8 @@ public class MemberService {
 
 		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
 
-		return passwordUtil.match(memberPassword, member.getMemberPassword());
+		passwordUtil.match(memberPassword, member.getMemberPassword());
+
+		return true;
 	}
 }
