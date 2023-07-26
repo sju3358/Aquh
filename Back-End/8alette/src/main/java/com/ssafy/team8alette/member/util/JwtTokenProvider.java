@@ -20,12 +20,12 @@ public class JwtTokenProvider {
 	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
 	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
 
-	public <T> String createAccessToken(String key, T data) throws UnsupportedEncodingException {
+	private <T> String createAccessToken(String key, T data) throws UnsupportedEncodingException {
 		//front-end에서 refresh token에 대한 기능 구현 미완으로 인해 임시로 만료기한을 길게 잡습니다.
 		return create(key, data, "access-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
 	}
 
-	public <T> String createRefreshToken(String key, T data) throws UnsupportedEncodingException {
+	private <T> String createRefreshToken(String key, T data) throws UnsupportedEncodingException {
 		//front-end에서 refresh token에 대한 기능 구현 미완으로 인해 임시로 만료기한을 길게 잡습니다.
 		return create(key, data, "refresh-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
 	}

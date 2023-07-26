@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,21 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.member.model.service.MemberAuthService;
 import com.ssafy.team8alette.member.util.JwtTokenProvider;
 
+import lombok.RequiredArgsConstructor;
+
 @RequestMapping("/api/v1/member/auth")
 @RestController
+@RequiredArgsConstructor
 public class MemberAuthController {
 
 	private final MemberAuthService memberAuthService;
 	private final JwtTokenProvider jwtTokenProvider;
-
-	@Autowired
-	public MemberAuthController(
-		MemberAuthService memberAuthService,
-		JwtTokenProvider jwtTokenProvider) {
-
-		this.memberAuthService = memberAuthService;
-		this.jwtTokenProvider = jwtTokenProvider;
-	}
 
 	@PostMapping("/auth")
 	public ResponseEntity<Map<String, Object>> loginRequest(@RequestBody Map<String, String> param) throws
@@ -54,13 +47,14 @@ public class MemberAuthController {
 		loginData.put("member_number", memberNumber);
 		loginData.put("access_token", accessToken);
 		loginData.put("refresh_token", refreshToken);
+		loginData.put("isSocialLogin", false);
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "OK");
+		responseData.put("message", "success");
 		responseData.put("data", loginData);
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("status", 200);
 
-		return new ResponseEntity<Map<String, Object>>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/auth/{memberNumber}")
@@ -69,10 +63,12 @@ public class MemberAuthController {
 		memberAuthService.logout(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
+		responseData.put("status", 200);
 
-		return new ResponseEntity<Map<String, Object>>(responseData, status);
+		return new ResponseEntity<Map<String, Object>>(responseData, HttpStatus.OK);
 	}
 
+	//1. 회원 인증할 url 보내기
+	//2. 임시비밀번호 발급 url 보내기
 }

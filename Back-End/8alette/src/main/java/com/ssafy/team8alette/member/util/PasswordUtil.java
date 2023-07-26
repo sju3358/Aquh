@@ -3,10 +3,11 @@ package com.ssafy.team8alette.member.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordEncryptor {
+public class PasswordUtil {
 
 	public String encodePassword(String rawPassword) throws NoSuchAlgorithmException {
 
@@ -23,4 +24,9 @@ public class PasswordEncryptor {
 	public boolean match(String rawPassword, String targetPassword) throws NoSuchAlgorithmException {
 		return encodePassword(rawPassword).equals(targetPassword);
 	}
+
+	public String getRandomPassword() {
+		return RandomStringUtils.random(12, 33, 125, true, true);
+	}
+
 }

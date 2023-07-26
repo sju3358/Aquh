@@ -9,8 +9,9 @@ public class NullValueChecker {
 
 	public void check(String... params) {
 		for (String param : params) {
-			if (param.equals("") == true)
+			if (param.equals("") == true) {
 				throw new NullValueException("비어있는값이 존재합니다.");
+			}
 		}
 	}
 }
