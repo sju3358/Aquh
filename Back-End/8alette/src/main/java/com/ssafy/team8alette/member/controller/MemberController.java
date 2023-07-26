@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,22 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.member.model.dto.Member;
 import com.ssafy.team8alette.member.model.service.MemberAuthService;
 import com.ssafy.team8alette.member.model.service.MemberService;
+import com.ssafy.team8alette.member.util.MailSenderUtil;
+
+import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/api/v1/member")
 @RestController
+@RequiredArgsConstructor
 public class MemberController {
 
 	private final MemberService memberService;
 	private final MemberAuthService memberAuthService;
-
-	@Autowired
-	public MemberController(
-		MemberService memberService,
-		MemberAuthService memberAuthService) {
-
-		this.memberService = memberService;
-		this.memberAuthService = memberAuthService;
-	}
+	private final MailSenderUtil mailSenderUtil;
 
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
@@ -53,36 +48,53 @@ public class MemberController {
 
 		data.put("member_state", member.getMemberState());
 
-		if (name.trim().equals("Y"))
+		if (name.trim().equals("Y")) {
 			data.put("member_name", member.getMemberName());
-		if (nickname.trim().equals("Y"))
+		}
+		if (nickname.trim().equals("Y")) {
 			data.put("member_nickname", member.getMemberNickname());
-		if (email.trim().equals("Y"))
+		}
+		if (email.trim().equals("Y")) {
 			data.put("member_email", member.getMemberEmail());
-		if (age.trim().equals("Y"))
+		}
+		if (age.trim().equals("Y")) {
 			data.put("member_age", member.getMemberAge());
-		if (intro.trim().equals("Y"))
+		}
+		if (intro.trim().equals("Y")) {
 			data.put("member_intro", member.getMemberIntro());
+		}
 
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
 		responseData.put("data", data);
+		responseData.put("status", 200);
 
-		return new ResponseEntity<Map<String, Object>>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 	@PostMapping("/")
 	public ResponseEntity<Map<String, Object>> registerMemberRequest(@RequestBody Map<String, String> param) throws
-		NoSuchAlgorithmException {
+		NoSuchAlgorithmException, IllegalAccessException {
 
-		memberService.register(param);
+		String memberEmail = param.get("member_email").trim();
+		String memberNickname = param.get("member_nickname").trim();
+		String memberPassword = param.get("member_password").trim();
+		String memberPasswordRepeat = param.get("member_password_repeat").trim();
+
+		Long memberNumber = memberService.register(
+			memberEmail,
+			memberNickname,
+			memberPassword,
+			memberPasswordRepeat
+		);
+
+		mailSenderUtil.sendVerifyEmailMessage(memberNumber, memberEmail);
 
 		Map<String, Object> responseData = new HashMap<>();
 
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
+		responseData.put("status", 200);
 
-		return new ResponseEntity<>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 	@PutMapping("/")
@@ -96,13 +108,13 @@ public class MemberController {
 		memberService.editMemberInfo(memberNumber, memberEmail, memberNickname, memberIntro);
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
+		responseData.put("status", 200);
 
-		return new ResponseEntity<>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	@PutMapping("/{memberNumber}}")
+	@PutMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> deactivateMemberRequest(@PathVariable Long memberNumber) throws
 		SQLException {
 
@@ -110,10 +122,10 @@ public class MemberController {
 		memberAuthService.logout(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
+		responseData.put("status", 200);
 
-		return new ResponseEntity<>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 	@PostMapping("/check")
@@ -130,11 +142,12 @@ public class MemberController {
 
 		Map<String, Object> responseData = new HashMap<>();
 
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
 		responseData.put("data", data);
+		responseData.put("status", 200);
 
-		return new ResponseEntity<>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+
 	}
 
 	@PostMapping("/password")
@@ -149,10 +162,9 @@ public class MemberController {
 		memberService.changeMemberPassword(memberNumber, memberNewPassword, memberNewPasswordRepeat);
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "OK");
-		HttpStatus status = HttpStatus.ACCEPTED;
+		responseData.put("message", "success");
+		responseData.put("status", 200);
 
-		return new ResponseEntity<>(responseData, status);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
-
 }

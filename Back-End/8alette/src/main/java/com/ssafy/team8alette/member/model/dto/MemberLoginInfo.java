@@ -6,16 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "member")
+@Table(name = "member_login_info")
 public class MemberLoginInfo {
 
 	@Id
@@ -25,5 +23,8 @@ public class MemberLoginInfo {
 
 	@Column(name = "member_token", nullable = false)
 	private String refreshToken;
+
+	@Column(name = "isSocialLogin", nullable = false)
+	private boolean isSocialLogin;
 }
 

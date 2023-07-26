@@ -1,42 +1,43 @@
 package com.ssafy.team8alette.member.model.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.member.exception.NullValueException;
+import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
+import com.ssafy.team8alette.member.model.dao.MemberRepository;
+import com.ssafy.team8alette.member.model.dto.Member;
+import com.ssafy.team8alette.member.util.PasswordUtil;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MemberAuthNaverService {
 
-	// private final RegexChecker regexChecker;
-	// private final PasswordEncryptor passwordEncryptor;
-	// private final JwtTokenProvider jwtTokenProvider;
-	//
-	// @Autowired
-	// public MemberAuthNaverService(RegexChecker regexChecker, PasswordEncryptor passwordEncryptor,
-	// 	JwtTokenProvider jwtTokenProvider) {
-	//
-	// 	this.regexChecker = regexChecker;
-	// 	this.passwordEncryptor = passwordEncryptor;
-	// 	this.jwtTokenProvider = jwtTokenProvider;
-	// }
-	//
-	// public Member login(String memberId, String name) throws
-	// 	SQLException,
-	// 	NoSuchAlgorithmException,
-	// 	NullPointerException {
-	//
-	// 	Member loginUser = memberMapper.findUserById(memberId);
-	//
-	// 	if (loginUser == null) {
-	// 		this.register(memberId, name);
-	// 		loginUser = memberMapper.findUserById(memberId);
-	// 	}
-	// 	return loginUser;
-	// }
-	//
-	// public void register(String memberId, String memberName) throws SQLException, NoSuchAlgorithmException {
-	//
-	// 	String memberPassword = passwordEncryptor.getRandomPassword(12);
-	// 	String memberPasswordEncoded = passwordEncryptor.encodePassword(memberPassword);
-	// 	memberMapper.insertUser(new Member(memberName, memberId, memberPasswordEncoded));
-	// }
+	private final MemberRepository memberRepository;
+	private final PasswordUtil passwordUtil;
+	private final MemberLoginInfoRepository memberLoginInfoRepository;
 
+	public void login(Long memberNumber, String refreshToken) throws SQLException {
+
+		if (memberNumber == -1)
+			throw new NullValueException("회원이 존재하지 않습니다");
+		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, true);
+
+	}
+
+	public void register(String memberEmail, String memberName, String memberNickname, int memberAge) throws
+		NoSuchAlgorithmException {
+		Member member = new Member();
+		member.setMemberState(1);
+		member.setMemberEmail(memberEmail);
+		member.setMemberName(memberName);
+		member.setMemberNickname("NAVER_" + memberNickname);
+		member.setMemberAge(memberAge);
+		member.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
+		memberRepository.save(member);
+	}
 }
