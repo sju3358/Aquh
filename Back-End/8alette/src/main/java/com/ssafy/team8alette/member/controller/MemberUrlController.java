@@ -47,9 +47,8 @@ public class MemberUrlController {
 
 	@GetMapping("/email-certification")
 	public ResponseEntity<Map<String, Object>> verifyMemberRequest(
-		@RequestParam Long member_number) {
+		@RequestParam Long memberNumber) {
 
-		Long memberNumber = member_number;
 		memberService.verifyMember(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();

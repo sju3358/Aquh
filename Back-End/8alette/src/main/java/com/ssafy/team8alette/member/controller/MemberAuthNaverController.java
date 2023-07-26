@@ -31,8 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberAuthNaverController {
 
-	private final String CLIENT_ID = "0jXgPVDyLQu_ekRssB20";
-	private final String CLIENT_SECRET = "meJ2fmVdZi";
+	private final String naverClientId = "0jXgPVDyLQu_ekRssB20";
+	private final String naverClientSecret = "meJ2fmVdZi";
 
 	private final MemberAuthNaverService memberNaverService;
 	private final MemberService memberService;
@@ -42,15 +42,13 @@ public class MemberAuthNaverController {
 	public ResponseEntity<Map<String, Object>> naverLoginRequest(@RequestBody Map<String, String> param) throws
 		Exception {
 
-		String code = param.get("code").toString();
-		String state = param.get("state").toString();
+		String code = param.get("code");
+		String state = param.get("state");
 
-		HttpEntity<MultiValueMap<String, String>> AuthCodeRequest = generateAuthCodeRequest(code, state);
-		ResponseEntity<String> AuthCodeResponse = requestAccessToken(AuthCodeRequest);
-		String jsonData = AuthCodeResponse.getBody().toString();
+		String jsonData = requestAccessToken(generateAuthCodeRequest(code, state)).getBody();
 		Map<String, String> tokenInfo = getTokenInfo(jsonData);
-		String NaverAccessToken = tokenInfo.get("access_token");
-		HttpEntity<MultiValueMap<String, String>> profileRequest = generateProfileRequest(NaverAccessToken);
+		String naverAccessToken = tokenInfo.get("access_token");
+		HttpEntity<MultiValueMap<String, String>> profileRequest = generateProfileRequest(naverAccessToken);
 		ResponseEntity<String> profileInfo = requestProfile(profileRequest);
 
 		JSONParser parser = new JSONParser();
@@ -115,8 +113,8 @@ public class MemberAuthNaverController {
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", CLIENT_ID);
-		params.add("client_secret", CLIENT_SECRET);
+		params.add("client_id", naverClientId);
+		params.add("client_secret", naverClientSecret);
 		params.add("code", authCode);
 		params.add("state", state);
 		return new HttpEntity<>(params, headers);

@@ -27,7 +27,7 @@ public class MemberAuthController {
 
 	private final MemberAuthService memberAuthService;
 	private final JwtTokenProvider jwtTokenProvider;
-
+	
 	@PostMapping("/auth")
 	public ResponseEntity<Map<String, Object>> loginRequest(@RequestBody Map<String, String> param) throws
 		SQLException,

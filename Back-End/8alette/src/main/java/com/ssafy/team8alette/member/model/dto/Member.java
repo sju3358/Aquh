@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "member")
 public class Member {
-
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "member_number", nullable = false)

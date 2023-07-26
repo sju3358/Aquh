@@ -31,8 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberAuthGoogleController {
 
-	private final String CLIENT_ID = "953911532873-0ve3ob0gtc2eq0fdp8ui67mue02pufpr.apps.googleusercontent.com";
-	private final String CLIENT_SECRET = "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";
+	private final String googleClientId = "953911532873-0ve3ob0gtc2eq0fdp8ui67mue02pufpr.apps.googleusercontent.com";
+	private final String googleClientSecret = "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";
 
 	private final MemberAuthGoogleService memberAuthGoogleService;
 	private final MemberService memberService;
@@ -42,11 +42,9 @@ public class MemberAuthGoogleController {
 	public ResponseEntity<Map<String, Object>> googleLoginRequest(@RequestBody Map<String, String> param) throws
 		Exception {
 
-		String code = param.get("code").toString();
+		String code = param.get("code");
 
-		HttpEntity<MultiValueMap<String, String>> AuthCodeRequest = generateAuthCodeRequest(code);
-		ResponseEntity<String> AuthCodeResponse = requestAccessToken(AuthCodeRequest);
-		String jsonData = AuthCodeResponse.getBody().toString();
+		String jsonData = requestAccessToken(generateAuthCodeRequest(code)).getBody();
 		Map<String, String> tokenInfo = getTokenInfo(jsonData);
 		String googleAccessToken = tokenInfo.get("accessToken");
 		String googleIdToken = tokenInfo.get("idToken");
@@ -54,7 +52,7 @@ public class MemberAuthGoogleController {
 		ResponseEntity<String> profileInfo = requestProfile(googleAccessToken, googleIdToken);
 
 		JSONParser parser = new JSONParser();
-		JSONObject profileData = (JSONObject)parser.parse(profileInfo.getBody().toString());
+		JSONObject profileData = (JSONObject)parser.parse(profileInfo.getBody());
 
 		String googleResponseData = profileData.toString();
 		JSONObject googleMemberData = (JSONObject)parser.parse(googleResponseData);
@@ -111,8 +109,8 @@ public class MemberAuthGoogleController {
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", CLIENT_ID);
-		params.add("client_secret", CLIENT_SECRET);
+		params.add("client_id", googleClientId);
+		params.add("client_secret", googleClientSecret);
 		params.add("code", code);
 		params.add("redirect_uri", "http://localhost:8080");
 		return new HttpEntity<>(params, headers);
