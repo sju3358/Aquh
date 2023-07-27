@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.ssafy.team8alette.member.exception.NullValueException;
 import com.ssafy.team8alette.member.model.service.MemberAuthGoogleService;
 import com.ssafy.team8alette.member.model.service.MemberService;
 import com.ssafy.team8alette.member.util.JwtTokenProvider;
@@ -57,23 +56,11 @@ public class MemberAuthGoogleController {
 		String googleResponseData = profileData.toString();
 		JSONObject googleMemberData = (JSONObject)parser.parse(googleResponseData);
 
-		String googleMemberEmail = googleMemberData.get("email").toString().trim();
-		String googleMemberName = googleMemberData.get("family_name").toString().trim();
-		String googleMemberNickname = googleMemberData.get("name").toString().trim();
+		String googleMemberId = googleMemberData.get("sub").toString();
 
-		Long memberNumber = -1L;
-		try {
-			memberNumber = memberService.getMemberInfo(googleMemberEmail).getMemberNumber();
-		} catch (NullValueException exception) {
-			memberAuthGoogleService.register(
-				googleMemberEmail,
-				googleMemberName,
-				googleMemberNickname
-			);
-			memberNumber = memberService.getMemberInfo(googleMemberEmail).getMemberNumber();
-		}
+		Long memberNumber = memberAuthGoogleService.register(googleMemberData);
 
-		Map tokens = jwtTokenProvider.getTokens(googleMemberEmail);
+		Map tokens = jwtTokenProvider.getTokens(googleMemberId);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
 		memberAuthGoogleService.login(memberNumber, refreshToken);

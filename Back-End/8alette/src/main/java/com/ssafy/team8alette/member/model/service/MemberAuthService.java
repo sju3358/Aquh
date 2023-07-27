@@ -39,6 +39,14 @@ public class MemberAuthService {
 			throw new MemberNotExistException();
 		}
 
+		if (member.getMemberState() == 0) {
+			throw new UnAuthorizedException("이메일인증을 먼저 진행해 주세요");
+		}
+
+		if (member.getMemberState() == 2) {
+			throw new UnAuthorizedException("이미 탈퇴한 회원입니다");
+		}
+
 		if (memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(member.getMemberNumber()) != null) {
 			throw new MemberDuplicatedException("이미 로그인 중입니다.");
 		}

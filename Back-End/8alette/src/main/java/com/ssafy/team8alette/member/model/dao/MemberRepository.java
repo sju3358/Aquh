@@ -7,6 +7,9 @@ import com.ssafy.team8alette.member.model.dto.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+	Member findMemberByMemberId(String memberId);
+
 	Member findMemberByMemberNumber(Long memberNumber);
 
 	Member findMemberByMemberEmail(String memberEmail);
