@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.common.annotation.LoginRequired;
 import com.ssafy.team8alette.member.exception.InvalidTokenException;
 import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.member.model.service.MemberAuthService;
@@ -61,6 +62,7 @@ public class MemberAuthController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@DeleteMapping("/auth/{memberNumber}")
 	ResponseEntity<Map<String, Object>> logoutRequest(@PathVariable Long memberNumber) throws SQLException {
 
@@ -73,6 +75,7 @@ public class MemberAuthController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PostMapping("/refresh")
 	public ResponseEntity<Map<String, Object>> refreshToken(@RequestBody Map<String, String> param) throws
 		SQLException, UnsupportedEncodingException {

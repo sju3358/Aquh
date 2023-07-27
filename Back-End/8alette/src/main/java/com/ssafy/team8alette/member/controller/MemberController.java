@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.common.annotation.LoginRequired;
 import com.ssafy.team8alette.member.model.dto.Member;
 import com.ssafy.team8alette.member.model.service.MemberAuthService;
 import com.ssafy.team8alette.member.model.service.MemberService;
@@ -33,6 +34,7 @@ public class MemberController {
 	private final MemberAuthService memberAuthService;
 	private final MailSenderUtil mailSenderUtil;
 
+	@LoginRequired
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
 		@PathVariable Long memberNumber,
@@ -111,6 +113,7 @@ public class MemberController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PutMapping("/")
 	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(@RequestBody Map<String, String> param) throws
 		IllegalAccessException {
@@ -124,6 +127,7 @@ public class MemberController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PutMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> deactivateMemberRequest(@PathVariable Long memberNumber) throws
 		SQLException {
@@ -138,6 +142,7 @@ public class MemberController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PostMapping("/password")
 	public ResponseEntity<Map<String, Object>> changeMemberPasswordRequest(
 		@RequestBody Map<String, String> param) throws
