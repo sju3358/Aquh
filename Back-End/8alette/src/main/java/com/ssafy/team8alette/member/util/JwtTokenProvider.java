@@ -8,8 +8,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.member.exception.InvalidTokenException;
+
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -21,12 +22,10 @@ public class JwtTokenProvider {
 	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
 
 	private <T> String createAccessToken(String key, T data) throws UnsupportedEncodingException {
-		//front-end에서 refresh token에 대한 기능 구현 미완으로 인해 임시로 만료기한을 길게 잡습니다.
-		return create(key, data, "access-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
+		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
 	}
 
 	private <T> String createRefreshToken(String key, T data) throws UnsupportedEncodingException {
-		//front-end에서 refresh token에 대한 기능 구현 미완으로 인해 임시로 만료기한을 길게 잡습니다.
 		return create(key, data, "refresh-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
 	}
 
@@ -63,15 +62,14 @@ public class JwtTokenProvider {
 		return tokens;
 	}
 
-	public boolean checkToken(String jwt) {
+	public void checkToken(String jwt) {
+
 		try {
-			Jws<Claims> claims = Jwts.parser()
-				.setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
-			return true;
+			Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new InvalidTokenException("토큰이 유효하지 않습니다");
 		}
+
 	}
 }
 

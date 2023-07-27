@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "record")
 public class MemberRecord extends Member {
-	
+
 	@Id
 	@GeneratedValue
 	private Long memberNumber;

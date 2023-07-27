@@ -16,20 +16,20 @@ public class MemberControllerAdviser {
 
 	@ExceptionHandler(NullValueException.class)
 	public ResponseEntity<Map<String, Object>> nullValueHandler(NullValueException exception) {
-		Map<String, Object> token = new HashMap<>();
-		token.put("message", exception.getMessage());
-		token.put("status", 400);
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", exception.getMessage());
+		responseData.put("status", 400);
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		return new ResponseEntity<>(token, status);
+		return new ResponseEntity<>(responseData, status);
 	}
-	
+
 	@ExceptionHandler(RegexException.class)
 	public ResponseEntity<Map<String, Object>> regexHandler(RegexException exception) {
-		Map<String, Object> token = new HashMap<>();
-		token.put("message", exception.getMessage());
-		token.put("status", 400);
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", exception.getMessage());
+		responseData.put("status", 400);
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		return new ResponseEntity<>(token, status);
+		return new ResponseEntity<>(responseData, status);
 	}
 
 }

@@ -40,5 +40,6 @@ public class MemberAuthNaverService {
 		member.setMemberAge(memberAge);
 		member.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
 		memberRepository.save(member);
+
 	}
 }

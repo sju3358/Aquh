@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.member.exception.MemberDuplicatedException;
 import com.ssafy.team8alette.member.exception.MemberNotExistException;
+import com.ssafy.team8alette.member.exception.UnAuthorizedException;
 import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
+import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.member.util.NullValueChecker;
 import com.ssafy.team8alette.member.util.PasswordUtil;
 
@@ -47,11 +49,29 @@ public class MemberAuthService {
 	}
 
 	public void login(Long memberNumber, String refreshToken) throws SQLException {
-		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, false);
+
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(memberNumber);
+
+		if (memberLoginInfo != null) {
+			memberLoginInfo.setRefreshToken(refreshToken);
+			memberLoginInfoRepository.updateMemberLoginInfo(memberNumber, refreshToken);
+		} else {
+			memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, false);
+		}
 
 	}
 
 	public void logout(Long memberNumber) throws SQLException {
 		memberLoginInfoRepository.deleteMemberLoginInfo(memberNumber);
+	}
+
+	public MemberLoginInfo getLoginMemberInfo(Long memberNumber) throws SQLException {
+		MemberLoginInfo member = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(memberNumber);
+
+		if (member == null) {
+			throw new UnAuthorizedException();
+		}
+
+		return member;
 	}
 }
