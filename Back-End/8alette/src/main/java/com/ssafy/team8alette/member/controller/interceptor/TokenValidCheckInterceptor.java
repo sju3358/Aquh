@@ -26,7 +26,8 @@ public class TokenValidCheckInterceptor implements HandlerInterceptor {
 
 		final String token = request.getHeader(HEADER_AUTH);
 
-		if (token != null && jwtTokenProvider.checkToken(token)) {
+		if (token != null) {
+			jwtTokenProvider.checkToken(token);
 			return true;
 		} else {
 			throw new UnAuthorizedException();

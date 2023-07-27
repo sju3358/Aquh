@@ -23,8 +23,9 @@ public class MemberAuthGoogleService {
 
 	public void login(Long memberNumber, String refreshToken) throws SQLException {
 
-		if (memberNumber == -1)
+		if (memberNumber == -1) {
 			throw new MemberDuplicatedException("회원이 존재하지 않습니다");
+		}
 		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, true);
 
 	}
