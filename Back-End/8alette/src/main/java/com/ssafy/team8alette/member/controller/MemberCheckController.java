@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.common.annotation.LoginRequired;
 import com.ssafy.team8alette.member.model.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class MemberCheckController {
 
 	private final MemberService memberService;
 
+	@LoginRequired
 	@PostMapping("/match")
 	public ResponseEntity<Map<String, Object>> checkMemberInfoRequest(@RequestBody Map<String, String> param) throws
 		NoSuchAlgorithmException {
