@@ -12,7 +12,7 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 	// Feed findBycreatorNumber(Long creatorNumber);
 
 	//Long으로 구현해야함
-	// Feed findFeedByFeedNumber(Long feedNumber);
+	Feed findFeedByFeedNumber(Long feedNumber);
 
 	//Long으로 삭제
 	// void deleteById(Long id);
