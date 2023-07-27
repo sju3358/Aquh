@@ -1,5 +1,7 @@
 package com.ssafy.team8alette.feed.model.dto;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,16 +31,16 @@ public class Feed {
 	@Column(name = "feed_title", nullable = false)
 	private String title;
 
-	@Column(name = "feed_content")
+	@Column(name = "feed_content", nullable = false)
 	private String content;
 
-	@Column(name = "feed_like_cnt")
+	@Column(name = "feed_like_cnt", nullable = false)
 	private int feedLikeCnt;
 
-	@Column(name = "feed_view_cnt")
+	@Column(name = "feed_view_cnt", nullable = false)
 	private int viewCnt;
 
-	@Column(name = "feed_active")
+	@Column(name = "feed_active", nullable = false)
 	private boolean feedActive;
 
 	@Column(name = "feed_img_origin")
@@ -46,5 +48,11 @@ public class Feed {
 
 	@Column(name = "feed_img_trans")
 	private String feedImgTrans;
+
+	@Column(name = "create_dttm", nullable = false)
+	private Date createDate;
+
+	@Column(name = "delete_dttm")
+	private Date deleteDate;
 
 }
