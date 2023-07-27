@@ -45,11 +45,24 @@ public class MemberUrlController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	@GetMapping("/email-certification")
-	public ResponseEntity<Map<String, Object>> verifyMemberRequest(
+	@GetMapping("/state-certification")
+	public ResponseEntity<Map<String, Object>> verifyMemberStateRequest(
 		@RequestParam Long memberNumber) {
 
-		memberService.verifyMember(memberNumber);
+		memberService.verifyMemberState(memberNumber);
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	@GetMapping("/email-certification")
+	public ResponseEntity<Map<String, Object>> verifyMemberEmailRequest(
+		@RequestParam Long memberNumber) {
+
+		memberService.verifyMemberEmail(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");

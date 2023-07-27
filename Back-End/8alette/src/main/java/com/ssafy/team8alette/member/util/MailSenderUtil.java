@@ -13,6 +13,31 @@ public class MailSenderUtil {
 
 	private final JavaMailSender javaMailSender;
 
+	public void sendVerifyStateMessage(Long memberNumber, String email) throws IllegalAccessException {
+		try {
+			MimeMessage message = javaMailSender.createMimeMessage();
+
+			message.addRecipients(Message.RecipientType.TO, email);
+
+			String serverAddress = "localhost:8080";
+			String apiAddress = "/api/v1//api/v1/member/url/state-certification";
+			String queryString = "?member_number=" + memberNumber.toString();
+
+			String url = serverAddress + apiAddress + queryString;
+
+			message.setSubject("이메일 인증을 해주세요");
+			message.setText("링크로 들어가 이메일 인증을 해주세요!");
+			message.setText(url);
+
+			message.setFrom("tjdfkr011@naver.com");
+			javaMailSender.send(message);
+
+		} catch (Exception mailException) {
+			mailException.printStackTrace();
+			throw new IllegalAccessException();
+		}
+	}
+
 	public void sendVerifyEmailMessage(Long memberNumber, String email) throws IllegalAccessException {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
@@ -53,5 +78,12 @@ public class MailSenderUtil {
 			mailException.printStackTrace();
 			throw new IllegalAccessException();
 		}
+	}
+
+	public void sendAlarm(String memberNumber, String alarmContent) {
+		//1. 멤버 정보 조회
+		//2-1. 이메일정보 없으면 예외처리
+		//2-2. 이메일 인증 않되어있으면 예외처리
+		//2-3. 이메일 수신거부면 메일 안보내기
 	}
 }

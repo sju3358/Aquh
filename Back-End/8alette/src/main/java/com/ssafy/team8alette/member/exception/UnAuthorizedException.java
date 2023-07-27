@@ -6,4 +6,8 @@ public class UnAuthorizedException extends RuntimeException {
 		super("로그인이 필요합니다.");
 	}
 
+	public UnAuthorizedException(String message) {
+		super(message);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,33 +36,54 @@ public class MemberController {
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
 		@PathVariable Long memberNumber,
-		@RequestParam String name,
-		@RequestParam String nickname,
-		@RequestParam String email,
-		@RequestParam String age,
-		@RequestParam String intro) {
+		@RequestParam Optional<String> nickname,
+		@RequestParam Optional<String> name,
+		@RequestParam Optional<String> email,
+		@RequestParam Optional<String> intro,
+		@RequestParam Optional<String> state,
+		@RequestParam Optional<String> type,
+		@RequestParam Optional<String> emailReceive) {
 
 		Member member = memberService.getMemberInfo(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 
-		data.put("member_state", member.getMemberState());
+		if (nickname.isEmpty() && email.isEmpty() && intro.isEmpty()
+			&& state.isEmpty() && name.isEmpty() && type.isEmpty() && emailReceive.isEmpty()) {
 
-		if (name.trim().equals("Y")) {
-			data.put("member_name", member.getMemberName());
-		}
-		if (nickname.trim().equals("Y")) {
 			data.put("member_nickname", member.getMemberNickname());
-		}
-		if (email.trim().equals("Y")) {
 			data.put("member_email", member.getMemberEmail());
-		}
-		if (age.trim().equals("Y")) {
-			data.put("member_age", member.getMemberAge());
-		}
-		if (intro.trim().equals("Y")) {
 			data.put("member_intro", member.getMemberIntro());
+			data.put("member_state", member.getMemberState());
+			data.put("member_name", member.getMemberName());
+			data.put("member_type", member.getMemberType());
+			data.put("member_emailReceive", member.isEmailReceive());
+
+		} else {
+
+			if (nickname.orElse("N").equals("Y")) {
+				data.put("member_nickname", member.getMemberNickname());
+			}
+			if (name.orElse("N").equals("Y")) {
+				data.put("member_name", member.getMemberName());
+			}
+			if (email.orElse("N").equals("Y")) {
+				data.put("member_email", member.getMemberEmail());
+			}
+			if (intro.orElse("N").equals("Y")) {
+				data.put("member_intro", member.getMemberIntro());
+			}
+			if (state.orElse("N").equals("Y")) {
+				data.put("member_state", member.getMemberState());
+			}
+			if (type.orElse("N").equals("Y")) {
+				data.put("member_type", member.getMemberType());
+			}
+			if (emailReceive.orElse("N").equals("Y")) {
+				data.put("member_emailReceive", member.isEmailReceive());
+			}
+
 		}
 
 		responseData.put("message", "success");
@@ -75,19 +97,11 @@ public class MemberController {
 	public ResponseEntity<Map<String, Object>> registerMemberRequest(@RequestBody Map<String, String> param) throws
 		NoSuchAlgorithmException, IllegalAccessException {
 
-		String memberEmail = param.get("member_email").trim();
-		String memberNickname = param.get("member_nickname").trim();
-		String memberPassword = param.get("member_password").trim();
-		String memberPasswordRepeat = param.get("member_password_repeat").trim();
+		Long memberNumber = memberService.register(param);
 
-		Long memberNumber = memberService.register(
-			memberEmail,
-			memberNickname,
-			memberPassword,
-			memberPasswordRepeat
-		);
+		Member member = memberService.getMemberInfo(memberNumber);
 
-		mailSenderUtil.sendVerifyEmailMessage(memberNumber, memberEmail);
+		mailSenderUtil.sendVerifyStateMessage(memberNumber, member.getMemberEmail());
 
 		Map<String, Object> responseData = new HashMap<>();
 
@@ -98,14 +112,10 @@ public class MemberController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(@RequestBody Map<String, String> param) {
+	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(@RequestBody Map<String, String> param) throws
+		IllegalAccessException {
 
-		String memberEmail = param.get("member_email").trim();
-		String memberNickname = param.get("member_nickname").trim();
-		String memberIntro = param.get("member_intro");
-		Long memberNumber = Long.parseLong(param.get("member_number").trim());
-
-		memberService.editMemberInfo(memberNumber, memberEmail, memberNickname, memberIntro);
+		memberService.editMemberInfo(param);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
@@ -126,27 +136,6 @@ public class MemberController {
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
-	}
-
-	@PostMapping("/check")
-	public ResponseEntity<Map<String, Object>> checkMemberInfoRequest(@RequestBody Map<String, String> param) throws
-		NoSuchAlgorithmException {
-
-		String memberEmail = param.get("member_email").trim();
-		String memberPassword = param.get("member_password").trim();
-
-		boolean isValid = memberService.checkValid(memberEmail, memberPassword);
-		Map<String, Object> data = new HashMap<>();
-		data.put("isValid", isValid);
-
-		Map<String, Object> responseData = new HashMap<>();
-
-		responseData.put("message", "success");
-		responseData.put("data", data);
-		responseData.put("status", 200);
-
-		return new ResponseEntity<>(responseData, HttpStatus.OK);
-
 	}
 
 	@PostMapping("/password")

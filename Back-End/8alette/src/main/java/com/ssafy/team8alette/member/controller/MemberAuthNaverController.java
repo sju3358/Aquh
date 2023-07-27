@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.ssafy.team8alette.member.exception.NullValueException;
 import com.ssafy.team8alette.member.model.service.MemberAuthNaverService;
 import com.ssafy.team8alette.member.model.service.MemberService;
 import com.ssafy.team8alette.member.util.JwtTokenProvider;
@@ -57,25 +56,11 @@ public class MemberAuthNaverController {
 		String naverResponseData = profileData.get("response").toString();
 		JSONObject naverMemberData = (JSONObject)parser.parse(naverResponseData);
 
-		String naverMemberEmail = naverMemberData.get("").toString().trim();
-		String naverMemberName = naverMemberData.get("").toString().trim();
-		String naverMemberNickname = naverMemberData.get("nickname").toString().trim();
-		int naverMemberAge = Integer.parseInt(naverMemberData.get("").toString().trim());
+		String naverMemberId = naverMemberData.get("id").toString();
 
-		Long memberNumber = -1L;
-		try {
-			memberNumber = memberService.getMemberInfo(naverMemberEmail).getMemberNumber();
-		} catch (NullValueException exception) {
-			memberNaverService.register(
-				naverMemberEmail,
-				naverMemberName,
-				naverMemberNickname,
-				naverMemberAge
-			);
-			memberNumber = memberService.getMemberInfo(naverMemberEmail).getMemberNumber();
-		}
+		Long memberNumber = memberNaverService.register(naverMemberData);
 
-		Map tokens = jwtTokenProvider.getTokens(naverMemberEmail);
+		Map tokens = jwtTokenProvider.getTokens(naverMemberId);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
 		memberNaverService.login(memberNumber, refreshToken);
