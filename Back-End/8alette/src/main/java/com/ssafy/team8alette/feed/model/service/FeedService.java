@@ -22,12 +22,14 @@ public class FeedService {
 
 	private final FeedRepository feedRepository;
 
+	//파일경로
+	private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+
 	//피드 등록
 	public void registFeed(Feed feed, MultipartFile file) throws Exception {
 
 		if (!file.isEmpty()) {
 			//이미지를 저장할 경로를 만들어줌
-			String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
 			//랜덤 이미지 변환생성기
 			java.util.Random generator = new java.util.Random();
@@ -90,6 +92,14 @@ public class FeedService {
 
 	// 피드 삭제
 	public void deleteFeed(Long id) {
+
+		//파일도 삭제해주고 아이디에 관련된 데이터 삭제
+		Feed existingFeed = feedRepository.findFeedByFeedNumber(id);
+		if (existingFeed.getFeedImgTrans() != null) {
+			File f = new File(projectPath, existingFeed.getFeedImgTrans());
+			f.delete();
+		}
+
 		feedRepository.deleteById(id);
 	}
 
@@ -100,19 +110,19 @@ public class FeedService {
 			existingFeed.setTitle(feed.getTitle());
 			existingFeed.setContent(feed.getContent());
 			if (file.isEmpty()) {
+				//이 파일경로에 있는 원본 파일 삭제(있으면)
+				if (existingFeed.getFeedImgTrans() != null) {
+					File f = new File(projectPath, existingFeed.getFeedImgTrans());
+					f.delete();
+				}
 				existingFeed.setFeedImgOrigin(null);
 				existingFeed.setFeedImgTrans(null);
 				return feedRepository.save(existingFeed);
 			} else {
-
-				String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-				//이 파일경로에 있는 원본 파일 삭제
-				if (!existingFeed.getFeedImgOrigin().isEmpty()) {
+				//이 파일경로에 있는 원본 파일 삭제(있으면)
+				if (existingFeed.getFeedImgTrans() != null) {
 					File f = new File(projectPath, existingFeed.getFeedImgTrans());
-					//파일이 있으면 삭제
-					if (f.exists()) {
-						f.delete();
-					}
+					f.delete();
 				}
 
 				//랜덤 이미지 변환생성기

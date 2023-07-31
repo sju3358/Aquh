@@ -1,5 +1,6 @@
 package com.ssafy.team8alette.feed.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +26,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
-
-	private final FeedService feedService;
-
 	//@PersistenceContext 할꺼면 컨트롤러에서 구현 ->EntityManager 이거
+	private final FeedService feedService;
+	//파일경로
+	private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 
 	// 게시글 등록 response로 일단 파일 빼고 등록되게하자.
 	// @PostMapping("/")
@@ -91,9 +92,9 @@ public class FeedController {
 	// 게시글 전체 조회
 	@GetMapping("/list")
 	public ResponseEntity<List<?>> findAllFeeds() {
-		List<Feed> feedList = feedService.getFeeds();
-		//일단 스켈레톤이니까 다시 수정
+		List<?> feedList = feedService.getFeeds();
 		return new ResponseEntity<>(feedList, HttpStatus.OK);
+		//전체 조회했을때 저장경로도 위에 있으므로 프론트에서 구현
 	}
 
 	// 게시글 상세글 조회
@@ -102,7 +103,11 @@ public class FeedController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		Feed feed = feedService.getFeedById(feed_number);
-
+		//만약 저장했던 피드의 이미지가 존재한다면
+		if (feed.getFeedImgTrans() != null) {
+			File saveFile = new File(projectPath, feed.getFeedImgTrans());
+			data.put("img", saveFile);
+		}
 		data.put("feedNumber", feed.getFeedNumber());
 		data.put("feedCreatorNumber", feed.getFeedCreatorNumber());
 		data.put("title", feed.getTitle());
