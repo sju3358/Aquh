@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class DefaultExceptionHandler {
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<Map<String, Object>> runTimeException(RuntimeException exception) {
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Map<String, Object>> runTimeException(Exception exception) {
 		Map<String, Object> token = new HashMap<>();
 		token.put("message", exception.getMessage());
 		token.put("status", 500);

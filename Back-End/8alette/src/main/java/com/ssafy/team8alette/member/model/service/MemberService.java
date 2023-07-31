@@ -53,7 +53,6 @@ public class MemberService {
 		String memberPasswordEncoded = passwordUtil.encodePassword(memberPassword);
 
 		Member member = new Member();
-
 		member.setMemberId(memberEmail);
 		member.setMemberEmail(memberEmail);
 		member.setMemberPassword(memberPasswordEncoded);
