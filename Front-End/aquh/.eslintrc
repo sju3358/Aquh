@@ -14,22 +14,25 @@
     "plugins": [
         "react"
     ],
-    "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
-    }
+    // "rules": {
+    //     "indent": [
+    //         // "error",
+    //         // "tab"
+    //         "off",
+    //         "single"
+    //     ],
+    //     "linebreak-style": [
+    //         "error",
+    //         "windows"
+    //     ],
+    //     "quotes": [
+    //         // "error",
+    //         // "single",
+    //         // "double"
+    //     ],
+    //     "semi": [
+    //         "error",
+    //         "always"
+    //     ]
+    // }
 }

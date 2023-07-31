@@ -3,18 +3,18 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import SignUpForm from "./users/SignUpForm";
-import AuthPage from "./pages/AuthPage";
-import { BrowserRouter } from "react-router-dom";
+// import SignUpForm from "./users/SignUpForm";
+// import AuthPage from "./pages/AuthPage";
+// import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      {/* <App /> */}
-      <SignUpForm />
+    {/* <BrowserRouter> */}
+      <App />
+      {/* <SignUpForm />
       <AuthPage />
-    </BrowserRouter>
+    </BrowserRouter> */}
   </React.StrictMode>
 );
 
