@@ -96,7 +96,7 @@ public class MemberAuthController {
 
 		String newAccessToken = tokens.get("accessToken").toString();
 		String newRefreshToken = tokens.get("refreshToken").toString();
-		memberAuthService.login(memberNumber, refreshToken);
+		memberAuthService.refreshToken(memberNumber, refreshToken);
 
 		Map<String, Object> loginData = new HashMap<>();
 		loginData.put("member_number", memberNumber);

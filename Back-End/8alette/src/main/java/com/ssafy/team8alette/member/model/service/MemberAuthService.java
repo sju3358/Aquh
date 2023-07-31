@@ -1,11 +1,11 @@
 package com.ssafy.team8alette.member.model.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.member.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.member.exception.MemberLoginException;
 import com.ssafy.team8alette.member.exception.MemberNotExistException;
 import com.ssafy.team8alette.member.exception.UnAuthorizedException;
 import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
@@ -60,24 +60,33 @@ public class MemberAuthService {
 		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
 			memberNumber);
 
-		if (memberLoginInfo != null) {
-			memberLoginInfo.setRefreshToken(refreshToken);
-			memberLoginInfoRepository.save(memberLoginInfo);
-		} else {
-			memberLoginInfo = new MemberLoginInfo();
-			memberLoginInfo.setSocialLogin(false);
-			memberLoginInfo.setMemberNumber(memberNumber);
-			memberLoginInfo.setRefreshToken(refreshToken);
-			memberLoginInfoRepository.save(memberLoginInfo);
-		}
+		if (memberLoginInfo != null)
+			throw new MemberLoginException("이미 로그인 되어있습니다");
 
+		memberLoginInfo = new MemberLoginInfo();
+		memberLoginInfo.setSocialLogin(false);
+		memberLoginInfo.setMemberNumber(memberNumber);
+		memberLoginInfo.setRefreshToken(refreshToken);
+		memberLoginInfoRepository.save(memberLoginInfo);
+	}
+
+	public void refreshToken(Long memberNumber, String refreshToken) {
+
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
+			memberNumber);
+
+		if (memberLoginInfo == null) {
+			throw new UnAuthorizedException("로그인이 필요합니다");
+		}
+		memberLoginInfo.setRefreshToken(refreshToken);
+		memberLoginInfoRepository.save(memberLoginInfo);
 	}
 
 	public void logout(Long memberNumber) {
 		memberLoginInfoRepository.deleteMemberLoginInfoByMemberNumber(memberNumber);
 	}
 
-	public MemberLoginInfo getLoginMemberInfo(Long memberNumber) throws SQLException {
+	public MemberLoginInfo getLoginMemberInfo(Long memberNumber) {
 		MemberLoginInfo member = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(memberNumber);
 
 		if (member == null) {
