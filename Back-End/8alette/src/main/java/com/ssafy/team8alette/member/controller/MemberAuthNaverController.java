@@ -37,7 +37,7 @@ public class MemberAuthNaverController {
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<Map<String, Object>> naverLoginRequest(@RequestBody Map<String, String> param) throws
 		Exception {
 

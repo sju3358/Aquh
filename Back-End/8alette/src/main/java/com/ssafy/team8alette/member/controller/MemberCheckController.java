@@ -51,15 +51,9 @@ public class MemberCheckController {
 
 		String memberEmail = param.get("member_email").trim();
 
-		boolean isExistSameEmail;
-		if (memberService.getMemberInfo(memberEmail) == null) {
-			isExistSameEmail = true;
-		} else {
-			isExistSameEmail = false;
-		}
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("isExistSameEmail", isExistSameEmail);
+		responseData.put("isExistSameEmail", memberService.isExistMemberId(memberEmail));
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -72,15 +66,9 @@ public class MemberCheckController {
 
 		String memberNickname = param.get("member_nickname").trim();
 
-		boolean isExistSameNickname;
-		if (memberService.getMemberInfoByNickname(memberNickname) == null) {
-			isExistSameNickname = true;
-		} else {
-			isExistSameNickname = false;
-		}
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("isExistSameNickname", isExistSameNickname);
+		responseData.put("isExistSameNickname", memberService.isExistMemberNickname(memberNickname));
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

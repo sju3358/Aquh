@@ -51,18 +51,21 @@ public class MemberAuthService {
 			throw new MemberDuplicatedException("이미 로그인 중입니다.");
 		}
 
-		passwordUtil.match(member.getMemberPassword(), loginPassword);
+		passwordUtil.match(loginPassword, member.getMemberPassword());
 
 		return member.getMemberNumber();
 	}
 
 	public void login(Long memberNumber, String refreshToken) throws SQLException {
 
-		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(memberNumber);
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
+			memberNumber);
 
 		if (memberLoginInfo != null) {
 			memberLoginInfo.setRefreshToken(refreshToken);
-			memberLoginInfoRepository.updateMemberLoginInfo(memberNumber, refreshToken);
+			{
+				memberLoginInfoRepository.updateMemberLoginInfo(memberNumber, refreshToken);
+			}
 		} else {
 			memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, false);
 		}

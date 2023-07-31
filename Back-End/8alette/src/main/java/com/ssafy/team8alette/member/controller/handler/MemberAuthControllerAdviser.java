@@ -45,7 +45,7 @@ public class MemberAuthControllerAdviser {
 	}
 
 	@ExceptionHandler(UnAuthorizedException.class)
-	public ResponseEntity<Map<String, Object>> unAuthHandler(MemberDuplicatedException exception) {
+	public ResponseEntity<Map<String, Object>> unAuthHandler(UnAuthorizedException exception) {
 		Map<String, Object> token = new HashMap<>();
 		token.put("message", exception.getMessage());
 		token.put("status", 401);

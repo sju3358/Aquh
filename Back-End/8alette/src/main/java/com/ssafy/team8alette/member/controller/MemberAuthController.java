@@ -33,7 +33,7 @@ public class MemberAuthController {
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping("/auth")
+	@PostMapping
 	public ResponseEntity<Map<String, Object>> loginRequest(@RequestBody Map<String, String> param) throws
 		SQLException,
 		UnsupportedEncodingException, NoSuchAlgorithmException {

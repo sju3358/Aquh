@@ -37,7 +37,7 @@ public class MemberAuthGoogleController {
 	private final MemberService memberService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping()
+	@PostMapping
 	public ResponseEntity<Map<String, Object>> googleLoginRequest(@RequestBody Map<String, String> param) throws
 		Exception {
 

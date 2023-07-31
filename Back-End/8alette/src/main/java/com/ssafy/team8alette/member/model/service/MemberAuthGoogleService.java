@@ -32,7 +32,6 @@ public class MemberAuthGoogleService {
 			throw new MemberDuplicatedException("회원이 존재하지 않습니다");
 		}
 		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, true);
-
 	}
 
 	public Long register(JSONObject naverMemberInfo) throws NoSuchAlgorithmException {

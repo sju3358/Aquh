@@ -95,7 +95,7 @@ public class MemberController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<Map<String, Object>> registerMemberRequest(@RequestBody Map<String, String> param) throws
 		NoSuchAlgorithmException, IllegalAccessException {
 
@@ -114,7 +114,7 @@ public class MemberController {
 	}
 
 	@LoginRequired
-	@PutMapping("/")
+	@PutMapping
 	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(@RequestBody Map<String, String> param) throws
 		IllegalAccessException {
 
@@ -148,11 +148,7 @@ public class MemberController {
 		@RequestBody Map<String, String> param) throws
 		NoSuchAlgorithmException {
 
-		Long memberNumber = Long.parseLong(param.get("member_number").trim());
-		String memberNewPassword = param.get("new_password").trim();
-		String memberNewPasswordRepeat = param.get("new_password_repeat");
-
-		memberService.changeMemberPassword(memberNumber, memberNewPassword, memberNewPasswordRepeat);
+		memberService.changeMemberPassword(param);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");

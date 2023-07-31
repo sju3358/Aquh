@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.common.config;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,6 +16,14 @@ public class WebConfig implements WebMvcConfigurer {
 
 		registry.addInterceptor(new TokenValidCheckInterceptor(new JwtTokenProvider()))
 			.order(1)
-			.addPathPatterns("api/v1/**");
+			.addPathPatterns("/api/v1/**");
+	}
+
+	@Override
+	public void addCorsMappings(final CorsRegistry registry) {
+		registry.addMapping("/api/v1/**")
+			.allowedOrigins("http://172.20.10.3", "http://localhost:3000")
+			.allowedMethods("GET", "POST", "PUT")
+			.maxAge(3000);
 	}
 }
