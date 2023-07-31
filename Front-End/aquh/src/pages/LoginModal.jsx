@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LoginForm from '../users/LoginForm'
 import { login } from '../api/api.auth_service'
+import login_mock from '../api/api.login_mock';
 
 export default function LoginModal() {
 
@@ -12,7 +13,7 @@ export default function LoginModal() {
             .then(response => {
                 setAccessToken(response.data.access_token)
             })
-            .catch(error => { 
+            .catch(error => {
                 setErrorMessage(error.response.data.message)
             })
     };
