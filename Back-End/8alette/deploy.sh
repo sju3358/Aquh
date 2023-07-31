@@ -1,5 +1,5 @@
 echo '빌드 시작'
-./gradlew build
+./gradlew clean bootJar
 
 echo '도커파일 이미지 빌드'
 docker build -t springbootapp .
