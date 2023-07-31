@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 
 @Repository
-public interface MemberLoginInfoRepository extends CrudRepository<MemberLoginInfo, Long> {
+public interface MemberLoginInfoRepository extends CrudRepository<MemberLoginInfo, String> {
 
-	public MemberLoginInfo findMemberLoginInfoByMemberNumber(Long memberNumber);
+	public MemberLoginInfo findMemberLoginInfoByMemberNumber(String memberNumber);
 
-	public void deleteMemberLoginInfoByMemberNumber(Long memberNumber);
+	public void deleteMemberLoginInfoByMemberNumber(String memberNumber);
 }

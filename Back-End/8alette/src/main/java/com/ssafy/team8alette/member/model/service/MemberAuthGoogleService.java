@@ -34,7 +34,7 @@ public class MemberAuthGoogleService {
 		}
 
 		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
-			memberNumber);
+			Long.toString(memberNumber));
 
 		if (memberLoginInfo != null) {
 			memberLoginInfo.setRefreshToken(refreshToken);
@@ -42,7 +42,7 @@ public class MemberAuthGoogleService {
 		} else {
 			memberLoginInfo = new MemberLoginInfo();
 			memberLoginInfo.setSocialLogin(true);
-			memberLoginInfo.setMemberNumber(memberNumber);
+			memberLoginInfo.setMemberNumber(Long.toString(memberNumber));
 			memberLoginInfo.setRefreshToken(refreshToken);
 			memberLoginInfoRepository.save(memberLoginInfo);
 		}
