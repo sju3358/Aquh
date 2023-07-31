@@ -20,11 +20,14 @@ export default function LoginModal() {
             })
     };
 
-    return <>
-        {errorMessage && <div className="error-message">Oh fuck! {errorMessage}</div>}
-        {accessToken && <p>You're logged in with this token: {accessToken}</p>}
-        <LoginForm onLogin={(formData) => performLogin(formData)} />
-        <NaverLoginButton />
-        <GoogleLoginButton />
-    </>
+    return (
+        <>
+            {errorMessage && <div className="error-message">Oh fuck! {errorMessage}</div>}
+            {accessToken && <p>You're logged in with this token: {accessToken}</p>}
+            <LoginForm onLogin={(formData) => performLogin(formData)} />
+            <NaverLoginButton />
+            <GoogleLoginButton />
+        </>
+    )
+    
 }
