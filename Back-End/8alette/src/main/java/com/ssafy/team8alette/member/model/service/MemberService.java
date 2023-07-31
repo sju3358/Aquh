@@ -65,7 +65,7 @@ public class MemberService {
 		member.setMemberNickname(memberNickname);
 		member.setMemberName(memberName);
 		member.setMemberState(0);
-		member.setMemberType(MemberType.CO);
+		member.setMemberType(MemberType.CO.toString());
 		member.setEmailVerified(false);
 		member.setEmailReceive(isEmailReceive);
 		memberRepository.save(member);

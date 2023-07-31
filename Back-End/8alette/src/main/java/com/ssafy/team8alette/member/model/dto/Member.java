@@ -44,9 +44,9 @@ public class Member {
 	@Column(name = "member_state", nullable = false)
 	private int memberState;
 
-	@Enumerated(EnumType.STRING)
+//	@Enumerated(EnumType.STRING)
 	@Column(name = "member_type", nullable = false)
-	private MemberType memberType;
+	private String memberType;
 
 	@Column(name = "is_email_authentication", nullable = false)
 	private boolean isEmailVerified;
