@@ -46,8 +46,7 @@ public class MemberAuthService {
 			throw new UnAuthorizedException("이미 탈퇴한 회원입니다");
 		}
 
-		if (memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(Long.toString(member.getMemberNumber()))
-			!= null) {
+		if (memberLoginInfoRepository.findById(Long.toString(member.getMemberNumber())).orElse(null) != null) {
 			throw new MemberDuplicatedException("이미 로그인 중입니다.");
 		}
 
@@ -58,8 +57,7 @@ public class MemberAuthService {
 
 	public void login(Long memberNumber, String refreshToken) {
 
-		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
-			Long.toString(memberNumber));
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findById(Long.toString(memberNumber)).orElse(null);
 
 		if (memberLoginInfo != null)
 			throw new MemberLoginException("이미 로그인 되어있습니다");
@@ -73,8 +71,7 @@ public class MemberAuthService {
 
 	public void refreshToken(Long memberNumber, String refreshToken) {
 
-		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
-			Long.toString(memberNumber));
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findById(Long.toString(memberNumber)).orElse(null);
 
 		if (memberLoginInfo == null) {
 			throw new UnAuthorizedException("로그인이 필요합니다");
@@ -84,17 +81,16 @@ public class MemberAuthService {
 	}
 
 	public void logout(Long memberNumber) {
-		memberLoginInfoRepository.deleteMemberLoginInfoByMemberNumber(Long.toString(memberNumber));
+		memberLoginInfoRepository.deleteById(Long.toString(memberNumber));
 	}
 
 	public MemberLoginInfo getLoginMemberInfo(Long memberNumber) {
-		MemberLoginInfo member = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
-			Long.toString(memberNumber));
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findById(Long.toString(memberNumber)).orElse(null);
 
-		if (member == null) {
+		if (memberLoginInfo == null) {
 			throw new UnAuthorizedException();
 		}
 
-		return member;
+		return memberLoginInfo;
 	}
 }

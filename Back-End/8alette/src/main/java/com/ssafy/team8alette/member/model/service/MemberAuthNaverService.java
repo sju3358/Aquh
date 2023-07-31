@@ -33,8 +33,7 @@ public class MemberAuthNaverService {
 			throw new MemberDuplicatedException("회원이 존재하지 않습니다");
 		}
 
-		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
-			Long.toString(memberNumber));
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findById(Long.toString(memberNumber)).orElse(null);
 
 		if (memberLoginInfo != null) {
 			memberLoginInfo.setRefreshToken(refreshToken);
