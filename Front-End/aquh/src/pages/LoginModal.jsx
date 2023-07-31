@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import LoginForm from '../users/LoginForm'
-import { login } from '../api/api.service'
+import { login } from '../api/api.auth_service'
 
 export default function LoginModal() {
 
