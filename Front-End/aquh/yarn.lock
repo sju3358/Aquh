@@ -5414,7 +5414,7 @@ __metadata:
     axios-mock-adapter: ^1.21.5
     babel-plugin-named-exports-order: ^0.0.2
     classnames: ^2.3.2
-    eslint: ^8.45.0
+    eslint: ^8.46.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-prettier: ^8.8.0
     eslint-config-react-app: ^7.0.1
@@ -8319,7 +8319,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.3.0, eslint@npm:^8.45.0":
+"eslint@npm:^8.3.0, eslint@npm:^8.46.0":
   version: 8.46.0
   resolution: "eslint@npm:8.46.0"
   dependencies:
