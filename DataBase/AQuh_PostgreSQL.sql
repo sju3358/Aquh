@@ -1,4 +1,24 @@
-﻿DROP TABLE IF EXISTS "member";
+﻿--DROP TABLE IF EXISTS "vote_select";
+--DROP TABLE IF EXISTS "vote_question";
+--DROP TABLE IF EXISTS "two_way_answer";
+--DROP TABLE IF EXISTS "two_way_question";
+--DROP TABLE IF EXISTS "best_member";
+--DROP TABLE IF EXISTS "todo";
+--DROP TABLE IF EXISTS "grant";
+--DROP TABLE IF EXISTS "record";
+--DROP TABLE IF EXISTS "alarm";
+--DROP TABLE IF EXISTS "symbol";
+--DROP TABLE IF EXISTS "report";
+--DROP TABLE IF EXISTS "like";
+--DROP TABLE IF EXISTS "feed";
+--DROP TABLE IF EXISTS "tagging";
+--DROP TABLE IF EXISTS "group_list";
+--DROP TABLE IF EXISTS "room";
+--DROP TABLE IF EXISTS "category";
+--DROP TABLE IF EXISTS "hashtag";
+--DROP TABLE IF EXISTS "follow";
+--DROP TABLE IF EXISTS "member";
+
 
 CREATE TABLE "member" (
 	"member_number"	BIGSERIAL		NOT NULL,
@@ -42,7 +62,6 @@ COMMENT ON COLUMN "member"."create_dttm" IS '회원 가입 요청 일시 (위 �
 
 COMMENT ON COLUMN "member"."delete_dttm" IS '회원 탈퇴 일시 (탈퇴 처리가 완료 된 시점)';
 
-DROP TABLE IF EXISTS "feed";
 
 CREATE TABLE "feed" (
 	"feed_number"	BIGSERIAL		NOT NULL,
@@ -80,7 +99,6 @@ COMMENT ON COLUMN "feed"."create_dttm" IS '작성 시간';
 
 COMMENT ON COLUMN "feed"."delete_dttm" IS '피드 삭제 시간';
 
-DROP TABLE IF EXISTS "room";
 
 CREATE TABLE "room" (
 	"room_number"	BIGSERIAL		NOT NULL,
@@ -121,7 +139,6 @@ COMMENT ON COLUMN "room"."create_dttm" IS '그룹방이 생성된 일시';
 
 COMMENT ON COLUMN "room"."done_dttm" IS '그룹방 상태가 FALSE가 된 일시';
 
-DROP TABLE IF EXISTS "category";
 
 CREATE TABLE "category" (
 	"category_number"	INTEGER		NOT NULL,
@@ -135,7 +152,6 @@ COMMENT ON COLUMN "category"."category_name" IS '분류 이름';
 
 COMMENT ON COLUMN "category"."create_dt" IS '분류 생성 일';
 
-DROP TABLE IF EXISTS "group_list";
 
 CREATE TABLE "group_list" (
 	"room_number"	BIGSERIAL		NOT NULL,
@@ -167,7 +183,6 @@ COMMENT ON COLUMN "group_list"."join_state" IS '0: 신청 / 1: 참여 / 2: 강�
 
 COMMENT ON COLUMN "group_list"."craete_dttm" IS '그룹방 신청 일시(취소시 삭제)';
 
-DROP TABLE IF EXISTS "hashtag";
 
 CREATE TABLE "hashtag" (
 	"hashtag_number"	BIGSERIAL		NOT NULL,
@@ -184,7 +199,6 @@ COMMENT ON COLUMN "hashtag"."create_dt" IS '태그 파일 생성 날짜';
 
 COMMENT ON COLUMN "hashtag"."delete_dt" IS '태그 삭제(폐기) 날짜';
 
-DROP TABLE IF EXISTS "like";
 
 CREATE TABLE "like" (
 	"like_feed_number"	BIGSERIAL		NOT NULL,
@@ -198,8 +212,6 @@ COMMENT ON COLUMN "like"."like_member_number" IS '회원번호 인덱스 : 자�
 
 COMMENT ON COLUMN "like"."create_dttm" IS '좋아요 누른 시간';
 
-DROP TABLE IF EXISTS "tagging";
-
 CREATE TABLE "tagging" (
 	"room_number"	BIGSERIAL		NOT NULL,
 	"hashtag_number"	BIGSERIAL		NOT NULL,
@@ -212,7 +224,6 @@ COMMENT ON COLUMN "tagging"."hashtag_number" IS '해시태그 인덱스';
 
 COMMENT ON COLUMN "tagging"."create_dttm" IS '태그 부여 일시';
 
-DROP TABLE IF EXISTS "follow";
 
 CREATE TABLE "follow" (
 	"follower_number"	BIGSERIAL		NOT NULL,
@@ -225,8 +236,6 @@ COMMENT ON COLUMN "follow"."follower_number" IS '팔로우를 누른 회원의 �
 COMMENT ON COLUMN "follow"."following_number" IS '팔로우 받은 회원의 회원 번호';
 
 COMMENT ON COLUMN "follow"."create_dttm" IS '팔로우 한 시간';
-
-DROP TABLE IF EXISTS "symbol";
 
 CREATE TABLE "symbol" (
 	"symbol_number"	BIGSERIAL		NOT NULL,
@@ -255,8 +264,6 @@ COMMENT ON COLUMN "symbol"."create_dt" IS '심볼 데이터 추가 날짜';
 
 COMMENT ON COLUMN "symbol"."delete_dt" IS '심볼 데이터 삭제(폐기) 날짜';
 
-DROP TABLE IF EXISTS "report";
-
 CREATE TABLE "report" (
 	"report_number"	BIGSERIAL		NOT NULL,
 	"reporter"	INTEGER		NOT NULL,
@@ -284,8 +291,6 @@ COMMENT ON COLUMN "report"."report_result_dttm" IS '신고를 처리 완료 한 
 
 COMMENT ON COLUMN "report"."create_dttm" IS '신고 일시';
 
-DROP TABLE IF EXISTS "alarm";
-
 CREATE TABLE "alarm" (
 	"alarm_number"	BIGSERIAL		NOT NULL,
 	"member_number"	INTEGER		NOT NULL,
@@ -310,8 +315,6 @@ COMMENT ON COLUMN "alarm"."delete_dttm" IS '회원이 알람을 삭제한 일시
 
 COMMENT ON COLUMN "alarm"."create_dttm" IS '알람 발생 일시';
 
-DROP TABLE IF EXISTS "grant";
-
 CREATE TABLE "grant" (
 	"granted_member_number"	BIGSERIAL		NOT NULL,
 	"symbol_number"	BIGSERIAL		NOT NULL,
@@ -323,8 +326,6 @@ COMMENT ON COLUMN "grant"."granted_member_number" IS '심볼을 부여 받은 �
 COMMENT ON COLUMN "grant"."symbol_number" IS '심볼 인덱스';
 
 COMMENT ON COLUMN "grant"."create_dttm" IS '심볼을 받은 일시';
-
-DROP TABLE IF EXISTS "record";
 
 CREATE TABLE "record" (
 	"member_number"	BIGSERIAL		NOT NULL,
@@ -359,8 +360,6 @@ COMMENT ON COLUMN "record"."follower_cnt" IS '해당 회원을 팔로워한 회�
 
 COMMENT ON COLUMN "record"."record_update_dttm" IS '해당 회원의 기록 업데이트 일시';
 
-DROP TABLE IF EXISTS "todo";
-
 CREATE TABLE "todo" (
 	"todo_number"	BIGSERIAL		NOT NULL,
 	"room_number"	BIGSERIAL		NOT NULL,
@@ -379,8 +378,6 @@ COMMENT ON COLUMN "todo"."is_todo_done" IS '할 일 완료 상태 여부';
 
 COMMENT ON COLUMN "todo"."create_dttm" IS '할 일 생성 일시';
 
-DROP TABLE IF EXISTS "best_member";
-
 CREATE TABLE "best_member" (
 	"room_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
@@ -395,8 +392,6 @@ COMMENT ON COLUMN "best_member"."member_number" IS '베스트 멤버를 선택�
 COMMENT ON COLUMN "best_member"."best_member_number" IS '베스트 멤버로 선택 된 회원의 번호';
 
 COMMENT ON COLUMN "best_member"."create_dttm" IS '베스트 멤버 선택 일시';
-
-DROP TABLE IF EXISTS "two_way_question";
 
 CREATE TABLE "two_way_question" (
 	"two_way_question_number"	BIGSERIAL		NOT NULL,
@@ -416,8 +411,6 @@ COMMENT ON COLUMN "two_way_question"."right_context" IS '양자택일 오른쪽 
 
 COMMENT ON COLUMN "two_way_question"."create_dttm" IS '양자택일 질문 생성 일시';
 
-DROP TABLE IF EXISTS "two_way_answer";
-
 CREATE TABLE "two_way_answer" (
 	"two_way_question_number2"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
@@ -435,8 +428,6 @@ COMMENT ON COLUMN "two_way_answer"."room_number" IS '그룹방 인덱스';
 COMMENT ON COLUMN "two_way_answer"."is_pick_right" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
 
 COMMENT ON COLUMN "two_way_answer"."create_dttm" IS '양자택일 답변 일시';
-
-DROP TABLE IF EXISTS "vote_question";
 
 CREATE TABLE "vote_question" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
@@ -458,8 +449,6 @@ COMMENT ON COLUMN "vote_question"."is_active" IS 'TRUE : 투표 중인 질문 / 
 COMMENT ON COLUMN "vote_question"."create_dttm" IS '투표 질문 생성 일시';
 
 COMMENT ON COLUMN "vote_question"."delete_dttm" IS '투표 질문이 비활성화 된 일시';
-
-DROP TABLE IF EXISTS "vote_select";
 
 CREATE TABLE "vote_select" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
