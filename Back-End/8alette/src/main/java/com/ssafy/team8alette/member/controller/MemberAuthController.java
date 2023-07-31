@@ -63,7 +63,7 @@ public class MemberAuthController {
 	}
 
 	@LoginRequired
-	@DeleteMapping("/auth/{memberNumber}")
+	@DeleteMapping("/{memberNumber}")
 	ResponseEntity<Map<String, Object>> logoutRequest(@PathVariable Long memberNumber) throws SQLException {
 
 		memberAuthService.logout(memberNumber);
