@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.feed.model.dto.Feed;
 import com.ssafy.team8alette.feed.model.service.FeedService;
@@ -41,8 +43,31 @@ public class FeedController {
 	// }
 
 	// 게시글 등록 response로 일단 파일 빼고 등록되게하자.
-	@PostMapping("/")
-	public ResponseEntity<?> createFeed(@RequestBody Feed feed) {
+	// @PostMapping("/")
+	// public ResponseEntity<?> createFeed(@RequestBody Feed feed) {
+	// 	if (feed.getTitle() == null) {
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "제목을 작성해주세요");
+	// 		responseData.put("status", 405);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	} else if (feed.getContent() == null) {
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "내용을 작성해주세요");
+	// 		responseData.put("status", 406);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	} else {
+	// 		//피드 잘 넣어지면 200
+	// 		feedService.registFeed(feed);
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "success");
+	// 		responseData.put("status", 200);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	}
+	// }
+	//피드 등록 파일
+	@PostMapping(value = "/")
+	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") Feed feed,
+		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
 		if (feed.getTitle() == null) {
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "제목을 작성해주세요");
@@ -55,7 +80,7 @@ public class FeedController {
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
 			//피드 잘 넣어지면 200
-			feedService.registFeed(feed);
+			feedService.registFeed(feed, file);
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "success");
 			responseData.put("status", 200);
@@ -97,14 +122,15 @@ public class FeedController {
 	}
 
 	// 게시글 수정
-	// @PutMapping("/")
-	// public ResponseEntity<?> modifyFeed(@RequestBody Feed feed) {
-	// 	feedService.modifyFeed(feed);
-	// 	Map<String, Object> responseData = new HashMap<>();
-	// 	responseData.put("message", "success");
-	// 	responseData.put("status", 200);
-	// 	return new ResponseEntity<>(responseData, HttpStatus.OK);
-	// }
+	@PutMapping("/")
+	public ResponseEntity<?> modifyFeed(@RequestPart Feed feed,
+		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
+		feedService.modifyFeed(feed, file);
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
 
 	// 게시글 삭제
 	@DeleteMapping("/{feed_number}")
@@ -116,4 +142,8 @@ public class FeedController {
 		responseData.put("status", 200);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
+
+	//피드 좋아요
+	// @PostMapping("/like/{feed_number}")
+	// public ResponseEntity<?>
 }
