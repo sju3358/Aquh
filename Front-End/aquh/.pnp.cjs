@@ -44,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["axios-mock-adapter", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:1.21.5"],\
             ["babel-plugin-named-exports-order", "npm:0.0.2"],\
+            ["classnames", "npm:2.3.2"],\
             ["eslint", "npm:8.46.0"],\
             ["eslint-config-airbnb-base", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:15.0.0"],\
             ["eslint-config-prettier", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:8.9.0"],\
@@ -8375,6 +8376,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["axios-mock-adapter", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:1.21.5"],\
             ["babel-plugin-named-exports-order", "npm:0.0.2"],\
+            ["classnames", "npm:2.3.2"],\
             ["eslint", "npm:8.46.0"],\
             ["eslint-config-airbnb-base", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:15.0.0"],\
             ["eslint-config-prettier", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:8.9.0"],\
@@ -9681,6 +9683,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cjs-module-lexer-npm-1.2.3-9d788a3c14-5ea3cb867a.zip/node_modules/cjs-module-lexer/",\
           "packageDependencies": [\
             ["cjs-module-lexer", "npm:1.2.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["classnames", [\
+        ["npm:2.3.2", {\
+          "packageLocation": "./.yarn/cache/classnames-npm-2.3.2-d2fdae468d-2c62199789.zip/node_modules/classnames/",\
+          "packageDependencies": [\
+            ["classnames", "npm:2.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
