@@ -1,53 +1,60 @@
 package com.ssafy.team8alette.member.model.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 
-/*
-// set
-    @PostMapping("")
-    public String setRedisKey(@RequestBody Map<String, String> req) {
-        ValueOperations<String, String> vop = redisTemplate.opsForValue();
-        try {
-            // Redis Set Key-value
-            System.out.println(req.get("key") + " // " + req.get("value"));
-            vop.set(req.get("key"), req.get("value"));
-            return "set message success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "set message fail";
-        }
-    }
+import lombok.RequiredArgsConstructor;
 
-    // get
-    @GetMapping("/{key}")
-    public String getRedisKey(@PathVariable String key) {
-        System.out.println(key);
-        ValueOperations<String, String> vop = redisTemplate.opsForValue();
-        return vop.get(key);
-    }
-    */
 @Repository
+@RequiredArgsConstructor
 public class MemberLoginInfoRepository {
-	public void insertMemberLoginInfo(Long memberNumber, String refreshToken, boolean isSocialLogin) throws
-		SQLException {
-		//레디스 저장 쿼리
+
+	private final RedisTemplate redisTemplate;
+
+	public void insertMemberLoginInfo(Long memberNumber, String refreshToken, boolean isSocialLogin) {
+		Map<String, Object> data = new HashMap<>();
+
+		data.put("refresh_token", refreshToken);
+		data.put("is_social_login", isSocialLogin);
+
+		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
+		vop.set(memberNumber, data);
 	}
 
-	public MemberLoginInfo findMemberLoginInfoByMemberNumber(Long memberNumber) throws SQLException {
-		// 레디스 find 쿼리
-		return null;
+	public MemberLoginInfo findMemberLoginInfoByMemberNumber(Long memberNumber) {
+
+		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
+		Map<String, Object> data = vop.get(memberNumber);
+
+		MemberLoginInfo memberLoginInfo = new MemberLoginInfo();
+		memberLoginInfo.setSocialLogin(Boolean.parseBoolean(data.get("is_social_login").toString()));
+		memberLoginInfo.setMemberNumber(memberNumber);
+		memberLoginInfo.setRefreshToken(data.get("refresh_token").toString());
+
+		return new MemberLoginInfo();
 	}
 
 	public void updateMemberLoginInfo(Long memberNumber, String refreshToken) throws SQLException {
 
-		//레디스 update 쿼리
+		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
+		Map<String, Object> data = vop.get(memberNumber);
+
+		data.put("refresh_token", refreshToken);
+
+		vop.set(memberNumber, data);
+
 	}
 
-	public void deleteMemberLoginInfo(Long memberNumber) throws SQLException {
-		//레디스 삭제쿼리
+	public void deleteMemberLoginInfo(Long memberNumber) {
+
+		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
+		vop.getAndDelete(memberNumber);
 	}
 }
