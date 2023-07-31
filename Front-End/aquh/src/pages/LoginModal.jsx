@@ -2,6 +2,8 @@ import { useState } from 'react'
 import LoginForm from '../users/LoginForm'
 import { login } from '../api/api.auth_service'
 import login_mock from '../api/api.login_mock';
+import NaverLoginButton from '../users/NaverLoginButton';
+import GoogleLoginButton from '../users/GoogleLoginButton';
 
 export default function LoginModal() {
 
@@ -22,5 +24,7 @@ export default function LoginModal() {
         {errorMessage && <div className="error-message">Oh fuck! {errorMessage}</div>}
         {accessToken && <p>You're logged in with this token: {accessToken}</p>}
         <LoginForm onLogin={(formData) => performLogin(formData)} />
+        <NaverLoginButton />
+        <GoogleLoginButton />
     </>
 }
