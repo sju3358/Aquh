@@ -6,6 +6,7 @@ const login_mock = new MockAdapter(api, { delayResponse: 500 });
 
 login_mock.onPost('auth').reply((req) => {
     const data = JSON.parse(req.data);
+    console.log(data);
     if (data.member_email === '' || data.member_password === '') {
         const errorRes = {
             message: '회원 정보가 존재하지 않습니다',
