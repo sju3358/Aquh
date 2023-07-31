@@ -1,10 +1,10 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import api from "./api.service.js"
+import api from "./api.auth_service.js"
 
-const mock = new MockAdapter(api, { delayResponse: 500 });
+const login_mock = new MockAdapter(api, { delayResponse: 500 });
 
-mock.onPost('auth').reply((req) => {
+login_mock.onPost('auth').reply((req) => {
     const data = JSON.parse(req.data);
     if (data.member_email === '' || data.member_password === '') {
         const errorRes = {
@@ -23,4 +23,5 @@ mock.onPost('auth').reply((req) => {
     return [200, res];
 });
 
-export default mock;
+export default login_mock;
+

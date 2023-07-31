@@ -1,5 +1,5 @@
 import LoginModal from '../pages/LoginModal';
-import mock from '../api/api.mock';
+import login_mock from '../api/api.login_mock';
 
 export default {
   component: LoginModal,
