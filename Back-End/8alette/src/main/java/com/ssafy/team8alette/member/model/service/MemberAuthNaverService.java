@@ -11,6 +11,7 @@ import com.ssafy.team8alette.member.exception.UnAuthorizedException;
 import com.ssafy.team8alette.member.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
+import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.member.model.dto.MemberType;
 import com.ssafy.team8alette.member.util.NullValueChecker;
 import com.ssafy.team8alette.member.util.PasswordUtil;
@@ -31,7 +32,20 @@ public class MemberAuthNaverService {
 		if (memberNumber == -1) {
 			throw new MemberDuplicatedException("회원이 존재하지 않습니다");
 		}
-		memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, true);
+
+		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
+			memberNumber);
+
+		if (memberLoginInfo != null) {
+			memberLoginInfo.setRefreshToken(refreshToken);
+			memberLoginInfoRepository.save(memberLoginInfo);
+		} else {
+			memberLoginInfo = new MemberLoginInfo();
+			memberLoginInfo.setSocialLogin(true);
+			memberLoginInfo.setMemberNumber(memberNumber);
+			memberLoginInfo.setRefreshToken(refreshToken);
+			memberLoginInfoRepository.save(memberLoginInfo);
+		}
 
 	}
 
