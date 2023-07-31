@@ -1,5 +1,6 @@
 package com.ssafy.team8alette;
 
+import com.ssafy.team8alette.common.config.PostgreSQLConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
