@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
+import com.ssafy.team8alette.member.exception.UnAuthorizedException;
 import com.ssafy.team8alette.member.model.dto.MemberLoginInfo;
 
 import lombok.RequiredArgsConstructor;
@@ -24,14 +25,17 @@ public class MemberLoginInfoRepository {
 		data.put("refresh_token", refreshToken);
 		data.put("is_social_login", isSocialLogin);
 
-		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
-		vop.set(memberNumber, data);
+		ValueOperations<String, Map<String, Object>> vop = redisTemplate.opsForValue();
+		vop.set(Long.toString(memberNumber), data);
 	}
 
 	public MemberLoginInfo findMemberLoginInfoByMemberNumber(Long memberNumber) {
 
-		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
-		Map<String, Object> data = vop.get(memberNumber);
+		ValueOperations<String, Map<String, Object>> vop = redisTemplate.opsForValue();
+		Map<String, Object> data = vop.get(Long.toString(memberNumber));
+
+		if (data == null)
+			return null;
 
 		MemberLoginInfo memberLoginInfo = new MemberLoginInfo();
 		memberLoginInfo.setSocialLogin(Boolean.parseBoolean(data.get("is_social_login").toString()));
@@ -43,18 +47,21 @@ public class MemberLoginInfoRepository {
 
 	public void updateMemberLoginInfo(Long memberNumber, String refreshToken) throws SQLException {
 
-		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
-		Map<String, Object> data = vop.get(memberNumber);
+		ValueOperations<String, Map<String, Object>> vop = redisTemplate.opsForValue();
+		Map<String, Object> data = vop.get(Long.toString(memberNumber));
+
+		if (data == null)
+			throw new UnAuthorizedException("로그인이 필요합니다");
 
 		data.put("refresh_token", refreshToken);
 
-		vop.set(memberNumber, data);
+		vop.set(Long.toString(memberNumber), data);
 
 	}
 
 	public void deleteMemberLoginInfo(Long memberNumber) {
 
-		ValueOperations<Long, Map<String, Object>> vop = redisTemplate.opsForValue();
-		vop.getAndDelete(memberNumber);
+		ValueOperations<String, Map<String, Object>> vop = redisTemplate.opsForValue();
+		vop.getAndDelete(Long.toString(memberNumber));
 	}
 }
