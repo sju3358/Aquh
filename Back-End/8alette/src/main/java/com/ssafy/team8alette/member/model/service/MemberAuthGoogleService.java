@@ -66,7 +66,7 @@ public class MemberAuthGoogleService {
 		newMember.setMemberNickname("G_" + memberNickname);
 		newMember.setMemberName(memberName);
 		newMember.setMemberState(1);
-		newMember.setMemberType(MemberType.GO);
+		newMember.setMemberType(MemberType.GO.toString());
 		newMember.setEmailVerified(true);
 		newMember.setEmailReceive(true);
 		memberRepository.save(newMember);

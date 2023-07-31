@@ -67,7 +67,7 @@ public class MemberAuthNaverService {
 		newMember.setMemberNickname("N_" + memberNickname);
 		newMember.setMemberName(memberName);
 		newMember.setMemberState(1);
-		newMember.setMemberType(MemberType.NA);
+		newMember.setMemberType(MemberType.NA.toString());
 		newMember.setEmailVerified(true);
 		newMember.setEmailReceive(true);
 		memberRepository.save(newMember);
