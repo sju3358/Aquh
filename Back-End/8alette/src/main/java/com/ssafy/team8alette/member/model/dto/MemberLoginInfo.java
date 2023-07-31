@@ -14,7 +14,7 @@ import lombok.Setter;
 public class MemberLoginInfo {
 
 	@Id
-	private Long memberNumber;
+	private String memberNumber;
 	private String refreshToken;
 	private boolean isSocialLogin;
 }
