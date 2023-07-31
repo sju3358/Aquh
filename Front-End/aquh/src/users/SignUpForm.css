@@ -1,0 +1,10 @@
+/* .cantSignUp {
+  background-color: rgb(204, 204, 204);
+  color: rgba(117, 117, 117);
+  border-color: rgba(152, 152, 152);
+} */
+
+.canSignUp {
+  background-color: rgb(104, 131, 172);
+  cursor: pointer;
+}
