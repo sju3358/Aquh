@@ -28,7 +28,6 @@ public class MemberAuthService {
 
 	public Long loginCheck(String loginEmail, String loginPassword) throws
 		NullPointerException,
-		SQLException,
 		NoSuchAlgorithmException {
 
 		nullValueChecker.check(loginEmail, loginPassword);
@@ -56,24 +55,26 @@ public class MemberAuthService {
 		return member.getMemberNumber();
 	}
 
-	public void login(Long memberNumber, String refreshToken) throws SQLException {
+	public void login(Long memberNumber, String refreshToken) {
 
 		MemberLoginInfo memberLoginInfo = memberLoginInfoRepository.findMemberLoginInfoByMemberNumber(
 			memberNumber);
 
 		if (memberLoginInfo != null) {
 			memberLoginInfo.setRefreshToken(refreshToken);
-			{
-				memberLoginInfoRepository.updateMemberLoginInfo(memberNumber, refreshToken);
-			}
+			memberLoginInfoRepository.save(memberLoginInfo);
 		} else {
-			memberLoginInfoRepository.insertMemberLoginInfo(memberNumber, refreshToken, false);
+			memberLoginInfo = new MemberLoginInfo();
+			memberLoginInfo.setSocialLogin(false);
+			memberLoginInfo.setMemberNumber(memberNumber);
+			memberLoginInfo.setRefreshToken(refreshToken);
+			memberLoginInfoRepository.save(memberLoginInfo);
 		}
 
 	}
 
-	public void logout(Long memberNumber) throws SQLException {
-		memberLoginInfoRepository.deleteMemberLoginInfo(memberNumber);
+	public void logout(Long memberNumber) {
+		memberLoginInfoRepository.deleteMemberLoginInfoByMemberNumber(memberNumber);
 	}
 
 	public MemberLoginInfo getLoginMemberInfo(Long memberNumber) throws SQLException {
