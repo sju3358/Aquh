@@ -1,7 +1,10 @@
 package com.ssafy.team8alette.member.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import com.ssafy.team8alette.member.model.dao.MemberRepository;
 
 import jakarta.mail.Message;
 import jakarta.mail.internet.MimeMessage;
@@ -12,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 public class MailSenderUtil {
 
 	private final JavaMailSender javaMailSender;
+	private final MemberRepository memberRepository;
+	@Value("${front.server}")
+	private String serverAddress;
 
 	public void sendVerifyStateMessage(Long memberNumber, String email) throws IllegalAccessException {
 		try {
@@ -19,15 +25,17 @@ public class MailSenderUtil {
 
 			message.addRecipients(Message.RecipientType.TO, email);
 
-			String serverAddress = "localhost:8080";
-			String apiAddress = "/api/v1//api/v1/member/url/state-certification";
 			String queryString = "?member_number=" + memberNumber.toString();
 
-			String url = serverAddress + apiAddress + queryString;
+			String url = "http://" + serverAddress + queryString;
 
-			message.setSubject("이메일 인증을 해주세요");
-			message.setText("링크로 들어가 이메일 인증을 해주세요!");
-			message.setText(url);
+			String memberName = memberRepository.findMemberByMemberNumber(memberNumber).getMemberName();
+
+			message.setSubject(memberName + "님! Aquah에 가입해주셔서 감사합니다");
+			String mailText = "";
+			mailText += "링크로 들어가 이메일 인증을 해주세요!\n";
+			mailText += url;
+			message.setText(mailText);
 
 			message.setFrom("tjdfkr011@naver.com");
 			javaMailSender.send(message);
@@ -44,15 +52,18 @@ public class MailSenderUtil {
 
 			message.addRecipients(Message.RecipientType.TO, email);
 
-			String serverAddress = "localhost:8080";
-			String apiAddress = "/api/v1//api/v1/member/url/email-certification";
 			String queryString = "?member_number=" + memberNumber.toString();
 
-			String url = serverAddress + apiAddress + queryString;
+			String url = "http://" + serverAddress + queryString;
 
-			message.setSubject("이메일 인증을 해주세요");
-			message.setText("링크로 들어가 이메일 인증을 해주세요!");
-			message.setText(url);
+			String memberName = memberRepository.findMemberByMemberNumber(memberNumber).getMemberName();
+
+			message.setSubject(memberName + "님! 변경된 이메일 인증을 해주세요");
+
+			String mailText = "";
+			mailText += "링크로 들어가 이메일 인증을 해주세요!\n";
+			mailText += url;
+			message.setText(mailText);
 
 			message.setFrom("tjdfkr011@naver.com");
 			javaMailSender.send(message);
