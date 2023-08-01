@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.follow.exception.FollowNotFoundException;
 import com.ssafy.team8alette.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.follow.model.dto.Follow;
 import com.ssafy.team8alette.member.model.service.MemberRecordService;
@@ -21,6 +22,9 @@ public class FollowService {
 	public List<Long> getFollowerMemberList(Long memberNumber) {
 		List<Follow> followerList = followRepository.findAllByFollowingMemberNumber(memberNumber);
 
+		if (followerList == null)
+			throw new FollowNotFoundException("팔로우 리스트가 존재하지 않습니다.");
+
 		List<Long> followers = new LinkedList<>();
 		for (Follow followInfo : followerList) {
 			followers.add(followInfo.getFollowerMemberNumber());
@@ -30,6 +34,9 @@ public class FollowService {
 
 	public List<Long> getFollowingMemberList(Long memberNumber) {
 		List<Follow> followingList = followRepository.findAllByFollowerMemberNumber(memberNumber);
+
+		if (followingList == null)
+			throw new FollowNotFoundException("팔로우 리스트가 존재하지 않습니다.");
 
 		List<Long> followings = new LinkedList<>();
 		for (Follow followInfo : followingList) {
@@ -53,6 +60,9 @@ public class FollowService {
 	public void unfollowMember(Long memberNumber, Long targetMemberNumber) {
 		Follow follow = followRepository.findFollowByFollowerMemberNumberAndFollowingMemberNumber(memberNumber,
 			targetMemberNumber);
+
+		if (follow == null)
+			throw new FollowNotFoundException("팔로우 정보가 존재하지 않습니다.");
 
 		followRepository.delete(follow);
 
