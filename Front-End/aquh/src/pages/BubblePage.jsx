@@ -25,7 +25,8 @@ export default function BubblePage() {
       roomType={event.room_type}
       eventTitle={event.room_title}
       eventContent={event.room_content}
-      imagePath={event.room_thumbnail} />
+      imagePath={event.room_thumbnail}
+      onJoin={() => { /* actually join room */ }} />
   );
   
   return (
