@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import EventList from '../group/EventList';
-import EventCard from '../group/EventCard';
+import BubbleList from '../bubble/BubbleList';
+import BubbleCard from '../bubble/BubbleCard';
 import { bubbleList } from '../api/api.bubble_service';
 
-export default function GroupPage() {
+export default function BubblePage() {
 
   const [events, setEvents] = useState([]);
   
@@ -21,7 +21,7 @@ export default function GroupPage() {
 
   //TODO: unique id value should be the key
   const eventCards = events.map(event =>
-    <EventCard
+    <BubbleCard
       roomType={event.room_type}
       eventTitle={event.room_title}
       eventContent={event.room_content}
@@ -30,9 +30,9 @@ export default function GroupPage() {
   
   return (
     <div>
-      <EventList>
+      <BubbleList>
         { eventCards }
-      </EventList>
+      </BubbleList>
     </div>
   );
 }
