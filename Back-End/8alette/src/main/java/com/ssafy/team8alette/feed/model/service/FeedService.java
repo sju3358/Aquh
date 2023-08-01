@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,14 +26,13 @@ public class FeedService {
 	private final FeedRepository feedRepository;
 
 	//파일경로
-	private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+	// private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+	private static String projectPath = "C:\\pictures";
 
 	//피드 등록
 	public void registFeed(Feed feed, MultipartFile file) throws Exception {
 
 		if (!file.isEmpty()) {
-			//이미지를 저장할 경로를 만들어줌
-
 			//랜덤 이미지 변환생성기
 			java.util.Random generator = new java.util.Random();
 			generator.setSeed(System.currentTimeMillis());
@@ -76,9 +78,17 @@ public class FeedService {
 
 	}
 
-	// 피드 전체 불러오기
-	public List<Feed> getFeeds() {
-		List<Feed> list = feedRepository.findAll();
+	//피드 불러오기
+	public List<Feed> getFeeds(String orderCriteria) {
+		if (orderCriteria.equals("recent")) {
+			Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
+			int listSize = feedRepository.findAll().size();
+			Pageable pageable = PageRequest.of(0, listSize, sort);
+			List<Feed> list = feedRepository.findAll(pageable).getContent();
+		} else if (orderCriteria.equals("famous")) {
+			List<Feed> list = feedRepository.findAllByOrderByFeedLikeCntDesc();
+		}
+		List<Feed> list = feedRepository.findAllByOrderByFeedLikeCntDesc();
 		if (list.isEmpty()) {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}

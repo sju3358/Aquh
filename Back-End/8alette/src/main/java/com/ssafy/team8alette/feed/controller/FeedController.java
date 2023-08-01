@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,22 +27,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
+
 	//@PersistenceContext 할꺼면 컨트롤러에서 구현 ->EntityManager 이거
 	private final FeedService feedService;
 	//파일경로
-	private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
-	// 게시글 등록 response로 일단 파일 빼고 등록되게하자.
-	// @PostMapping("/")
-	// public ResponseEntity<?> createFeed(@RequestBody Feed feed) throws NullValueException {
-	//
-	// 	//피드 잘 넣어지면 200
-	// 	feedService.registFeed(feed);
-	// 	Map<String, Object> responseData = new HashMap<>();
-	// 	responseData.put("message", "success");
-	// 	responseData.put("status", 200);
-	// 	return new ResponseEntity<>(responseData, HttpStatus.OK);
-	// }
+	private static String projectPath = "C:\\pictures";
 
 	// 게시글 등록 response로 일단 파일 빼고 등록되게하자.
 	// @PostMapping("/")
@@ -66,7 +56,7 @@ public class FeedController {
 	// 	}
 	// }
 	//피드 등록 파일
-	@PostMapping(value = "/")
+	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") Feed feed,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
 		if (feed.getTitle() == null) {
@@ -89,12 +79,13 @@ public class FeedController {
 		}
 	}
 
-	// 게시글 전체 조회
+	//게시글 전체조회(처음엔 인기순, 최신순으로 보이게)
 	@GetMapping("/list")
-	public ResponseEntity<List<?>> findAllFeeds() {
-		List<?> feedList = feedService.getFeeds();
+	public ResponseEntity<List<?>> findAllFeeds(
+		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
+	) {
+		List<Feed> feedList = feedService.getFeeds(orderCriteria);
 		return new ResponseEntity<>(feedList, HttpStatus.OK);
-		//전체 조회했을때 저장경로도 위에 있으므로 프론트에서 구현
 	}
 
 	// 게시글 상세글 조회
@@ -127,7 +118,7 @@ public class FeedController {
 	}
 
 	// 게시글 수정
-	@PutMapping("/")
+	@PutMapping
 	public ResponseEntity<?> modifyFeed(@RequestPart Feed feed,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
 		feedService.modifyFeed(feed, file);
