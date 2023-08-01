@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import classes from './EventCard.module.css'
+import classes from './BubbleCard.module.css'
 import Capsule from '../ui/Capsule';
 import { bubbleList } from '../api/api.bubble_service';
 
-export default function EventCard({
+export default function BubbleCard({
   roomType = 0,
   eventTitle = "Untitled",
   eventContent = "Some content...",

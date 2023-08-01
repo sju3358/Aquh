@@ -1,25 +1,25 @@
-import EventList from '../group/EventList';
-import EventCard from '../group/EventCard';
+import BubbleList from '../bubble/BubbleList';
+import BubbleCard from '../bubble/BubbleCard';
 import bubble_mock from '../api/api.bubble_mock';
 
 export default {
-  component: EventList
+  component: BubbleList
 };
 
 export const Primary = {
     render: () =>
-        <EventList>
-            <EventCard
+        <BubbleList>
+            <BubbleCard
                 roomType={0}
                 eventTitle="Event 1"
                 eventContent="Some content..." />
-            <EventCard
+            <BubbleCard
                 roomType={0}
                 eventTitle="Event 2"
                 eventContent="Some content..." />
-            <EventCard
+            <BubbleCard
                     roomType={0}
                     eventTitle="Event 3"
                     eventContent="Some content..." />
-        </EventList>
+        </BubbleList>
 };

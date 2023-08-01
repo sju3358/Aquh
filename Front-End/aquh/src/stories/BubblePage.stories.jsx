@@ -1,12 +1,12 @@
-import GroupPage from '../pages/GroupPage';
+import BubblePage from '../pages/BubblePage';
 import bubble_mock from '../api/api.bubble_mock';
 
 export default {
-  component: GroupPage
+  component: BubblePage
 };
 
 export const Primary = {
   render: () =>
-    <GroupPage />
+    <BubblePage />
 };
 
