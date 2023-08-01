@@ -1,0 +1,14 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 15rem;
+  height: 20rem;
+  background-color: grey;
+  border-radius: 1rem;
+}
+
+.card-img-top{
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
