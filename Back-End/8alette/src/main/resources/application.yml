@@ -25,6 +25,3 @@ logging:
     org.hibernate.type: trace
 
 
-#파일 경로 설정
-property:
-  path: C:\\pictures
