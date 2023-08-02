@@ -7,6 +7,7 @@ import LoginModal from './pages/LoginModal';
 import NotFound from './ui/NotFound';
 import AuthPage from './pages/AuthPage';
 import SignUpForm from './users/SignUpForm';
+import BubblePage from './pages/BubblePage';  
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: '/auth', element : <AuthPage />},
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
       { path: '/signup', element : <SignUpForm />},
+      { path: '/bubble', element : <BubblePage />},
 
     ]
   },
