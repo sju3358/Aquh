@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import BubbleList from '../bubble/BubbleList';
 import BubbleCard from '../bubble/BubbleCard';
 import { bubbleList } from '../api/api.bubble_service';
+//TODO : 실제 api 받아오면 bubble_mock 지우기 
+import { bubble_mock } from '../api/api.bubble_mock';
 
 export default function BubblePage() {
 
