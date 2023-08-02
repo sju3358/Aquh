@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.feed.model.dto.Feed;
+import com.ssafy.team8alette.feed.model.dto.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
 
@@ -118,14 +120,10 @@ public class FeedController {
 	}
 
 	// 피드 좋아요
-	@PostMapping("/like/{feed_number}")
-	public ResponseEntity<?> addLike(@PathVariable Long feed_number) {
-		// 여기서 멤버 어뎁터써서 구현 일단은 member 만들어주자.
-		//원래는 @Authentication 들어감
-
+	@PostMapping("/like")
+	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
 		boolean result;
-		// result = likeService.addLike(feed_number, member.getMemberNumber());
-		result = likeService.addLike(feed_number, 1L);
+		result = likeService.addLike(likeRequestDTO.getFeedNumber(), likeRequestDTO.getMemberNumber());
 		if (result) {
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "좋아요 되었습니다.");
