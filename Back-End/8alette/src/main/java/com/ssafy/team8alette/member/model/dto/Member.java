@@ -55,7 +55,7 @@ public class Member {
 	private boolean isEmailReceive;
 
 	@OneToOne
-	@JoinColumn(name = "MEMBER_RECORD")
+	@JoinColumn(name = "member_number")
 	private MemberRecord memberRecord;
 
 }
