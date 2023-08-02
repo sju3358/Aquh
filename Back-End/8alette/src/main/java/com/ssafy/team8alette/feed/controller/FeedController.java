@@ -123,6 +123,8 @@ public class FeedController {
 	@PostMapping("/like")
 	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
 		boolean result;
+
+		//수정
 		result = likeService.addLike(likeRequestDTO.getFeedNumber(), likeRequestDTO.getMemberNumber());
 		if (result) {
 			Map<String, Object> responseData = new HashMap<>();
