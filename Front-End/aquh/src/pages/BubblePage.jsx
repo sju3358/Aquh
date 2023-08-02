@@ -26,8 +26,8 @@ export default function BubblePage() {
     <BubbleCard
       roomType={event.room_type}
       eventTitle={event.room_title}
-      eventContent={event.room_content}
-      imagePath={event.room_thumbnail}
+      eventDate={event.room_date}
+      imagePath={event.room_path}
       onJoin={() => { /* actually join room */ }} />
   );
   
