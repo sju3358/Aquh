@@ -56,6 +56,4 @@ public class Feed {
 	@Column(name = "delete_dttm")
 	private Date deleteDate;
 
-	// @OneToMany(mappedBy = "feed")
-	// private List<Feed> list
 }

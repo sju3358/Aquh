@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,36 +79,44 @@ public class FeedService {
 	//피드 불러오기
 	public List<Feed> getFeeds(String orderCriteria) {
 		if (orderCriteria.equals("recent")) {
-			Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
-			int listSize = feedRepository.findAll().size();
-			Pageable pageable = PageRequest.of(0, listSize, sort);
-			List<Feed> list = feedRepository.findAll(pageable).getContent();
+			List<Feed> list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
+			return list;
 		} else if (orderCriteria.equals("famous")) {
-			List<Feed> list = feedRepository.findAllByOrderByFeedLikeCntDesc();
+			Sort sort = Sort.by(Sort.Direction.DESC, "feedLikeCnt", "feedNumber");
+			List<Feed> list = feedRepository.findByFeedActive(true, sort);
+			return list;
+		} else {
+			List<Feed> list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
+			if (list.isEmpty()) {
+				throw new NullValueException("피드가 존재하지 않습니다");
+			}
+			return list;
 		}
-		List<Feed> list = feedRepository.findAllByOrderByFeedLikeCntDesc();
-		if (list.isEmpty()) {
-			throw new NullValueException("피드가 존재하지 않습니다");
-		}
-		return list;
 	}
 
 	// 피드 상세글 불러오기
 	public Feed getFeedById(Long feedNumber) {
-		return feedRepository.findFeedByFeedNumber(feedNumber);
+		if (!feedRepository.existsByFeedNumberAndFeedActive(feedNumber, true)) {
+			throw new NullValueException("피드가 존재하지 않습니다");
+		}
+		Feed existFeed = feedRepository.findFeedByFeedNumber(feedNumber);
+		existFeed.setViewCnt(existFeed.getViewCnt() + 1);
+		feedRepository.save(existFeed);
+		return existFeed;
 	}
 
 	// 피드 삭제
-	public void deleteFeed(Long id) {
+	public void deleteFeed(Long feedNumber) {
 
 		//파일도 삭제해주고 아이디에 관련된 데이터 삭제
-		Feed existingFeed = feedRepository.findFeedByFeedNumber(id);
+		Feed existingFeed = feedRepository.findFeedByFeedNumber(feedNumber);
+		existingFeed.setFeedActive(false);
 		if (existingFeed.getFeedImgTrans() != null) {
 			File f = new File(projectPath, existingFeed.getFeedImgTrans());
 			f.delete();
 		}
 
-		feedRepository.deleteById(id);
+		feedRepository.save(existingFeed);
 	}
 
 	// 피드 수정
