@@ -6,14 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
-import com.ssafy.team8alette.feed.model.dto.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.FeedResponseDTO;
+import com.ssafy.team8alette.member.model.dao.MemberRepository;
+import com.ssafy.team8alette.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,10 +24,17 @@ import lombok.RequiredArgsConstructor;
 public class FeedService {
 
 	private final FeedRepository feedRepository;
-
+	private final MemberRepository memberRepository;
 	private static String projectPath = "C:\\pictures";
 
 	public void registFeed(Feed feed, MultipartFile file) throws Exception {
+		if (feed.getMember() == null || feed.getMember().getMemberNumber() == null) {
+			throw new NullValueException("피드 작성자 정보가 없습니다.");
+		}
+		Member member = memberRepository.findById(feed.getMember().getMemberNumber()).orElse(null);
+		if (member == null) {
+			throw new NullValueException("작성자 정보를 찾을 수 없습니다.");
+		}
 
 		if (!file.isEmpty()) {
 			//랜덤 이미지 변환생성기
@@ -51,6 +60,7 @@ public class FeedService {
 			//멤버 이미지변환명으로 저장
 			feed.setFeedImgTrans(fileName);
 			feed.setCreateDate(nowDate);
+			feed.setMember(member);
 
 			feedRepository.save(feed);
 		} else {
@@ -58,6 +68,7 @@ public class FeedService {
 			feed.setFeedActive(true);
 			feed.setFeedLikeCnt(0);
 			feed.setCreateDate(nowDate);
+			feed.setMember(member);
 			feedRepository.save(feed);
 		}
 
@@ -69,8 +80,7 @@ public class FeedService {
 		if (orderCriteria.equals("recent")) {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		} else if (orderCriteria.equals("famous")) {
-			Sort sort = Sort.by(Sort.Direction.DESC, "feedLikeCnt", "feedNumber");
-			list = feedRepository.findByFeedActive(true, sort);
+			list = feedRepository.findByFeedActiveOrderByViewCntDescAndFeedNumberDesc(true);
 		} else {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		}
@@ -109,7 +119,9 @@ public class FeedService {
 	// 피드 수정
 	public Feed modifyFeed(Feed feed, MultipartFile file) throws Exception {
 		Feed existingFeed = feedRepository.findFeedByFeedNumber(feed.getFeedNumber());
-		if (existingFeed.getFeedCreatorNumber() == feed.getFeedCreatorNumber()) {
+		System.out.println(feed.getMember().getMemberNumber());
+		System.out.println(existingFeed.getMember().getMemberNumber());
+		if (existingFeed.getMember().getMemberNumber() == feed.getMember().getMemberNumber()) {
 			existingFeed.setTitle(feed.getTitle());
 			existingFeed.setContent(feed.getContent());
 			if (file.isEmpty()) {
@@ -154,5 +166,20 @@ public class FeedService {
 		} else {
 			throw new NotMatchException("회원번호가 일치하지 않습니다.");
 		}
+	}
+
+	public FeedResponseDTO convertToDTO(Feed feed) {
+		FeedResponseDTO dto = new FeedResponseDTO();
+		dto.setFeedNumber(feed.getFeedNumber());
+		dto.setFeedCreatorNumber(feed.getMember().getMemberNumber());
+		dto.setTitle(feed.getTitle());
+		dto.setContent(feed.getContent());
+		dto.setFeedLikeCnt(feed.getFeedLikeCnt());
+		dto.setViewCnt(feed.getViewCnt());
+		dto.setFeedActive(feed.isFeedActive());
+		dto.setFeedImgOrigin(feed.getFeedImgOrigin());
+		dto.setFeedImgTrans(feed.getFeedImgTrans());
+		dto.setCreateDate(feed.getCreateDate());
+		return dto;
 	}
 }
