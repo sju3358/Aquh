@@ -1,23 +1,23 @@
-﻿--DROP TABLE IF EXISTS "vote_select";
---DROP TABLE IF EXISTS "vote_question";
---DROP TABLE IF EXISTS "two_way_answer";
---DROP TABLE IF EXISTS "two_way_question";
---DROP TABLE IF EXISTS "best_member";
---DROP TABLE IF EXISTS "todo";
---DROP TABLE IF EXISTS "grant";
---DROP TABLE IF EXISTS "record";
---DROP TABLE IF EXISTS "alarm";
---DROP TABLE IF EXISTS "symbol";
---DROP TABLE IF EXISTS "report";
---DROP TABLE IF EXISTS "like";
---DROP TABLE IF EXISTS "feed";
---DROP TABLE IF EXISTS "tagging";
---DROP TABLE IF EXISTS "group_list";
---DROP TABLE IF EXISTS "room";
---DROP TABLE IF EXISTS "category";
---DROP TABLE IF EXISTS "hashtag";
---DROP TABLE IF EXISTS "follow";
---DROP TABLE IF EXISTS "member";
+﻿DROP TABLE IF EXISTS "vote_select";
+DROP TABLE IF EXISTS "vote_question";
+DROP TABLE IF EXISTS "two_way_answer";
+DROP TABLE IF EXISTS "two_way_question";
+DROP TABLE IF EXISTS "best_member";
+DROP TABLE IF EXISTS "todo";
+DROP TABLE IF EXISTS "grant";
+DROP TABLE IF EXISTS "record";
+DROP TABLE IF EXISTS "alarm";
+DROP TABLE IF EXISTS "symbol";
+DROP TABLE IF EXISTS "report";
+DROP TABLE IF EXISTS "likes";
+DROP TABLE IF EXISTS "feed";
+DROP TABLE IF EXISTS "tagging";
+DROP TABLE IF EXISTS "group_list";
+DROP TABLE IF EXISTS "room";
+DROP TABLE IF EXISTS "category";
+DROP TABLE IF EXISTS "hashtag";
+DROP TABLE IF EXISTS "follow";
+DROP TABLE IF EXISTS "member";
 
 
 CREATE TABLE "member" (
@@ -200,17 +200,17 @@ COMMENT ON COLUMN "hashtag"."create_dt" IS '태그 파일 생성 날짜';
 COMMENT ON COLUMN "hashtag"."delete_dt" IS '태그 삭제(폐기) 날짜';
 
 
-CREATE TABLE "like" (
+CREATE TABLE "likes" (
 	"like_feed_number"	BIGSERIAL		NOT NULL,
 	"like_member_number"	BIGSERIAL		NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "like"."like_feed_number" IS '글 번호 인덱스 : 자동증가';
+COMMENT ON COLUMN "likes"."like_feed_number" IS '글 번호 인덱스 : 자동증가';
 
-COMMENT ON COLUMN "like"."like_member_number" IS '회원번호 인덱스 : 자동증가';
+COMMENT ON COLUMN "likes"."like_member_number" IS '회원번호 인덱스 : 자동증가';
 
-COMMENT ON COLUMN "like"."create_dttm" IS '좋아요 누른 시간';
+COMMENT ON COLUMN "likes"."create_dttm" IS '좋아요 누른 시간';
 
 CREATE TABLE "tagging" (
 	"room_number"	BIGSERIAL		NOT NULL,
@@ -484,7 +484,7 @@ ALTER TABLE "hashtag" ADD CONSTRAINT "PK_HASHTAG" PRIMARY KEY (
 	"hashtag_number"
 );
 
-ALTER TABLE "like" ADD CONSTRAINT "PK_LIKE" PRIMARY KEY (
+ALTER TABLE "likes" ADD CONSTRAINT "PK_LIKE" PRIMARY KEY (
 	"like_feed_number",
 	"like_member_number"
 );
@@ -582,14 +582,14 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "like" ADD CONSTRAINT "FK_feed_TO_like_1" FOREIGN KEY (
+ALTER TABLE "likes" ADD CONSTRAINT "FK_feed_TO_like_1" FOREIGN KEY (
 	"like_feed_number"
 )
 REFERENCES "feed" (
 	"feed_number"
 );
 
-ALTER TABLE "like" ADD CONSTRAINT "FK_member_TO_like_1" FOREIGN KEY (
+ALTER TABLE "likes" ADD CONSTRAINT "FK_member_TO_like_1" FOREIGN KEY (
 	"like_member_number"
 )
 REFERENCES "member" (
@@ -611,6 +611,13 @@ REFERENCES "hashtag" (
 );
 
 ALTER TABLE "follow" ADD CONSTRAINT "FK_member_TO_follow_1" FOREIGN KEY (
+	"follower_number"
+)
+REFERENCES "member" (
+	"member_number"
+);
+
+ALTER TABLE "follow" ADD CONSTRAINT "FK_member_TO_follow_2" FOREIGN KEY (
 	"following_number"
 )
 REFERENCES "member" (
