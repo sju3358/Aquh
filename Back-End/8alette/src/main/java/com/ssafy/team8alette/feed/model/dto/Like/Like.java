@@ -1,12 +1,16 @@
-package com.ssafy.team8alette.feed.model.dto;
+package com.ssafy.team8alette.feed.model.dto.Like;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
+import com.ssafy.team8alette.member.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
@@ -33,16 +37,17 @@ public class Like implements Serializable {
 
 	@MapsId("likeFeedNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "like_feed_number")
 	private Feed feed;
 
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// private Feed feed;
+	@MapsId("likeMemberNumber")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "like_member_number")
+	private Member member;
 
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// private Member member;
-	// public Like(Feed feed, Member member){
-	// 	this.feed = feed;
-	// 	this.member = memeber;
-	// }
+	public Like(Feed feed, Member member) {
+		this.feed = feed;
+		this.member = member;
+	}
 
 }
