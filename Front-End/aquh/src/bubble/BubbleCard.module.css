@@ -4,11 +4,31 @@
   justify-content: space-between;
   width: 15rem;
   height: 20rem;
-  background-color: grey;
   border-radius: 1rem;
+  background-color: #969696;
+  margin: 1rem;
 }
 
-.card-img-top{
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+img{
+  border-radius: 1rem;
+  width: 13rem;
+  height: 10rem;
+  align-self: center;
+  margin: 10px;
+}
+
+
+button{
+  width: 7rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  margin: 10px;
+  padding-bottom: 15px;
+  border : solid black 1px;
+  font-size: 0.5rem;
+  align-self: last baseline;
+}
+
+button:hover{
+  background-color: white;
 }
