@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.feed.model.dto;
+package com.ssafy.team8alette.feed.model.dto.Like;
 
 import java.io.Serializable;
 

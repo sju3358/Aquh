@@ -1,12 +1,17 @@
-package com.ssafy.team8alette.feed.model.dto;
+package com.ssafy.team8alette.feed.model.dto.Feed;
 
 import java.util.Date;
 
+import com.ssafy.team8alette.member.model.dto.Member;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,8 +31,9 @@ public class Feed {
 	@Column(name = "feed_number", nullable = false)
 	private Long feedNumber;
 
-	@Column(name = "feed_creator_number", nullable = false)
-	private Long feedCreatorNumber;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "feed_creator_number")
+	private Member member;
 
 	@Column(name = "feed_title", nullable = false)
 	private String title;
@@ -55,6 +61,10 @@ public class Feed {
 
 	@Column(name = "delete_dttm")
 	private Date deleteDate;
+
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "feed_creator_number")
+	// private Member member;
 
 	// @OneToMany(mappedBy = "feed")
 	// private List<Feed> list
