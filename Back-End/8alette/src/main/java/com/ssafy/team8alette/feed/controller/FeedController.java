@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.feed.model.dto.Feed;
 import com.ssafy.team8alette.feed.model.service.FeedService;
-import com.ssafy.team8alette.feed.model.service.LikeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,13 +28,33 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/feed")
 public class FeedController {
 
+	//@PersistenceContext 할꺼면 컨트롤러에서 구현 ->EntityManager 이거
 	private final FeedService feedService;
-
-	private final LikeService likeService;
-
 	//파일경로
 	private static String projectPath = "C:\\pictures";
 
+	// 게시글 등록 response로 일단 파일 빼고 등록되게하자.
+	// @PostMapping("/")
+	// public ResponseEntity<?> createFeed(@RequestBody Feed feed) {
+	// 	if (feed.getTitle() == null) {
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "제목을 작성해주세요");
+	// 		responseData.put("status", 405);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	} else if (feed.getContent() == null) {
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "내용을 작성해주세요");
+	// 		responseData.put("status", 406);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	} else {
+	// 		//피드 잘 넣어지면 200
+	// 		feedService.registFeed(feed);
+	// 		Map<String, Object> responseData = new HashMap<>();
+	// 		responseData.put("message", "success");
+	// 		responseData.put("status", 200);
+	// 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	// 	}
+	// }
 	//피드 등록 파일
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") Feed feed,
@@ -110,7 +129,7 @@ public class FeedController {
 	}
 
 	// 게시글 삭제
-	@PutMapping("/{feed_number}")
+	@DeleteMapping("/{feed_number}")
 	public ResponseEntity<?> deleteFeed(@PathVariable Long feed_number) {
 
 		feedService.deleteFeed(feed_number);
@@ -120,46 +139,7 @@ public class FeedController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	// 피드 좋아요
-	@PostMapping("/like/{feed_number}")
-	public ResponseEntity<?> addLike(@PathVariable Long feed_number) {
-		// 여기서 멤버 어뎁터써서 구현 일단은 member 만들어주자.
-		//원래는 @Authentication 들어감
-
-		boolean result;
-		// result = likeService.addLike(feed_number, member.getMemberNumber());
-		result = likeService.addLike(feed_number, 1L);
-		if (result) {
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 되었습니다.");
-			responseData.put("status", 200);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else {
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 취소했습니다.");
-			responseData.put("status", 200);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		}
-
-	}
-
-	//피드 좋아요 취소
-	@DeleteMapping("/like/{feed_number}")
-	public ResponseEntity<?> deleteLike(@PathVariable Long feed_number) {
-		//원래는 @Authentication 들어감
-		boolean result;
-		result = likeService.addLike(feed_number, 1L);
-		if (result) {
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "success");
-			responseData.put("status", 200);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else {
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "fail");
-			responseData.put("status", 400);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		}
-
-	}
+	//피드 좋아요
+	// @PostMapping("/like/{feed_number}")
+	// public ResponseEntity<?>
 }

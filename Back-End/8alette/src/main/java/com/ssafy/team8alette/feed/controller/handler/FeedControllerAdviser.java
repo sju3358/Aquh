@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ssafy.team8alette.feed.exception.NullValueException;
-
 @RestControllerAdvice
 public class FeedControllerAdviser {
 	@ExceptionHandler(PropertyValueException.class)
@@ -20,14 +18,6 @@ public class FeedControllerAdviser {
 		nullCheck.put("status", 400);
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		return new ResponseEntity<>(nullCheck, status);
-	}
-
-	@ExceptionHandler(NullValueException.class)
-	public ResponseEntity<Map<String, Object>> nullValueHandler(NullValueException exception) {
-		Map<String, Object> errorResponse = new HashMap<>();
-		errorResponse.put("message", exception.getMessage());
-		errorResponse.put("status", 400);
-		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }
