@@ -12,3 +12,14 @@
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
+
+button {
+  border : none;
+  width: 15rem;
+  height: 4rem;
+}
+
+button:hover{
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
