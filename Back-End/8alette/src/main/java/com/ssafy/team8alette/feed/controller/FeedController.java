@@ -62,15 +62,6 @@ public class FeedController {
 		}
 	}
 
-	//게시글 전체조회(처음엔 인기순, 최신순으로 보이게)
-	// @GetMapping("/list")
-	// public ResponseEntity<List<?>> findAllFeeds(
-	// 	@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
-	// ) {
-	// 	List<FeedResponseDTO> feedList = feedService.getFeeds(orderCriteria);
-	// 	return new ResponseEntity<>(feedList, HttpStatus.OK);
-	// }
-
 	@GetMapping("/list")
 	public ResponseEntity<List<?>> findAllFeeds(
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
