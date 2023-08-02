@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: normal;
+  src: url("./font/SpoqaHanSansNeo-Medium.otf") format("opentype");
+}
+
 html {
   font-size: 62.5%;
   background-color:#95C6FF;

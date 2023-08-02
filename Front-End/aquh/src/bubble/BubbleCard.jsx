@@ -9,7 +9,8 @@ export default function BubbleCard({
   eventTitle = "Untitled",
   eventContent = "Some content...",
   imagePath,
-  onJoin = () => {}
+  onJoin = () => {},
+  label = ""
 }) {
 
   return (
@@ -26,7 +27,7 @@ export default function BubbleCard({
       <div className="card-footer">
         <p>Event Date</p>
       </div>
-      <Button onClick={onJoin}> Join </Button>
+      <Button onClick={onJoin} label={label} className="card-button"> Join </Button>
     </div>
     
   )

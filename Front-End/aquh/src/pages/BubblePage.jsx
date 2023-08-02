@@ -27,8 +27,12 @@ export default function BubblePage() {
       roomType={event.room_type}
       eventTitle={event.room_title}
       eventContent={event.room_content}
-      imagePath={event.room_thumbnail}
-      onJoin={() => { /* actually join room */ }} />
+      imagePath={"https://picsum.photos/100/50"}
+      //TODO : imagePath 바꾸기 
+      // imagePath={event.room_thumbnail}
+      onJoin={() => { /* actual ly join room */ }}
+      label = "↗참여하기"
+      />
   );
   
   return (
