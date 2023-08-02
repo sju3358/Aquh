@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.feed.model.dto.Feed;
-import com.ssafy.team8alette.feed.model.dto.LikeRequestDTO;
+import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.Like.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
 
@@ -36,6 +38,7 @@ public class FeedController {
 	private static String projectPath = "C:\\pictures";
 
 	//피드 등록 파일
+
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") Feed feed,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
@@ -60,12 +63,23 @@ public class FeedController {
 	}
 
 	//게시글 전체조회(처음엔 인기순, 최신순으로 보이게)
+	// @GetMapping("/list")
+	// public ResponseEntity<List<?>> findAllFeeds(
+	// 	@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
+	// ) {
+	// 	List<FeedResponseDTO> feedList = feedService.getFeeds(orderCriteria);
+	// 	return new ResponseEntity<>(feedList, HttpStatus.OK);
+	// }
+
 	@GetMapping("/list")
 	public ResponseEntity<List<?>> findAllFeeds(
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
 	) {
 		List<Feed> feedList = feedService.getFeeds(orderCriteria);
-		return new ResponseEntity<>(feedList, HttpStatus.OK);
+		List<FeedResponseDTO> dtoList = feedList.stream()
+			.map(feedService::convertToDTO)
+			.collect(Collectors.toList());
+		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
 	// 게시글 상세글 조회
@@ -80,7 +94,7 @@ public class FeedController {
 			data.put("img", saveFile);
 		}
 		data.put("feedNumber", feed.getFeedNumber());
-		data.put("feedCreatorNumber", feed.getFeedCreatorNumber());
+		data.put("feedCreatorNumber", feed.getMember().getMemberNumber());
 		data.put("title", feed.getTitle());
 		data.put("content", feed.getContent());
 		data.put("feedLikeCnt", feed.getFeedLikeCnt());
