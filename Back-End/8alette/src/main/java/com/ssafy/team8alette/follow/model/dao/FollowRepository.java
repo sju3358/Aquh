@@ -3,10 +3,13 @@ package com.ssafy.team8alette.follow.model.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.ssafy.team8alette.follow.model.dto.Follow;
+import com.ssafy.team8alette.follow.model.dto.Entity.Follow;
+import com.ssafy.team8alette.follow.model.dto.Key.FollowID;
 
-public interface FollowRepository extends JpaRepository<Follow, Long> {
+@Repository
+public interface FollowRepository extends JpaRepository<Follow, FollowID> {
 
 	List<Follow> findAllByFollowingMemberNumber(Long memberNumber);
 

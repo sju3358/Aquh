@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
-import com.ssafy.team8alette.feed.model.dto.Feed.FeedResponseDTO;
-import com.ssafy.team8alette.feed.model.dto.Like.LikeRequestDTO;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.Like.Request.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
 

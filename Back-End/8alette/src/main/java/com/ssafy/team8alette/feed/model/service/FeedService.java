@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
-import com.ssafy.team8alette.feed.model.dto.Feed.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 

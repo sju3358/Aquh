@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.follow.exception.FollowNotFoundException;
 import com.ssafy.team8alette.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.follow.model.dto.Follow;
+import com.ssafy.team8alette.follow.model.dto.Entity.Follow;
 import com.ssafy.team8alette.member.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,8 @@ public class FollowService {
 
 		List<Long> followers = new LinkedList<>();
 		for (Follow followInfo : followerList) {
-			followers.add(followInfo.getFollowerMemberNumber());
+			followers.add(followInfo.getFollowID().getFollowerNumber());
+			// followers.add(followInfo.getFollowerMemberNumber());
 		}
 		return followers;
 	}
@@ -40,15 +41,20 @@ public class FollowService {
 
 		List<Long> followings = new LinkedList<>();
 		for (Follow followInfo : followingList) {
-			followings.add(followInfo.getFollowerMemberNumber());
+			followings.add(followInfo.getFollowID().getFollowingNumber());
+			//변경전
+			// followings.add(followInfo.getFollowerMemberNumber());
 		}
 		return followings;
 	}
 
 	public void followMember(Long memberNumber, Long targetMemberNumber) {
 		Follow follow = new Follow();
-		follow.setFollowerMemberNumber(memberNumber);
-		follow.setFollowingMemberNumber(targetMemberNumber);
+		follow.getFollowID().setFollowerNumber(memberNumber);
+		follow.getFollowID().setFollowingNumber(targetMemberNumber);
+		//변경 전
+		// follow.setFollowerMemberNumber(memberNumber);
+		// follow.setFollowingMemberNumber(targetMemberNumber);
 		followRepository.save(follow);
 
 		memberRecordService.updateMemberFollowingCnt(memberNumber, 1);
