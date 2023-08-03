@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
 
 @Repository
 public interface FeedRepository extends JpaRepository<Feed, Long> {
