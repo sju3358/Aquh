@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("./font/Pretendard-Regular.woff") format("woff");
+
+  font-weight: 400;
+  fotn-style: normal;
+}
+
 html {
   font-size: 62.5%;
   background-color:#95C6FF;
