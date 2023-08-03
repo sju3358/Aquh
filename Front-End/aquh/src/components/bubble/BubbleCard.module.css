@@ -12,20 +12,22 @@
   border-radius: 1rem;
   background-color: white;
   margin: 30px;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 .eventTitle{
   font-size: 2rem;
   font-weight: 700;
+  margin-left : 0.5rem;
 }
 .eventDate{
   font-size : 1.5rem;
   font-weight: 500;
+  margin-left : 0.5rem;
 }
 
 img{
   border-radius: 1rem;
-  width: 22rem;
+  width: 23rem;
   height: 12rem;
   align-self: center;
   margin: 10px;
