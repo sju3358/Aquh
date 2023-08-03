@@ -25,7 +25,9 @@ public class FeedService {
 
 	private final FeedRepository feedRepository;
 	private final MemberRepository memberRepository;
-	private static String projectPath = "C:\\pictures";
+	private static String projectPath = "/home/ubuntu/spring-upload-images";
+	// private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\files";
+	// FileSystemResource fileSystemResource = new FileSystemResource("resources/pictures/");
 
 	public void registFeed(Feed feed, MultipartFile file) throws Exception {
 		if (feed.getMember() == null || feed.getMember().getMemberNumber() == null) {
@@ -50,6 +52,7 @@ public class FeedService {
 			String fileName = today + "_" + randomNum;
 
 			//빈껍데기 생성해서 피드 저장소에 이미지 전달
+			// File saveFile = new File(projectPath, fileName);
 			File saveFile = new File(projectPath, fileName);
 			file.transferTo(saveFile);
 			feed.setFeedActive(true);
