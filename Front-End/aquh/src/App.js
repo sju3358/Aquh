@@ -4,9 +4,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
 import MainPage from './pages/MainPage';
 import LoginModal from './pages/LoginModal';
-import NotFound from './ui/NotFound';
+import NotFound from './components/ui/NotFound';
 import AuthPage from './pages/AuthPage';
-import SignUpForm from './users/SignUpForm';
+import SignUpForm from './components/users/SignUpForm';
 import BubblePage from './pages/BubblePage';  
 
 const router = createBrowserRouter([
