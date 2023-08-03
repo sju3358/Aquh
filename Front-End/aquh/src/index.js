@@ -10,7 +10,7 @@ import {
   selector,
   useRecoilState,
   useRecoilValue,
-} from 'recoil';
+} from "recoil";
 // import SignUpForm from "./users/SignUpForm";
 // import AuthPage from "./pages/AuthPage";
 // import { BrowserRouter } from "react-router-dom";
@@ -18,10 +18,8 @@ import {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
-    {/* <GlobalStyle /> */}
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <GlobalStyle />
+    <App />
   </RecoilRoot>
 );
 
