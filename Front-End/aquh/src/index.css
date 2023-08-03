@@ -1,7 +1,9 @@
 @font-face {
-  font-family: "Spoqa Han Sans Neo";
-  font-weight: normal;
-  src: url("./font/SpoqaHanSansNeo-Medium.otf") format("opentype");
+  font-family: "Pretendard";
+  src: url("./font/Pretendard-Regular.woff") format("woff");
+
+  font-weight: 400;
+  fotn-style: normal;
 }
 
 html {
