@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +51,4 @@ public class Member {
 
 	@Column(name = "is_email_receive", nullable = false)
 	private boolean isEmailReceive;
-
-	@OneToOne
-	@JoinColumn(name = "member_number")
-	private MemberRecord memberRecord;
-
 }
