@@ -37,9 +37,23 @@ export default function BubblePage() {
   
   return (
     <div>
+    
       <BubbleList>
         { eventCards }
       </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+    
     </div>
   );
 }
