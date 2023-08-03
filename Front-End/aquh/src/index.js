@@ -18,7 +18,7 @@ import {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
-    <GlobalStyle />
+    {/* <GlobalStyle /> */}
     <React.StrictMode>
       <App />
     </React.StrictMode>
