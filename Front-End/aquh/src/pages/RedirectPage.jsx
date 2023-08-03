@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import https from "../utils/https";
-import { loginNaver } from "../api/api.auth_service";
 
 export default function RedirectURI(props) {
   const navigate = useNavigate();
