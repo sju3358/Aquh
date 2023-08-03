@@ -1,4 +1,4 @@
-/* .bubble-list {
+.bubbleList {
   display: flex;
-  flex-directio
-} */
+  flex-direction: row;
+}
