@@ -80,7 +80,7 @@ public class FeedService {
 		if (orderCriteria.equals("recent")) {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		} else if (orderCriteria.equals("famous")) {
-			list = feedRepository.findByFeedActiveOrderByViewCntDescAndFeedNumberDesc(true);
+			list = feedRepository.findByFeedActiveOrderByFeedLikeCntDescAndFeedNumberDesc(true);
 		} else {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		}
