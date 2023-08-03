@@ -1,10 +1,12 @@
+*{
+  appearance : none;
+}
 
 .base {
     width: 7.5rem;
     height: 2.3rem;
-    border-radius: 1rem;
-    margin: 10px;
-    padding-bottom: 15px;
+    border-radius: 2rem;
+    margin: 2px;
     border : solid black 1px;
     font-size: 0.2rem;
     align-self: last baseline;
@@ -13,6 +15,10 @@
 
 /* TODO: adjust styles according to design requirements */
 .regular {
+    width: 9rem;
+    height: 2.7rem;
+    line-height: 2.7rem;
+    text-align: center;
     font-family: pretendard;
     font-size: 1.5rem;
 }
