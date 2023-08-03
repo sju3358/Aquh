@@ -1,0 +1,14 @@
+.FeedPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* This ensures the components are centered vertically as well */
+  flex-direction: column;
+  background-color: rgb(161, 222, 255);
+}
+.FeedList {
+  flex: 7;
+}
+.FeedCard {
+  flex: 3;
+}
