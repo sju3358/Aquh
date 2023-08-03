@@ -1,7 +1,8 @@
 FROM node:18
-COPY package.json package-lock.json yarn.lock ./app/
+WORKDIR /app
+COPY package.json package-lock.json yarn.lock ./
 RUN yarn install 
-COPY . ./app/
+COPY . ./
 EXPOSE 3000
 
-CMD cd app; yarn start;
+CMD yarn start;
