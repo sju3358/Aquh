@@ -53,7 +53,13 @@ public class FeedService {
 
 			//빈껍데기 생성해서 피드 저장소에 이미지 전달
 			// File saveFile = new File(projectPath, fileName);
+
+			File foler = new File(projectPath);
+			if (foler.exists() != true)
+				foler.mkdirs();
+
 			File saveFile = new File(projectPath, fileName);
+
 			file.transferTo(saveFile);
 			feed.setFeedActive(true);
 			feed.setFeedLikeCnt(0);
