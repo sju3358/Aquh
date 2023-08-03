@@ -1,12 +1,12 @@
-import { atom } from "recoil"
+import { atom } from "recoil";
 
 export const loginUser = atom({
   key: "loginUser",
   default: {
     accessToken: "",
     refreshToken: "",
-    memberNumber : -1,
-    isSocialLogin : false,
+    memberNumber: -1,
+    isSocialLogin: false,
   },
 });
 
