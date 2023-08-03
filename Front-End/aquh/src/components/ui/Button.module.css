@@ -1,20 +1,26 @@
+
 .base {
-    width: 7rem;
-    height: 1.5rem;
+    width: 7.5rem;
+    height: 2.3rem;
     border-radius: 1rem;
     margin: 10px;
     padding-bottom: 15px;
     border : solid black 1px;
-    font-size: 0.5rem;
+    font-size: 0.2rem;
     align-self: last baseline;
+    background-color:  white;;
 }
-  
-.base:hover{
-    background-color: white;
-}
+
 /* TODO: adjust styles according to design requirements */
 .regular {
-    background-color: purple;
+    font-family: pretendard;
+    font-size: 1.5rem;
+}
+
+.regular:hover{
+    background-color: #95C6FF;
+    cursor: pointer;
+    
 }
 
 /* TODO: adjust styles according to design requirements */
