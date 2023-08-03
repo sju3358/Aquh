@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 export default function BubbleCard({
   roomType = 0,
   eventTitle = "Untitled",
-  eventContent = "Some content...",
+  eventDate = "Some Date..",
   imagePath,
   onJoin = () => {}
 }) {
@@ -22,16 +22,12 @@ export default function BubbleCard({
         <h2>{eventTitle}</h2>
       </div>
       <div className="card-body">
-        <p>{eventContent}</p>
+        <p>{eventDate}</p>
       </div>
       <div className="card-footer">
-        <p>Event Date</p>
+    
       </div>
       <Button onClick={onJoin} variant="regular" className="card-button">Join</Button>
-      { /* Ah see you wrote it with the label between the tags at first. That will work now! */}
-      {/* so is it working rn? Wait one question...why does the BubbleCard have a label prop? */}
-      {/* we dont need it? The button always says "Join" right? ahh right . okkee I will delete it then */}
-      {/* "regular" is the default but I am going to put it anyway so it's more clear */}
     </div>
     
   )

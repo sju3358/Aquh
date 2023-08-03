@@ -26,12 +26,12 @@ export default function BubblePage() {
     <BubbleCard
       roomType={event.room_type}
       eventTitle={event.room_title}
-      eventContent={event.room_content}
-      imagePath={"https://picsum.photos/100/50"}
+      eventDate={event.room_date}
+      imagePath={event.room_thumbnail}
       //TODO : imagePath 바꾸기 
       // imagePath={event.room_thumbnail}
       onJoin={() => { /* actual ly join room */ }}
-      label = "↗참여하기"
+      // label = "↗참여하기"
       />
   );
   
