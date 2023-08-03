@@ -3,19 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import GlobalStyle from "./globalStyle";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 // import SignUpForm from "./users/SignUpForm";
 // import AuthPage from "./pages/AuthPage";
 // import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    {/* <BrowserRouter> */}
-      <App />
-      {/* <SignUpForm />
-      <AuthPage />
-    </BrowserRouter> */}
-  </React.StrictMode>
+  <RecoilRoot>
+    <GlobalStyle />
+    <App />
+  </RecoilRoot>
 );
 
 // If you want to start measuring performance in your app, pass a function

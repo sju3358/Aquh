@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +44,4 @@ public class MemberRecord {
 	@Column(name = "follower_cnt")
 	private int memberFollowerCnt;
 
-	@OneToOne(mappedBy = "memberRecord")
-	private Member member;
 }
