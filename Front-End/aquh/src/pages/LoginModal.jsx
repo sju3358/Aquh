@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import LoginForm from '../users/LoginForm'
-import { login } from '../api/api.auth_service'
-import login_mock from '../api/api.login_mock';
-import NaverLoginButton from '../users/NaverLoginButton';
-import GoogleLoginButton from '../users/GoogleLoginButton';
+import LoginForm from '../components/users/LoginForm'
+import { login } from '../utils/api/api.auth_service'
+import login_mock from '../utils/api/api.login_mock';
+import NaverLoginButton from '../components/users/NaverLoginButton';
+import GoogleLoginButton from '../components/users/GoogleLoginButton';
 
 export default function LoginModal() {
 
