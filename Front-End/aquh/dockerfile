@@ -2,7 +2,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY . .
-RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.3.0 && yarn install
+RUN npm install && corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.3.0 && yarn install
 
 EXPOSE 3000
 
