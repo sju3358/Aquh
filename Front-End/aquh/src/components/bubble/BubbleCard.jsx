@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './BubbleCard.module.css'
 import Capsule from '../ui/Capsule';
-import { bubbleList } from '../api/api.bubble_service';
+import { bubbleList } from '../../utils/api/api.bubble_service';
 import Button from '../ui/Button';
 
 export default function BubbleCard({
