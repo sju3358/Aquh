@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Nav from '../ui/Nav';
+import Nav from '../components/ui/Nav';
 
 export default function Root() {
   return (
