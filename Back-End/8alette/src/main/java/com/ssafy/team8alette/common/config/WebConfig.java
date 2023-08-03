@@ -22,7 +22,19 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(final CorsRegistry registry) {
 		registry.addMapping("/api/v1/**")
-			.allowedOrigins("http://172.20.10.3", "http://localhost:3000")
+			.allowedOrigins(
+				"http://i9b108.p.ssafy.io:8080",
+				"https://i9b108.p.ssafy.io:8080",
+				"http://i9b108.p.ssafy.io:3000",
+				"https://i9b108.p.ssafy.io:3000",
+				"http://localhost:3000",
+				"https://localhost:3000",
+				"http://i9b108.p.ssafy.io:8080/",
+				"https://i9b108.p.ssafy.io:8080/",
+				"http://i9b108.p.ssafy.io:3000/",
+				"https://i9b108.p.ssafy.io:3000/",
+				"http://localhost:3000/",
+				"https://localhost:3000/")
 			.allowedMethods("GET", "POST", "PUT")
 			.maxAge(3000);
 	}

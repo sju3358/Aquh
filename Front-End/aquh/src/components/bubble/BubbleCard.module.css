@@ -1,0 +1,50 @@
+* {
+  margin : 0;
+}
+
+.card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 1rem;
+  background-color: white;
+  margin: 30px;
+  padding: 1.5rem;
+}
+.eventTitle{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-left : 0.5rem;
+}
+.eventDate{
+  font-size : 1.5rem;
+  font-weight: 500;
+  margin-left : 0.5rem;
+}
+
+img{
+  border-radius: 1rem;
+  width: 23rem;
+  height: 12rem;
+  align-self: center;
+  margin: 10px;
+}
+
+
+/* button{
+  width: 7rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  margin: 10px;
+  padding-bottom: 15px;
+  border : solid black 1px;
+  font-size: 0.5rem;
+  align-self: last baseline;
+}
+
+button:hover{
+  background-color: white;
+} */

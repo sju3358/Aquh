@@ -1,4 +1,4 @@
-import LoginForm from '../users/LoginForm';
+import LoginForm from "../components/users/LoginForm";
 
 export default {
   component: LoginForm
