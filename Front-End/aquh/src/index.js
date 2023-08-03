@@ -19,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
     <GlobalStyle />
-    <App />
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
   </RecoilRoot>
 );
 
