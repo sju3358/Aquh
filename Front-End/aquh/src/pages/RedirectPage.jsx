@@ -1,30 +1,24 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import https from "../utils/https";
-
 export default function RedirectURI(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
     let state = new URL(window.location.href).searchParams.get("state");
-    console.log(code, state);
+
     https
       .post("/api/v1/member/auth/naver", {
         code: code,
         state: state,
       })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
-          // const naverAccess = res.headers.authorization?.split(" ")[1];
-          const naverAccess = res.data.data.access_token;
-          const naverRefresh = res.data.data.refresh_token;
-          const naverMemberNumber = res.data.data.member_number;
-
-          localStorage.setItem("access_token", naverAccess);
-          localStorage.setItem("refresh_token", naverRefresh);
-          localStorage.setItem("member_number", naverMemberNumber);
+          localStorage.setItem("access_token", res.data.data.access_token);
+          localStorage.setItem("refresh_token", res.data.data.refresh_token);
+          localStorage.setItem("member_number", res.data.data.member_number);
+          localStorage.setItem("isSocialLogin", res.data.data.isSocialLogin);
 
           // navigate("/main");
         } else {
