@@ -1,8 +1,9 @@
-FROM node:18
+FROM node:gallium-alpine
 WORKDIR /app
-COPY package.json package-lock.json yarn.lock ./
-RUN yarn install 
-COPY . ./
+
+COPY . .
+RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.3.0 && yarn install
+
 EXPOSE 3000
 
-CMD yarn start;
+CMD ["yarn", "run", "start"]
