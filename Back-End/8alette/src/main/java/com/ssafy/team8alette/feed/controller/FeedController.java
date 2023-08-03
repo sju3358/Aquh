@@ -24,6 +24,8 @@ import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
 import com.ssafy.team8alette.feed.model.dto.Like.Request.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
+import com.ssafy.team8alette.member.model.dto.Member;
+import com.ssafy.team8alette.member.model.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +36,7 @@ public class FeedController {
 
 	private final FeedService feedService;
 	private final LikeService likeService;
+	private final MemberService memberService;
 	//파일경로
 	private static String projectPath = "C:\\pictures";
 
@@ -79,6 +82,7 @@ public class FeedController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		Feed feed = feedService.getFeedById(feed_number);
+		Member member = memberService.getMemberInfo(feed.getFeedNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feed.getFeedImgTrans() != null) {
 			File saveFile = new File(projectPath, feed.getFeedImgTrans());
@@ -86,6 +90,7 @@ public class FeedController {
 		}
 		data.put("feedNumber", feed.getFeedNumber());
 		data.put("feedCreatorNumber", feed.getMember().getMemberNumber());
+		data.put("memberNickName", member.getMemberNickname());
 		data.put("title", feed.getTitle());
 		data.put("content", feed.getContent());
 		data.put("feedLikeCnt", feed.getFeedLikeCnt());
