@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.feed.model.dto.Like;
+package com.ssafy.team8alette.feed.model.dto.Like.Request;
 
 import lombok.Getter;
 import lombok.Setter;
