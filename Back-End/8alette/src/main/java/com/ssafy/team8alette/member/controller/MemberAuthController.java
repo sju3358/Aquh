@@ -76,8 +76,19 @@ public class MemberAuthController {
 	}
 
 	@LoginRequired
-	@PostMapping("/refresh")
-	public ResponseEntity<Map<String, Object>> refreshToken(@RequestBody Map<String, String> param) throws
+	@PostMapping("/check_token")
+	public ResponseEntity<Map<String, Object>> checkTokenRequest(){
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	@LoginRequired
+	@PostMapping("/refresh_token")
+	public ResponseEntity<Map<String, Object>> refreshTokenRequest(@RequestBody Map<String, String> param) throws
 		SQLException, UnsupportedEncodingException {
 
 		Long memberNumber = Long.parseLong(param.get("member_number"));
