@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import loginUser from '../store/loginUser';
+import loginUser from "../store/loginUser";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 let instance = axios.create({
@@ -20,7 +20,6 @@ let instance = axios.create({
 //   }
 // );
 
-
 // instance.interceptors.response.use(
 //    (response) => {
 //     const { config } = response;
@@ -28,7 +27,7 @@ let instance = axios.create({
 
 //     if (response?.data?.code == 401) {
 //       const [loginData, setLoginData] = useRecoilState(loginUser);
-      
+
 //       return  instance.post(`/api/v1/member/auth/refresh_token`,{
 //         params: {},
 //         headers : {
@@ -48,7 +47,7 @@ let instance = axios.create({
 
 //             originalRequest.headers.Authorization = `${res.data.data.access_token}`;
 //             return axios(originalRequest);
-//           } 
+//           }
 
 //         }).catch((err) => {
 //           console.log(err)
@@ -63,6 +62,5 @@ let instance = axios.create({
 //     throw error
 
 //   });
-
 
 export default instance;
