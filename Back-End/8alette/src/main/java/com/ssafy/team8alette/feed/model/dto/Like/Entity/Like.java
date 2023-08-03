@@ -1,9 +1,10 @@
-package com.ssafy.team8alette.feed.model.dto.Like;
+package com.ssafy.team8alette.feed.model.dto.Like.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.Like.Key.LikeID;
 import com.ssafy.team8alette.member.model.dto.Member;
 
 import jakarta.persistence.Column;
