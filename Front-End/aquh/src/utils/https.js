@@ -1,24 +1,23 @@
 import axios from "axios";
 
-import loginUser from "../store/loginUser";
-import { useRecoilValue, useRecoilState } from "recoil";
-
 let instance = axios.create({
-  baseURL: "http://i9b108.p.ssafy.io",
-  headers: "'Content-Type': 'application/json'",
+  baseURL: "http://i9b108.p.ssafy.io:8080",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-// instance.interceptors.request.use(
-//   (config) => {
-//     const loginData = useRecoilValue(loginUser);
-//     config.headers["AUTH-TOKEN"] = loginData.access_token;
-//     return config;
-//   },
-//   (error) => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.request.use(
+  (config) => {
+    console.log("access_token");
+    config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 // instance.interceptors.response.use(
 //    (response) => {
