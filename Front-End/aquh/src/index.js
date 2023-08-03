@@ -4,13 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from "./globalStyle";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 // import SignUpForm from "./users/SignUpForm";
 // import AuthPage from "./pages/AuthPage";
 // import { BrowserRouter } from "react-router-dom";
