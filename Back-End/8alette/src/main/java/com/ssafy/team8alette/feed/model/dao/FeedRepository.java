@@ -15,9 +15,6 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
 
 	List<Feed> findByFeedActiveOrderByFeedNumberDesc(boolean feedActive);
 
-	// @Query("SELECT f FROM Feed f WHERE f.feedActive = true ORDER BY f.viewCnt DESC, f.feedNumber DESC")
-	// List<Feed> findByFeedActiveOrderByViewCntDescAndFeedNumberDesc(boolean feedActive);
-
 	@Query("SELECT f FROM Feed f WHERE f.feedActive = true ORDER BY f.feedLikeCnt DESC, f.feedNumber DESC")
 	List<Feed> findByFeedActiveOrderByFeedLikeCntDescAndFeedNumberDesc(boolean feedActive);
 
