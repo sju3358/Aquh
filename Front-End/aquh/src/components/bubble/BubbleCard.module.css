@@ -1,4 +1,6 @@
-
+* {
+  margin : 0;
+}
 
 .card {
   box-sizing: border-box;
@@ -17,12 +19,13 @@
   font-weight: 700;
 }
 .eventDate{
+  font-size : 1.5rem;
   font-weight: 500;
 }
 
 img{
   border-radius: 1rem;
-  width: 20rem;
+  width: 22rem;
   height: 12rem;
   align-self: center;
   margin: 10px;
