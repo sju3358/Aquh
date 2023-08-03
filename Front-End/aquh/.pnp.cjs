@@ -61,6 +61,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-icons", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:4.10.1"],\
             ["react-router-dom", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:6.14.2"],\
             ["react-scripts", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:5.0.1"],\
+            ["recoil", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:0.7.7"],\
             ["storybook", "npm:7.1.1"],\
             ["util", "npm:0.12.5"],\
             ["web-vitals", "npm:2.1.4"],\
@@ -8917,6 +8918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-icons", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:4.10.1"],\
             ["react-router-dom", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:6.14.2"],\
             ["react-scripts", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:5.0.1"],\
+            ["recoil", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:0.7.7"],\
             ["storybook", "npm:7.1.1"],\
             ["util", "npm:0.12.5"],\
             ["web-vitals", "npm:2.1.4"],\
@@ -13877,6 +13879,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["gzip-size", "npm:6.0.0"],\
             ["duplexer", "npm:0.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["hamt_plus", [\
+        ["npm:1.0.2", {\
+          "packageLocation": "./.yarn/cache/hamt_plus-npm-1.0.2-67a52ee1df-af26ea32db.zip/node_modules/hamt_plus/",\
+          "packageDependencies": [\
+            ["hamt_plus", "npm:1.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -21425,6 +21436,37 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["esprima", "npm:4.0.1"],\
             ["source-map", "npm:0.6.1"],\
             ["tslib", "npm:2.6.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["recoil", [\
+        ["npm:0.7.7", {\
+          "packageLocation": "./.yarn/cache/recoil-npm-0.7.7-4452f58b67-65edecbcb8.zip/node_modules/recoil/",\
+          "packageDependencies": [\
+            ["recoil", "npm:0.7.7"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:0.7.7", {\
+          "packageLocation": "./.yarn/__virtual__/recoil-virtual-418f098b19/0/cache/recoil-npm-0.7.7-4452f58b67-65edecbcb8.zip/node_modules/recoil/",\
+          "packageDependencies": [\
+            ["recoil", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:0.7.7"],\
+            ["@types/react", null],\
+            ["@types/react-dom", null],\
+            ["@types/react-native", null],\
+            ["hamt_plus", "npm:1.0.2"],\
+            ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:42c4d906c80d2ff7eb0c7883278e1523a3669b38d67e3f5fe2ab1c4c077aca203e9cee464d11d7763bc8455c80e0f7ef1378510982fde074114bb455724ee1f0#npm:18.2.0"],\
+            ["react-native", null]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dom",\
+            "@types/react-native",\
+            "@types/react",\
+            "react-dom",\
+            "react-native",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\
