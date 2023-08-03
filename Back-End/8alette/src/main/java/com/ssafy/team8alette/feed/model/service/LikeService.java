@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.feed.model.dao.LikeRepository;
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
-import com.ssafy.team8alette.feed.model.dto.Like.Like;
-import com.ssafy.team8alette.feed.model.dto.Like.LikeID;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.Like.Entity.Like;
+import com.ssafy.team8alette.feed.model.dto.Like.Key.LikeID;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 
