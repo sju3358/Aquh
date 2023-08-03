@@ -1,0 +1,58 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* align-items: center; */
+}
+/* .latestChat{
+  width: 100rem;
+} */
+.droplet{
+  width: 2.5rem;
+  height: 4rem;
+}
+.latestMent{
+  color: white;
+  font-weight: 700;
+  font-family: Pretendard;
+  align-self : start;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-left: 6rem;
+  margin-top: 5rem; 
+}
+
+/* .oldChat{
+  width: 100rem;
+} */
+
+.categories{
+  align-self: flex-start;
+  display: flex;
+  flex-direction: row;
+  margin-top: 3rem;
+  margin-left: 7rem;
+  width: 100rem;
+}
+
+.category{
+  margin : 10px;
+  font-size: 2rem;
+  width: 8rem;
+  height: 5rem;
+  text-align: center;
+  line-height: 5rem;
+}
+
+.category:hover{
+  cursor: pointer;
+  font-weight: 700;
+  background-color: white;
+  border-radius: 1rem;
+}
