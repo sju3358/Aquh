@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import GlobalStyle from "./globalStyle";
 // import SignUpForm from "./users/SignUpForm";
 // import AuthPage from "./pages/AuthPage";
 // import { BrowserRouter } from "react-router-dom";
@@ -11,6 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     {/* <BrowserRouter> */}
+      <GlobalStyle />
       <App />
       {/* <SignUpForm />
       <AuthPage />
