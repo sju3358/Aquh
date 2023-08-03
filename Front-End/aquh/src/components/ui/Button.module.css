@@ -1,3 +1,6 @@
+*{
+  appearance : none;
+}
 
 .base {
     width: 7.5rem;
