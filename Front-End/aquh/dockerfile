@@ -6,4 +6,4 @@ RUN corepack enable && corepack prepare yarn@stable --activate && yarn set versi
 
 EXPOSE 3000
 
-CMD ["yarn", "run", "start"]
+CMD yarn start
