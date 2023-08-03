@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// import loginUser from '../store/loginUser';
-// import { useRecoilValue, useRecoilState } from "recoil";
+import loginUser from "../store/loginUser";
+import { useRecoilValue, useRecoilState } from "recoil";
 
 let instance = axios.create({
   baseURL: "http://i9b108.p.ssafy.io",
