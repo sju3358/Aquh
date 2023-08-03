@@ -1,12 +1,16 @@
 import React from "react";
 import "./FeedCard.css";
 
-function FeedCard() {
+function FeedCard({ imgPath, title, content }) {
   return (
     <div className='FeedCard'>
-      <img src='' alt='User 캐릭터' />
-      <h3>작성자가 작성한 제목</h3>
-      <p>작성자가 작성한 글 내용</p>
+      <img
+        className='feedCardImg'
+        src={`/aquh${imgPath}.png`}
+        alt='User 캐릭터'
+      />
+      <h3>제목 : {title}</h3>
+      <p>내용: {content}</p>
     </div>
   );
 }

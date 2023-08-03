@@ -34,17 +34,45 @@ function FeedWrite() {
   //   }
   // };
 
-  const feedWrite = (e) => {
-    console.log(e);
-    console.log(setFeedTitle);
-    console.log(setFeedContent);
-    if (setIsFeedName && setIsFeedContent)
-      axios.post("https://i9b108.p.ssafy.io/api/v1/feed");
+  const feedWrite = () => {
+    const memberNumber = localStorage.getItem("member_number");
 
-    //모든 칸이 다 채워졌는지 확인 (사진은 선택)
-    //만약 모든칸이 채워져있으면 -> axios 요청 글 작성하기
-    // 한칸이라도 비워져 있으면 alert
+    if (!memberNumber) {
+      alert("로그인이 필요합니다."); // 예외 처리: 로그인이 되어 있지 않으면 알림 표시
+      return;
+    }
+
+    if (feedTitle && feedContent) {
+      const data = {
+        member: {
+          memberNumber: memberNumber,
+        },
+        title: feedTitle,
+        content: feedContent,
+      };
+
+      axios({
+        url: "https://i9b108.p.ssafy.io/api/v1/feed",
+        method: "post",
+        headers: {
+          "AUTH-TOKEN": localStorage.getItem("access_token"),
+        },
+        data: data,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      alert("작성하신 내용을 다시 확인해 주세요!");
+    }
   };
+
+  //모든 칸이 다 채워졌는지 확인 (사진은 선택)
+  //만약 모든칸이 채워져있으면 -> axios 요청 글 작성하기
+  // 한칸이라도 비워져 있으면 alert;
 
   return (
     <div className='feedWriteCard'>
@@ -71,7 +99,7 @@ function FeedWrite() {
           placeholder='내용을 입력하세요'
           defaultValue={feedContent}
           onChange={onChangeFeedContent}></textarea>
-        <div className='fileBox'>
+        {/* <div className='fileBox'>
           <input
             type='text'
             className='upload-name'
@@ -85,7 +113,7 @@ function FeedWrite() {
             // onChange={onChangeFeedFile}
             accept='image/*'
           />
-        </div>
+        </div> */}
         <button onClick={feedWrite}>글 작성하기</button>
       </div>
     </div>
