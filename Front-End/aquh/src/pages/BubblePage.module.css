@@ -8,11 +8,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
 }
-/* .latestChat{
+.latestChat{
   width: 100rem;
-} */
+}
 .droplet{
   width: 2.5rem;
   height: 4rem;
@@ -28,9 +28,9 @@
   margin-top: 5rem; 
 }
 
-/* .oldChat{
+.oldChat{
   width: 100rem;
-} */
+}
 
 .categories{
   align-self: flex-start;
