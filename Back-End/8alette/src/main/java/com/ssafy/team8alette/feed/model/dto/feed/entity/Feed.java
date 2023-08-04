@@ -32,7 +32,7 @@ public class Feed {
 	private Long feedNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "feed_creator_number")
+	@JoinColumn(name = "feed_creator_number", nullable = false)
 	private Member member;
 
 	@Column(name = "feed_title", nullable = false)
@@ -61,11 +61,5 @@ public class Feed {
 
 	@Column(name = "delete_dttm")
 	private Date deleteDate;
-
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "feed_creator_number")
-	// private Member member;
-
-	// @OneToMany(mappedBy = "feed")
-	// private List<Feed> list
+	
 }

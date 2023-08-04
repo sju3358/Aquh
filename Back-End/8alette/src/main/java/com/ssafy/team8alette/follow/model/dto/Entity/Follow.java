@@ -32,19 +32,14 @@ public class Follow {
 	private Long followNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "follower_number")
+	@JoinColumn(name = "follower_number", nullable = false)
 	private Member followerMemberNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "following_number")
+	@JoinColumn(name = "following_number", nullable = false)
 	private Member followingMemberNumber;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;
-
-	// @Id
-	// private Long followerMemberNumber;
-	//
-	// @Column
-	// private Long followingMemberNumber;
+	
 }
