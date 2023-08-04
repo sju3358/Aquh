@@ -6,9 +6,9 @@
   flex-direction: column;
   background-color: rgb(161, 222, 255);
 }
-.FeedList {
+.feedList {
   flex: 7;
 }
-.FeedCard {
+.feedCard {
   flex: 3;
 }

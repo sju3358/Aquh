@@ -1,11 +1,12 @@
 import React from "react";
-import "./FeedCard.css";
+// import "./FeedCard.css";
+import classes from "./FeedCard.module.css";
 
 function FeedCard({ imgPath, title, content }) {
   return (
-    <div className='FeedCard'>
+    <div className={classes.FeedCard}>
       <img
-        className='feedCardImg'
+        className={classes.feedCardImg}
         src={`/aquh${imgPath}.png`}
         alt='User 캐릭터'
       />

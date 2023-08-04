@@ -1,8 +1,9 @@
 import React, { useState, setState } from "react";
 import { Component } from "react";
-import "./FeedPage.css";
-import FeedWrite from "../feed/FeedWrite";
-import FeedCard from "../feed/FeedCard";
+import classes from "./FeedPage.module.css";
+import FeedWrite from "../components/feed/FeedWrite";
+import FeedCard from "../components/feed/FeedCard";
+// import classes from "./FeedPage.module.css";
 
 function FeedPage() {
   // Dummy Data
@@ -28,16 +29,18 @@ function FeedPage() {
   ];
 
   return (
-    <div className='FeedPage'>
+    <div className={classes.feedPage}>
       <FeedWrite />
       <div>
         {testList.map((feeditem) => {
           return (
-            <FeedCard
-              imgPath={feeditem.imgPath}
-              title={feeditem.title}
-              content={feeditem.content}
-            />
+            <div className={classes.feedCard}>
+              <FeedCard
+                imgPath={feeditem.imgPath}
+                title={feeditem.title}
+                content={feeditem.content}
+              />
+            </div>
           );
         })}
       </div>

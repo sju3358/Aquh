@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "./FeedWrite.css";
+// import "./FeedWrite.css";
 import axios from "axios";
+import classes from "./FeedWrite.module.css";
 
 function FeedWrite() {
   // 기본 값 세팅
@@ -75,12 +76,12 @@ function FeedWrite() {
   // 한칸이라도 비워져 있으면 alert;
 
   return (
-    <div className='feedWriteCard'>
+    <div className={classes.feedWriteCard}>
       <h3>여러분의 이야기를 들려주세요!</h3>
       <div className='feedTitle'>
         {/* <label htmlFor='feedTitle'> 글 제목 : </label> */}
         <input
-          className='feedTitleInput'
+          className={classes.feedTitleInput}
           type='text'
           id='feedTitle'
           placeholder='제목을 입력하세요'
@@ -89,9 +90,9 @@ function FeedWrite() {
           // Use the function directly
         />
       </div>
-      <div className='feedContent'>
+      <div className={classes.feedContent}>
         <textarea
-          className='feedContentInput'
+          className={classes.feedContentInput}
           name='feedContent'
           id='feedContent'
           cols='70'
