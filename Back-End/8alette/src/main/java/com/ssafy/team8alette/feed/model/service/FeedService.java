@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
@@ -27,9 +25,9 @@ public class FeedService {
 
 	private final FeedRepository feedRepository;
 	private final MemberRepository memberRepository;
-	private final AmazonS3Client amazonS3Client;
+	// private final AmazonS3Client amazonS3Client;
 
-	@Value("${spring.data.couchbase.bucket-name}")
+	// @Value("${spring.data.couchbase.bucket-name}")
 	private String bucket;
 
 	private static String projectPath = "/home/ubuntu/spring-upload-images";
@@ -68,7 +66,7 @@ public class FeedService {
 			ObjectMetadata metadata = new ObjectMetadata();
 			metadata.setContentType(file.getContentType());
 			metadata.setContentLength(file.getSize());
-			amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+			// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 			feed.setFeedActive(true);
 			feed.setFeedLikeCnt(0);
@@ -147,7 +145,7 @@ public class FeedService {
 				if (existingFeed.getFeedImgTrans() != null) {
 					// File f = new File(projectPath, existingFeed.getFeedImgTrans());
 					// f.delete();
-					amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
+					// amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
 				}
 				existingFeed.setFeedImgOrigin(null);
 				existingFeed.setFeedImgTrans(null);
@@ -157,7 +155,7 @@ public class FeedService {
 				if (existingFeed.getFeedImgTrans() != null) {
 					// File f = new File(projectPath, existingFeed.getFeedImgTrans());
 					// f.delete();
-					amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
+					// amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
 				}
 
 				Date nowDate = new Date(); // 현재 일시
@@ -169,7 +167,7 @@ public class FeedService {
 				ObjectMetadata metadata = new ObjectMetadata();
 				metadata.setContentType(file.getContentType());
 				metadata.setContentLength(file.getSize());
-				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+				// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 				//빈껍데기 생성해서 피드 저장소에 이미지 전달
 				// File saveFile = new File(projectPath, fileName);
