@@ -18,47 +18,44 @@ instance.interceptors.request.use(
   }
 );
 
-// instance.interceptors.response.use(
-//    (response) => {
-//     const { config } = response;
-//     const originalRequest = config;
+instance.interceptors.response.use(
+  (response) => {
+    const { config } = response;
+    const originalRequest = config;
 
-//     if (response?.data?.code == 401) {
-//       const [loginData, setLoginData] = useRecoilState(loginUser);
+    if (response?.data?.code == 401) {
+      return instance
+        .post(`/api/v1/member/auth/refresh_token`, {
+          params: {},
+          headers: {
+            "Content-Type": "application/json",
+            "AUTH-TOKEN": localStorage.getItem("refresh_token"),
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+           
+            
+              refreshToken: res.data.data.refresh_token,
+              accessToken: res.data.data.access_token,
+              memberNumber: res.data.data.member_number,
+              isSocialLogin: res.data.data.is_social_login,
+            });
 
-//       return  instance.post(`/api/v1/member/auth/refresh_token`,{
-//         params: {},
-//         headers : {
-//           'Content-Type': 'application/json',
-//           'AUTH-TOKEN' : loginData.refreshToken,
-//         }
-//       })
-//       .then( (res) => {
-//           if (res.status === 200) {
+            originalRequest.headers.Authorization = `${res.data.data.access_token}`;
+            return axios(originalRequest);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
-//             setLoginData({
-//               refreshToken: res.data.data.refresh_token,
-//               accessToken : res.data.data.access_token,
-//               memberNumber : res.data.data.member_number,
-//               isSocialLogin : res.data.data.is_social_login,
-//             });
-
-//             originalRequest.headers.Authorization = `${res.data.data.access_token}`;
-//             return axios(originalRequest);
-//           }
-
-//         }).catch((err) => {
-//           console.log(err)
-//         })
-//     }
-
-//     return response;
-//   },
-//    (error) => {
-
-//     console.log(error, '^^***')
-//     throw error
-
-//   });
+    return response;
+  },
+  (error) => {
+    throw error;
+  }
+);
 
 export default instance;
