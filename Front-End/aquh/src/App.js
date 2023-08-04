@@ -20,8 +20,8 @@ const router = createBrowserRouter([
     element : <Root />,
     errorElement : <NotFound />,
     children : [
-      { index: true, element : <MainPage /> },
-      { path: '/login', element : <LoginPage />},
+      { index: 'true', element : <MainPage /> },
+      { path: '/login', element : <LoginModal />},
       { path: '/auth', element : <AuthPage />},
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
       { path: '/signup', element : <SignUpForm />},
@@ -30,6 +30,12 @@ const router = createBrowserRouter([
 
     ]
   },
+  {
+    path:'/redirect',
+    element : <RedirectPage/>,
+    errorElement : <NotFound />,
+  }
+
 ]);
 
 export default function App() {
