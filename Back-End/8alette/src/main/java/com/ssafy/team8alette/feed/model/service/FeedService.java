@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
-import com.ssafy.team8alette.feed.model.dto.Feed.Feed;
-import com.ssafy.team8alette.feed.model.dto.Feed.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 
@@ -53,7 +53,13 @@ public class FeedService {
 
 			//빈껍데기 생성해서 피드 저장소에 이미지 전달
 			// File saveFile = new File(projectPath, fileName);
+
+			File foler = new File(projectPath);
+			if (foler.exists() != true)
+				foler.mkdirs();
+
 			File saveFile = new File(projectPath, fileName);
+
 			file.transferTo(saveFile);
 			feed.setFeedActive(true);
 			feed.setFeedLikeCnt(0);

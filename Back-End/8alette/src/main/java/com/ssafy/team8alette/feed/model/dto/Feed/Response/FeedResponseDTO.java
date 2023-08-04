@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.feed.model.dto.Feed;
+package com.ssafy.team8alette.feed.model.dto.Feed.Response;
 
 import java.util.Date;
 
