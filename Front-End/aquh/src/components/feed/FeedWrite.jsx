@@ -38,6 +38,7 @@ function FeedWrite() {
   const feedWrite = () => {
     const memberNumber = localStorage.getItem("member_number");
     console.log(memberNumber);
+
     if (!memberNumber) {
       alert("로그인이 필요합니다."); // 예외 처리: 로그인이 되어 있지 않으면 알림 표시
       return;
@@ -54,29 +55,34 @@ function FeedWrite() {
       };
       formData.append(
         "",
+
         new Blob([JSON.stringify(data)], {
           type: "application/json",
         })
       );
 
       // 파일 추가 (fileInput은 파일 업로드 input 엘리먼트를 가정)
-      const fileInput = document.querySelector("#file");
-      if (fileInput && fileInput.files.length > 0) {
-        formData.append("file", fileInput.files[0]);
-      } else {
-        formData.append("file", null); // 파일이 없는 경우에도 null 값으로 추가
-      }
-      console.log(data);
+      // const fileData = new Blob(fileInput.files[0], {
+      //   type: "multipart/form-data",
+      // });
 
-      axios({
-        url: "https://i9b108.p.ssafy.io/api/v1/feed",
-        method: "post",
-        headers: {
-          "AUTH-TOKEN": localStorage.getItem("access_token"),
-          "Content-Type": "multipart/form-data", // 파일을 보낼 때 Content-Type 설정
-        },
-        data: formData,
-      })
+      // if (fileInput && fileInput.files.length > 0) {
+      //   formData.append("file", fileInput.files[0]);
+      // } else {
+
+      console.log("여기");
+      const fileInput = document.querySelector("#file");
+
+      formData.append("file", fileInput.files[0]); // 파일이 없는 경우에도 null 값으로 추가
+
+      axios
+        .post("http://i9b108.p.ssafy.io:8080/api/v1/feed", {
+          headers: {
+            "AUTH-TOKEN": localStorage.getItem("access_token"),
+            "Content-Type": "multipart/form-data", // 파일을 보낼 때 Content-Type 설정
+          },
+          data: formData,
+        })
         .then((res) => {
           console.log(res);
         })
@@ -90,8 +96,7 @@ function FeedWrite() {
 
   return (
     <div className={classes.feedWriteCard}>
-      <h3>여러분의 이야기를 들려주세요!</h3>
-      <div className='feedTitle'>
+      <div className={classes.feedTitle}>
         {/* <label htmlFor='feedTitle'> 글 제목 : </label> */}
         <input
           className={classes.feedTitleInput}
@@ -114,16 +119,17 @@ function FeedWrite() {
           defaultValue={feedContent}
           onChange={onChangeFeedContent}></textarea>
         <div className='fileBox'>
-          <input
+          {/* <input
             type='text'
             className='upload-name'
             defaultValue='첨부파일'
             placeholder='첨부파일'
           />
-          <label htmlFor='file'>파일찾기</label>
+          <label htmlFor='file'>파일찾기</label> */}
           <input
             type='file'
             id='file'
+            className=''
             onChange={onChangeFeedFile}
             accept='image/*'
           />

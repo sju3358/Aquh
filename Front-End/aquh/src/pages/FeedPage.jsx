@@ -4,7 +4,7 @@ import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
 // import classes from "./FeedPage.module.css";
-
+import https from "../utils/https";
 function FeedPage() {
   // Dummy Data
 
@@ -30,8 +30,24 @@ function FeedPage() {
 
   return (
     <div className={classes.feedPage}>
+      <p className={classes.latestMent}>
+        <img
+          src='../../droplet-white.png'
+          alt='droplet'
+          className={classes.droplet}
+        />
+        여러분의 이야기를 들려주세요!
+      </p>
       <FeedWrite />
       <div>
+        <p className={classes.latestMent}>
+          <img
+            src='../../droplet-white.png'
+            alt='droplet'
+            className={classes.droplet}
+          />
+          최신 버블들을 만나보세요
+        </p>
         {testList.map((feeditem) => {
           return (
             <div className={classes.feedCard}>
