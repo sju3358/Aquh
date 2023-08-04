@@ -53,3 +53,20 @@
   overflow: hidden;
   border: 0;
 }
+.latestChat {
+  width: 100rem;
+}
+.droplet {
+  width: 2.5rem;
+  height: 4rem;
+}
+.latestMent {
+  color: white;
+  font-weight: 700;
+  font-family: Pretendard;
+  align-self: start;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-left: 6rem;
+  margin-top: 5rem;
+}
