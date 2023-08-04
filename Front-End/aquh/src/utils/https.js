@@ -9,7 +9,6 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    console.log("access_token");
     config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
     return config;
   },
