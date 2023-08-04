@@ -51,6 +51,9 @@ dependencies {
     //UTILS
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    //AWS (S3 연결용)
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {
