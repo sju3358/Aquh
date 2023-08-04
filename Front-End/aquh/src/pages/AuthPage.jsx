@@ -2,29 +2,21 @@ import React, { useState, setState, useEffect } from "react";
 import "./AuthPage.css";
 import {
   memberEmailState,
-  memberNicknameState,
-  memberTypeState,
   memberIntroState,
-} from "../store/loginUserState";
-import { useRecoilState } from "recoil";
-import https from "../utils/https";
+  memberNicknameState,
+  memberTypeState
+}from '../store/loginUserInfoState'
+
+
+
+import { useRecoilValue } from "recoil";
 
 function AuthPage() {
-  const [memberEmail, setMemberEmail] = useRecoilState(memberEmailState);
-  const [memberNickname, setMemberNickname] =
-    useRecoilState(memberNicknameState);
-  const [memberType, setMemberType] = useRecoilState(memberTypeState);
-  const [memberIntro, setMemberIntro] = useRecoilState(memberIntroState);
 
-  useEffect(() => {
-    let memberNumber = localStorage.getItem("member_number");
-    https.get(`/api/v1/member/${memberNumber}`).then((res) => {
-      setMemberNickname(res.data.data.member_nickname);
-      setMemberType(res.data.data.member_type);
-      setMemberIntro(res.data.data.member_intro);
-      setMemberEmail(res.data.data.member_email);
-    });
-  }, []);
+  const memberEmail = useRecoilValue(memberEmailState);
+  const memberNickname =useRecoilValue(memberNicknameState);
+  const memberType = useRecoilValue(memberTypeState);
+  const memberIntro = useRecoilValue(memberIntroState);
 
   return (
     <div className="authPage">
