@@ -7,5 +7,6 @@
 }
 
 .naverLogin{
-  height: 7rem;
+  height: 6rem;
+  cursor: pointer;
 }
