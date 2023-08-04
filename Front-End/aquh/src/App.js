@@ -9,22 +9,33 @@ import AuthPage from './pages/AuthPage';
 import SignUpForm from './components/users/SignUpForm';
 import BubblePage from './pages/BubblePage';  
 import RedirectPage from './pages/RedirectPage'
+import LoginPage from './pages/LoginPage';
+import FeedPage from './pages/FeedPage';
 const router = createBrowserRouter([
+  // { path: '/login',
+  //   element : <LoginPage />,
+  //   errorElement : <NotFound />,
+  // },
   {
     path: '/',
     element : <Root />,
     errorElement : <NotFound />,
     children : [
-      {path: 'redirect', element : <RedirectPage/>},
       { index: 'true', element : <MainPage /> },
-      { path: '/login', element : <LoginModal />},
+      { path: '/login', element : <LoginPage />},
       { path: '/auth', element : <AuthPage />},
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
-      { path: '/signup', element : <SignUpForm />},
+      { path: '/feed', element : <FeedPage />},
       { path: '/bubble', element : <BubblePage />},
 
     ]
   },
+  {
+    path:'/redirect',
+    element : <RedirectPage/>,
+    errorElement : <NotFound />,
+  }
+
 ]);
 
 export default function App() {

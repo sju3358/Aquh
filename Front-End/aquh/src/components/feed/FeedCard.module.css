@@ -1,0 +1,30 @@
+.FeedCard {
+  background-color: rgb(255, 255, 255);
+  width: 700px;
+  height: 250px;
+  border-radius: 10px;
+  margin: 20px;
+  border: 2px solid navy;
+  padding: 8px 12px;
+}
+
+.feedCardImg {
+  width: 80px;
+  height: 80px;
+}
+.feedTitle {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.feedContnet {
+  font-size: 1.5rem;
+  font-weight: 500;
+  /* margin-left: 0.5rem; */
+}
+.userInfo {
+  display: flex;
+}
+.userName {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
