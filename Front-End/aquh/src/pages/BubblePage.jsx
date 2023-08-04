@@ -4,6 +4,7 @@ import BubbleCard from '../components/bubble/BubbleCard';
 import { bubbleList } from '../utils/api/api.bubble_service';
 //TODO : 실제 api 받아오면 bubble_mock 지우기 
 import { bubble_mock } from '../utils/api/api.bubble_mock';
+import classes from './BubblePage.module.css';
 
 export default function BubblePage() {
 
@@ -36,10 +37,39 @@ export default function BubblePage() {
   );
   
   return (
-    <div>
+    <div className={classes.container}>
+    <p className={classes.latestMent}><img src="../../droplet-white.png" alt="droplet" className={classes.droplet} />현재 참여중인 버블이예요</p>
+    <div className={classes.latestChat}>
+      
       <BubbleList>
         { eventCards }
       </BubbleList>
+      </div>
+      <p className={classes.latestMent}><img src="../../droplet-white.png" alt="droplet" className={classes.droplet} />Aquh에서 새로운 버블들을 찾아보세요</p>
+   
+      
+      <div className={classes.categories}>
+      <div className={classes.category}>전체</div> 
+      <div className={classes.category}>버블링</div>
+      <div className={classes.category}>버블톡</div>
+      </div>
+ 
+     
+      <div className={classes.oldChat}>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      <BubbleList>
+        { eventCards }
+      </BubbleList>
+      </div>
+    
     </div>
   );
 }

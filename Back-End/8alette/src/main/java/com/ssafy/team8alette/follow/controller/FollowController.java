@@ -35,10 +35,9 @@ public class FollowController {
 		Map<String, List<Long>> followList = new HashMap<>();
 
 		if (filter.equals("following")) {
-			followList.put("follow_list", followService.getFollowingMemberList(memberNumber));
-
+			followList.put("following_list", followService.getFollowingMemberList(memberNumber));
 		} else if (filter.equals("follower")) {
-			followList.put("follow_list", followService.getFollowerMemberList(memberNumber));
+			followList.put("follower_list", followService.getFollowerMemberList(memberNumber));
 		} else {
 			throw new InvalidPropertiesFormatException("filter 값이 잘못되었습니다.");
 		}
