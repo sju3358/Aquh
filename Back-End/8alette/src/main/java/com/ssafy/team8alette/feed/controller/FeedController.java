@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
-import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
-import com.ssafy.team8alette.feed.model.dto.Like.Request.LikeRequestDTO;
+import com.ssafy.team8alette.feed.model.dto.feed.entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.feed.response.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.like.request.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
 import com.ssafy.team8alette.member.model.dto.Member;
@@ -40,7 +40,8 @@ public class FeedController {
 	//파일경로
 	private static String projectPath = "C:\\pictures";
 
-	//피드 등록 파일
+	//피드 등록 파
+	// 일
 
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") Feed feed,

@@ -12,8 +12,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
-import com.ssafy.team8alette.feed.model.dto.Feed.Entity.Feed;
-import com.ssafy.team8alette.feed.model.dto.Feed.Response.FeedResponseDTO;
+import com.ssafy.team8alette.feed.model.dto.feed.entity.Feed;
+import com.ssafy.team8alette.feed.model.dto.feed.response.FeedResponseDTO;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 
