@@ -33,11 +33,11 @@ public class Room {
 	private Long roomNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_number")
+	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_number")
+	@JoinColumn(name = "category_number", nullable = false)
 	private Category category;
 
 	@Column(name = "room_type", nullable = false)
@@ -61,7 +61,7 @@ public class Room {
 	@Column(name = "plane_close_dttm")
 	private Date planeCloseDate;
 
-	@Column(name = "create_dttm")
+	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;
 
 	@Column(name = "done_dttm")
