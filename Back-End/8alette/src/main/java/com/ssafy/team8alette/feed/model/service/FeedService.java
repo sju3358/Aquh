@@ -1,14 +1,16 @@
 package com.ssafy.team8alette.feed.model.service;
 
-import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.feed.exception.NotMatchException;
 import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
@@ -25,6 +27,11 @@ public class FeedService {
 
 	private final FeedRepository feedRepository;
 	private final MemberRepository memberRepository;
+	private final AmazonS3Client amazonS3Client;
+
+	@Value("${spring.data.couchbase.bucket-name}")
+	private String bucket;
+
 	private static String projectPath = "/home/ubuntu/spring-upload-images";
 	// private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\files";
 	// FileSystemResource fileSystemResource = new FileSystemResource("resources/pictures/");
@@ -38,29 +45,31 @@ public class FeedService {
 			throw new NullValueException("작성자 정보를 찾을 수 없습니다.");
 		}
 
+		// 이미지 데이터 처리
 		if (!file.isEmpty()) {
-			//랜덤 이미지 변환생성기
-			java.util.Random generator = new java.util.Random();
-			generator.setSeed(System.currentTimeMillis());
-			int random = generator.nextInt(1000000) % 1000000;
-			String randomNum = Integer.toString(random);
-			Date nowDate = new Date();
 
-			//피드 생성일시를 String으로 변환 -> 피드 변환명에 집어 넣음
-			DateFormat sdFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-			String today = sdFormat.format(nowDate);
-			String fileName = today + "_" + randomNum;
+			Date nowDate = new Date(); // 현재 일시
+
+			// 파일명 : 현재일시_랜덤6자리
+			String fileName = dateToString(nowDate) + '_' + getRandNum();
 
 			//빈껍데기 생성해서 피드 저장소에 이미지 전달
 			// File saveFile = new File(projectPath, fileName);
 
-			File foler = new File(projectPath);
-			if (foler.exists() != true)
-				foler.mkdirs();
+			// File foler = new File(projectPath);
+			// if (foler.exists() != true)
+			// 	foler.mkdirs();
+			//
+			// File saveFile = new File(projectPath, fileName.toString());
+			//
+			// file.transferTo(saveFile);
 
-			File saveFile = new File(projectPath, fileName);
+			// AWS S3 파일 저장
+			ObjectMetadata metadata = new ObjectMetadata();
+			metadata.setContentType(file.getContentType());
+			metadata.setContentLength(file.getSize());
+			amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
-			file.transferTo(saveFile);
 			feed.setFeedActive(true);
 			feed.setFeedLikeCnt(0);
 
@@ -118,26 +127,27 @@ public class FeedService {
 		//파일도 삭제해주고 아이디에 관련된 데이터 삭제
 		Feed existingFeed = feedRepository.findFeedByFeedNumber(feedNumber);
 		existingFeed.setFeedActive(false);
-		if (existingFeed.getFeedImgTrans() != null) {
-			File f = new File(projectPath, existingFeed.getFeedImgTrans());
-			f.delete();
-		}
+		// if (existingFeed.getFeedImgTrans() != null) {
+		// File f = new File(projectPath, existingFeed.getFeedImgTrans());
+		// f.delete();
+		// }
 		feedRepository.save(existingFeed);
 	}
 
 	// 피드 수정
 	public Feed modifyFeed(Feed feed, MultipartFile file) throws Exception {
 		Feed existingFeed = feedRepository.findFeedByFeedNumber(feed.getFeedNumber());
-		System.out.println(feed.getMember().getMemberNumber());
-		System.out.println(existingFeed.getMember().getMemberNumber());
+
 		if (existingFeed.getMember().getMemberNumber() == feed.getMember().getMemberNumber()) {
 			existingFeed.setTitle(feed.getTitle());
 			existingFeed.setContent(feed.getContent());
+
 			if (file.isEmpty()) {
 				//이 파일경로에 있는 원본 파일 삭제(있으면)
 				if (existingFeed.getFeedImgTrans() != null) {
-					File f = new File(projectPath, existingFeed.getFeedImgTrans());
-					f.delete();
+					// File f = new File(projectPath, existingFeed.getFeedImgTrans());
+					// f.delete();
+					amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
 				}
 				existingFeed.setFeedImgOrigin(null);
 				existingFeed.setFeedImgTrans(null);
@@ -145,36 +155,44 @@ public class FeedService {
 			} else {
 				//이 파일경로에 있는 원본 파일 삭제(있으면)
 				if (existingFeed.getFeedImgTrans() != null) {
-					File f = new File(projectPath, existingFeed.getFeedImgTrans());
-					f.delete();
+					// File f = new File(projectPath, existingFeed.getFeedImgTrans());
+					// f.delete();
+					amazonS3Client.deleteObject(bucket, existingFeed.getFeedImgTrans());
 				}
 
-				//랜덤 이미지 변환생성기
-				java.util.Random generator = new java.util.Random();
-				generator.setSeed(System.currentTimeMillis());
-				int random = generator.nextInt(1000000) % 1000000;
-				String randomNum = Integer.toString(random);
+				Date nowDate = new Date(); // 현재 일시
 
-				//피드 수정 일시 -> 이미지 변환명에만 들어감
-				Date nowDate = new Date();
-				//피드 생성일시를 String으로 변환 -> 피드 변환명에 집어 넣음
-				DateFormat sdFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-				String today = sdFormat.format(nowDate);
-				String fileName = today + "_" + randomNum;
+				// 파일명 : 현재일시_랜덤6자리
+				String fileName = dateToString(nowDate) + '_' + getRandNum();
+
+				// AWS S3 파일 저장
+				ObjectMetadata metadata = new ObjectMetadata();
+				metadata.setContentType(file.getContentType());
+				metadata.setContentLength(file.getSize());
+				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+
 				//빈껍데기 생성해서 피드 저장소에 이미지 전달
-				File saveFile = new File(projectPath, fileName);
-				file.transferTo(saveFile);
+				// File saveFile = new File(projectPath, fileName);
+				// file.transferTo(saveFile);
 
-				//원본 이미지 이름명으로 저장
-				existingFeed.setFeedImgOrigin(file.getOriginalFilename());
-				//멤버 이미지변환명으로 저장
-				existingFeed.setFeedImgTrans(saveFile.getName());
+				existingFeed.setFeedImgOrigin(file.getOriginalFilename()); //원본 이미지 이름명으로 저장
+				existingFeed.setFeedImgTrans(fileName); //멤버 이미지변환명으로 저장
 
 				return feedRepository.save(existingFeed);
 			}
 		} else {
 			throw new NotMatchException("회원번호가 일치하지 않습니다.");
 		}
+	}
+
+	private String getRandNum() {
+		Random generator = new java.util.Random();
+		generator.setSeed(System.currentTimeMillis());
+		return String.format("%06d", generator.nextInt(1000000) % 1000000);
+	}
+
+	private String dateToString(Date nowDate) {
+		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
 	}
 
 	public FeedResponseDTO convertToDTO(Feed feed) {
