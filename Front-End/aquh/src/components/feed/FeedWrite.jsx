@@ -26,24 +26,25 @@ function FeedWrite() {
     setIsFeedContent(true);
   };
 
-  // const onChangeFeedFile = (event) => {
-  //   const selectedFile = event.target.files[0];
-  //   if (selectedFile) {
-  //     setFileName(selectedFile.name);
-  //   } else {
-  //     setFileName("");
-  //   }
-  // };
+  const onChangeFeedFile = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+    } else {
+      setFileName("");
+    }
+  };
 
   const feedWrite = () => {
     const memberNumber = localStorage.getItem("member_number");
-
+    console.log(memberNumber);
     if (!memberNumber) {
       alert("로그인이 필요합니다."); // 예외 처리: 로그인이 되어 있지 않으면 알림 표시
       return;
     }
 
     if (feedTitle && feedContent) {
+      const formData = new FormData(); // FormData 객체 생성
       const data = {
         member: {
           memberNumber: memberNumber,
@@ -51,14 +52,30 @@ function FeedWrite() {
         title: feedTitle,
         content: feedContent,
       };
+      formData.append(
+        "",
+        new Blob([JSON.stringify(data)], {
+          type: "application/json",
+        })
+      );
+
+      // 파일 추가 (fileInput은 파일 업로드 input 엘리먼트를 가정)
+      const fileInput = document.querySelector("#file");
+      if (fileInput && fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);
+      } else {
+        formData.append("file", null); // 파일이 없는 경우에도 null 값으로 추가
+      }
+      console.log(data);
 
       axios({
         url: "https://i9b108.p.ssafy.io/api/v1/feed",
         method: "post",
         headers: {
           "AUTH-TOKEN": localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data", // 파일을 보낼 때 Content-Type 설정
         },
-        data: data,
+        data: formData,
       })
         .then((res) => {
           console.log(res);
@@ -70,10 +87,6 @@ function FeedWrite() {
       alert("작성하신 내용을 다시 확인해 주세요!");
     }
   };
-
-  //모든 칸이 다 채워졌는지 확인 (사진은 선택)
-  //만약 모든칸이 채워져있으면 -> axios 요청 글 작성하기
-  // 한칸이라도 비워져 있으면 alert;
 
   return (
     <div className={classes.feedWriteCard}>
@@ -100,7 +113,7 @@ function FeedWrite() {
           placeholder='내용을 입력하세요'
           defaultValue={feedContent}
           onChange={onChangeFeedContent}></textarea>
-        {/* <div className='fileBox'>
+        <div className='fileBox'>
           <input
             type='text'
             className='upload-name'
@@ -111,10 +124,10 @@ function FeedWrite() {
           <input
             type='file'
             id='file'
-            // onChange={onChangeFeedFile}
+            onChange={onChangeFeedFile}
             accept='image/*'
           />
-        </div> */}
+        </div>
         <button onClick={feedWrite}>글 작성하기</button>
       </div>
     </div>
