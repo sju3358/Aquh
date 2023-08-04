@@ -5136,6 +5136,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/css-modules@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@types/css-modules@npm:1.0.2"
+  checksum: 6366bc76394d3d98b5ce8c7db5eb057fd069a5a268c34c8a4fc06ecd0c293a9978f1dd32a5194b1dbc8e1f7a20510c55bb4aa1ea9df07f534385a96c21976bc1
+  languageName: node
+  linkType: hard
+
 "@types/detect-port@npm:^1.3.0":
   version: 1.3.3
   resolution: "@types/detect-port@npm:1.3.3"
@@ -6297,10 +6304,12 @@ __metadata:
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^13.5.0
+    "@types/css-modules": ^1.0.2
     antd: ^5.8.1
     axios: ^1.4.0
     axios-mock-adapter: ^1.21.5
     babel-plugin-named-exports-order: ^0.0.2
+    classes: ^0.3.0
     classnames: ^2.3.2
     eslint: ^8.46.0
     eslint-config-airbnb-base: ^15.0.0
@@ -7384,6 +7393,13 @@ __metadata:
   version: 1.2.3
   resolution: "cjs-module-lexer@npm:1.2.3"
   checksum: 5ea3cb867a9bb609b6d476cd86590d105f3cfd6514db38ff71f63992ab40939c2feb68967faa15a6d2b1f90daa6416b79ea2de486e9e2485a6f8b66a21b4fb0a
+  languageName: node
+  linkType: hard
+
+"classes@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "classes@npm:0.3.0"
+  checksum: f1d9e8b659abf6cab167b6fce5b9d9f0b82c1276d8c9d1c10075a0b80b26c37d4c6d16c59e60c1699dbb8945c7d1f4b5fa84519d9f892beaf7d9abb08c0c9c78
   languageName: node
   linkType: hard
 
