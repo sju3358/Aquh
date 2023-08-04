@@ -1,27 +1,41 @@
 import { atom } from "recoil";
+import { recoilPersist } from 'recoil-persist';
 
-export const memberTypeState = atom({
-  key: "member_type",
-  default: "",
+const { persistAtom } = recoilPersist({
+  key: 'loginUser',
+  storage: localStorage,
 });
 
-export const memberNicknameState = atom({
-  key: "member_nickname",
+
+export const accessTokenState = atom({
+  key: "acessToken",
   default: "",
-});
-export const memberIntroState = atom({
-  key: "member_intro",
-  default: "",
+  effects_UNSTABLE : [persistAtom],
 });
 
-export const memberEmailState = atom({
-  key: "member_email",
+
+export const refreshTokenState = atom({
+  key: "refreshToken",
   default: "",
+  effects_UNSTABLE : [persistAtom],
+});
+
+
+export const memberNumberState = atom({
+  key: "memberNumber",
+  default: -1,
+  effects_UNSTABLE : [persistAtom],
+});
+
+export const isSocialLoginState = atom({
+  key: "isSocialLogin",
+  default: false,
+  effects_UNSTABLE : [persistAtom],
 });
 
 export default {
-  memberTypeState,
-  memberNicknameState,
-  memberIntroState,
-  memberEmailState,
+  accessTokenState,
+  refreshTokenState,
+  memberNumberState,
+  isSocialLoginState,
 };

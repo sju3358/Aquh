@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import classes from "./NaverLoginButton.module.css";
 
 export default function NaverLoginButton({}) {
   // TODO : .env 파일에 REACT_APP_NAVER_CLIENT_ID에 저장하기.
@@ -12,5 +13,5 @@ export default function NaverLoginButton({}) {
   const handleNaverLogin = () => {
     window.location.href = NAVER_AUTH_URL;
   };
-  return <button onClick={handleNaverLogin}>네이버 로그인</button>;
+  return <button onClick={handleNaverLogin} className={classes.login}><img src="../../naver-login-white.png" alt="naver-login" className={classes.naverLogin} /></button>;
 }
