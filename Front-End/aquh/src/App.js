@@ -15,7 +15,6 @@ const router = createBrowserRouter([
     element : <Root />,
     errorElement : <NotFound />,
     children : [
-      {path: 'redirect', element : <RedirectPage/>},
       { index: 'true', element : <MainPage /> },
       { path: '/login', element : <LoginModal />},
       { path: '/auth', element : <AuthPage />},
@@ -25,6 +24,12 @@ const router = createBrowserRouter([
 
     ]
   },
+  {
+    path:'/redirect',
+    element : <RedirectPage/>,
+    errorElement : <NotFound />,
+  }
+
 ]);
 
 export default function App() {

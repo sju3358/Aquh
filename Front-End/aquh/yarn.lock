@@ -6318,6 +6318,7 @@ __metadata:
     react-router-dom: ^6.14.2
     react-scripts: 5.0.1
     recoil: ^0.7.7
+    recoil-persist: ^5.1.0
     storybook: ^7.1.1
     styled-components: ^6.0.6
     util: ^0.12.5
@@ -15999,6 +16000,15 @@ __metadata:
     source-map: ~0.6.1
     tslib: ^2.0.1
   checksum: b1340ab0a3a8e4bf206c6c7d54168f7019ed4138a53bc746df230c01f1b6672ce9d25dceb34896b6683622d3eede4e1f18b7d0b672f5aab54ba7762de949e317
+  languageName: node
+  linkType: hard
+
+"recoil-persist@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "recoil-persist@npm:5.1.0"
+  peerDependencies:
+    recoil: ^0.7.2
+  checksum: 03ee8417b9bfcb1e5d61af373a304437190da394bf42b0979cf54ec4edeb27e7577f76ae4f9348d131865b87b19dc8dedc158e2bacd3976d4b936be1ab005d18
   languageName: node
   linkType: hard
 
