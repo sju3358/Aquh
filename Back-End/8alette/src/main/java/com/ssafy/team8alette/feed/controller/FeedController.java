@@ -83,7 +83,7 @@ public class FeedController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		Feed feed = feedService.getFeedById(feed_number);
-		Member member = memberService.getMemberInfo(feed.getFeedNumber());
+		Member member = memberService.getMemberInfo(feed.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feed.getFeedImgTrans() != null) {
 			File saveFile = new File(projectPath, feed.getFeedImgTrans());
