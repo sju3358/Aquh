@@ -11,7 +11,6 @@ import com.ssafy.team8alette.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.follow.model.dto.Entity.Follow;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
-import com.ssafy.team8alette.member.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +20,7 @@ public class FollowService {
 
 	private final FollowRepository followRepository;
 	private final MemberRepository memberRepository;
-	private final MemberRecordService memberRecordService;
+	// private final MemberRecordService memberRecordService;
 
 	public List<Long> getFollowerMemberList(Long memberNumber) {
 		Member member = memberRepository.findById(memberNumber).orElseThrow();

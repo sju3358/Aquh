@@ -29,6 +29,9 @@ public class Symbol {
 	@Column(name = "symbol_name", nullable = false)
 	private String symbolName;
 
+	@Column(name = "symbol_img_name", nullable = false)
+	private String symbolImgName;
+
 	@Column(name = "symbol_code", nullable = false)
 	private String symbolCode;
 
@@ -38,7 +41,7 @@ public class Symbol {
 	@Column(name = "create_dt", nullable = false)
 	private Date createDate;
 
-	@Column(name = "delete_dt", nullable = false)
+	@Column(name = "delete_dt")
 	private Date deleteDate;
 
 }

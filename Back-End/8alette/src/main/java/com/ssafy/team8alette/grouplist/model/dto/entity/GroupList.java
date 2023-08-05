@@ -33,12 +33,12 @@ public class GroupList implements Serializable {
 
 	@MapsId("roomNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number")
+	@JoinColumn(name = "room_number", nullable = false)
 	private Room room;
 
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_number")
+	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 
 	@Column(name = "is_mic_on", nullable = false)
