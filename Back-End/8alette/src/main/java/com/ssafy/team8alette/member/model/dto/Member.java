@@ -53,11 +53,8 @@ public class Member {
 
 	@Column(name = "is_email_receive", nullable = false)
 	private boolean isEmailReceive;
-
-	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
-
-	@Column(name = "delete_dttm", nullable = false)
+	
+	@Column(name = "delete_dttm")
 	private Date deleteDate;
 
 }
