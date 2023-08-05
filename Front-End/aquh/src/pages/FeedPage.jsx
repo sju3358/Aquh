@@ -4,7 +4,7 @@ import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
 // import classes from "./FeedPage.module.css";
-import https from "../utils/https";
+
 function FeedPage() {
   // Dummy Data
 
