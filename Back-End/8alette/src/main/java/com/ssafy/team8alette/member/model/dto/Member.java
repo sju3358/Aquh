@@ -1,5 +1,7 @@
 package com.ssafy.team8alette.member.model.dto;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,4 +53,8 @@ public class Member {
 
 	@Column(name = "is_email_receive", nullable = false)
 	private boolean isEmailReceive;
+	
+	@Column(name = "delete_dttm")
+	private Date deleteDate;
+
 }

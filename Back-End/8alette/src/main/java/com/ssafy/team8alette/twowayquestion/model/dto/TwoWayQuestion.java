@@ -32,7 +32,7 @@ public class TwoWayQuestion {
 	private Long twoWayQuestionNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number")
+	@JoinColumn(name = "room_number", nullable = false)
 	private Room room;
 
 	@Column(name = "left_context", nullable = false)

@@ -38,12 +38,12 @@ public class Like implements Serializable {
 
 	@MapsId("likeFeedNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "like_feed_number")
+	@JoinColumn(name = "like_feed_number", nullable = false)
 	private Feed feed;
 
 	@MapsId("likeMemberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "like_member_number")
+	@JoinColumn(name = "like_member_number", nullable = false)
 	private Member member;
 
 	public Like(Feed feed, Member member) {
