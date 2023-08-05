@@ -49,6 +49,4 @@ public class Report {
 	@Column(name = "report_result_dttm")
 	private Date reportResultDate;
 
-	// @Column(name = "create_dttm")
-	// private Date createDate;
 }
