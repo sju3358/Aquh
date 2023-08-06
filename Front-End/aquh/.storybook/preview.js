@@ -1,4 +1,5 @@
 import "../src/index.css";
+import bubble_mock from '../src/utils/api/api.bubble_mock';
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
