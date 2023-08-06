@@ -108,7 +108,7 @@ public class FeedController {
 		data.put("createDate", feed.getCreateDate());
 		data.put("deleteDate", feed.getDeleteDate());
 		//아직 심볼부여는 빼고
-		data.put("symbolNumber", 0);
+		// data.put("symbolNumber", 0);
 		data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feed.getMember().getMemberNumber())
 			.getMemberExpCnt());
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feed.getMember()));
