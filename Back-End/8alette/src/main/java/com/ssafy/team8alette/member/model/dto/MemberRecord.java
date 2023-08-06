@@ -19,31 +19,31 @@ public class MemberRecord {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "member_number")
+	@Column(name = "member_number", nullable = false)
 	private Long memberNumber;
 
-	@Column(name = "exp_cnt")
+	@Column(name = "exp_cnt", nullable = false)
 	private int memberExpCnt;
 
-	@Column(name = "comment_cnt")
+	@Column(name = "comment_cnt", nullable = false)
 	private int memberCommentCnt;
 
-	@Column(name = "room_join_cnt")
+	@Column(name = "room_join_cnt", nullable = false)
 	private int memberRoomJoinCnt;
 
-	@Column(name = "like_give_cnt")
+	@Column(name = "like_give_cnt", nullable = false)
 	private int memberLikeGiveCnt;
 
-	@Column(name = "like_receive_cnt")
+	@Column(name = "like_receive_cnt", nullable = false)
 	private int memberLikeReceiveCnt;
 
-	@Column(name = "best_cnt")
+	@Column(name = "best_cnt", nullable = false)
 	private int memberBestCnt;
 
-	@Column(name = "following_cnt")
+	@Column(name = "following_cnt", nullable = false)
 	private int memberFollowingCnt;
 
-	@Column(name = "follower_cnt")
+	@Column(name = "follower_cnt", nullable = false)
 	private int memberFollowerCnt;
 
 }
