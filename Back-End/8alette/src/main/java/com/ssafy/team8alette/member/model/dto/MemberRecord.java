@@ -21,7 +21,7 @@ import lombok.Setter;
 public class MemberRecord {
 
 	@Id
-	@Column(name = "member_number", nullable = false)
+	@Column(name = "member_number")
 	private Long memberNumber;
 
 	@Column(name = "exp_cnt", nullable = false)
