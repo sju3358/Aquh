@@ -24,8 +24,11 @@ import com.ssafy.team8alette.feed.model.dto.feed.response.FeedResponseDTO;
 import com.ssafy.team8alette.feed.model.dto.like.request.LikeRequestDTO;
 import com.ssafy.team8alette.feed.model.service.FeedService;
 import com.ssafy.team8alette.feed.model.service.LikeService;
+import com.ssafy.team8alette.follow.model.dao.FollowRepository;
+import com.ssafy.team8alette.member.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
 import com.ssafy.team8alette.member.model.service.MemberService;
+import com.ssafy.team8alette.symbol.model.dao.SymbolRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +40,9 @@ public class FeedController {
 	private final FeedService feedService;
 	private final LikeService likeService;
 	private final MemberService memberService;
+	private final FollowRepository followRepository;
+	private final SymbolRepository symbolRepository;
+	private final MemberRecordRepository memberRecordRepository;
 	//파일경로
 	private static String projectPath = "C:\\pictures";
 
@@ -101,6 +107,11 @@ public class FeedController {
 		data.put("feedImgTrans", feed.getFeedImgTrans());
 		data.put("createDate", feed.getCreateDate());
 		data.put("deleteDate", feed.getDeleteDate());
+		//아직 심볼부여는 빼고
+		// data.put("symbolNumber", 0);
+		data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feed.getMember().getMemberNumber())
+			.getMemberExpCnt());
+		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feed.getMember()));
 
 		responseData.put("message", "success");
 		responseData.put("status", 200);

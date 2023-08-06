@@ -14,8 +14,11 @@ import com.ssafy.team8alette.feed.exception.NullValueException;
 import com.ssafy.team8alette.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.feed.model.dto.feed.entity.Feed;
 import com.ssafy.team8alette.feed.model.dto.feed.response.FeedResponseDTO;
+import com.ssafy.team8alette.follow.model.dao.FollowRepository;
+import com.ssafy.team8alette.member.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.member.model.dao.MemberRepository;
 import com.ssafy.team8alette.member.model.dto.Member;
+import com.ssafy.team8alette.symbol.model.dao.SymbolRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +28,10 @@ public class FeedService {
 
 	private final FeedRepository feedRepository;
 	private final MemberRepository memberRepository;
+	private final MemberRecordRepository memberRecordRepository;
+	private final FollowRepository followRepository;
+	private final SymbolRepository symbolRepository;
+
 	// private final AmazonS3Client amazonS3Client;
 
 	// @Value("${spring.data.couchbase.bucket-name}")
@@ -193,7 +200,9 @@ public class FeedService {
 		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
 	}
 
+	//심볼 은 추가기능
 	public FeedResponseDTO convertToDTO(Feed feed) {
+
 		FeedResponseDTO dto = new FeedResponseDTO();
 		dto.setFeedNumber(feed.getFeedNumber());
 		dto.setFeedCreatorNumber(feed.getMember().getMemberNumber());
@@ -205,6 +214,12 @@ public class FeedService {
 		dto.setFeedImgOrigin(feed.getFeedImgOrigin());
 		dto.setFeedImgTrans(feed.getFeedImgTrans());
 		dto.setCreateDate(feed.getCreateDate());
+		dto.setNickName(feed.getMember().getMemberNickname());
+
+		//사실 이부분은 무조건 기록되어져야함 없으면 오류
+		dto.setExp(memberRecordRepository.findMemberRecordByMemberNumber(feed.getMember().getMemberNumber())
+			.getMemberExpCnt());
+		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feed.getMember()));
 		return dto;
 	}
 }
