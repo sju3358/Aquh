@@ -1,10 +1,13 @@
 package com.ssafy.team8alette.member.model.dto;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +21,6 @@ import lombok.Setter;
 public class MemberRecord {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_number", nullable = false)
 	private Long memberNumber;
 
@@ -45,5 +47,14 @@ public class MemberRecord {
 
 	@Column(name = "follower_cnt", nullable = false)
 	private int memberFollowerCnt;
+
+	@Column(name = "record_update_dttm")
+	private Date date;
+
+	// 이 부분이 member 매핑
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "member_number")
+	private Member member;
 
 }
