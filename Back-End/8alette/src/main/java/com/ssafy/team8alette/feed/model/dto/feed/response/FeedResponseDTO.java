@@ -23,4 +23,9 @@ public class FeedResponseDTO {
 	private String feedImgTrans;
 	private Date createDate;
 	private Date deleteDate;
+	//여기서부터 다른 엔티티
+	private int exp;
+	private long symbolNumber;
+	private int followingCnt;
+	private String nickName;
 }
