@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.alarm.model.dao.AlarmRepository;
 import com.ssafy.team8alette.alarm.model.dto.Alarm;
-import com.ssafy.team8alette.member.exception.NullValueException;
+import com.ssafy.team8alette.feed.exception.NullValueException;
+import com.ssafy.team8alette.member.model.dao.MemberRepository;
+import com.ssafy.team8alette.member.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +17,22 @@ import lombok.RequiredArgsConstructor;
 public class AlarmService {
 
 	private final AlarmRepository alarmRepository;
+	private final MemberRepository memberRepository;
 
 	public List<Alarm> getAlarmList(Long memberNumber) {
-		return alarmRepository.findAlarmsByMemberNumber(memberNumber)
-			.orElseThrow(() -> new NullValueException("회원정보가 존재하지 않습니다")
-			);
+		List<Alarm> list = null;
+
+		Member member = memberRepository.findById(memberNumber)
+			.orElseThrow(() -> new NullValueException("회원정보가 존재하지 않습니다"));
+		list = alarmRepository.findByMemberNumberAndAlarmState(member, 0);
+		if (list == null || list.isEmpty()) {
+			throw new NullValueException("알람이 존재하지 않습니다");
+		}
+		return list;
 	}
 
 	public void readAlarm(Long alarmNumber) {
+
 		Alarm alarm = alarmRepository.findAlarmsByAlarmNumber(alarmNumber).orElseThrow(
 			() -> new NullValueException("알람정보가 존재하지 않습니다")
 		);
@@ -30,4 +40,5 @@ public class AlarmService {
 		alarm.setAlarmState(1);
 		alarmRepository.save(alarm);
 	}
+
 }
