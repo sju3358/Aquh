@@ -1,6 +1,7 @@
 import React from "react";
 import FeedCard from "../components/feed/FeedCard";
 // import classes from "../FeedCard.module.css";
+import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
 
 export default function MainPage() {
   const testList = [
@@ -22,22 +23,27 @@ export default function MainPage() {
         "이웃과의 소통이 많이 줄어든 요즘! 송파구방이복지관은 참여자들이 함께 소통하며 여가를 즐길 수 있는 ‘DIY취미활동’ 2기 - 원예활동을 진행",
     },
   ];
+  // 코드 밖으로 분리 
+  const testFeed = testList.map((feeditem) => 
+      <FeedCard
+        imgPath={feeditem.imgPath}
+        title={feeditem.title}
+        content={feeditem.content}
+      />
+  );
+
   return (
-    <div>
-      This is Main 😊
-      <div>
-        {testList.map((feeditem) => {
-          return (
-            // <div className={classes.feedCard}>
-            <FeedCard
-              imgPath={feeditem.imgPath}
-              title={feeditem.title}
-              content={feeditem.content}
-            />
-            // </div>
-          );
-        })}
-      </div>
-    </div>
+    <main>
+      <section>
+          <div>
+            <PopulatedBubbleList />
+          </div>
+      </section>
+      <section>
+        <div>
+          {testFeed}
+        </div>
+      </section>
+    </main>
   );
 }
