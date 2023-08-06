@@ -1,6 +1,7 @@
 import Button from "../components/ui/Button";
 
 export default {
+  title: 'UI/BubbleList',
   component: Button
 };
 
