@@ -31,4 +31,5 @@ public class Category {
 
 	@Column(name = "create_dt", nullable = false)
 	private Date createDate;
+
 }

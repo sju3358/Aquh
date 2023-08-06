@@ -2,11 +2,14 @@ package com.ssafy.team8alette.member.model.dto;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +56,13 @@ public class Member {
 
 	@Column(name = "is_email_receive", nullable = false)
 	private boolean isEmailReceive;
-	
+
 	@Column(name = "delete_dttm")
 	private Date deleteDate;
+
+	//record랑 매핑
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
+	@PrimaryKeyJoinColumn
+	private MemberRecord memberRecord;
 
 }
