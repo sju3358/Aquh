@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.common.annotation.LoginRequired;
 import com.ssafy.team8alette.member.model.dto.MemberRecord;
 import com.ssafy.team8alette.member.model.service.MemberRecordService;
 
@@ -25,7 +24,7 @@ public class MemberRecordController {
 
 	private final MemberRecordService memberRecordService;
 
-	@LoginRequired
+	// @LoginRequired
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
 		@PathVariable Long memberNumber,
