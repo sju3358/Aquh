@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import BubbleList from "./BubbleList";
 import BubbleCard from "./BubbleCard"
 import { bubbleList } from "../../utils/api/api.bubble_service";
+import bubble_mock from "../../utils/api/api.bubble_mock";
 
 export default function PopulatedBubbleList() {
     const [events, setEvents] = useState([]);
