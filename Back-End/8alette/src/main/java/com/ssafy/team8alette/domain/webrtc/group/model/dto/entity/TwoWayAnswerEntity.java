@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.TwoWayAnswerID;
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
