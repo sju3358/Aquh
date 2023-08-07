@@ -1,8 +1,6 @@
 package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 
-import java.util.Date;
-
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.RoomEntity;
+import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,16 +30,13 @@ public class TodoEntity {
 	private Long todoNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number", nullable = false)
-	private RoomEntity roomEntity;
+	@JoinColumn(name = "bubble_number", nullable = false)
+	private BubbleEntity bubbleEntity;
 
 	@Column(name = "todo_context", nullable = false)
 	private String todoContext;
 
 	@Column(name = "is_todo_done", nullable = false)
 	private boolean TodoDoneStatus;
-
-	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
 
 }

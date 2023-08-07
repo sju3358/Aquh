@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.hashtag.model.dto.Key.TaggingID;
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.RoomEntity;
+import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -30,10 +30,10 @@ public class TaggingEntity implements Serializable {
 	@EmbeddedId
 	private TaggingID taggingID;
 
-	@MapsId("roomNumber")
+	@MapsId("bubbleNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number")
-	private RoomEntity roomEntity;
+	@JoinColumn(name = "bubble_number")
+	private BubbleEntity bubbleEntity;
 
 	@MapsId("hashTagNumber")
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -3,8 +3,8 @@ package com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.key.GroupID;
 import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.webrtc.openvidu.dto.key.GroupID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -24,16 +24,16 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "group_list")
-public class GroupListEntity implements Serializable {
+@Table(name = "bubble_list")
+public class bubbleListEntity implements Serializable {
 
 	@EmbeddedId
 	private GroupID groupID;
 
-	@MapsId("roomNumber")
+	@MapsId("bubbleNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number", nullable = false)
-	private RoomEntity roomEntity;
+	@JoinColumn(name = "bubble_number", nullable = false)
+	private BubbleEntity bubbleEntity;
 
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
