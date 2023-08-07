@@ -3,7 +3,7 @@ package com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 import com.ssafy.team8alette.domain.webrtc.openvidu.dto.key.GroupID;
 
 import jakarta.persistence.Column;
@@ -38,7 +38,7 @@ public class bubbleListEntity implements Serializable {
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private Member member;
+	private MemberEntity memberEntity;
 
 	@Column(name = "is_mic_on", nullable = false)
 	private boolean micStatus;

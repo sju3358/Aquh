@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberType;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
@@ -54,14 +54,14 @@ public class MemberAuthGoogleService {
 		String memberNickname = naverMemberInfo.get("name").toString();
 		String memberName = naverMemberInfo.get("name").toString();
 
-		Member member = memberRepository.findMemberByMemberId(memberId);
+		MemberEntity memberEntity = memberRepository.findMemberByMemberId(memberId);
 
-		if (member != null) {
+		if (memberEntity != null) {
 
-			if (member.getMemberState() == 2) {
+			if (memberEntity.getMemberState() == 2) {
 				throw new UnAuthorizedException("이미 탈퇴한 회원입니다");
 			} else {
-				return member.getMemberNumber();
+				return memberEntity.getMemberNumber();
 			}
 		}
 
@@ -71,18 +71,18 @@ public class MemberAuthGoogleService {
 			memberName,
 			memberNickname);
 
-		Member newMember = new Member();
+		MemberEntity newMemberEntity = new MemberEntity();
 
-		newMember.setMemberId(memberId);
-		newMember.setMemberEmail(memberEmail);
-		newMember.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
-		newMember.setMemberNickname("G_" + memberNickname);
-		newMember.setMemberName(memberName);
-		newMember.setMemberState(1);
-		newMember.setMemberType(MemberType.GO.toString());
-		newMember.setEmailVerified(true);
-		newMember.setEmailReceive(true);
-		memberRepository.save(newMember);
+		newMemberEntity.setMemberId(memberId);
+		newMemberEntity.setMemberEmail(memberEmail);
+		newMemberEntity.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
+		newMemberEntity.setMemberNickname("G_" + memberNickname);
+		newMemberEntity.setMemberName(memberName);
+		newMemberEntity.setMemberState(1);
+		newMemberEntity.setMemberType(MemberType.GO.toString());
+		newMemberEntity.setEmailVerified(true);
+		newMemberEntity.setEmailReceive(true);
+		memberRepository.save(newMemberEntity);
 
 		return memberRepository.findMemberByMemberId(memberId).getMemberNumber();
 	}
