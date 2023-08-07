@@ -19,7 +19,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Table(name = "follow")
 @ToString
-public class SymbolEntity {
+public class Symbol {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

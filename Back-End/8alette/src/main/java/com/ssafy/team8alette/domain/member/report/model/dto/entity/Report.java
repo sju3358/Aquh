@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.member.report.model.dto.entity;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,11 +31,11 @@ public class Report {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reporter", nullable = false)
-	private MemberEntity reportReporter;
+	private Member reportReporter;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "suspect", nullable = false)
-	private MemberEntity reportSuspect;
+	private Member reportSuspect;
 
 	@Column(name = "reason", nullable = false)
 	private String reportReason;

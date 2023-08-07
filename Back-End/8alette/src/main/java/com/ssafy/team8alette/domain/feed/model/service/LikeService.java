@@ -10,7 +10,7 @@ import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.LikeEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.key.LikeID;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class LikeService {
 	public boolean addLike(Long feedNumber, Long memberNumber) {
 
 		FeedEntity feedEntity = feedRepository.findFeedByFeedNumber(feedNumber);
-		MemberEntity memberEntity = memberRepository.findById(memberNumber).orElse(null);
+		Member member = memberRepository.findById(memberNumber).orElse(null);
 
 		if (likeRepository.findByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(feedNumber, memberNumber).isEmpty()) {
 			LikeID likeID = new LikeID(feedNumber, memberNumber);
@@ -35,7 +35,7 @@ public class LikeService {
 
 			//이렇게 setFeed로 연결
 			likeEntityDTO.setFeedEntity(feedEntity);
-			likeEntityDTO.setMemberEntity(memberEntity);
+			likeEntityDTO.setMember(member);
 
 			int likeCnt = feedEntity.getFeedLikeCnt();
 			int setLikeCnt = likeCnt + 1; // 또는 ++likeCnt;
