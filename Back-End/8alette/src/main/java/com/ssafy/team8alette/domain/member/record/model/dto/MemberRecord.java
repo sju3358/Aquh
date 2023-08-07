@@ -61,7 +61,7 @@ public class MemberRecord {
 	// 이 부분이 member 매핑
 	@MapsId
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "member_number")
+	@JoinColumn(name = "member_number", referencedColumnName = "member_number")
 	private Member member;
 
 	// , referencedColumnName = "member_number"
