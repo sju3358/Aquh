@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.member.alarm.model.dto;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "alarm")
-public class AlarmEntity {
+public class Alarm {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class AlarmEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private MemberEntity memberEntityNumber;
+	private Member memberNumber;
 
 	@Column(name = "alarm_type", nullable = false)
 	private String alarmType;

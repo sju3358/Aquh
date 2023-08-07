@@ -6,14 +6,14 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmEntity;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.alarm.model.dto.Alarm;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 @Repository
-public interface AlarmRepository extends JpaRepository<AlarmEntity, Long> {
+public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
-	List<AlarmEntity> findByMemberNumberAndAlarmState(MemberEntity memberEntityNumber, int state);
+	List<Alarm> findByMemberNumberAndAlarmState(Member memberNumber, int state);
 
-	Optional<AlarmEntity> findAlarmsByAlarmNumber(Long alarmNumber);
+	Optional<Alarm> findAlarmsByAlarmNumber(Long alarmNumber);
 
 }

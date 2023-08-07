@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.member.record.model.dto;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "record")
-public class MemberRecordEntity {
+public class MemberRecord {
 
 	@Id
 	@Column(name = "member_number")
@@ -57,6 +57,6 @@ public class MemberRecordEntity {
 	@OneToOne
 	@MapsId
 	@JoinColumn(name = "member_number")
-	private MemberEntity memberEntity;
+	private Member member;
 
 }
