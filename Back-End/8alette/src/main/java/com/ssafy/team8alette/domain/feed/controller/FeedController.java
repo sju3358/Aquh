@@ -1,6 +1,5 @@
 package com.ssafy.team8alette.domain.feed.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +93,9 @@ public class FeedController {
 		if (feedEntity.getFeedImgTrans() != null) {
 			// File saveFile = new File(projectPath, feedEntity.getFeedImgTrans());
 			// data.put("img", saveFile);
-			data.put("img", "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
+			data.put("img_name", feedEntity.getFeedImgOrigin());
+			data.put("img_url",
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}
 		data.put("feedNumber", feedEntity.getFeedNumber());
 		data.put("feedCreatorNumber", feedEntity.getMemberEntity().getMemberNumber());
