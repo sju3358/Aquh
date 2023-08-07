@@ -46,7 +46,7 @@ public class MemberRecordController {
 
 			data.put("exp_cnt", memberRecord.getMemberExpCnt());
 			data.put("comment_cnt", memberRecord.getMemberCommentCnt());
-			data.put("room_join_cnt", memberRecord.getMemberRoomJoinCnt());
+			data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
 			data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());
 			data.put("best_cnt", memberRecord.getMemberBestCnt());
 			data.put("following_cnt", memberRecord.getMemberFollowingCnt());
@@ -61,7 +61,7 @@ public class MemberRecordController {
 				data.put("comment_cnt", memberRecord.getMemberCommentCnt());
 			}
 			if (room_join_cnt.orElse("N").equals("Y")) {
-				data.put("room_join_cnt", memberRecord.getMemberRoomJoinCnt());
+				data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
 			}
 			if (like_give_cnt.orElse("N").equals("Y")) {
 				data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());

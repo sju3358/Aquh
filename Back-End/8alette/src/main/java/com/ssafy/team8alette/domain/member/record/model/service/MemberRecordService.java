@@ -37,7 +37,7 @@ public class MemberRecordService {
 
 	public void updateMemberRoomJoinCnt(Long memberNumber, int roomJoinCnt) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberRoomJoinCnt(memberRecord.getMemberRoomJoinCnt() + roomJoinCnt);
+		memberRecord.setBubbleJoinCnt(memberRecord.getBubbleJoinCnt() + roomJoinCnt);
 		memberRecordRepository.save(memberRecord);
 	}
 
