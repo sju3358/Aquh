@@ -32,8 +32,8 @@ public class MemberRecord {
 	@Column(name = "comment_cnt", nullable = false)
 	private int memberCommentCnt;
 
-	@Column(name = "room_join_cnt", nullable = false)
-	private int memberRoomJoinCnt;
+	@Column(name = "bubble_join_cnt", nullable = false)
+	private int bubbleJoinCnt;
 
 	@Column(name = "like_give_cnt", nullable = false)
 	private int memberLikeGiveCnt;
