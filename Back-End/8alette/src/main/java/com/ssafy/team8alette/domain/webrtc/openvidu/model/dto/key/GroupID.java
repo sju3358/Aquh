@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.webrtc.openvidu.dto.key;
+package com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.key;
 
 import java.io.Serializable;
 
