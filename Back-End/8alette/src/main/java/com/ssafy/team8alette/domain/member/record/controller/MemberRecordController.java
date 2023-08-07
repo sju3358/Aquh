@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecordEntity;
 import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class MemberRecordController {
 		@RequestParam Optional<String> following_cnt,
 		@RequestParam Optional<String> follower_cnt) {
 
-		MemberRecord memberRecord = memberRecordService.getMemberRecord(memberNumber);
+		MemberRecordEntity memberRecordEntity = memberRecordService.getMemberRecord(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
@@ -44,36 +44,36 @@ public class MemberRecordController {
 		if (exp_cnt.isEmpty() && comment_cnt.isEmpty() && room_join_cnt.isEmpty()
 			&& like_give_cnt.isEmpty() && best_cnt.isEmpty() && following_cnt.isEmpty() && follower_cnt.isEmpty()) {
 
-			data.put("exp_cnt", memberRecord.getMemberExpCnt());
-			data.put("comment_cnt", memberRecord.getMemberCommentCnt());
-			data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
-			data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());
-			data.put("best_cnt", memberRecord.getMemberBestCnt());
-			data.put("following_cnt", memberRecord.getMemberFollowingCnt());
-			data.put("follower_cnt", memberRecord.getMemberFollowerCnt());
+			data.put("exp_cnt", memberRecordEntity.getMemberExpCnt());
+			data.put("comment_cnt", memberRecordEntity.getMemberCommentCnt());
+			data.put("room_join_cnt", memberRecordEntity.getBubbleJoinCnt());
+			data.put("like_give_cnt", memberRecordEntity.getMemberLikeGiveCnt());
+			data.put("best_cnt", memberRecordEntity.getMemberBestCnt());
+			data.put("following_cnt", memberRecordEntity.getMemberFollowingCnt());
+			data.put("follower_cnt", memberRecordEntity.getMemberFollowerCnt());
 
 		} else {
 
 			if (exp_cnt.orElse("N").equals("Y")) {
-				data.put("exp_cnt", memberRecord.getMemberExpCnt());
+				data.put("exp_cnt", memberRecordEntity.getMemberExpCnt());
 			}
 			if (comment_cnt.orElse("N").equals("Y")) {
-				data.put("comment_cnt", memberRecord.getMemberCommentCnt());
+				data.put("comment_cnt", memberRecordEntity.getMemberCommentCnt());
 			}
 			if (room_join_cnt.orElse("N").equals("Y")) {
-				data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
+				data.put("room_join_cnt", memberRecordEntity.getBubbleJoinCnt());
 			}
 			if (like_give_cnt.orElse("N").equals("Y")) {
-				data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());
+				data.put("like_give_cnt", memberRecordEntity.getMemberLikeGiveCnt());
 			}
 			if (best_cnt.orElse("N").equals("Y")) {
-				data.put("best_cnt", memberRecord.getMemberBestCnt());
+				data.put("best_cnt", memberRecordEntity.getMemberBestCnt());
 			}
 			if (following_cnt.orElse("N").equals("Y")) {
-				data.put("following_cnt", memberRecord.getMemberFollowingCnt());
+				data.put("following_cnt", memberRecordEntity.getMemberFollowingCnt());
 			}
 			if (follower_cnt.orElse("N").equals("Y")) {
-				data.put("follower_cnt", memberRecord.getMemberFollowerCnt());
+				data.put("follower_cnt", memberRecordEntity.getMemberFollowerCnt());
 			}
 
 		}
