@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.member.report.model.dto.entity;
+package com.ssafy.team8alette.domain.member.report.model.dto;
 
 import java.util.Date;
 

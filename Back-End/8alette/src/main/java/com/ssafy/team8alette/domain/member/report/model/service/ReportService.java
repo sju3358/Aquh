@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.report.model.dao.ReportRepository;
-import com.ssafy.team8alette.domain.member.report.model.dto.entity.Report;
+import com.ssafy.team8alette.domain.member.report.model.dto.Report;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
 import lombok.RequiredArgsConstructor;
