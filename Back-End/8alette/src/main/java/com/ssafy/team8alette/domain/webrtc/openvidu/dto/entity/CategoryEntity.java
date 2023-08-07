@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 public class CategoryEntity {
 
 	@Id

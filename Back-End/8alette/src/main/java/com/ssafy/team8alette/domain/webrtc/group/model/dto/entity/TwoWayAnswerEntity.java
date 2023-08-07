@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.RoomEntity;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.TwoWayAnswerID;
+import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -42,8 +42,8 @@ public class TwoWayAnswerEntity implements Serializable {
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number", nullable = false)
-	private RoomEntity roomEntity;
+	@JoinColumn(name = "bubble_number", nullable = false)
+	private BubbleEntity bubbleEntity;
 
 	@Column(name = "is_pick_right", nullable = false)
 	private boolean isPickRight;

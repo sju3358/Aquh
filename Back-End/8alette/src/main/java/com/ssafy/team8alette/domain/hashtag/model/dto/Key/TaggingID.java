@@ -13,12 +13,12 @@ import lombok.Setter;
 @Embeddable
 public class TaggingID implements Serializable {
 
-	private Long roomNumber;
+	private Long bubbleNumber;
 
 	private Long hashTagNumber;
 
-	public TaggingID(Long roomNumber, Long hashTagNumber) {
-		this.roomNumber = roomNumber;
+	public TaggingID(Long bubbleNumber, Long hashTagNumber) {
+		this.bubbleNumber = bubbleNumber;
 		this.hashTagNumber = hashTagNumber;
 	}
 }

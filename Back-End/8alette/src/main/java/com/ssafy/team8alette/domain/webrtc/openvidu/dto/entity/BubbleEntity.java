@@ -24,42 +24,42 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "room")
-public class RoomEntity {
+@Table(name = "bubble")
+public class BubbleEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "room_number", nullable = false)
-	private Long roomNumber;
+	@Column(name = "bubble_number", nullable = false)
+	private Long bubbleNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private Member member;
+	private Member memberNumber;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_number", nullable = false)
 	private CategoryEntity categoryEntity;
 
-	@Column(name = "room_type", nullable = false)
-	private String roomType;
+	@Column(name = "is_bubble_talk", nullable = false)
+	private boolean bubbleType;
 
-	@Column(name = "room_title", length = 20, nullable = false)
-	private String roomTitle;
+	@Column(name = "bubble_title", length = 20, nullable = false)
+	private String bubbleTitle;
 
-	@Column(name = "room_content", length = 500, nullable = false)
-	private String roomContent;
+	@Column(name = "bubble_content", length = 500, nullable = false)
+	private String bubbleContent;
 
-	@Column(name = "room_thumbnail")
-	private String roomThumbnail;
+	@Column(name = "bubble_thumbnail")
+	private String bubbleThumbnail;
 
-	@Column(name = "room_state", nullable = false)
-	private boolean roomState;
+	@Column(name = "bubble_state", nullable = false)
+	private boolean bubbleState;
 
-	@Column(name = "plane_open_dttm")
-	private Date planeOpenDate;
+	@Column(name = "plan_open_dttm")
+	private Date planOpenDate;
 
-	@Column(name = "plane_close_dttm")
-	private Date planeCloseDate;
+	@Column(name = "plan_close_dttm")
+	private Date planCloseDate;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;

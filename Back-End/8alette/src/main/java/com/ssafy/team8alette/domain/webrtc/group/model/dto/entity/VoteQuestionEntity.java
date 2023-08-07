@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.RoomEntity;
+import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class VoteQuestionEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "room_number", nullable = false)
-	private RoomEntity roomEntity;
+	private BubbleEntity bubbleEntity;
 
 	@Column(name = "vote_question_context", nullable = false)
 	private String voteQuestionContext;

@@ -13,12 +13,12 @@ import lombok.Setter;
 @Embeddable
 public class BestMemberID implements Serializable {
 
-	private Long roomNumber;
+	private Long bubbleNumber;
 
 	private Long memberNumber;
 
-	private BestMemberID(Long roomNumber, Long memberNumber) {
-		this.roomNumber = roomNumber;
+	private BestMemberID(Long bubbleNumber, Long memberNumber) {
+		this.bubbleNumber = bubbleNumber;
 		this.memberNumber = memberNumber;
 	}
 

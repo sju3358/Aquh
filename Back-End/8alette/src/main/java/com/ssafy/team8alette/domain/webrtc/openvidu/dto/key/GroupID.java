@@ -13,12 +13,12 @@ import lombok.Setter;
 @Embeddable
 public class GroupID implements Serializable {
 
-	private Long roomNumber;
+	private Long bubbleNumber;
 
 	private Long memberNumber;
 
-	private GroupID(Long roomNumber, Long memberNumber) {
-		this.roomNumber = roomNumber;
+	private GroupID(Long bubbleNumber, Long memberNumber) {
+		this.bubbleNumber = bubbleNumber;
 		this.memberNumber = memberNumber;
 	}
 
