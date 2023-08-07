@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.feed.model.dto.entity;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class FeedEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "feed_creator_number", nullable = false)
-	private MemberEntity memberEntity;
+	private Member member;
 
 	@Column(name = "feed_title", nullable = false)
 	private String title;
