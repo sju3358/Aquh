@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "follow")
+@Table(name = "symbol")
 @ToString
 public class Symbol {
 
