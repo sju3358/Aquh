@@ -5,17 +5,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
-import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
-import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
@@ -32,9 +34,9 @@ public class FeedService {
 	private final FollowRepository followRepository;
 	private final SymbolRepository symbolRepository;
 
-	// private final AmazonS3Client amazonS3Client;
+	private final AmazonS3Client amazonS3Client;
 
-	// @Value("${spring.data.couchbase.bucket-name}")
+	@Value("${spring.data.couchbase.bucket-name}/feed_img")
 	private String bucket;
 
 	private static String projectPath = "/home/ubuntu/spring-upload-images";
@@ -42,12 +44,11 @@ public class FeedService {
 	// FileSystemResource fileSystemResource = new FileSystemResource("resources/pictures/");
 
 	public void registFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
-		if (feedEntity.getMemberEntity() == null || feedEntity.getMemberEntity().getMemberNumber() == null) {
+		if (feedEntity.getMember() == null || feedEntity.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
 		}
-		MemberEntity memberEntity = memberRepository.findById(feedEntity.getMemberEntity().getMemberNumber())
-			.orElse(null);
-		if (memberEntity == null) {
+		Member member = memberRepository.findById(feedEntity.getMember().getMemberNumber()).orElse(null);
+		if (member == null) {
 			throw new NullValueException("작성자 정보를 찾을 수 없습니다.");
 		}
 
@@ -74,7 +75,7 @@ public class FeedService {
 			ObjectMetadata metadata = new ObjectMetadata();
 			metadata.setContentType(file.getContentType());
 			metadata.setContentLength(file.getSize());
-			// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+			amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 			feedEntity.setFeedActive(true);
 			feedEntity.setFeedLikeCnt(0);
@@ -84,7 +85,7 @@ public class FeedService {
 			//멤버 이미지변환명으로 저장
 			feedEntity.setFeedImgTrans(fileName);
 			feedEntity.setCreateDate(nowDate);
-			feedEntity.setMemberEntity(memberEntity);
+			feedEntity.setMember(member);
 
 			feedRepository.save(feedEntity);
 		} else {
@@ -92,7 +93,7 @@ public class FeedService {
 			feedEntity.setFeedActive(true);
 			feedEntity.setFeedLikeCnt(0);
 			feedEntity.setCreateDate(nowDate);
-			feedEntity.setMemberEntity(memberEntity);
+			feedEntity.setMember(member);
 			feedRepository.save(feedEntity);
 		}
 
@@ -144,7 +145,7 @@ public class FeedService {
 	public FeedEntity modifyFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
 		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedEntity.getFeedNumber());
 
-		if (existingFeedEntity.getMemberEntity().getMemberNumber() == feedEntity.getMemberEntity().getMemberNumber()) {
+		if (existingFeedEntity.getMember().getMemberNumber() == feedEntity.getMember().getMemberNumber()) {
 			existingFeedEntity.setTitle(feedEntity.getTitle());
 			existingFeedEntity.setContent(feedEntity.getContent());
 
@@ -175,7 +176,7 @@ public class FeedService {
 				ObjectMetadata metadata = new ObjectMetadata();
 				metadata.setContentType(file.getContentType());
 				metadata.setContentLength(file.getSize());
-				// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 				//빈껍데기 생성해서 피드 저장소에 이미지 전달
 				// File saveFile = new File(projectPath, fileName);
@@ -206,21 +207,21 @@ public class FeedService {
 
 		FeedResponseDTO dto = new FeedResponseDTO();
 		dto.setFeedNumber(feedEntity.getFeedNumber());
-		dto.setFeedCreatorNumber(feedEntity.getMemberEntity().getMemberNumber());
+		dto.setFeedCreatorNumber(feedEntity.getMember().getMemberNumber());
 		dto.setTitle(feedEntity.getTitle());
 		dto.setContent(feedEntity.getContent());
 		dto.setFeedLikeCnt(feedEntity.getFeedLikeCnt());
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		dto.setFeedImgTrans(feedEntity.getFeedImgTrans());
+		dto.setFeedImgTrans("https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		dto.setCreateDate(feedEntity.getCreateDate());
-		dto.setNickName(feedEntity.getMemberEntity().getMemberNickname());
+		dto.setNickName(feedEntity.getMember().getMemberNickname());
 
 		//사실 이부분은 무조건 기록되어져야함 없으면 오류
-		dto.setExp(memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMemberEntity().getMemberNumber())
+		dto.setExp(memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt());
-		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMemberEntity()));
+		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		return dto;
 	}
 }

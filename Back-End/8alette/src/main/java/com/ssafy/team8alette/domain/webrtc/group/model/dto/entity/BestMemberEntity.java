@@ -3,7 +3,7 @@ package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.BestMemberID;
 import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 
@@ -39,11 +39,11 @@ public class BestMemberEntity implements Serializable {
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private MemberEntity memberEntity;
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "best_member_number", nullable = false)
-	private MemberEntity bestMemberEntity;
+	private Member bestMember;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;

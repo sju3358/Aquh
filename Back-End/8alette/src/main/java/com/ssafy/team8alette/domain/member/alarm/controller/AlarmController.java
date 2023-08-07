@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.member.alarm.method.AlarmListMapper;
-import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmEntity;
+import com.ssafy.team8alette.domain.member.alarm.model.dto.Alarm;
 import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmListResponseDTO;
 import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 
@@ -31,8 +31,8 @@ public class AlarmController {
 	public ResponseEntity<Map<String, Object>> alarmListRequest(@PathVariable Long memberNumber) {
 
 		Map<String, Object> responseData = new HashMap<>();
-		List<AlarmEntity> alarmEntityList = alarmService.getAlarmList(memberNumber);
-		List<AlarmListResponseDTO> dtoList = alarmEntityList.stream()
+		List<Alarm> alarmList = alarmService.getAlarmList(memberNumber);
+		List<AlarmListResponseDTO> dtoList = alarmList.stream()
 			.map(AlarmListMapper::convertToDTO)
 			.collect(Collectors.toList());
 
