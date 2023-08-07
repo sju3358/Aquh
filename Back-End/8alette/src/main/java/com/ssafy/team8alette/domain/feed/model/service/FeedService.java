@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.ssafy.team8alette.domain.auth.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
-import com.ssafy.team8alette.global.exception.NotMatchException;
-import com.ssafy.team8alette.domain.auth.member.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.auth.member.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
+import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
 import lombok.RequiredArgsConstructor;

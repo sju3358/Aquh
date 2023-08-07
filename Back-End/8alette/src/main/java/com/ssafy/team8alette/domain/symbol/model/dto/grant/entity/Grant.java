@@ -3,9 +3,9 @@ package com.ssafy.team8alette.domain.symbol.model.dto.grant.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.auth.member.model.dto.MemberRecord;
-import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
