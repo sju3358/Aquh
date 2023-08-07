@@ -4,6 +4,7 @@ import Capsule from "../ui/Capsule";
 import { bubbleList } from "../../utils/api/api.bubble_service";
 import Button from "../ui/Button";
 import { FaRegCalendarCheck } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 export default function BubbleCard({
   roomType = 0,
@@ -26,7 +27,9 @@ export default function BubbleCard({
         <FaRegCalendarCheck /> {eventDate}
       </p>
       <Button onClick={onJoin} variant='regular' className='card-button'>
-        참여하기
+        {/* 참여하기 */}
+        {/* 0807 김재원 수정 */}
+        <Link to='/video' style={{ textDecoration : "none" }}>참여하기</Link>
       </Button>
     </div>
   );
