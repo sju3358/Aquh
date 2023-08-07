@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.hashtag.model.dto.Key.TaggingID;
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

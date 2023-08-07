@@ -1,10 +1,10 @@
-package com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity;
+package com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
-import com.ssafy.team8alette.domain.webrtc.openvidu.dto.key.GroupID;
+import com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.key.GroupID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
