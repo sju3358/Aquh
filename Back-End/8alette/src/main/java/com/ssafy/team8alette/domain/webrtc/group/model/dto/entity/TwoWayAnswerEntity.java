@@ -3,7 +3,7 @@ package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.TwoWayAnswerID;
 import com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity.BubbleEntity;
 

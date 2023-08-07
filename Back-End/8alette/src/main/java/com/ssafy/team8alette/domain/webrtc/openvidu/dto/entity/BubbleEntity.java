@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

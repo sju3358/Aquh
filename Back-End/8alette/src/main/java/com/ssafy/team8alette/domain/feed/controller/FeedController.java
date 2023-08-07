@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.domain.auth.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.domain.auth.member.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
-import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
+import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
-import com.ssafy.team8alette.domain.auth.member.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 
 import lombok.RequiredArgsConstructor;
