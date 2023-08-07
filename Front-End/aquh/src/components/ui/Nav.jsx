@@ -11,7 +11,7 @@ export default function Nav() {
         <div className={classes.menuItems}>
           <Link to='/feed' style={{ textDecoration : "none" }}><span className={classes.navItem}>피드</span></Link>
           <Link to='/bubble' style={{ textDecoration : "none" }}><span className={classes.navItem}>버블</span></Link>
-          <Link to='/profile' style={{ textDecoration : "none" }}><span className={classes.navItem}>My</span></Link>
+          <Link to='/auth' style={{ textDecoration : "none" }}><span className={classes.navItem}>My</span></Link>
         </div>
         <div className={classes.searchContainer}>
         <SearchInput />

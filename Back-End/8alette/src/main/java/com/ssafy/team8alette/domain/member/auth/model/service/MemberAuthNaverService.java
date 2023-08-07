@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberType;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
@@ -55,14 +55,14 @@ public class MemberAuthNaverService {
 		String memberNickname = naverMemberInfo.get("nickname").toString();
 		String memberName = naverMemberInfo.get("name").toString();
 
-		MemberEntity memberEntity = memberRepository.findMemberByMemberId(memberId);
+		Member member = memberRepository.findMemberByMemberId(memberId);
 
-		if (memberEntity != null) {
+		if (member != null) {
 
-			if (memberEntity.getMemberState() == 2) {
+			if (member.getMemberState() == 2) {
 				throw new UnAuthorizedException("이미 탈퇴한 회원입니다");
 			} else {
-				return memberEntity.getMemberNumber();
+				return member.getMemberNumber();
 			}
 		}
 
@@ -72,18 +72,18 @@ public class MemberAuthNaverService {
 			memberName,
 			memberNickname);
 
-		MemberEntity newMemberEntity = new MemberEntity();
+		Member newMember = new Member();
 
-		newMemberEntity.setMemberId(memberId);
-		newMemberEntity.setMemberEmail(memberEmail);
-		newMemberEntity.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
-		newMemberEntity.setMemberNickname("N_" + memberNickname);
-		newMemberEntity.setMemberName(memberName);
-		newMemberEntity.setMemberState(1);
-		newMemberEntity.setMemberType(MemberType.NA.toString());
-		newMemberEntity.setEmailVerified(true);
-		newMemberEntity.setEmailReceive(true);
-		memberRepository.save(newMemberEntity);
+		newMember.setMemberId(memberId);
+		newMember.setMemberEmail(memberEmail);
+		newMember.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
+		newMember.setMemberNickname("N_" + memberNickname);
+		newMember.setMemberName(memberName);
+		newMember.setMemberState(1);
+		newMember.setMemberType(MemberType.NA.toString());
+		newMember.setEmailVerified(true);
+		newMember.setEmailReceive(true);
+		memberRepository.save(newMember);
 
 		return memberRepository.findMemberByMemberId(memberId).getMemberNumber();
 	}
