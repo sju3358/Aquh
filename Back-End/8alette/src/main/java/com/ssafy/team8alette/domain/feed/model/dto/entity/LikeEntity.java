@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.feed.model.dto.key.LikeID;
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
