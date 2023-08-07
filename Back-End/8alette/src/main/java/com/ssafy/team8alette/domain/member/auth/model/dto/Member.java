@@ -2,15 +2,11 @@ package com.ssafy.team8alette.domain.member.auth.model.dto;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -62,9 +58,9 @@ public class Member {
 	private Date deleteDate;
 
 	//record랑 매핑
-	@PrimaryKeyJoinColumn
-	@OneToOne(mappedBy = "member")
-	// @JsonManagedReference
-	private MemberRecord memberRecord;
+	// @PrimaryKeyJoinColumn
+	// @OneToOne(mappedBy = "member")
+	// // @JsonManagedReference
+	// private MemberRecord memberRecord;
 
 }
