@@ -7,10 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.exception.FollowNotFoundException;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.domain.member.follow.model.dto.Entity.FollowEntity;
+import com.ssafy.team8alette.domain.member.follow.model.dto.Entity.Follow;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,51 +23,51 @@ public class FollowService {
 	// private final MemberRecordService memberRecordService;
 
 	public List<Long> getFollowerMemberList(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findById(memberNumber).orElseThrow();
-		List<FollowEntity> followerList = followRepository.findAllByFollowingMemberNumber(memberEntity);
+		Member member = memberRepository.findById(memberNumber).orElseThrow();
+		List<Follow> followerList = followRepository.findAllByFollowingMemberNumber(member);
 
 		if (followerList == null)
 			throw new FollowNotFoundException("팔로우 리스트가 존재하지 않습니다.");
 
 		List<Long> followers = new LinkedList<>();
-		for (FollowEntity followEntityInfo : followerList) {
-			followers.add(followEntityInfo.getFollowerMemberNumberEntity().getMemberNumber());
+		for (Follow followInfo : followerList) {
+			followers.add(followInfo.getFollowerMemberNumber().getMemberNumber());
 		}
 		return followers;
 	}
 
 	public List<Long> getFollowingMemberList(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findById(memberNumber).orElseThrow();
+		Member member = memberRepository.findById(memberNumber).orElseThrow();
 
-		List<FollowEntity> followingList = followRepository.findAllByFollowerMemberNumber(memberEntity);
+		List<Follow> followingList = followRepository.findAllByFollowerMemberNumber(member);
 
 		if (followingList == null)
 			throw new FollowNotFoundException("팔로잉 리스트가 존재하지 않습니다.");
 
 		List<Long> followings = new LinkedList<>();
-		for (FollowEntity followEntityInfo : followingList) {
-			followings.add(followEntityInfo.getFollowingMemberNumberEntity().getMemberNumber());
+		for (Follow followInfo : followingList) {
+			followings.add(followInfo.getFollowingMemberNumber().getMemberNumber());
 		}
 		return followings;
 	}
 
 	public void followMember(Long memberNumber, Long targetMemberNumber) {
-		MemberEntity followerMemberEntity = memberRepository.findById(memberNumber).orElseThrow();
-		MemberEntity followingMemberEntity = memberRepository.findById(targetMemberNumber).orElseThrow();
-		if (followerMemberEntity.getMemberNumber() == followingMemberEntity.getMemberNumber()) {
+		Member followerMember = memberRepository.findById(memberNumber).orElseThrow();
+		Member followingMember = memberRepository.findById(targetMemberNumber).orElseThrow();
+		if (followerMember.getMemberNumber() == followingMember.getMemberNumber()) {
 			throw new FollowNotFoundException("같은 회원에 대해서는 팔로우 할 수 없습니다.");
 		}
-		FollowEntity followEntityCheck = followRepository.findByFollowerMemberNumberAndFollowingMemberNumber(
-			followerMemberEntity, followingMemberEntity);
-		if (followEntityCheck != null) {
+		Follow followCheck = followRepository.findByFollowerMemberNumberAndFollowingMemberNumber(
+			followerMember, followingMember);
+		if (followCheck != null) {
 			throw new FollowNotFoundException("이미 팔로우 하고 있습니다.");
 		} else {
-			FollowEntity followEntity = new FollowEntity();
-			followEntity.setFollowerMemberNumberEntity(followerMemberEntity);
-			followEntity.setFollowingMemberNumberEntity(followingMemberEntity);
-			followEntity.setCreateDate(new Date());
+			Follow follow = new Follow();
+			follow.setFollowerMemberNumber(followerMember);
+			follow.setFollowingMemberNumber(followingMember);
+			follow.setCreateDate(new Date());
 
-			followRepository.save(followEntity);
+			followRepository.save(follow);
 
 			//멤버기록에서 수정해야함
 			// memberRecordService.updateMemberFollowingCnt(memberNumber, 1);
@@ -78,17 +78,16 @@ public class FollowService {
 	}
 
 	public void unfollowMember(Long memberNumber, Long targetMemberNumber) {
-		MemberEntity followerMemberEntity = memberRepository.findById(memberNumber).orElseThrow();
-		MemberEntity followingMemberEntity = memberRepository.findById(targetMemberNumber).orElseThrow();
+		Member followerMember = memberRepository.findById(memberNumber).orElseThrow();
+		Member followingMember = memberRepository.findById(targetMemberNumber).orElseThrow();
 
-		FollowEntity followEntity = followRepository.findByFollowerMemberNumberAndFollowingMemberNumber(
-			followerMemberEntity,
-			followingMemberEntity);
+		Follow follow = followRepository.findByFollowerMemberNumberAndFollowingMemberNumber(followerMember,
+			followingMember);
 
-		if (followEntity == null)
+		if (follow == null)
 			throw new FollowNotFoundException("팔로우 정보가 존재하지 않습니다.");
 
-		followRepository.delete(followEntity);
+		followRepository.delete(follow);
 
 		//멤버기록에서 수정
 		// memberRecordService.updateMemberFollowingCnt(memberNumber, -1);

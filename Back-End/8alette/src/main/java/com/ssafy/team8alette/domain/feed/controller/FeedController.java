@@ -1,6 +1,5 @@
 package com.ssafy.team8alette.domain.feed.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +23,10 @@ import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -89,15 +88,18 @@ public class FeedController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		FeedEntity feedEntity = feedService.getFeedById(feed_number);
-		MemberEntity memberEntity = memberService.getMemberInfo(feedEntity.getMemberEntity().getMemberNumber());
+		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feedEntity.getFeedImgTrans() != null) {
-			File saveFile = new File(projectPath, feedEntity.getFeedImgTrans());
-			data.put("img", saveFile);
+			// File saveFile = new File(projectPath, feedEntity.getFeedImgTrans());
+			// data.put("img", saveFile);
+			data.put("img_name", feedEntity.getFeedImgOrigin());
+			data.put("img_url",
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}
 		data.put("feedNumber", feedEntity.getFeedNumber());
-		data.put("feedCreatorNumber", feedEntity.getMemberEntity().getMemberNumber());
-		data.put("memberNickName", memberEntity.getMemberNickname());
+		data.put("feedCreatorNumber", feedEntity.getMember().getMemberNumber());
+		data.put("memberNickName", member.getMemberNickname());
 		data.put("title", feedEntity.getTitle());
 		data.put("content", feedEntity.getContent());
 		data.put("feedLikeCnt", feedEntity.getFeedLikeCnt());
@@ -109,10 +111,9 @@ public class FeedController {
 		data.put("deleteDate", feedEntity.getDeleteDate());
 		//아직 심볼부여는 빼고
 		// data.put("symbolNumber", 0);
-		data.put("exp",
-			memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMemberEntity().getMemberNumber())
-				.getMemberExpCnt());
-		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMemberEntity()));
+		data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
+			.getMemberExpCnt());
+		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 
 		responseData.put("message", "success");
 		responseData.put("status", 200);
