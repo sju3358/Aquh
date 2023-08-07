@@ -2,7 +2,6 @@ package com.ssafy.team8alette.domain.member.auth.model.dto;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
 
 import jakarta.persistence.Column;
@@ -65,7 +64,7 @@ public class Member {
 	//record랑 매핑
 	@PrimaryKeyJoinColumn
 	@OneToOne(mappedBy = "member")
-	@JsonManagedReference
+	// @JsonManagedReference
 	private MemberRecord memberRecord;
 
 }
