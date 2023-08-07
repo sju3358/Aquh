@@ -2,6 +2,7 @@ import React from "react";
 import FeedCard from "../components/feed/FeedCard";
 // import classes from "../FeedCard.module.css";
 import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
+import classes from "./MainPage.module.css";
 
 export default function MainPage() {
   const testList = [
@@ -33,16 +34,18 @@ export default function MainPage() {
   );
 
   return (
-    <main>
-      <section>
-          <div>
+    <main className={classes.container}>
+      <img src="../../bubbling-main.png" alt="bubblingMain" className={classes.bubbleMainImg} />
+      <section className={classes.bubbleBox}>
             <PopulatedBubbleList />
-          </div>
       </section>
-      <section>
-        <div>
+      <img src="../../bubbletalk-main.png" alt="bubblingTalk" className={classes.bubbleMainImg} />
+      <section className={classes.bubbleBox}>
+            <PopulatedBubbleList />
+      </section>
+      <img src="../../feed-main.png" alt="bubblingTalk" className={classes.feedMainImg} />
+      <section className={classes.feedBox}>
           {testFeed}
-        </div>
       </section>
     </main>
   );
