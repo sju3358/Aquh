@@ -1,18 +1,17 @@
-package com.ssafy.team8alette.domain.hashtag.model.dto.Entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.hashtag.model.dto.Key.TaggingID;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,21 +23,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tagging")
-public class TaggingEntity implements Serializable {
+@Table(name = "two_way_question")
+public class TwoWayQuestionEntity {
 
-	@EmbeddedId
-	private TaggingID taggingID;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "two_way_question_number", nullable = false)
+	private Long twoWayQuestionNumber;
 
-	@MapsId("bubbleNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bubble_number")
+	@JoinColumn(name = "bubble_number", nullable = false)
 	private BubbleEntity bubbleEntity;
 
-	@MapsId("hashTagNumber")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hashtag_number")
-	private HashtagEntity hashtagEntity;
+	@Column(name = "left_context", nullable = false)
+	private String leftContext;
+
+	@Column(name = "right_context", nullable = false)
+	private String rightContext;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;
