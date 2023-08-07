@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 
 import java.io.Serializable;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.VoteID;
 
 import jakarta.persistence.EmbeddedId;
@@ -38,6 +38,6 @@ public class VoteSelectEntity implements Serializable {
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private Member member;
+	private MemberEntity memberEntity;
 
 }

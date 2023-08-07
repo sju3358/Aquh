@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
-import com.ssafy.team8alette.domain.member.follow.model.dto.Entity.Follow;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.follow.model.dto.Entity.FollowEntity;
 
 @Repository
-public interface FollowRepository extends JpaRepository<Follow, Long> {
+public interface FollowRepository extends JpaRepository<FollowEntity, Long> {
 
-	List<Follow> findAllByFollowingMemberNumber(Member memberNumber);
+	List<FollowEntity> findAllByFollowingMemberNumber(MemberEntity memberEntityNumber);
 
-	List<Follow> findAllByFollowerMemberNumber(Member memberNumber);
+	List<FollowEntity> findAllByFollowerMemberNumber(MemberEntity memberEntityNumber);
 
 	// Follow findFollowByFollowerMemberNumberAndFollowingMemberNumber(Member member);
 
@@ -21,9 +21,10 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	// Follow findByFollowerMemberNumberAndFollowingMemberNumber(@Param("followerMember") Member followMember,
 	// 	@Param("followingMember") Member followingMember);
 
-	Follow findByFollowerMemberNumberAndFollowingMemberNumber(Member followerMember, Member followingMember);
+	FollowEntity findByFollowerMemberNumberAndFollowingMemberNumber(
+		MemberEntity followerMemberEntity, MemberEntity followingMemberEntity);
 
 	// int countByFollowerMemberNumber(Member member);
-	int countByFollowingMemberNumber(Member member);
+	int countByFollowingMemberNumber(MemberEntity memberEntity);
 
 }

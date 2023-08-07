@@ -3,7 +3,7 @@ package com.ssafy.team8alette.domain.member.record.model.service;
 import org.springframework.stereotype.Component;
 
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecordEntity;
 import com.ssafy.team8alette.global.exception.MemberNotExistException;
 
 import lombok.RequiredArgsConstructor;
@@ -14,61 +14,61 @@ public class MemberRecordService {
 
 	private final MemberRecordRepository memberRecordRepository;
 
-	public MemberRecord getMemberRecord(Long memberNumber) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+	public MemberRecordEntity getMemberRecord(Long memberNumber) {
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
 
-		if (memberRecord == null)
+		if (memberRecordEntity == null)
 			throw new MemberNotExistException();
 
-		return memberRecord;
+		return memberRecordEntity;
 	}
 
 	public void updateMemberExp(Long memberNumber, int expCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberExpCnt(memberRecord.getMemberExpCnt() + expCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberExpCnt(memberRecordEntity.getMemberExpCnt() + expCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberComment(Long memberNumber, int commentCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberCommentCnt(memberRecord.getMemberCommentCnt() + commentCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberCommentCnt(memberRecordEntity.getMemberCommentCnt() + commentCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberRoomJoinCnt(Long memberNumber, int roomJoinCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setBubbleJoinCnt(memberRecord.getBubbleJoinCnt() + roomJoinCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setBubbleJoinCnt(memberRecordEntity.getBubbleJoinCnt() + roomJoinCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberLikeGiveCnt(Long memberNumber, int likeGiveCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberLikeGiveCnt(memberRecord.getMemberLikeGiveCnt() + likeGiveCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberLikeGiveCnt(memberRecordEntity.getMemberLikeGiveCnt() + likeGiveCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberReceiveCnt(Long memberNumber, int likeReceiveCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberExpCnt(memberRecord.getMemberExpCnt() + likeReceiveCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberExpCnt(memberRecordEntity.getMemberExpCnt() + likeReceiveCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberBestCnt(Long memberNumber, int bestCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberBestCnt(memberRecord.getMemberBestCnt() + bestCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberBestCnt(memberRecordEntity.getMemberBestCnt() + bestCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberFollowingCnt(Long memberNumber, int followingCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberFollowerCnt(memberRecord.getMemberFollowerCnt() + followingCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberFollowerCnt(memberRecordEntity.getMemberFollowerCnt() + followingCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 	public void updateMemberFollowerCnt(Long memberNumber, int followerCnt) {
-		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberFollowerCnt(memberRecord.getMemberFollowerCnt() + followerCnt);
-		memberRecordRepository.save(memberRecord);
+		MemberRecordEntity memberRecordEntity = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		memberRecordEntity.setMemberFollowerCnt(memberRecordEntity.getMemberFollowerCnt() + followerCnt);
+		memberRecordRepository.save(memberRecordEntity);
 	}
 
 }
