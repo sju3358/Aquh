@@ -3,9 +3,9 @@ package com.ssafy.team8alette.domain.symbol.model.dto.grant.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecordEntity;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
-import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.SymbolEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Embeddable
-public class Grant implements Serializable {
+public class GrantEntity implements Serializable {
 
 	@EmbeddedId
 	private GrantID grantID;
@@ -30,12 +30,12 @@ public class Grant implements Serializable {
 	@MapsId("grantedMemberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "granted_member_number", nullable = false)
-	private MemberRecord memberRecord;
+	private MemberRecordEntity memberRecordEntity;
 
 	@MapsId("symbolNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "symbol_number", nullable = false)
-	private Symbol symbol;
+	private SymbolEntity symbolEntity;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date date;

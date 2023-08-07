@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.domain.feed.model.dto.key.LikeID;
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -43,11 +43,11 @@ public class LikeEntity implements Serializable {
 	@MapsId("likeMemberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "like_member_number", nullable = false)
-	private Member member;
+	private MemberEntity memberEntity;
 
-	public LikeEntity(FeedEntity feedEntity, Member member) {
+	public LikeEntity(FeedEntity feedEntity, MemberEntity memberEntity) {
 		this.feedEntity = feedEntity;
-		this.member = member;
+		this.memberEntity = memberEntity;
 	}
 
 }

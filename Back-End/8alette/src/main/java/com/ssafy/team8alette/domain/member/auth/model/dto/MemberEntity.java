@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.member.auth.model.dto;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecordEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "member")
-public class Member {
+public class MemberEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,6 @@ public class Member {
 	//record랑 매핑
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "member")
 	@PrimaryKeyJoinColumn
-	private MemberRecord memberRecord;
+	private MemberRecordEntity memberRecordEntity;
 
 }
