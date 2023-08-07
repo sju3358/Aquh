@@ -5,17 +5,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
@@ -32,9 +34,9 @@ public class FeedService {
 	private final FollowRepository followRepository;
 	private final SymbolRepository symbolRepository;
 
-	// private final AmazonS3Client amazonS3Client;
+	private final AmazonS3Client amazonS3Client;
 
-	// @Value("${spring.data.couchbase.bucket-name}")
+	@Value("${spring.data.couchbase.bucket-name}/feed_img")
 	private String bucket;
 
 	private static String projectPath = "/home/ubuntu/spring-upload-images";
@@ -73,7 +75,7 @@ public class FeedService {
 			ObjectMetadata metadata = new ObjectMetadata();
 			metadata.setContentType(file.getContentType());
 			metadata.setContentLength(file.getSize());
-			// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+			amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 			feedEntity.setFeedActive(true);
 			feedEntity.setFeedLikeCnt(0);
@@ -174,7 +176,7 @@ public class FeedService {
 				ObjectMetadata metadata = new ObjectMetadata();
 				metadata.setContentType(file.getContentType());
 				metadata.setContentLength(file.getSize());
-				// amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
 				//빈껍데기 생성해서 피드 저장소에 이미지 전달
 				// File saveFile = new File(projectPath, fileName);
@@ -212,7 +214,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		dto.setFeedImgTrans(feedEntity.getFeedImgTrans());
+		dto.setFeedImgTrans("https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 
