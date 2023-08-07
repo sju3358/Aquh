@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
-import com.ssafy.team8alette.domain.auth.member.util.JwtTokenProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

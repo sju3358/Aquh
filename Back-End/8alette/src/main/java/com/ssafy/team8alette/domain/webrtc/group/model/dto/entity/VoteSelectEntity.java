@@ -2,8 +2,8 @@ package com.ssafy.team8alette.domain.webrtc.group.model.dto.entity;
 
 import java.io.Serializable;
 
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.webrtc.group.model.dto.key.VoteID;
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

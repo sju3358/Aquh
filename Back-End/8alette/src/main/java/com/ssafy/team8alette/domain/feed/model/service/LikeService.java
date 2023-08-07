@@ -9,8 +9,8 @@ import com.ssafy.team8alette.domain.feed.model.dao.LikeRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.LikeEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.key.LikeID;
-import com.ssafy.team8alette.domain.auth.member.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.auth.member.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
