@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberType;
 import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
@@ -58,51 +58,51 @@ public class MemberService {
 
 		String memberPasswordEncoded = passwordUtil.encodePassword(memberPassword);
 
-		MemberEntity memberEntity = new MemberEntity();
-		memberEntity.setMemberId(memberEmail);
-		memberEntity.setMemberEmail(memberEmail);
-		memberEntity.setMemberPassword(memberPasswordEncoded);
-		memberEntity.setMemberNickname(memberNickname);
-		memberEntity.setMemberName(memberName);
-		memberEntity.setMemberState(0);
-		memberEntity.setMemberType(MemberType.CO.toString());
-		memberEntity.setEmailVerified(false);
-		memberEntity.setEmailReceive(isEmailReceive);
-		memberRepository.save(memberEntity);
+		Member member = new Member();
+		member.setMemberId(memberEmail);
+		member.setMemberEmail(memberEmail);
+		member.setMemberPassword(memberPasswordEncoded);
+		member.setMemberNickname(memberNickname);
+		member.setMemberName(memberName);
+		member.setMemberState(0);
+		member.setMemberType(MemberType.CO.toString());
+		member.setEmailVerified(false);
+		member.setEmailReceive(isEmailReceive);
+		memberRepository.save(member);
 
-		return memberEntity.getMemberNumber();
+		return member.getMemberNumber();
 	}
 
 	public void deactivate(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
-		memberEntity.setMemberState(2);
-		memberRepository.save(memberEntity);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		member.setMemberState(2);
+		memberRepository.save(member);
 	}
 
-	public MemberEntity getMemberInfo(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
+	public Member getMemberInfo(Long memberNumber) {
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
-		if (memberEntity == null) {
+		if (member == null) {
 			throw new MemberNotExistException();
 		}
 
-		return memberEntity;
+		return member;
 	}
 
-	public MemberEntity getMemberInfo(String memberId) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberId(memberId);
+	public Member getMemberInfo(String memberId) {
+		Member member = memberRepository.findMemberByMemberId(memberId);
 
-		if (memberEntity == null) {
+		if (member == null) {
 			throw new MemberNotExistException();
 		}
 
-		return memberEntity;
+		return member;
 	}
 
 	public boolean isExistMemberId(String memberId) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberId(memberId);
+		Member member = memberRepository.findMemberByMemberId(memberId);
 
-		if (memberEntity == null) {
+		if (member == null) {
 			return false;
 		}
 
@@ -110,23 +110,23 @@ public class MemberService {
 	}
 
 	public boolean isExistMemberNickname(String memberNickname) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNickname(memberNickname);
+		Member member = memberRepository.findMemberByMemberNickname(memberNickname);
 
-		if (memberEntity == null) {
+		if (member == null) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public MemberEntity getMemberInfoByNickname(String memberNickName) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNickname(memberNickName);
+	public Member getMemberInfoByNickname(String memberNickName) {
+		Member member = memberRepository.findMemberByMemberNickname(memberNickName);
 
-		if (memberEntity == null) {
+		if (member == null) {
 			throw new MemberNotExistException();
 		}
 
-		return memberEntity;
+		return member;
 	}
 
 	public void editMemberInfo(Map<String, String> param) throws IllegalAccessException {
@@ -138,43 +138,43 @@ public class MemberService {
 		String memberName = param.get("member_name").trim();
 		String memberEmailReceive = param.get("member_emailReceive").trim();
 
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
 		if (memberEmail != null && memberEmail.equals("") != true) {
-			memberEntity.setMemberEmail(memberEmail);
-			memberEntity.setEmailVerified(false);
+			member.setMemberEmail(memberEmail);
+			member.setEmailVerified(false);
 			mailSenderUtil.sendVerifyEmailMessage(memberNumber, memberEmail);
 		}
 		if (memberNickname != null && memberNickname.equals("") != true) {
-			memberEntity.setMemberNickname(memberNickname);
+			member.setMemberNickname(memberNickname);
 		}
 
 		if (memberIntro != null && memberIntro.equals("") != true) {
-			memberEntity.setMemberIntro(memberIntro);
+			member.setMemberIntro(memberIntro);
 		}
 
 		if (memberName != null && memberName.equals("") != true) {
-			memberEntity.setMemberName(memberName);
+			member.setMemberName(memberName);
 		}
 
 		if (memberEmailReceive != null && memberEmailReceive.equals("") != true) {
-			memberEntity.setEmailReceive(memberEmailReceive.equals("Y"));
+			member.setEmailReceive(memberEmailReceive.equals("Y"));
 		}
 
-		memberRepository.save(memberEntity);
+		memberRepository.save(member);
 	}
 
 	public void verifyMemberState(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
-		memberEntity.setMemberState(1);
-		memberEntity.setEmailVerified(true);
-		memberRepository.save(memberEntity);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		member.setMemberState(1);
+		member.setEmailVerified(true);
+		memberRepository.save(member);
 	}
 
 	public void verifyMemberEmail(Long memberNumber) {
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
-		memberEntity.setEmailVerified(true);
-		memberRepository.save(memberEntity);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		member.setEmailVerified(true);
+		memberRepository.save(member);
 	}
 
 	public void changeMemberPassword(Map<String, String> param) throws
@@ -184,7 +184,7 @@ public class MemberService {
 		String memberNewPassword = param.get("new_password").trim();
 		String memberNewPasswordRepeat = param.get("new_password_repeat").trim();
 
-		MemberEntity memberEntity = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
 
 		nullValueChecker.check(memberNewPassword, memberNewPasswordRepeat);
 
@@ -196,28 +196,28 @@ public class MemberService {
 
 		String newPasswordEncoded = passwordUtil.encodePassword(memberNewPassword);
 
-		memberEntity.setMemberPassword(newPasswordEncoded);
+		member.setMemberPassword(newPasswordEncoded);
 
-		memberRepository.save(memberEntity);
+		memberRepository.save(member);
 	}
 
 	public void changeMemberPassword(String email, String newPassword) throws
 		NoSuchAlgorithmException {
 
-		MemberEntity memberEntity = memberRepository.findMemberByMemberEmail(email);
+		Member member = memberRepository.findMemberByMemberEmail(email);
 
 		String newPasswordEncoded = passwordUtil.encodePassword(newPassword);
 
-		memberEntity.setMemberPassword(newPasswordEncoded);
+		member.setMemberPassword(newPasswordEncoded);
 
-		memberRepository.save(memberEntity);
+		memberRepository.save(member);
 	}
 
 	public boolean checkValid(String memberEmail, String memberPassword) throws NoSuchAlgorithmException {
 
-		MemberEntity memberEntity = memberRepository.findMemberByMemberEmail(memberEmail);
+		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
 
-		passwordUtil.match(memberPassword, memberEntity.getMemberPassword());
+		passwordUtil.match(memberPassword, member.getMemberPassword());
 
 		return true;
 	}

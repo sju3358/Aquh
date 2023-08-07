@@ -3,17 +3,17 @@ package com.ssafy.team8alette.domain.member.auth.model.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 @Repository
-public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	MemberEntity findMemberByMemberId(String memberId);
+	Member findMemberByMemberId(String memberId);
 
-	MemberEntity findMemberByMemberNumber(Long memberNumber);
+	Member findMemberByMemberNumber(Long memberNumber);
 
-	MemberEntity findMemberByMemberEmail(String memberEmail);
+	Member findMemberByMemberEmail(String memberEmail);
 
-	MemberEntity findMemberByMemberNickname(String memberNickname);
+	Member findMemberByMemberNickname(String memberNickname);
 
 }

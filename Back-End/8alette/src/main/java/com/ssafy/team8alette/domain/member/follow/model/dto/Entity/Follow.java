@@ -2,7 +2,7 @@ package com.ssafy.team8alette.domain.member.follow.model.dto.Entity;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Table(name = "follow")
 @ToString
-public class FollowEntity {
+public class Follow {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +33,11 @@ public class FollowEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "follower_number", nullable = false)
-	private MemberEntity followerMemberNumberEntity;
+	private Member followerMemberNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "following_number", nullable = false)
-	private MemberEntity followingMemberNumberEntity;
+	private Member followingMemberNumber;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;
