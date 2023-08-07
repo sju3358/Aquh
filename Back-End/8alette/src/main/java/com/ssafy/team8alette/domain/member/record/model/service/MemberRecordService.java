@@ -1,9 +1,9 @@
-package com.ssafy.team8alette.domain.member.auth.model.service;
+package com.ssafy.team8alette.domain.member.record.model.service;
 
 import org.springframework.stereotype.Component;
 
-import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
 import com.ssafy.team8alette.global.exception.MemberNotExistException;
 
 import lombok.RequiredArgsConstructor;
