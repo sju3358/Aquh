@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
@@ -46,7 +46,7 @@ public class MemberController {
 		@RequestParam Optional<String> type,
 		@RequestParam Optional<String> emailReceive) {
 
-		Member member = memberService.getMemberInfo(memberNumber);
+		MemberEntity memberEntity = memberService.getMemberInfo(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
@@ -54,36 +54,36 @@ public class MemberController {
 		if (nickname.isEmpty() && email.isEmpty() && intro.isEmpty()
 			&& state.isEmpty() && name.isEmpty() && type.isEmpty() && emailReceive.isEmpty()) {
 
-			data.put("member_nickname", member.getMemberNickname());
-			data.put("member_email", member.getMemberEmail());
-			data.put("member_intro", member.getMemberIntro());
-			data.put("member_state", member.getMemberState());
-			data.put("member_name", member.getMemberName());
-			data.put("member_type", member.getMemberType());
-			data.put("member_emailReceive", member.isEmailReceive());
+			data.put("member_nickname", memberEntity.getMemberNickname());
+			data.put("member_email", memberEntity.getMemberEmail());
+			data.put("member_intro", memberEntity.getMemberIntro());
+			data.put("member_state", memberEntity.getMemberState());
+			data.put("member_name", memberEntity.getMemberName());
+			data.put("member_type", memberEntity.getMemberType());
+			data.put("member_emailReceive", memberEntity.isEmailReceive());
 
 		} else {
 
 			if (nickname.orElse("N").equals("Y")) {
-				data.put("member_nickname", member.getMemberNickname());
+				data.put("member_nickname", memberEntity.getMemberNickname());
 			}
 			if (name.orElse("N").equals("Y")) {
-				data.put("member_name", member.getMemberName());
+				data.put("member_name", memberEntity.getMemberName());
 			}
 			if (email.orElse("N").equals("Y")) {
-				data.put("member_email", member.getMemberEmail());
+				data.put("member_email", memberEntity.getMemberEmail());
 			}
 			if (intro.orElse("N").equals("Y")) {
-				data.put("member_intro", member.getMemberIntro());
+				data.put("member_intro", memberEntity.getMemberIntro());
 			}
 			if (state.orElse("N").equals("Y")) {
-				data.put("member_state", member.getMemberState());
+				data.put("member_state", memberEntity.getMemberState());
 			}
 			if (type.orElse("N").equals("Y")) {
-				data.put("member_type", member.getMemberType());
+				data.put("member_type", memberEntity.getMemberType());
 			}
 			if (emailReceive.orElse("N").equals("Y")) {
-				data.put("member_emailReceive", member.isEmailReceive());
+				data.put("member_emailReceive", memberEntity.isEmailReceive());
 			}
 
 		}
@@ -101,9 +101,9 @@ public class MemberController {
 
 		Long memberNumber = memberService.register(param);
 
-		Member member = memberService.getMemberInfo(memberNumber);
+		MemberEntity memberEntity = memberService.getMemberInfo(memberNumber);
 
-		mailSenderUtil.sendVerifyStateMessage(memberNumber, member.getMemberEmail());
+		mailSenderUtil.sendVerifyStateMessage(memberNumber, memberEntity.getMemberEmail());
 
 		Map<String, Object> responseData = new HashMap<>();
 

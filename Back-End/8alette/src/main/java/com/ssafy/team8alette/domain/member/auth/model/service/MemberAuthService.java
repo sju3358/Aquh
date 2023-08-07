@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
 import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
@@ -32,27 +32,27 @@ public class MemberAuthService {
 
 		nullValueChecker.check(loginEmail, loginPassword);
 
-		Member member = memberRepository.findMemberByMemberEmail(loginEmail);
+		MemberEntity memberEntity = memberRepository.findMemberByMemberEmail(loginEmail);
 
-		if (member == null) {
+		if (memberEntity == null) {
 			throw new MemberNotExistException();
 		}
 
-		if (member.getMemberState() == 0) {
+		if (memberEntity.getMemberState() == 0) {
 			throw new UnAuthorizedException("이메일인증을 먼저 진행해 주세요");
 		}
 
-		if (member.getMemberState() == 2) {
+		if (memberEntity.getMemberState() == 2) {
 			throw new UnAuthorizedException("이미 탈퇴한 회원입니다");
 		}
 
-		if (memberLoginInfoRepository.findById(Long.toString(member.getMemberNumber())).orElse(null) != null) {
+		if (memberLoginInfoRepository.findById(Long.toString(memberEntity.getMemberNumber())).orElse(null) != null) {
 			throw new MemberDuplicatedException("이미 로그인 중입니다.");
 		}
 
-		passwordUtil.match(loginPassword, member.getMemberPassword());
+		passwordUtil.match(loginPassword, memberEntity.getMemberPassword());
 
-		return member.getMemberNumber();
+		return memberEntity.getMemberNumber();
 	}
 
 	public void login(Long memberNumber, String refreshToken) {
