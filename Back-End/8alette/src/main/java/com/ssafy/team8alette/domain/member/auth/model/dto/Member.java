@@ -2,6 +2,8 @@ package com.ssafy.team8alette.domain.member.auth.model.dto;
 
 import java.util.Date;
 
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -12,7 +12,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
-import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;

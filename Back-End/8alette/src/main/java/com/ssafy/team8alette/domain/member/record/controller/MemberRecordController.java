@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.member.auth.controller;
+package com.ssafy.team8alette.domain.member.record.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.MemberRecord;
-import com.ssafy.team8alette.domain.member.auth.model.service.MemberRecordService;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
 
