@@ -23,10 +23,10 @@ import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -111,8 +111,13 @@ public class FeedController {
 		data.put("deleteDate", feedEntity.getDeleteDate());
 		//아직 심볼부여는 빼고
 		// data.put("symbolNumber", 0);
-		data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
-			.getMemberExpCnt());
+		// data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
+		// 	.getMemberExpCnt());
+		// int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
+		// if(exp%1000==1){
+		//
+		// }
+
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 
 		responseData.put("message", "success");
