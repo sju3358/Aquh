@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.webrtc.openvidu.dto.entity;
+package com.ssafy.team8alette.domain.webrtc.openvidu.model.dto.entity;
 
 import java.util.Date;
 
