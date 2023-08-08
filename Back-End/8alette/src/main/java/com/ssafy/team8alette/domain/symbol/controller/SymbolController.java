@@ -52,6 +52,8 @@ public class SymbolController {
 				symbol.getCreateDate(),
 				isSymbolActive);
 			dtoList.add(responseDTO);
+
+			//수정
 		}
 
 		Map<String, Object> responseData = new HashMap<>();
