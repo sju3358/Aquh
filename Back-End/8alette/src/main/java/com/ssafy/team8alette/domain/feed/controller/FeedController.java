@@ -124,27 +124,27 @@ public class FeedController {
 
 		if (share == 0) {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 1);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		} else if (share == 1) {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 2);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		} else if (share == 2) {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 3);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		} else if (share == 4) {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 4);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		} else if (share == 7) {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 5);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		} else {
 			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 6);
-			imgLink = symbol.getSymbolName();
+			imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName();
 			data.put("characterGrade", imgLink);
 		}
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
