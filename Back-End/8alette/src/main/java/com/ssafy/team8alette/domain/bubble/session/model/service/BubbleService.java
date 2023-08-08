@@ -31,6 +31,7 @@ public class BubbleService {
 		CategoryEntity category = categoryRepository.findCategoryEntityByCategoryNumber(categoryNumber)
 			.orElseThrow(() -> new CategoryNotFoundException());
 
+		//오픈예정시간, 종료예정시간 추가해야함
 		BubbleEntity bubble = BubbleEntity.builder()
 			.bubbleTitle(createBubbleRequest.getBubbleTitle())
 			.bubbleContent((createBubbleRequest.getBubbleContent()))
@@ -46,12 +47,10 @@ public class BubbleService {
 		return bubble.getBubbleNumber();
 	}
 
-	private void openBubble() {
-
-	}
-
-	private void closeBubble() {
-
+	public void closeBubble() {
+		//버블 객체 찾아서 state false로 변경
+		//버블 세션 모두 삭제
+		//버블 참가자 리스트 삭제??????
 	}
 
 }
