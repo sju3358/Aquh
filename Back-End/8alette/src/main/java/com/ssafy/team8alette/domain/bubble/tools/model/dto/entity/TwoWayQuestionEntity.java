@@ -44,4 +44,14 @@ public class TwoWayQuestionEntity {
 	@Column(name = "create_dttm", nullable = false)
 	private Date createDate;
 
+	@Override
+	public String toString() {
+		return "TwoWayQuestionEntity{" +
+			"twoWayQuestionNumber=" + twoWayQuestionNumber +
+			", bubbleEntity=" + bubbleEntity +
+			", leftContext='" + leftContext + '\'' +
+			", rightContext='" + rightContext + '\'' +
+			", createDate=" + createDate +
+			'}';
+	}
 }
