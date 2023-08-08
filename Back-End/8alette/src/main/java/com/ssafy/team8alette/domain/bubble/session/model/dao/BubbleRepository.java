@@ -7,5 +7,5 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity
 
 @Repository
 public interface BubbleRepository extends JpaRepository<BubbleEntity, Long> {
-	
+	BubbleEntity findByBubbleNumber(Long bubbleNumber);
 }

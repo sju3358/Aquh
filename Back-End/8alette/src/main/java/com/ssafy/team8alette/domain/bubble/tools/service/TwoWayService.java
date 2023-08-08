@@ -11,7 +11,9 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayAnswerRepositor
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayQuestionRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayAnswerEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayQuestionEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TwoWayQuestionResponseDTO;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,7 +49,7 @@ public class TwoWayService {
 			dto.setRight_context(question.getRightContext());
 			dto.setPick_member_cnt(answers.size());
 			dto.setLeft_cnt(left_cnt);
-			dto.setIs_pick(is_pick);
+			dto.setMy_pick(is_pick);
 
 			response.add(dto);
 		}
@@ -56,7 +58,12 @@ public class TwoWayService {
 	}
 
 	// 양자택일 질문 등록
-	public void registTwoWayQuestion(TwoWayQuestionEntity twoWayQuestionEntity) {
+	public void registTwoWayQuestion(TwoWayQuestionRequestDTO twoWayQuestionRequestDTO) {
+		BubbleEntity bubbleEntity = bubbleRepository.findByBubbleNumber(twoWayQuestionRequestDTO.getBubble_number());
+		TwoWayQuestionEntity twoWayQuestionEntity = new TwoWayQuestionEntity();
+		twoWayQuestionEntity.setBubbleEntity(bubbleEntity);
+		twoWayQuestionEntity.setLeftContext(twoWayQuestionRequestDTO.getLeft_context());
+		twoWayQuestionEntity.setRightContext(twoWayQuestionRequestDTO.getRight_context());
 		twoWayQuestionRepository.save(twoWayQuestionEntity);
 	}
 
