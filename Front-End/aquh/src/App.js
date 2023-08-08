@@ -11,6 +11,7 @@ import BubblePage from './pages/BubblePage';
 import RedirectPage from './pages/RedirectPage'
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
+import VideoPage from './pages/VideoPage';
 const router = createBrowserRouter([
   // { path: '/login',
   //   element : <LoginPage />,
@@ -27,7 +28,9 @@ const router = createBrowserRouter([
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
       { path: '/feed', element : <FeedPage />},
       { path: '/bubble', element : <BubblePage />},
-
+      // 0807 김재원 수정
+      { path: '/video', element : <VideoPage />},
+      
     ]
   },
   {
