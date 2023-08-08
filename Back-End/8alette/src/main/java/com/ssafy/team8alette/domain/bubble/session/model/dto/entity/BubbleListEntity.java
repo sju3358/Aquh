@@ -3,8 +3,8 @@ package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.key.GroupID;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -14,18 +14,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Entity
 @Getter
-@Setter
-@ToString
 @RequiredArgsConstructor
+@Entity
 @Table(name = "bubble_list")
-public class bubbleListEntity implements Serializable {
+@Builder
+public class BubbleListEntity implements Serializable {
 
 	@EmbeddedId
 	private GroupID groupID;
