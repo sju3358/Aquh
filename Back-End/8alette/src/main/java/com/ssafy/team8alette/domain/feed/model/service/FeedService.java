@@ -225,7 +225,6 @@ public class FeedService {
 		String imgLink = "";
 		imgLink = symbolRepository.findFirstBySymbolConditionCntIsLessThanEqualOrderBySymbolConditionCntDesc(exp)
 			.getSymbolName();
-		;
 		dto.setCharacterName(imgLink);
 		dto.setExp(exp);
 		return dto;
