@@ -223,8 +223,9 @@ public class FeedService {
 		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt();
 		String imgLink = "";
-		imgLink = symbolRepository.findFirstBySymbolConditionCntIsLessThanEqualOrderBySymbolConditionCntDesc(exp)
-			.getSymbolName();
+		imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/"
+			+ symbolRepository.findFirstBySymbolConditionCntIsLessThanEqualOrderBySymbolConditionCntDesc(exp)
+			.getSymbolImgName();
 		dto.setCharacterName(imgLink);
 		dto.setExp(exp);
 		return dto;
