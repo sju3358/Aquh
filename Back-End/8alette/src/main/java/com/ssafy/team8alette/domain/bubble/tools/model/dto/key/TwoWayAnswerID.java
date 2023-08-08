@@ -13,12 +13,12 @@ import lombok.Setter;
 @Embeddable
 public class TwoWayAnswerID implements Serializable {
 
-	private Long twoWayAnswerNumber;
+	private Long twoWayQuestionNumber;
 
 	private Long memberNumber;
 
-	private TwoWayAnswerID(Long twoWayAnswerNumber, Long memberNumber) {
-		this.twoWayAnswerNumber = twoWayAnswerNumber;
+	private TwoWayAnswerID(Long twoWayQuestionNumber, Long memberNumber) {
+		this.twoWayQuestionNumber = twoWayQuestionNumber;
 		this.memberNumber = memberNumber;
 	}
 

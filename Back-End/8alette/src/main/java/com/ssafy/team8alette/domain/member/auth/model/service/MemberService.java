@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
 import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
 import com.ssafy.team8alette.domain.member.auth.util.RegexChecker;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
 import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
 import com.ssafy.team8alette.global.exception.MemberNotExistException;
 import com.ssafy.team8alette.global.exception.MemberPasswordInvalidException;
@@ -27,6 +30,7 @@ public class MemberService {
 	private final PasswordUtil passwordUtil;
 	private final NullValueChecker nullValueChecker;
 	private final MailSenderUtil mailSenderUtil;
+	private final MemberRecordRepository memberRecordRepository;
 
 	public Long register(Map<String, String> param) throws NoSuchAlgorithmException {
 
@@ -69,6 +73,12 @@ public class MemberService {
 		member.setEmailVerified(false);
 		member.setEmailReceive(isEmailReceive);
 		memberRepository.save(member);
+
+		MemberRecord memberRecord = new MemberRecord();
+		memberRecord.setMemberNumber(member.getMemberNumber());
+		memberRecord.setMember(member);
+		memberRecord.setDate(new Date());
+		memberRecordRepository.save(memberRecord);
 
 		return member.getMemberNumber();
 	}
