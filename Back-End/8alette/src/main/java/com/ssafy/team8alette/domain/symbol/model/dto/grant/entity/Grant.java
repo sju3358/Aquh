@@ -10,17 +10,21 @@ import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "symbol_grant")
 @Embeddable
 public class Grant implements Serializable {
 
@@ -39,5 +43,7 @@ public class Grant implements Serializable {
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date date;
+
+	// @Column(name = "")
 
 }
