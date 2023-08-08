@@ -53,4 +53,16 @@ public class BubbleService {
 		//버블 참가자 리스트 삭제??????
 	}
 
+	public void getBubbleInfo() {
+		// 버블 정보 리턴
+	}
+
+	public void getBubbleChatList() {
+		//버블챗 리스트
+	}
+
+	public void getBubblingList() {
+		//버블링 리스트
+	}
+
 }
