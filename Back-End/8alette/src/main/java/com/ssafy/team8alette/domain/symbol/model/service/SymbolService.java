@@ -19,4 +19,8 @@ public class SymbolService {
 		return symbolRepository.findAll();
 	}
 
+	public Symbol getCharacter(Long number) {
+		return symbolRepository.findSymbolBySymbolNumber(number);
+	}
+
 }
