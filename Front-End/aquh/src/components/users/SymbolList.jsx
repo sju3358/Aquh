@@ -10,7 +10,7 @@ const [symbols, setSymbols] = useState([]);
 useEffect(() => {
   const fetchSymbolList = async () => {
     try {
-      const response = await symbolList();
+      const response = await symbolList(1);
       const res = response.data.symbolList;
       setSymbols(res)
     }
