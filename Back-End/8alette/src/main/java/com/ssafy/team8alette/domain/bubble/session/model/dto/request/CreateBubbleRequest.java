@@ -2,9 +2,6 @@ package com.ssafy.team8alette.domain.bubble.session.model.dto.request;
 
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.CategoryEntity;
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,11 +9,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateBubbleRequest {
 
-	private String sessionName;
+	private Long hostMemberNumber;
 
-	private Member hostMemberNumber;
-
-	private CategoryEntity categoryEntity;
+	private Long categoryNumber;
 
 	private boolean bubbleType;
 

@@ -32,7 +32,7 @@ public class BubbleEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private Member memberNumber;
+	private Member hostMember;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_number", nullable = false)
