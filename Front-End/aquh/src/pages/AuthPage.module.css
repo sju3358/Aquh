@@ -1,0 +1,13 @@
+.profileAvatar{
+  width: 20rem;
+  height: 20rem;
+}
+
+
+.symbolSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
