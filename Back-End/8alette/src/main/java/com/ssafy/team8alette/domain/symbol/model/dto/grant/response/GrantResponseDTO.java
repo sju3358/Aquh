@@ -5,10 +5,8 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class GrantResponseDTO {
@@ -18,6 +16,7 @@ public class GrantResponseDTO {
 	String symbolImgName;
 	String symbolCode;
 	int symbolConditionCnt;
+	boolean isSymbolActive;
 
 	Date createDate;
 
