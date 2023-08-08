@@ -1,22 +1,22 @@
 import axios from "axios";
 
 let instance = axios.create({
-  baseURL: "http://i9b108.p.ssafy.io:8080",
+  baseURL: "https://i9b108.p.ssafy.io:8080",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// instance.interceptors.request.use(
-//   (config) => {
-//     config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
-//     return config;
-//   },
-//   (error) => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.request.use(
+  (config) => {
+    config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 // instance.interceptors.response.use(
 //   (response) => {
