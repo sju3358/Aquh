@@ -225,3 +225,12 @@ gradle-app.setting
 
 application-AWS-KEY.properties
 Back-End/8alette/src/main/resources/application-AWS-KEY.properties
+
+# front cert
+.cert/
+
+# front yarn
+.yarn/
+
+# front storybook
+.storybook/
