@@ -11,15 +11,15 @@ function FeedCard({
   createDate,
   inputImg,
   creator_nickname,
-  feedCreatorNumber
+  feedCreatorNumber,
 }) {
   console.log("feedCard:", inputImg);
 
-  const showEditButton(e)=> {
-if (member_number===feedCreatorNumber) {
-  
-}
-  }
+  //   const showEditButton(e)=> {
+  // if (member_number===feedCreatorNumber) {
+
+  // }
+  //   }
 
   return (
     <div className={classes.FeedCard}>
@@ -49,4 +49,3 @@ if (member_number===feedCreatorNumber) {
   );
 }
 export default FeedCard;
-
