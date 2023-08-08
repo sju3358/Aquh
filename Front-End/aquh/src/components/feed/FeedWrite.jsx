@@ -4,7 +4,7 @@ import classes from "./FeedWrite.module.css";
 
 function FeedWrite() {
   const [feedTitle, setFeedTitle] = useState("");
-  const [feedContent, setFeedConTent] = useState("");
+  const [feedContent, setFeedContent] = useState("");
   const [file, setFile] = useState(null);
 
   const onChangeFeedTitle = (e) => {
@@ -13,7 +13,7 @@ function FeedWrite() {
   };
   const onChangeFeedContent = (e) => {
     const currentFeedContent = e.target.value;
-    setFeedConTent(currentFeedContent);
+    setFeedContent(currentFeedContent);
   };
   const onChangeFeedFile = (e) => {
     const currentFile = e.target.files[0];
@@ -55,6 +55,8 @@ function FeedWrite() {
         })
         .then((response) => {
           console.log("Response:", response.data);
+          setFeedTitle("");
+          setFeedContent("");
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -71,6 +73,7 @@ function FeedWrite() {
         <input
           type='text'
           value={feedTitle}
+          className={classes.feedTitle}
           onChange={onChangeFeedTitle}
           placeholder='제목을 입력하세요'
         />
@@ -80,6 +83,7 @@ function FeedWrite() {
           cols='30'
           rows='10'
           value={feedContent}
+          className={classes.feedContent}
           onChange={onChangeFeedContent}
           placeholder='내용을 입력하세요'></textarea>
       </div>

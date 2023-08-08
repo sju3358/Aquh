@@ -1,58 +1,24 @@
 .feedWriteCard {
-  margin: 30px;
 }
-/* 
+
 .feedTitle {
- margin: 10px;
-  width: 600px;
-} */
-.feedTitleInput {
-  margin-bottom: 10px;
-  padding: 5px;
+  /* margin-bottom: 5px; */
+  padding: 10px;
   border-radius: 15px;
-  width: 400px;
+  width: 860px;
+  border: #999999;
 }
+
 .feedContent {
-  /* margin: 10px; */
-}
-.feedContentInput {
-  padding: 5px;
+  padding: 10px;
   resize: none; /* 사용자 임의 변경 불가 */
   border-radius: 15px;
   margin-bottom: 10px;
-  /* width: 98%;
-  height: 90%; */
+  width: 860px;
+  height: 70%;
+  border: #999999;
 }
-/* 인풋 스타일 변경 */
-.fileBox .upload-name {
-  display: inline-block;
-  height: 40px;
-  padding: 0 10px;
-  vertical-align: middle;
-  border: 1px solid #dddddd;
-  width: 70%;
-  color: #999999;
-}
-/* 라벨 스타일 변경 */
-.fileBox label {
-  display: inline-block;
-  padding: 10px 10px;
-  color: #fff;
-  vertical-align: middle;
-  background-color: #999999;
-  cursor: pointer;
-  height: 20px;
-  margin-left: 10px;
-}
-/* 기존 디자인 없애기 */
-.fileBox input[type="file"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
-}
+
 .latestChat {
   width: 100rem;
 }

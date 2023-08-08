@@ -8,12 +8,28 @@ export default function RedirectURI(props) {
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
     let state = new URL(window.location.href).searchParams.get("state");
+    console.log(code);
+    console.log(state);
 
+    // axios
+    //   .post("http://localhost:8080/api/v1/member/auth/naver", {
+    //     code: code,
+    //     state: state,
+    //   })
     axios
-      .post("http://localhost:8080/api/v1/member/auth/naver", {
-        code: code,
-        state: state,
-      })
+      .post(
+        "http://localhost:8080/api/v1/member/auth/naver",
+        {
+          code: code,
+          state: state,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+
       .then((res) => {
         if (res.status === 200) {
           localStorage.setItem("access_token", res.data.data.access_token);
