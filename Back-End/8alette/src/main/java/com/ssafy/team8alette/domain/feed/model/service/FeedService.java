@@ -218,7 +218,7 @@ public class FeedService {
 		dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 
-		//사실 이부분은 무조건 기록되어져야함 없으면 오류
+		// 사실 이부분은 무조건 기록되어져야함 없으면 오류
 		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt();
@@ -230,4 +230,19 @@ public class FeedService {
 		dto.setExp(exp);
 		return dto;
 	}
+
+	public List<FeedEntity> getFeedsByMemberNumber(Long memberNumber) {
+		List<FeedEntity> list = null;
+
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+
+		list = feedRepository.findByMemberOrderByFeedNumberDesc(member);
+
+		if (list == null || list.isEmpty()) {
+			throw new NullValueException("피드가 존재하지 않습니다");
+		}
+
+		return list;
+	}
+
 }
