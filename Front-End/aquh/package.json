@@ -11,6 +11,7 @@
     "classes": "^0.3.0",
     "classnames": "^2.3.2",
     "i": "^0.3.7",
+    "openvidu-browser": "^2.28.0",
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,8 +25,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem react-scripts start",
+    "build": "HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "ESLINT_NO_DEV_ERRORS=true storybook dev -p 6006",
