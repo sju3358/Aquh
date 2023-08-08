@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState, setState, useEffect } from "react";
-import "./AuthPage.css";
 import {
   memberEmailState,
   memberIntroState,
@@ -8,43 +7,50 @@ import {
   memberTypeState
 }from '../store/loginUserInfoState'
 import { symbolList } from "../utils/api/api.symbol_service";
-
-
-
 import { useRecoilValue } from "recoil";
 import { main } from "@popperjs/core";
+import SymbolCard from "../components/users/SymbolCard";
+import classes from "./AuthPage.module.css";
+
 
 function AuthPage() {
+  
   const [symbols, setSymbols] = useState([]); 
   const memberEmail = useRecoilValue(memberEmailState);
   const memberNickname =useRecoilValue(memberNicknameState);
   const memberType = useRecoilValue(memberTypeState);
   const memberIntro = useRecoilValue(memberIntroState);
 
-  const headers = {
-    ACCESS_TOKEN: localStorage.getItem("access_token"),
-  };
   useEffect(() => {
     const fetchSymbolList = async () => {
       try {
-        // const response = await symbolList();
-        const response = await axios.get('http://i9b108.p.ssafy.io:8080/api/v1/symbol/list', {headers, withCredentials : true})
-        setSymbols(response)
+        const response = await symbolList();
+        const res = response.data.symbolList;
+        setSymbols(res)
       }
       catch(error){
-        console.log(error);
+        console.log(`Oh no! ${error}`);
       }
     };
     fetchSymbolList();
-  })
+  }, [])
+  console.log("Symbols!!!!", symbols)
+
+  const symbolcards = symbols.map((e) => (
+  <SymbolCard 
+    key={e.symbolNumber} 
+    symbolImgName={e.symbolImgName} 
+    symbolName={e.symbolName} 
+  />
+  ));
 
   return (
     <main>
-      <img src="../../avatar-image-circle.png" alt="" />
-      <p>{memberNickname}</p>
+      <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} />
+      <p classes={classes.profileNickname}>{memberNickname}</p>
       <p>심볼 목록</p>
       <div>
-        {symbols}
+        {symbolcards}
       </div>
     </main>
 
