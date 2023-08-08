@@ -1,42 +1,66 @@
 package com.ssafy.team8alette.domain.bubble.session.model.service;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponse;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.stereotype.Service;
+
+import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequest;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.response.CreateBubbleResponse;
+
+import io.openvidu.java.client.ConnectionProperties;
+import io.openvidu.java.client.ConnectionType;
+import io.openvidu.java.client.OpenVidu;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
+import io.openvidu.java.client.OpenViduRole;
+import io.openvidu.java.client.Session;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class BubbleService {
 
-	public BubbleResponse createBubble(){
+	private Map<String, Session> mapSessions = new ConcurrentHashMap<>();
+	private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
 
-		try {
-			checkUserLogged(httpSession);
-		} catch (Exception e) {
-			return getErrorResponse(e);
-		}
-		System.out.println("Getting a token from OpenVidu Server | {sessionName}=" + sessionNameParam);
+	private final BubbleRepository bubbleRepository;
+	private final OpenVidu openVidu;
 
-		JSONObject sessionJSON = (JSONObject) new JSONParser().parse(sessionNameParam);
+	public CreateBubbleResponse createBubble(CreateBubbleRequest createBubbleRequest) throws
+		OpenViduJavaClientException,
+		OpenViduHttpException {
 
-		// The video-call to connect
-		String sessionName = (String) sessionJSON.get("sessionName");
+		String serverData = "{\"serverData\": \"" + createBubbleRequest.getHostMemberNumber() + "\"}";
+		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
+			.type(ConnectionType.WEBRTC)
+			.data(serverData)
+			.role(OpenViduRole.PUBLISHER)
+			.build();
 
-		// Role associated to this user
-		OpenViduRole role = LoginController.users.get(httpSession.getAttribute("loggedUser")).role;
+		String sessionName = createBubbleRequest.getSessionName();
 
-		// Optional data to be passed to other users when this user connects to the
-		// video-call. In this case, a JSON with the value we stored in the HttpSession
-		// object on login
-		String serverData = "{\"serverData\": \"" + httpSession.getAttribute("loggedUser") + "\"}";
+		Session session = openVidu.createSession();
+		String token = session.createConnection(connectionProperties).getToken();
 
-		// Build connectionProperties object with the serverData and the role
-		ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC).data(serverData).role(role).build();
+		this.mapSessions.put(sessionName, session);
+		this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
+		this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
-		JSONObject responseJson = new JSONObject();
+		// Prepare the response with the token
+		responseJson.put(0, token);
 
+		// Return the response to the client
+		return new ResponseEntity<>(responseJson, HttpStatus.OK);
+	}
+
+	public void enterBubble() {
 		if (this.mapSessions.get(sessionName) != null) {
-			// Session already exists
+
 			System.out.println("Existing session " + sessionName);
 			try {
 
-				// Generate a new Connection with the recently created connectionProperties
 				String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
 
 				// Update our collection storing the new token
@@ -59,32 +83,5 @@ public class BubbleService {
 				}
 			}
 		}
-
-		// New session
-		System.out.println("New session " + sessionName);
-		try {
-
-			// Create a new OpenVidu Session
-			Session session = this.openVidu.createSession();
-			// Generate a new Connection with the recently created connectionProperties
-			String token = session.createConnection(connectionProperties).getToken();
-
-			// Store the session and the token in our collections
-			this.mapSessions.put(sessionName, session);
-			this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
-			this.mapSessionNamesTokens.get(sessionName).put(token, role);
-
-			// Prepare the response with the token
-			responseJson.put(0, token);
-
-			// Return the response to the client
-			return new ResponseEntity<>(responseJson, HttpStatus.OK);
-
-		} catch (Exception e) {
-			// If error generate an error message and return it to client
-			return getErrorResponse(e);
-		}
 	}
-
-	public void
 }

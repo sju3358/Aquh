@@ -7,12 +7,10 @@ import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
-public class BubbleResponse {
+public class CreateBubbleResponse {
 
 	private Long bubbleNumber;
 
