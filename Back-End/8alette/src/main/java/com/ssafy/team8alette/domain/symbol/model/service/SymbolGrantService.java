@@ -9,6 +9,7 @@ import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.request.SymbolGrantRequestDTO;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
@@ -29,10 +30,57 @@ public class SymbolGrantService {
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				grant.getSymbol().getSymbolImgName(), grant.getSymbol().getSymbolCode(),
-				grant.getSymbol().getSymbolConditionCnt(), grant.getDate()))
+				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus(), grant.getDate()))
 			.collect(
 				Collectors.toList());
 		return dtoList;
+	}
+
+	public void putActiveTrue(SymbolGrantRequestDTO symbolGrantRequestDTO) {
+		Long memberNumber = symbolGrantRequestDTO.getMemberNumber();
+		//
+		List<Grant> list = symbolGrantRepository.findByGrantIDGrantedMemberNumber(memberNumber);
+		if (list != null) {
+			for (Grant setList : list) {
+				setList.setActiveStatus(false);
+				symbolGrantRepository.save(setList);
+			}
+		}
+		Long one = symbolGrantRequestDTO.getSelectNumberOne();
+		if (one != 0) {
+			Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+				one);
+			grant.setActiveStatus(true);
+			symbolGrantRepository.save(grant);
+		}
+		Long two = symbolGrantRequestDTO.getSelectNumberTwo();
+		if (two != 0) {
+			Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+				two);
+			grant.setActiveStatus(true);
+			symbolGrantRepository.save(grant);
+		}
+		Long three = symbolGrantRequestDTO.getSelectNumberThree();
+		if (three != 0) {
+			Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+				three);
+			grant.setActiveStatus(true);
+			symbolGrantRepository.save(grant);
+		}
+		Long four = symbolGrantRequestDTO.getSelectNumberFour();
+		if (four != 0) {
+			Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+				four);
+			grant.setActiveStatus(true);
+			symbolGrantRepository.save(grant);
+		}
+		Long five = symbolGrantRequestDTO.getSelectNumberFive();
+		if (five != 0) {
+			Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+				five);
+			grant.setActiveStatus(true);
+			symbolGrantRepository.save(grant);
+		}
 	}
 
 }
