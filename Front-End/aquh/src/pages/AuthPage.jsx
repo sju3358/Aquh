@@ -6,51 +6,28 @@ import {
   memberNicknameState,
   memberTypeState
 }from '../store/loginUserInfoState'
-import { symbolList } from "../utils/api/api.symbol_service";
+
 import { useRecoilValue } from "recoil";
 import { main } from "@popperjs/core";
-import SymbolCard from "../components/users/SymbolCard";
 import classes from "./AuthPage.module.css";
-
+import SymbolList from "../components/users/SymbolList";
 
 function AuthPage() {
   
-  const [symbols, setSymbols] = useState([]); 
+  
   const memberEmail = useRecoilValue(memberEmailState);
   const memberNickname =useRecoilValue(memberNicknameState);
   const memberType = useRecoilValue(memberTypeState);
   const memberIntro = useRecoilValue(memberIntroState);
 
-  useEffect(() => {
-    const fetchSymbolList = async () => {
-      try {
-        const response = await symbolList();
-        const res = response.data.symbolList;
-        setSymbols(res)
-      }
-      catch(error){
-        console.log(`Oh no! ${error}`);
-      }
-    };
-    fetchSymbolList();
-  }, [])
-  console.log("Symbols!!!!", symbols)
-
-  const symbolcards = symbols.map((e) => (
-  <SymbolCard 
-    key={e.symbolNumber} 
-    symbolImgName={e.symbolImgName} 
-    symbolName={e.symbolName} 
-  />
-  ));
 
   return (
-    <main>
+    <main className={classes.symbolSection}>
       <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} />
       <p classes={classes.profileNickname}>{memberNickname}</p>
       <p>심볼 목록</p>
-      <div>
-        {symbolcards}
+      <div className={classes.symbolContainer}>
+        <SymbolList />
       </div>
     </main>
 
