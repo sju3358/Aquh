@@ -5,7 +5,7 @@ import React, { Component, useState, useEffect } from "react";
 import "./Chatting.module.css";
 import UserVideoComponent from './UserVideoComponent';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://i9b108.p.ssafy.io:5000/';
 
 export default class Chatting extends Component{
   constructor(props) {
