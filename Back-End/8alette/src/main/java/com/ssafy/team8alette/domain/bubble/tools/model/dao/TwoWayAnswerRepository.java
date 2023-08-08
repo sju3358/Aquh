@@ -1,5 +1,6 @@
 package com.ssafy.team8alette.domain.bubble.tools.model.dao;
 
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,8 @@ public interface TwoWayAnswerRepository extends JpaRepository<TwoWayAnswerEntity
 	 * @return List<TwoWayAnswerEntity> : 양자택일 답변 객체 리스트
 	 */
 	List<TwoWayAnswerEntity> findAllByTwoWayQuestionEntity(TwoWayQuestionEntity twoWayQuestionEntity);
+
+	boolean existsByTwoWayAnswerID(TwoWayAnswerID twoWayAnswerID);
+
+	void deleteByTwoWayAnswerID(TwoWayAnswerID twoWayAnswerID);
 }
