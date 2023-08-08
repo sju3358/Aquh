@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 @Repository
 public interface FeedRepository extends JpaRepository<FeedEntity, Long> {
@@ -19,5 +20,7 @@ public interface FeedRepository extends JpaRepository<FeedEntity, Long> {
 	List<FeedEntity> findByFeedActiveOrderByFeedLikeCntDescAndFeedNumberDesc(boolean feedActive);
 
 	boolean existsByFeedNumberAndFeedActive(Long feedNumber, boolean feedActive);
+
+	List<FeedEntity> findByMemberOrderByFeedNumberDesc(Member member);
 
 }
