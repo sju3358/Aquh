@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.ssafy.team8alette.member.model.dto.MemberRecord;
+
 import com.ssafy.team8alette.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.symbol.model.dto.symbol.Symbol;
 
