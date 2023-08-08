@@ -11,8 +11,11 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayAnswerRepositor
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayQuestionRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayAnswerEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayQuestionEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TwoWayQuestionResponseDTO;
+import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ public class TwoWayService {
 	private final TwoWayQuestionRepository twoWayQuestionRepository;
 	private final TwoWayAnswerRepository twoWayAnswerRepository;
 	private final BubbleRepository bubbleRepository;
+	private final MemberRepository memberRepository;
 
 	// 양자택일 질문 전체 조회
 	public List<TwoWayQuestionResponseDTO> getTwoWayQuestions(Long bubbleNumber, Long memberNumber) {
@@ -59,7 +63,8 @@ public class TwoWayService {
 
 	// 양자택일 질문 등록
 	public void registTwoWayQuestion(TwoWayQuestionRequestDTO twoWayQuestionRequestDTO) {
-		BubbleEntity bubbleEntity = bubbleRepository.findByBubbleNumber(twoWayQuestionRequestDTO.getBubble_number());
+		BubbleEntity bubbleEntity = bubbleRepository.findById(twoWayQuestionRequestDTO.getBubble_number())
+			.orElseThrow();
 		TwoWayQuestionEntity twoWayQuestionEntity = new TwoWayQuestionEntity();
 		twoWayQuestionEntity.setBubbleEntity(bubbleEntity);
 		twoWayQuestionEntity.setLeftContext(twoWayQuestionRequestDTO.getLeft_context());
@@ -70,5 +75,20 @@ public class TwoWayService {
 	// 양자택일 질문 삭제
 	public void deleteTwoWayQuestion(Long twoWayQuestionNumber) {
 		twoWayQuestionRepository.deleteById(twoWayQuestionNumber);
+	}
+
+	// 양자택일 답변 등록
+	public void registTwoWayAnswer(TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {
+		TwoWayQuestionEntity twoWayQuestionEntity = twoWayQuestionRepository.findById(
+			twoWayQuestionAnswerDTO.getTwo_way_question_number()).orElseThrow();
+		Member member = memberRepository.findById(twoWayQuestionAnswerDTO.getMember_number()).orElseThrow();
+		TwoWayAnswerEntity twoWayAnswerEntity = new TwoWayAnswerEntity();
+		twoWayAnswerEntity.setTwoWayQuestionEntity(twoWayQuestionEntity);
+		twoWayAnswerEntity.setMember(member);
+		twoWayAnswerEntity.setPickRight(twoWayQuestionAnswerDTO.is_pick_right());
+
+		System.out.println(twoWayAnswerEntity);
+
+		twoWayAnswerRepository.save(twoWayAnswerEntity);
 	}
 }
