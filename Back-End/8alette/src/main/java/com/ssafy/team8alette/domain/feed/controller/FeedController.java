@@ -28,6 +28,9 @@ import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
+import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +42,7 @@ public class FeedController {
 	private final FeedService feedService;
 	private final LikeService likeService;
 	private final MemberService memberService;
+	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
 	private final SymbolRepository symbolRepository;
 	private final MemberRecordRepository memberRecordRepository;
@@ -110,16 +114,40 @@ public class FeedController {
 		data.put("createDate", feedEntity.getCreateDate());
 		data.put("deleteDate", feedEntity.getDeleteDate());
 		//아직 심볼부여는 빼고
-		// data.put("symbolNumber", 0);
+		List<GrantResponseDTO> list = symbolGrantService.getGrantList(feedEntity.getMember().getMemberNumber());
+		data.put("symbolNumber", list);
 		// data.put("exp", memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 		// 	.getMemberExpCnt());
-		// int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
-		// if(exp%1000==1){
-		//
-		// }
+		int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
+		String imgLink = "";
+		Long share = (long)(exp / 1000);
 
+		if (share == 0) {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 1);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		} else if (share == 1) {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 2);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		} else if (share == 2) {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 3);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		} else if (share == 4) {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 4);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		} else if (share == 7) {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 5);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		} else {
+			Symbol symbol = symbolRepository.findSymbolBySymbolNumber(share + 6);
+			imgLink = symbol.getSymbolName();
+			data.put("characterGrade", imgLink);
+		}
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
-
 		responseData.put("message", "success");
 		responseData.put("status", 200);
 		responseData.put("data", data);
