@@ -14,10 +14,10 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
@@ -219,9 +219,15 @@ public class FeedService {
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 
 		//사실 이부분은 무조건 기록되어져야함 없으면 오류
-		dto.setExp(memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
-			.getMemberExpCnt());
 		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
+		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
+			.getMemberExpCnt();
+		String imgLink = "";
+		imgLink = symbolRepository.findFirstBySymbolConditionCntIsLessThanEqualOrderBySymbolConditionCntDesc(exp)
+			.getSymbolName();
+		;
+		dto.setCharacterName(imgLink);
+		dto.setExp(exp);
 		return dto;
 	}
 }

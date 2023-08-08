@@ -32,7 +32,6 @@ public class SymbolGrantService {
 				grant.getSymbol().getSymbolConditionCnt(), grant.getDate()))
 			.collect(
 				Collectors.toList());
-
 		return dtoList;
 	}
 
