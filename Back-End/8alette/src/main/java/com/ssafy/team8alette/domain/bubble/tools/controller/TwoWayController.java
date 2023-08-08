@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.TwoWayService;
 
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class TwoWayController {
 	private final TwoWayService twoWayService;
 
+	// 양자택일 질문 전체 조회
 	@GetMapping("/question")
 	public ResponseEntity<Map<String, Object>> findALlTwoWayQuestions(
 		@RequestParam Long member_number,
@@ -39,6 +42,7 @@ public class TwoWayController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	// 양자택일 질문 생성
 	@PostMapping("/question")
 	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
 		@RequestBody TwoWayQuestionRequestDTO twoWayQuestionRequestDTO) {
@@ -51,6 +55,8 @@ public class TwoWayController {
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
+
+	// 양자택일 질문 삭제
 	@DeleteMapping("/question/{question_number}")
 	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
 		@PathVariable Long question_number) {
@@ -59,6 +65,20 @@ public class TwoWayController {
 		twoWayService.deleteTwoWayQuestion(question_number);
 
 		responseData.put("message", "양자택일 질문 삭제 완료");
+		responseData.put("status", 200);
+
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	// 양자택일 답변 생성
+	@PostMapping("/answer")
+	public ResponseEntity<Map<String, Object>> createTwoWayAnswer(
+		@RequestBody TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {
+		Map<String, Object> responseData = new HashMap<>();
+
+		twoWayService.registTwoWayAnswer(twoWayQuestionAnswerDTO);
+
+		responseData.put("message", "양자택일 답변 등록 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

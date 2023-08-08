@@ -1,7 +1,6 @@
 package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
@@ -31,9 +30,9 @@ public class TwoWayAnswerEntity implements Serializable {
 	@EmbeddedId
 	private TwoWayAnswerID twoWayAnswerID;
 
-	@MapsId("twoWayAnswerNumber")
+	@MapsId("twoWayQuestionNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "two_way_answer_number", nullable = false)
+	@JoinColumn(name = "two_way_question_number", nullable = false)
 	private TwoWayQuestionEntity twoWayQuestionEntity;
 
 	@MapsId("memberNumber")
@@ -41,14 +40,7 @@ public class TwoWayAnswerEntity implements Serializable {
 	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bubble_number", nullable = false)
-	private BubbleEntity bubbleEntity;
-
 	@Column(name = "is_pick_right", nullable = false)
 	private boolean isPickRight;
-
-	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
 
 }
