@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let instance = axios.create({
-  baseURL: "http://i9b108.p.ssafy.io:8080",
+  baseURL: "https://i9b108.p.ssafy.io:8080",
   headers: {
     "Content-Type": "application/json",
   },
