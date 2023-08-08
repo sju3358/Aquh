@@ -3,9 +3,9 @@ package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

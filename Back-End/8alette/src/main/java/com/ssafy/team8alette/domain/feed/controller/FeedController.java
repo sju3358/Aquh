@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
-
+	
 	private final FeedService feedService;
 	private final LikeService likeService;
 	private final MemberService memberService;
