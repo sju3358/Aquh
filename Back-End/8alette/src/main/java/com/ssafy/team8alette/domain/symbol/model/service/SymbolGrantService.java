@@ -29,7 +29,8 @@ public class SymbolGrantService {
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
-				grant.getSymbol().getSymbolImgName(), grant.getSymbol().getSymbolCode(),
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
+				grant.getSymbol().getSymbolCode(),
 				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus(), grant.getDate()))
 			.collect(
 				Collectors.toList());
