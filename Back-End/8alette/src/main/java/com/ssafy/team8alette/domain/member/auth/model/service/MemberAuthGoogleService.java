@@ -89,8 +89,8 @@ public class MemberAuthGoogleService {
 		memberRepository.save(newMember);
 
 		MemberRecord memberRecord = new MemberRecord();
-		memberRecord.setMemberNumber(member.getMemberNumber());
-		memberRecord.setMember(member);
+		memberRecord.setMemberNumber(newMember.getMemberNumber());
+		memberRecord.setMember(newMember);
 		memberRecord.setDate(new Date());
 		memberRecordRepository.save(memberRecord);
 
