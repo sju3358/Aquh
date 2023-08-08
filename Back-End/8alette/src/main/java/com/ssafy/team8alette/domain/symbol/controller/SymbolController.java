@@ -46,7 +46,7 @@ public class SymbolController {
 			SymbolListResponseDTO responseDTO = new SymbolListResponseDTO(
 				symbol.getSymbolNumber(),
 				symbol.getSymbolName(),
-				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + symbol.getSymbolImgName(),
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + symbol.getSymbolImgName(),
 				symbol.getSymbolCode(),
 				symbol.getSymbolConditionCnt(),
 				symbol.getCreateDate(),
