@@ -4,8 +4,12 @@ import java.util.Date;
 
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -23,40 +27,42 @@ import lombok.Setter;
 public class MemberRecord {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "member_number")
 	private Long memberNumber;
 
-	@Column(name = "exp_cnt", nullable = false)
+	@Column(name = "exp_cnt")
 	private int memberExpCnt;
 
-	@Column(name = "comment_cnt", nullable = false)
+	@Column(name = "comment_cnt")
 	private int memberCommentCnt;
 
-	@Column(name = "bubble_join_cnt", nullable = false)
+	@Column(name = "bubble_join_cnt")
 	private int bubbleJoinCnt;
 
-	@Column(name = "like_give_cnt", nullable = false)
+	@Column(name = "like_give_cnt")
 	private int memberLikeGiveCnt;
 
-	@Column(name = "like_receive_cnt", nullable = false)
+	@Column(name = "like_receive_cnt")
 	private int memberLikeReceiveCnt;
 
-	@Column(name = "best_cnt", nullable = false)
+	@Column(name = "best_cnt")
 	private int memberBestCnt;
 
-	@Column(name = "following_cnt", nullable = false)
+	@Column(name = "following_cnt")
 	private int memberFollowingCnt;
 
-	@Column(name = "follower_cnt", nullable = false)
+	@Column(name = "follower_cnt")
 	private int memberFollowerCnt;
 
 	@Column(name = "record_update_dttm")
 	private Date date;
 
 	// 이 부분이 member 매핑
-	@OneToOne
 	@MapsId
-	@JoinColumn(name = "member_number")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "member_number", referencedColumnName = "member_number")
 	private Member member;
 
+	// , referencedColumnName = "member_number"
 }
