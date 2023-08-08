@@ -205,7 +205,7 @@ public class FeedController {
 			.map(feedService::convertToDTO)
 			.collect(Collectors.toList());
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("message", "좋아요 되었습니다.");
+		responseData.put("message", "success");
 		responseData.put("status", 200);
 		responseData.put("feedList", dtoList);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
