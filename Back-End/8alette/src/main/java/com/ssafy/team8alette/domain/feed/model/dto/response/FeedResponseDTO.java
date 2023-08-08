@@ -28,4 +28,5 @@ public class FeedResponseDTO {
 	private long symbolNumber;
 	private int followingCnt;
 	private String nickName;
+	private String characterName;
 }
