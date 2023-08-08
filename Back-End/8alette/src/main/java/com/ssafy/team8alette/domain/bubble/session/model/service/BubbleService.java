@@ -1,7 +1,10 @@
 package com.ssafy.team8alette.domain.bubble.session.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.domain.bubble.session.exception.BubbleNotFoundException;
 import com.ssafy.team8alette.domain.bubble.session.exception.CategoryNotFoundException;
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
@@ -53,16 +56,29 @@ public class BubbleService {
 		//버블 참가자 리스트 삭제??????
 	}
 
-	public void getBubbleInfo() {
-		// 버블 정보 리턴
+	public BubbleEntity getBubbleInfo(Long bubbleNumber) {
+		return bubbleRepository.findBubbleEntityByBubbleNumber(bubbleNumber).orElseThrow(
+			() -> new BubbleNotFoundException());
 	}
 
-	public void getBubbleChatList() {
-		//버블챗 리스트
+	public List<BubbleEntity> getBubbleTalkList() {
+
+		List<BubbleEntity> bubbleList = bubbleRepository.findBubbleEntitiesByBubbleTypeIsTrue();
+
+		if (bubbleList == null)
+			throw new BubbleNotFoundException();
+
+		return bubbleList;
 	}
 
-	public void getBubblingList() {
-		//버블링 리스트
+	public List<BubbleEntity> getBubblingList() {
+
+		List<BubbleEntity> bubbleList = bubbleRepository.findBubbleEntitiesByBubbleTypeIsFalse();
+
+		if (bubbleList == null)
+			throw new BubbleNotFoundException();
+
+		return bubbleList;
 	}
 
 }
