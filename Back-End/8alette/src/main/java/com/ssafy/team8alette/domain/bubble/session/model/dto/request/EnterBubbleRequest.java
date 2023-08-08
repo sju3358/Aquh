@@ -6,4 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class EnterBubbleRequest {
+
+	private Long bubbleNumber;
+	private Long memberNumber;
+
 }

@@ -5,8 +5,7 @@ import org.springframework.http.HttpStatus;
 import lombok.Builder;
 
 @Builder
-public class CreateBubbleResponse {
-
+public class EnterBubbleResponse {
 	private String token;
 	private HttpStatus status;
 	private String message;
