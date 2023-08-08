@@ -43,7 +43,7 @@ function FeedCard({
           alt='피드 이미지'
         />
       )}
-      {showEditButton && <button on>수정하기</button>}
+      {/* {showEditButton && <button on>수정하기</button>} */}
       {/* TODO : 작성자와 로그인유저가 같을 경우에만 수정하기 버튼 보이기 */}
     </div>
   );
