@@ -10,4 +10,5 @@ public class CreateBubbleResponse {
 	private String token;
 	private HttpStatus status;
 	private String message;
+	
 }
