@@ -2,6 +2,7 @@ package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberType;
 import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
 import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
 import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
@@ -26,6 +29,7 @@ public class MemberAuthGoogleService {
 	private final PasswordUtil passwordUtil;
 	private final MemberLoginInfoRepository memberLoginInfoRepository;
 	private final NullValueChecker nullValueChecker;
+	private final MemberRecordRepository memberRecordRepository;
 
 	public void login(Long memberNumber, String refreshToken) throws SQLException {
 
@@ -83,6 +87,12 @@ public class MemberAuthGoogleService {
 		newMember.setEmailVerified(true);
 		newMember.setEmailReceive(true);
 		memberRepository.save(newMember);
+
+		MemberRecord memberRecord = new MemberRecord();
+		memberRecord.setMemberNumber(newMember.getMemberNumber());
+		memberRecord.setMember(newMember);
+		memberRecord.setDate(new Date());
+		memberRecordRepository.save(memberRecord);
 
 		return memberRepository.findMemberByMemberId(memberId).getMemberNumber();
 	}
