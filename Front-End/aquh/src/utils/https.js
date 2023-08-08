@@ -7,16 +7,16 @@ let instance = axios.create({
   },
 });
 
-// instance.interceptors.request.use(
-//   (config) => {
-//     config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
-//     return config;
-//   },
-//   (error) => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.request.use(
+  (config) => {
+    config.headers["AUTH-TOKEN"] = localStorage.getItem("access_token");
+    return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 // instance.interceptors.response.use(
 //   (response) => {
