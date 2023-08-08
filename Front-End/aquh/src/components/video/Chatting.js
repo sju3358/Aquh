@@ -5,7 +5,7 @@ import React, { Component, useState, useEffect } from "react";
 import "./Chatting.module.css";
 import UserVideoComponent from './UserVideoComponent';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://i9b108.p.ssafy.io/';
 
 export default class Chatting extends Component{
   constructor(props) {
@@ -330,14 +330,14 @@ export default class Chatting extends Component{
   }
 
   async createSession(sessionId) {
-      const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
+      const response = await axios.post(APPLICATION_SERVER_URL + 'apiv2/sessions', { customSessionId: sessionId }, {
           headers: { 'Content-Type': 'application/json', },
       });
       return response.data; // The sessionId
   }
 
   async createToken(sessionId) {
-      const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
+      const response = await axios.post(APPLICATION_SERVER_URL + 'apiv2/sessions/' + sessionId + '/connections', {}, {
           headers: { 'Content-Type': 'application/json', },
       });
       return response.data; // The token
