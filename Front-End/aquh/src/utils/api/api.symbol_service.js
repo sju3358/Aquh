@@ -6,5 +6,8 @@ const api = axios.create({
 });
 
 
-export const symbolList = () => 
-    api.get('list');
+export const symbolList = (member_number) => 
+    api.get(`list/${member_number}`);
+
+export const mySymbolList = (member_number) => 
+    api.get(`grant/${member_number}`);
