@@ -1,7 +1,5 @@
 package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
 
-import java.util.Date;
-
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 
 import jakarta.persistence.Column;
@@ -41,9 +39,6 @@ public class TwoWayQuestionEntity {
 	@Column(name = "right_context", nullable = false)
 	private String rightContext;
 
-	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
-
 	@Override
 	public String toString() {
 		return "TwoWayQuestionEntity{" +
@@ -51,7 +46,6 @@ public class TwoWayQuestionEntity {
 			", bubbleEntity=" + bubbleEntity +
 			", leftContext='" + leftContext + '\'' +
 			", rightContext='" + rightContext + '\'' +
-			", createDate=" + createDate +
 			'}';
 	}
 }

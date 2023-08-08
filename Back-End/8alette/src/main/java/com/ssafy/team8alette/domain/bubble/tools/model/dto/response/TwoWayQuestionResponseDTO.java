@@ -11,7 +11,7 @@ public class TwoWayQuestionResponseDTO {
 	private String right_context;
 	private int pick_member_cnt;
 	private int left_cnt;
-	private int is_pick;
+	private int my_pick;
 
 	@Override
 	public String toString() {
@@ -21,7 +21,7 @@ public class TwoWayQuestionResponseDTO {
 			", right_context='" + right_context + '\'' +
 			", pick_member_cnt=" + pick_member_cnt +
 			", left_cnt=" + left_cnt +
-			", is_pick=" + is_pick +
+			", is_pick=" + my_pick +
 			'}';
 	}
 }
