@@ -1,7 +1,7 @@
 FROM node:18-alpine
 WORKDIR /app
 
-COPY .yarn/ .yarnrc.yml yarn.lock package.json package-lock.json /app 
+COPY .yarn/ .yarnrc.yml yarn.lock package.json package-lock.json .
 RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.3.0 && yarn install
 COPY . .
 
