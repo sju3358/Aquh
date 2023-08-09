@@ -6,21 +6,6 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-
-export const accessTokenState = atom({
-  key: "acessToken",
-  default: "",
-  effects_UNSTABLE : [persistAtom],
-});
-
-
-export const refreshTokenState = atom({
-  key: "refreshToken",
-  default: "",
-  effects_UNSTABLE : [persistAtom],
-});
-
-
 export const memberNumberState = atom({
   key: "memberNumber",
   default: -1,
