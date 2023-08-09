@@ -69,7 +69,7 @@ export default function RedirectPage() {
 
       }})
     .catch((error) => {
-      
+      console.log(error);
       alert("다시 시도해주세요!");
       navigate("/login");
 
