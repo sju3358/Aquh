@@ -12,7 +12,6 @@ import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordReposito
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.member.record.model.dto.response.MemberRecordDTO;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
-import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
@@ -25,7 +24,6 @@ public class MemberRecordService {
 
 	private final MemberRecordRepository memberRecordRepository;
 	private final MemberRepository memberRepository;
-	private final SymbolRepository symbolRepository;
 	private final SymbolGrantRepository symbolGrantRepository;
 
 	public MemberRecord getMemberRecord(Long memberNumber) {
@@ -125,9 +123,9 @@ public class MemberRecordService {
 			dto.setMaxExp(10000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
-		///
 
 		return dto;
 	}
+	//
 
 }
