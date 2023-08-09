@@ -23,7 +23,6 @@ useEffect(() => {
   fetchSymbolList();
 }, [id])
 
-console.log("Symbols!!!!", symbols)
 
 const symbolcards = symbols.map((e) => (
 <SymbolPortrait 
