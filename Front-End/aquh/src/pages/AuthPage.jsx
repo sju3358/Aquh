@@ -14,8 +14,10 @@ import SymbolList from "../components/users/SymbolList";
 import { memberNumberState } from '../store/loginUserState'
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";  
+import UserSymbolList from "../components/users/UserSymbolList";
 
-function AuthPage() {
+
+export default function AuthPage() {
 
   // params로 다른 주소 접근시 방지하기 위한 코드
   const memberNumber = useRecoilValue(memberNumberState);
