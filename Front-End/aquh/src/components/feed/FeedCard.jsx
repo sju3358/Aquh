@@ -5,7 +5,7 @@ import axios from "axios";
 import FeedPage from "../../pages/FeedPage";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
-import FeedModal from "./FeedModal";
+// import FeedModal from "./FeedModal";
 
 function FeedCard({
   level,
@@ -16,7 +16,7 @@ function FeedCard({
   feedCreatorNumber,
 }) {
   // 글 상세보기 페이지 open
-  const [modalOpen, setModalOpen] = useState(false);
+  // const [modalOpen, setModalOpen] = useState(false);
 
   // 캐릭터 레벨에 따른 사진 보여주기
   const charImg = () => {
