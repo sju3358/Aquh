@@ -6,6 +6,7 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,8 +31,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberAuthNaverController {
 
-	private final String naverClientId = "0jXgPVDyLQu_ekRssB20";
-	private final String naverClientSecret = "meJ2fmVdZi";
+	@Value(value = "${naver.client.id}")
+	private String naverClientId;
+	@Value(value = "${naver.client.secret}")
+	private String naverClientSecret;
 
 	private final MemberAuthNaverService memberNaverService;
 	private final MemberService memberService;

@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS "two_way_answer";
 DROP TABLE IF EXISTS "two_way_question";
 DROP TABLE IF EXISTS "best_member";
 DROP TABLE IF EXISTS "todo";
-DROP TABLE IF EXISTS "grant";
+DROP TABLE IF EXISTS "symbol_grant";
 DROP TABLE IF EXISTS "record";
 DROP TABLE IF EXISTS "alarm";
 DROP TABLE IF EXISTS "symbol";
@@ -12,13 +12,12 @@ DROP TABLE IF EXISTS "report";
 DROP TABLE IF EXISTS "likes";
 DROP TABLE IF EXISTS "feed";
 DROP TABLE IF EXISTS "tagging";
-DROP TABLE IF EXISTS "group_list";
-DROP TABLE IF EXISTS "room";
+DROP TABLE IF EXISTS "bubble_list";
+DROP TABLE IF EXISTS "bubble";
 DROP TABLE IF EXISTS "category";
 DROP TABLE IF EXISTS "hashtag";
 DROP TABLE IF EXISTS "follow";
 DROP TABLE IF EXISTS "member";
-
 
 CREATE TABLE "member" (
 	"member_number"	BIGSERIAL		NOT NULL,
@@ -100,44 +99,44 @@ COMMENT ON COLUMN "feed"."create_dttm" IS '작성 시간';
 COMMENT ON COLUMN "feed"."delete_dttm" IS '피드 삭제 시간';
 
 
-CREATE TABLE "room" (
-	"room_number"	BIGSERIAL		NOT NULL,
+CREATE TABLE "bubble" (
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
 	"category_number"	INTEGER		NOT NULL,
-	"room_type"	VARCHAR(3)	DEFAULT 'opc' NOT NULL,
-	"room_title"	VARCHAR(20)		NOT NULL,
-	"room_content"	VARCHAR(500)		NOT NULL,
-	"room_thumbnail"	TEXT		NULL,
-	"room_state"	BOOLEAN		NOT NULL,
+	"is_bubble_talk"	BOOLEAN	DEFAULT FALSE NOT NULL,
+	"bubble_title"	VARCHAR(20)		NOT NULL,
+	"bubble_content"	VARCHAR(500)		NOT NULL,
+	"bubble_thumbnail"	TEXT		NULL,
+	"bubble_state"	BOOLEAN		NOT NULL,
 	"plan_open_dttm"	TIMESTAMP		NULL,
 	"plan_close_dttm"	TIMESTAMP		NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL,
 	"done_dttm"	TIMESTAMP		NULL
 );
 
-COMMENT ON COLUMN "room"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "bubble"."bubble_number" IS '버블 인덱스';
 
-COMMENT ON COLUMN "room"."member_number" IS '방장회원번호 인덱스';
+COMMENT ON COLUMN "bubble"."member_number" IS '방장회원번호 인덱스';
 
-COMMENT ON COLUMN "room"."category_number" IS '대분류 인덱스';
+COMMENT ON COLUMN "bubble"."category_number" IS '대분류 인덱스';
 
-COMMENT ON COLUMN "room"."room_type" IS '0 : 오픈채팅 1 : 모집형';
+COMMENT ON COLUMN "bubble"."is_bubble_talk" IS 'FALSE : 버블링 / TRUE : 버블톡';
 
-COMMENT ON COLUMN "room"."room_title" IS '그룹방 제목 1~20자';
+COMMENT ON COLUMN "bubble"."bubble_title" IS '버블 제목 1~20자';
 
-COMMENT ON COLUMN "room"."room_content" IS '그룹방 소개 글 : 1~500자';
+COMMENT ON COLUMN "bubble"."bubble_content" IS '버블 소개 글 : 1~500자';
 
-COMMENT ON COLUMN "room"."room_thumbnail" IS '이미지 url';
+COMMENT ON COLUMN "bubble"."bubble_thumbnail" IS '이미지 url';
 
-COMMENT ON COLUMN "room"."room_state" IS 'TRUE: 대기 및 활성 / FALSE: 종료';
+COMMENT ON COLUMN "bubble"."bubble_state" IS 'TRUE: 대기 및 활성 / FALSE: 종료';
 
-COMMENT ON COLUMN "room"."plan_open_dttm" IS '그룹방 시작 예정 일시';
+COMMENT ON COLUMN "bubble"."plan_open_dttm" IS '버블 시작 예정 일시';
 
-COMMENT ON COLUMN "room"."plan_close_dttm" IS '그룹방 종료 예정 일시';
+COMMENT ON COLUMN "bubble"."plan_close_dttm" IS '버블 종료 예정 일시';
 
-COMMENT ON COLUMN "room"."create_dttm" IS '그룹방이 생성된 일시';
+COMMENT ON COLUMN "bubble"."create_dttm" IS '버블이 생성된 일시';
 
-COMMENT ON COLUMN "room"."done_dttm" IS '그룹방 상태가 FALSE가 된 일시';
+COMMENT ON COLUMN "bubble"."done_dttm" IS '버블 상태가 FALSE가 된 일시';
 
 
 CREATE TABLE "category" (
@@ -153,8 +152,8 @@ COMMENT ON COLUMN "category"."category_name" IS '분류 이름';
 COMMENT ON COLUMN "category"."create_dt" IS '분류 생성 일';
 
 
-CREATE TABLE "group_list" (
-	"room_number"	BIGSERIAL		NOT NULL,
+CREATE TABLE "bubble_list" (
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
 	"is_mic_on"	BOOLEAN	DEFAULT FALSE	NOT NULL,
 	"is_cam_on"	BOOLEAN	DEFAULT FALSE	NOT NULL,
@@ -165,23 +164,23 @@ CREATE TABLE "group_list" (
 	"craete_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "group_list"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "bubble_list"."bubble_number" IS '버블 인덱스';
 
-COMMENT ON COLUMN "group_list"."member_number" IS '회원번호 인덱스';
+COMMENT ON COLUMN "bubble_list"."member_number" IS '회원번호 인덱스';
 
-COMMENT ON COLUMN "group_list"."is_mic_on" IS 'TRUE : 마이크 on / FALSE : 마이크 off';
+COMMENT ON COLUMN "bubble_list"."is_mic_on" IS 'TRUE : 마이크 on / FALSE : 마이크 off';
 
-COMMENT ON COLUMN "group_list"."is_cam_on" IS 'TRUE : 카메라 on / FALSE : 카메라 off';
+COMMENT ON COLUMN "bubble_list"."is_cam_on" IS 'TRUE : 카메라 on / FALSE : 카메라 off';
 
-COMMENT ON COLUMN "group_list"."is_mic_lock" IS 'TRUE : 마이크 강제 off / FALSE : 마이크 잠금 해제';
+COMMENT ON COLUMN "bubble_list"."is_mic_lock" IS 'TRUE : 마이크 강제 off / FALSE : 마이크 잠금 해제';
 
-COMMENT ON COLUMN "group_list"."is_cam_lock" IS 'TRUE : 카메라 강제 off / FALSE : 카메라 잠금 해제';
+COMMENT ON COLUMN "bubble_list"."is_cam_lock" IS 'TRUE : 카메라 강제 off / FALSE : 카메라 잠금 해제';
 
-COMMENT ON COLUMN "group_list"."is_chat_lock" IS 'TRUE : 채팅 강제 off / FALSE : 채팅 잠금 해제';
+COMMENT ON COLUMN "bubble_list"."is_chat_lock" IS 'TRUE : 채팅 강제 off / FALSE : 채팅 잠금 해제';
 
-COMMENT ON COLUMN "group_list"."join_state" IS '0: 신청 / 1: 참여 / 2: 강퇴';
+COMMENT ON COLUMN "bubble_list"."join_state" IS '0: 신청 / 1: 참여 / 2: 강퇴';
 
-COMMENT ON COLUMN "group_list"."craete_dttm" IS '그룹방 신청 일시(취소시 삭제)';
+COMMENT ON COLUMN "bubble_list"."craete_dttm" IS '버블 신청 일시(취소시 삭제)';
 
 
 CREATE TABLE "hashtag" (
@@ -213,12 +212,12 @@ COMMENT ON COLUMN "likes"."like_member_number" IS '회원번호 인덱스 : 자�
 COMMENT ON COLUMN "likes"."create_dttm" IS '좋아요 누른 시간';
 
 CREATE TABLE "tagging" (
-	"room_number"	BIGSERIAL		NOT NULL,
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"hashtag_number"	BIGSERIAL		NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "tagging"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "tagging"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "tagging"."hashtag_number" IS '해시태그 인덱스';
 
@@ -226,10 +225,13 @@ COMMENT ON COLUMN "tagging"."create_dttm" IS '태그 부여 일시';
 
 
 CREATE TABLE "follow" (
+	"follow_number"		BIGSERIAL	NOT NULL,
 	"follower_number"	BIGSERIAL		NOT NULL,
 	"following_number"	BIGSERIAL		NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
+
+COMMENT ON COLUMN "follow"."follow_number" IS '팔로우 인덱스';
 
 COMMENT ON COLUMN "follow"."follower_number" IS '팔로우를 누른 회원의 회원 번호';
 
@@ -240,9 +242,8 @@ COMMENT ON COLUMN "follow"."create_dttm" IS '팔로우 한 시간';
 CREATE TABLE "symbol" (
 	"symbol_number"	BIGSERIAL		NOT NULL,
 	"symbol_name"	VARCHAR(30)		NOT NULL,
-	"symbol_img_origin"	VARCHAR(100)		NOT NULL,
-	"symbol_img_trans"	VARCHAR(26)		NOT NULL,
-	"symbol_code"	SMALLINT		NOT NULL,
+	"symbol_img_name"	VARCHAR(30)		NOT NULL,
+	"symbol_code"	VARCHAR(16)		NOT NULL,
 	"symbol_condition_cnt"	INTEGER		NOT NULL,
 	"create_dt"	DATE	DEFAULT now()	NOT NULL,
 	"delete_dt"	DATE		NULL
@@ -252,9 +253,7 @@ COMMENT ON COLUMN "symbol"."symbol_number" IS '심볼 인덱스';
 
 COMMENT ON COLUMN "symbol"."symbol_name" IS '심볼 이름';
 
-COMMENT ON COLUMN "symbol"."symbol_img_origin" IS '심볼 이미지 원본 이름 + 확장자';
-
-COMMENT ON COLUMN "symbol"."symbol_img_trans" IS '변환 이름 : 년월일시분초_랜덤6숫자.확장자 (20230707155030_123456.jpg)';
+COMMENT ON COLUMN "symbol"."symbol_img_name" IS '심볼 이미지 이름';
 
 COMMENT ON COLUMN "symbol"."symbol_code" IS '조건 구분 코드 : 메모 참고';
 
@@ -294,7 +293,8 @@ COMMENT ON COLUMN "report"."create_dttm" IS '신고 일시';
 CREATE TABLE "alarm" (
 	"alarm_number"	BIGSERIAL		NOT NULL,
 	"member_number"	INTEGER		NOT NULL,
-	"alarm_text"	VARCHAR(30)		NOT NULL,
+	"alarm_type"	VARCHAR(10)		NOT NULL,
+	"alarm_reason"	VARCHAR(30)		NULL,
 	"alarm_state"	SMALLINT	DEFAULT 0	NOT NULL,
 	"read_dttm"	TIMESTAMP		NULL,
 	"delete_dttm"	TIMESTAMP		NULL,
@@ -305,7 +305,9 @@ COMMENT ON COLUMN "alarm"."alarm_number" IS '알람 인덱스';
 
 COMMENT ON COLUMN "alarm"."member_number" IS '회원번호 인덱스';
 
-COMMENT ON COLUMN "alarm"."alarm_text" IS '알람 내용 : 최대 30자';
+COMMENT ON COLUMN "alarm"."alarm_type" IS 'follow / likes / symbol / exp / regist / bubling';
+
+COMMENT ON COLUMN "alarm"."alarm_reason" IS '회원 닉네임 / 칭호 이름 / 버블명';
 
 COMMENT ON COLUMN "alarm"."alarm_state" IS '0 : 안읽음 / 1 : 읽음 / 2 : 삭제됨';
 
@@ -315,23 +317,26 @@ COMMENT ON COLUMN "alarm"."delete_dttm" IS '회원이 알람을 삭제한 일시
 
 COMMENT ON COLUMN "alarm"."create_dttm" IS '알람 발생 일시';
 
-CREATE TABLE "grant" (
-	"granted_member_number"	BIGSERIAL		NOT NULL,
-	"symbol_number"	BIGSERIAL		NOT NULL,
-	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
+CREATE TABLE "symbol_grant" (
+	"granted_member_number"	BIGSERIAL	NOT NULL,
+	"symbol_number"			BIGSERIAL	NOT NULL,
+	"is_symbol_active"		BOOLEAN		DEFAULT FALSE	NOT NULL,
+	"create_dttm"			TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "grant"."granted_member_number" IS '심볼을 부여 받은 회원의 회원 번호';
+COMMENT ON COLUMN "symbol_grant"."granted_member_number" IS '심볼을 부여 받은 회원의 회원 번호';
 
-COMMENT ON COLUMN "grant"."symbol_number" IS '심볼 인덱스';
+COMMENT ON COLUMN "symbol_grant"."symbol_number" IS '심볼 인덱스';
 
-COMMENT ON COLUMN "grant"."create_dttm" IS '심볼을 받은 일시';
+COMMENT ON COLUMN "symbol_grant"."is_symbol_active" IS 'FALSE : 비활성화 / TRUE : 활성화(대표 심볼로 선택)';
+
+COMMENT ON COLUMN "symbol_grant"."create_dttm" IS '심볼을 받은 일시';
 
 CREATE TABLE "record" (
 	"member_number"	BIGSERIAL		NOT NULL,
 	"exp_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"comment_cnt"	INTEGER	DEFAULT 0	NOT NULL,
-	"room_join_cnt"	INTEGER	DEFAULT 0	NOT NULL,
+	"bubble_join_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"like_give_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"like_receive_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"best_cnt"	INTEGER	DEFAULT 0	NOT NULL,
@@ -346,13 +351,13 @@ COMMENT ON COLUMN "record"."exp_cnt" IS '사이트 이용 경험치';
 
 COMMENT ON COLUMN "record"."comment_cnt" IS '작성한 댓글 개수';
 
-COMMENT ON COLUMN "record"."room_join_cnt" IS '그룹방 참여 횟수';
+COMMENT ON COLUMN "record"."bubble_join_cnt" IS '버블 참여 횟수';
 
 COMMENT ON COLUMN "record"."like_give_cnt" IS '피드에 좋아요 누른 수';
 
 COMMENT ON COLUMN "record"."like_receive_cnt" IS '회원이 작성한 피드에 좋아요 받은 수 총합';
 
-COMMENT ON COLUMN "record"."best_cnt" IS '그룹방에서 베스트 멤버로 뽑힌 수';
+COMMENT ON COLUMN "record"."best_cnt" IS '버블에서 베스트 멤버로 뽑힌 수';
 
 COMMENT ON COLUMN "record"."following_cnt" IS '해당 회원이 팔로잉 한 회원 수';
 
@@ -362,7 +367,7 @@ COMMENT ON COLUMN "record"."record_update_dttm" IS '해당 회원의 기록 업�
 
 CREATE TABLE "todo" (
 	"todo_number"	BIGSERIAL		NOT NULL,
-	"room_number"	BIGSERIAL		NOT NULL,
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"todo_context"	VARCHAR(50)		NOT NULL,
 	"is_todo_done"	BOOLEAN	DEFAULT FALSE	NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
@@ -370,7 +375,7 @@ CREATE TABLE "todo" (
 
 COMMENT ON COLUMN "todo"."todo_number" IS '할 일 인덱스';
 
-COMMENT ON COLUMN "todo"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "todo"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "todo"."todo_context" IS '할 일 내용';
 
@@ -379,13 +384,13 @@ COMMENT ON COLUMN "todo"."is_todo_done" IS '할 일 완료 상태 여부';
 COMMENT ON COLUMN "todo"."create_dttm" IS '할 일 생성 일시';
 
 CREATE TABLE "best_member" (
-	"room_number"	BIGSERIAL		NOT NULL,
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
 	"best_member_number"	BIGSERIAL		NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "best_member"."room_number" IS '그룹방 인덱스 번호';
+COMMENT ON COLUMN "best_member"."bubble_number" IS '버블 인덱스 번호';
 
 COMMENT ON COLUMN "best_member"."member_number" IS '베스트 멤버를 선택한 회원의 번호';
 
@@ -395,7 +400,7 @@ COMMENT ON COLUMN "best_member"."create_dttm" IS '베스트 멤버 선택 일시
 
 CREATE TABLE "two_way_question" (
 	"two_way_question_number"	BIGSERIAL		NOT NULL,
-	"room_number"	BIGSERIAL		NOT NULL,
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"left_context"	VARCHAR(50)		NOT NULL,
 	"right_context"	VARCHAR(50)		NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
@@ -403,7 +408,7 @@ CREATE TABLE "two_way_question" (
 
 COMMENT ON COLUMN "two_way_question"."two_way_question_number" IS '양자택일 인덱스';
 
-COMMENT ON COLUMN "two_way_question"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "two_way_question"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "two_way_question"."left_context" IS '양자택일 왼쪽 질문';
 
@@ -412,18 +417,16 @@ COMMENT ON COLUMN "two_way_question"."right_context" IS '양자택일 오른쪽 
 COMMENT ON COLUMN "two_way_question"."create_dttm" IS '양자택일 질문 생성 일시';
 
 CREATE TABLE "two_way_answer" (
-	"two_way_question_number2"	BIGSERIAL		NOT NULL,
+	"two_way_question_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
-	"room_number"	BIGSERIAL		NOT NULL,
 	"is_pick_right"	BOOLEAN	DEFAULT TRUE	NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
-COMMENT ON COLUMN "two_way_answer"."two_way_question_number2" IS '양자택일 인덱스';
+COMMENT ON COLUMN "two_way_answer"."two_way_question_number" IS '양자택일 인덱스';
 
 COMMENT ON COLUMN "two_way_answer"."member_number" IS '회원번호 인덱스 : 자동증가';
 
-COMMENT ON COLUMN "two_way_answer"."room_number" IS '그룹방 인덱스';
 
 COMMENT ON COLUMN "two_way_answer"."is_pick_right" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
 
@@ -431,7 +434,7 @@ COMMENT ON COLUMN "two_way_answer"."create_dttm" IS '양자택일 답변 일시'
 
 CREATE TABLE "vote_question" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
-	"room_number"	BIGSERIAL		NOT NULL,
+	"bubble_number"	BIGSERIAL		NOT NULL,
 	"vote_question_context"	VARCHAR(50)		NOT NULL,
 	"is_active"	BOOLEAN	DEFAULT TRUE	NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL,
@@ -440,7 +443,7 @@ CREATE TABLE "vote_question" (
 
 COMMENT ON COLUMN "vote_question"."vote_question_number" IS '투표 질문 인덱스';
 
-COMMENT ON COLUMN "vote_question"."room_number" IS '그룹방 인덱스';
+COMMENT ON COLUMN "vote_question"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "vote_question"."vote_question_context" IS '투표 질문 내용 : 글자 제한 50';
 
@@ -467,16 +470,16 @@ ALTER TABLE "feed" ADD CONSTRAINT "PK_FEED" PRIMARY KEY (
 	"feed_number"
 );
 
-ALTER TABLE "room" ADD CONSTRAINT "PK_ROOM" PRIMARY KEY (
-	"room_number"
+ALTER TABLE "bubble" ADD CONSTRAINT "PK_bubble" PRIMARY KEY (
+	"bubble_number"
 );
 
 ALTER TABLE "category" ADD CONSTRAINT "PK_CATEGORY" PRIMARY KEY (
 	"category_number"
 );
 
-ALTER TABLE "group_list" ADD CONSTRAINT "PK_GROUP_LIST" PRIMARY KEY (
-	"room_number",
+ALTER TABLE "bubble_list" ADD CONSTRAINT "PK_bubble_LIST" PRIMARY KEY (
+	"bubble_number",
 	"member_number"
 );
 
@@ -490,13 +493,12 @@ ALTER TABLE "likes" ADD CONSTRAINT "PK_LIKE" PRIMARY KEY (
 );
 
 ALTER TABLE "tagging" ADD CONSTRAINT "PK_TAGGING" PRIMARY KEY (
-	"room_number",
+	"bubble_number",
 	"hashtag_number"
 );
 
 ALTER TABLE "follow" ADD CONSTRAINT "PK_FOLLOW" PRIMARY KEY (
-	"follower_number",
-	"following_number"
+	"follow_number"
 );
 
 ALTER TABLE "symbol" ADD CONSTRAINT "PK_SYMBOL" PRIMARY KEY (
@@ -511,7 +513,7 @@ ALTER TABLE "alarm" ADD CONSTRAINT "PK_ALARM" PRIMARY KEY (
 	"alarm_number"
 );
 
-ALTER TABLE "grant" ADD CONSTRAINT "PK_GRANT" PRIMARY KEY (
+ALTER TABLE "symbol_grant" ADD CONSTRAINT "PK_GRANT" PRIMARY KEY (
 	"granted_member_number",
 	"symbol_number"
 );
@@ -525,7 +527,7 @@ ALTER TABLE "todo" ADD CONSTRAINT "PK_TODO" PRIMARY KEY (
 );
 
 ALTER TABLE "best_member" ADD CONSTRAINT "PK_BEST_MEMBER" PRIMARY KEY (
-	"room_number",
+	"bubble_number",
 	"member_number"
 );
 
@@ -534,7 +536,7 @@ ALTER TABLE "two_way_question" ADD CONSTRAINT "PK_TWO_WAY_QUESTION" PRIMARY KEY 
 );
 
 ALTER TABLE "two_way_answer" ADD CONSTRAINT "PK_TWO_WAY_ANSWER" PRIMARY KEY (
-	"two_way_question_number2",
+	"two_way_question_number",
 	"member_number"
 );
 
@@ -554,28 +556,28 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "room" ADD CONSTRAINT "FK_member_TO_room_1" FOREIGN KEY (
+ALTER TABLE "bubble" ADD CONSTRAINT "FK_member_TO_bubble_1" FOREIGN KEY (
 	"member_number"
 )
 REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "room" ADD CONSTRAINT "FK_category_TO_room_1" FOREIGN KEY (
+ALTER TABLE "bubble" ADD CONSTRAINT "FK_category_TO_bubble_1" FOREIGN KEY (
 	"category_number"
 )
 REFERENCES "category" (
 	"category_number"
 );
 
-ALTER TABLE "group_list" ADD CONSTRAINT "FK_room_TO_group_list_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "bubble_list" ADD CONSTRAINT "FK_bubble_TO_bubble_list_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
-ALTER TABLE "group_list" ADD CONSTRAINT "FK_member_TO_group_list_1" FOREIGN KEY (
+ALTER TABLE "bubble_list" ADD CONSTRAINT "FK_member_TO_bubble_list_1" FOREIGN KEY (
 	"member_number"
 )
 REFERENCES "member" (
@@ -596,11 +598,11 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "tagging" ADD CONSTRAINT "FK_room_TO_tagging_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "tagging" ADD CONSTRAINT "FK_bubble_TO_tagging_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
 ALTER TABLE "tagging" ADD CONSTRAINT "FK_hashtag_TO_tagging_1" FOREIGN KEY (
@@ -645,14 +647,14 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "grant" ADD CONSTRAINT "FK_record_TO_grant_1" FOREIGN KEY (
+ALTER TABLE "symbol_grant" ADD CONSTRAINT "FK_record_TO_grant_1" FOREIGN KEY (
 	"granted_member_number"
 )
 REFERENCES "record" (
 	"member_number"
 );
 
-ALTER TABLE "grant" ADD CONSTRAINT "FK_symbol_TO_grant_1" FOREIGN KEY (
+ALTER TABLE "symbol_grant" ADD CONSTRAINT "FK_symbol_TO_grant_1" FOREIGN KEY (
 	"symbol_number"
 )
 REFERENCES "symbol" (
@@ -666,18 +668,18 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "todo" ADD CONSTRAINT "FK_room_TO_todo_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "todo" ADD CONSTRAINT "FK_bubble_TO_todo_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
-ALTER TABLE "best_member" ADD CONSTRAINT "FK_room_TO_best_member_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "best_member" ADD CONSTRAINT "FK_bubble_TO_best_member_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
 ALTER TABLE "best_member" ADD CONSTRAINT "FK_member_TO_best_member_1" FOREIGN KEY (
@@ -694,15 +696,15 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "two_way_question" ADD CONSTRAINT "FK_room_TO_two_way_question_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "two_way_question" ADD CONSTRAINT "FK_bubble_TO_two_way_question_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
 ALTER TABLE "two_way_answer" ADD CONSTRAINT "FK_two_way_question_TO_two_way_answer_1" FOREIGN KEY (
-	"two_way_question_number2"
+	"two_way_question_number"
 )
 REFERENCES "two_way_question" (
 	"two_way_question_number"
@@ -715,18 +717,11 @@ REFERENCES "member" (
 	"member_number"
 );
 
-ALTER TABLE "two_way_answer" ADD CONSTRAINT "FK_room_TO_two_way_answer_1" FOREIGN KEY (
-	"room_number"
+ALTER TABLE "vote_question" ADD CONSTRAINT "FK_bubble_TO_vote_question_1" FOREIGN KEY (
+	"bubble_number"
 )
-REFERENCES "room" (
-	"room_number"
-);
-
-ALTER TABLE "vote_question" ADD CONSTRAINT "FK_room_TO_vote_question_1" FOREIGN KEY (
-	"room_number"
-)
-REFERENCES "room" (
-	"room_number"
+REFERENCES "bubble" (
+	"bubble_number"
 );
 
 ALTER TABLE "vote_select" ADD CONSTRAINT "FK_vote_question_TO_vote_select_1" FOREIGN KEY (

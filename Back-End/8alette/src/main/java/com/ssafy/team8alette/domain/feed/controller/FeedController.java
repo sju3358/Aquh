@@ -31,6 +31,7 @@ import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
-	
+
 	private final FeedService feedService;
 	private final LikeService likeService;
 	private final MemberService memberService;
@@ -49,9 +50,9 @@ public class FeedController {
 	//파일경로
 	private static String projectPath = "C:\\pictures";
 
-	//피드 등록 파
-	// 일
+	//피드 등록 파일
 
+	@LoginRequired
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedEntity feedEntity,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
@@ -75,6 +76,7 @@ public class FeedController {
 		}
 	}
 
+	@LoginRequired
 	@GetMapping("/list")
 	public ResponseEntity<List<?>> findAllFeeds(
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
@@ -87,6 +89,7 @@ public class FeedController {
 	}
 
 	// 게시글 상세글 조회
+	@LoginRequired
 	@GetMapping("/{feed_number}")
 	public ResponseEntity<Map<String, Object>> detailFeed(@PathVariable Long feed_number) {
 		Map<String, Object> responseData = new HashMap<>();
@@ -155,6 +158,7 @@ public class FeedController {
 	}
 
 	// 게시글 수정
+	@LoginRequired
 	@PutMapping
 	public ResponseEntity<?> modifyFeed(@RequestPart FeedEntity feedEntity,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
@@ -166,6 +170,7 @@ public class FeedController {
 	}
 
 	// 게시글 삭제
+	@LoginRequired
 	@PutMapping("/{feed_number}")
 	public ResponseEntity<?> deleteFeed(@PathVariable Long feed_number) {
 
@@ -177,6 +182,7 @@ public class FeedController {
 	}
 
 	// 피드 좋아요
+	@LoginRequired
 	@PostMapping("/like")
 	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
 		boolean result;
@@ -195,6 +201,21 @@ public class FeedController {
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
 
+	}
+
+	@LoginRequired
+	@GetMapping
+	public ResponseEntity<Map<String, Object>> getMemberFeedList(@RequestBody Map<String, String> param) {
+		Long memberNumber = Long.parseLong(param.get("memberNumber"));
+		List<FeedEntity> list = feedService.getFeedsByMemberNumber(memberNumber);
+		List<FeedResponseDTO> dtoList = list.stream()
+			.map(feedService::convertToDTO)
+			.collect(Collectors.toList());
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		responseData.put("feedList", dtoList);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 }

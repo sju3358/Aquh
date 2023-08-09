@@ -3,7 +3,7 @@ package com.ssafy.team8alette.domain.symbol.model.dto.grant.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 
@@ -40,6 +40,9 @@ public class Grant implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "symbol_number", nullable = false)
 	private Symbol symbol;
+
+	@Column(name = "is_symbol_active")
+	private boolean activeStatus;
 
 	@Column(name = "create_dttm", nullable = false)
 	private Date date;

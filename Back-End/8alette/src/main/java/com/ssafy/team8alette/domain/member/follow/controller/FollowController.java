@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.member.follow.model.service.FollowService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ public class FollowController {
 
 	private final FollowService followService;
 
+	@LoginRequired
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getFollowListRequest(
 		@PathVariable Long memberNumber,
@@ -50,6 +52,7 @@ public class FollowController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> followRequest(@RequestBody Map<String, String> param) {
 
@@ -65,6 +68,7 @@ public class FollowController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@DeleteMapping
 	public ResponseEntity<Map<String, Object>> unfollowRequest(@RequestBody Map<String, String> param) {
 
