@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.TwoWayService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class TwoWayController {
 	private final TwoWayService twoWayService;
 
 	// 양자택일 질문 전체 조회
+	@LoginRequired
 	@GetMapping("/question")
 	public ResponseEntity<Map<String, Object>> findALlTwoWayQuestions(
 		@RequestParam Long member_number,
@@ -43,6 +45,7 @@ public class TwoWayController {
 	}
 
 	// 양자택일 질문 생성
+	@LoginRequired
 	@PostMapping("/question")
 	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
 		@RequestBody TwoWayQuestionRequestDTO twoWayQuestionRequestDTO) {
@@ -57,6 +60,7 @@ public class TwoWayController {
 	}
 
 	// 양자택일 질문 삭제
+	@LoginRequired
 	@DeleteMapping("/question/{question_number}")
 	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
 		@PathVariable Long question_number) {
@@ -71,6 +75,7 @@ public class TwoWayController {
 	}
 
 	// 양자택일 답변 생성
+	@LoginRequired
 	@PostMapping("/answer")
 	public ResponseEntity<Map<String, Object>> createTwoWayAnswer(
 		@RequestBody TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {

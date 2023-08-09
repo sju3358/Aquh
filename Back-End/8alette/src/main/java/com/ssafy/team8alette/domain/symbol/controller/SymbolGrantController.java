@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.request.SymbolGrantRequestDTO;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,7 @@ public class SymbolGrantController {
 
 	private final SymbolGrantService symbolGrantService;
 
+	@LoginRequired
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberSymbolList(@PathVariable Long memberNumber) {
 
@@ -38,6 +40,7 @@ public class SymbolGrantController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PutMapping
 	public ResponseEntity<Map<String, Object>> putSymbolConfirmed(@RequestBody SymbolGrantRequestDTO symbolGrant) {
 

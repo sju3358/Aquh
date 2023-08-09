@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.member.report.model.service.ReportService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +22,7 @@ public class ReportController {
 
 	private final ReportService reportService;
 
-	// @LoginRequired
+	@LoginRequired
 	@PostMapping
 	public ResponseEntity<Map<String, Object>> reportRequest(@RequestBody Map<String, String> param) {
 
