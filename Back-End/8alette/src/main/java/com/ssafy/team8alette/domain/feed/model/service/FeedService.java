@@ -18,6 +18,7 @@ import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
@@ -39,10 +40,6 @@ public class FeedService {
 	@Value("${spring.data.couchbase.bucket-name}/feed_img")
 	private String bucket;
 
-	private static String projectPath = "/home/ubuntu/spring-upload-images";
-	// private static String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\files";
-	// FileSystemResource fileSystemResource = new FileSystemResource("resources/pictures/");
-
 	public void registFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
 		if (feedEntity.getMember() == null || feedEntity.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
@@ -52,24 +49,12 @@ public class FeedService {
 			throw new NullValueException("작성자 정보를 찾을 수 없습니다.");
 		}
 
-		// 이미지 데이터 처리
 		if (!file.isEmpty()) {
 
-			Date nowDate = new Date(); // 현재 일시
+			Date nowDate = new Date();
 
 			// 파일명 : 현재일시_랜덤6자리
 			String fileName = dateToString(nowDate) + '_' + getRandNum();
-
-			//빈껍데기 생성해서 피드 저장소에 이미지 전달
-			// File saveFile = new File(projectPath, fileName);
-
-			// File foler = new File(projectPath);
-			// if (foler.exists() != true)
-			// 	foler.mkdirs();
-			//
-			// File saveFile = new File(projectPath, fileName.toString());
-			//
-			// file.transferTo(saveFile);
 
 			// AWS S3 파일 저장
 			ObjectMetadata metadata = new ObjectMetadata();
@@ -79,14 +64,10 @@ public class FeedService {
 
 			feedEntity.setFeedActive(true);
 			feedEntity.setFeedLikeCnt(0);
-
-			//원본 이미지 이름명으로 저장
 			feedEntity.setFeedImgOrigin(file.getOriginalFilename());
-			//멤버 이미지변환명으로 저장
 			feedEntity.setFeedImgTrans(fileName);
 			feedEntity.setCreateDate(nowDate);
 			feedEntity.setMember(member);
-
 			feedRepository.save(feedEntity);
 		} else {
 			Date nowDate = new Date();
@@ -96,6 +77,8 @@ public class FeedService {
 			feedEntity.setMember(member);
 			feedRepository.save(feedEntity);
 		}
+		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(member.getMemberNumber());
+		System.out.println(memberRecord.getMemberExpCnt());
 
 	}
 
