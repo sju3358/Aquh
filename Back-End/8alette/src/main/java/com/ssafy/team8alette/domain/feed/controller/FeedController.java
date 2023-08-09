@@ -3,7 +3,6 @@ package com.ssafy.team8alette.domain.feed.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,6 @@ import com.ssafy.team8alette.domain.feed.model.service.LikeService;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
@@ -44,8 +41,6 @@ public class FeedController {
 	private final MemberService memberService;
 	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
-	private final SymbolRepository symbolRepository;
-	private final MemberRecordRepository memberRecordRepository;
 
 	@LoginRequired
 	@PostMapping
@@ -62,7 +57,6 @@ public class FeedController {
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
-			//피드 잘 넣어지면 200
 			feedService.registFeed(feedEntity, file);
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "success");
@@ -76,10 +70,7 @@ public class FeedController {
 	public ResponseEntity<List<?>> findAllFeeds(
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
 	) {
-		List<FeedEntity> feedEntityList = feedService.getFeeds(orderCriteria);
-		List<FeedResponseDTO> dtoList = feedEntityList.stream()
-			.map(feedService::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> dtoList = feedService.getFeeds(orderCriteria);
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 

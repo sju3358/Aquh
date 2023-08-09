@@ -84,9 +84,9 @@ public class FeedService {
 		}
 	}
 
-	public List<FeedEntity> getFeeds(String orderCriteria) {
+	public List<FeedResponseDTO> getFeeds(String orderCriteria) {
 		List<FeedEntity> list = null;
-		
+
 		if (orderCriteria.equals("recent")) {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		} else if (orderCriteria.equals("famous")) {
@@ -98,8 +98,11 @@ public class FeedService {
 		if (list == null || list.isEmpty()) {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
+		List<FeedResponseDTO> dtoList = list.stream()
+			.map(this::convertToDTO)
+			.collect(Collectors.toList());
 
-		return list;
+		return dtoList;
 	}
 
 	// 피드 상세글 불러오기
