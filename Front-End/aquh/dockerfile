@@ -1,9 +1,8 @@
 FROM node:18-alpine
 WORKDIR /app
 
-COPY .yarn/ .yarnrc.yml yarn.lock package.json package-lock.json /app 
-RUN corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.3.0 && yarn install
 COPY . .
+RUN yarn install
 
 EXPOSE 3000
 
