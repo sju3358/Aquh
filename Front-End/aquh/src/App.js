@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     children : [
       { index: 'true', element : <MainPage /> },
       { path: '/login', element : <LoginPage />},
-      { path: '/auth', element : <AuthPage />},
+      { path: '/auth/:userId', element : <AuthPage />},
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
       { path: '/feed', element : <FeedPage />},
       { path: '/bubble', element : <BubblePage />},
