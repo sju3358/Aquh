@@ -126,5 +126,6 @@ public class MemberRecordService {
 
 		return dto;
 	}
+	//
 
 }
