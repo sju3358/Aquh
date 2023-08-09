@@ -68,7 +68,7 @@ export default function RedirectPage() {
           navigate("/login");
 
       }})
-    .error(() => {
+    .catch((error) => {
       
       alert("다시 시도해주세요!");
       navigate("/login");
