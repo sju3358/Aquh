@@ -39,15 +39,15 @@ public class LikeService {
 			likeEntityDTO.setFeedEntity(feedEntity);
 			likeEntityDTO.setMember(member);
 
-			int likeCnt = feedEntity.getFeedLikeCnt();
-			int setLikeCnt = likeCnt + 1; // 또는 ++likeCnt;
-			feedEntity.setFeedLikeCnt(setLikeCnt);
+			feedEntity.setFeedLikeCnt(feedEntity.getFeedLikeCnt() + 1);
 			feedRepository.save(feedEntity);
 			likeRepository.save(likeEntityDTO);
 
 			/* 기록 테이블 경험치 추가 */
 			memberRecordService.updateMemberExp(member.getMemberNumber(), 10);
 			memberRecordService.updateMemberExp(feedEntity.getMember().getMemberNumber(), 30);
+			memberRecordService.updateMemberLikeGiveCnt(member.getMemberNumber(), 1);
+			memberRecordService.updateMemberReceiveCnt(feedEntity.getMember().getMemberNumber(), 1);
 			return true;
 		}
 
@@ -55,17 +55,16 @@ public class LikeService {
 		LikeEntity likeEntityDTO = new LikeEntity();
 		likeEntityDTO.setLikeID(likeID);
 		likeEntityDTO.setFeedEntity(feedEntity);
-		int likeCnt = feedEntity.getFeedLikeCnt();
-		int setLikeCnt = likeCnt - 1;
-		feedEntity.setFeedLikeCnt(setLikeCnt);
+		feedEntity.setFeedLikeCnt(feedEntity.getFeedLikeCnt() - 1);
 		feedRepository.save(feedEntity);
 		likeRepository.delete(likeEntityDTO);
 
 		/* 기록 테이블 경험치 추가 */
 		memberRecordService.updateMemberExp(member.getMemberNumber(), -10);
+		memberRecordService.updateMemberExp(feedEntity.getMember().getMemberNumber(), -30);
+		memberRecordService.updateMemberLikeGiveCnt(member.getMemberNumber(), -1);
+		memberRecordService.updateMemberReceiveCnt(feedEntity.getMember().getMemberNumber(), -1);
 		return false;
 	}
-
-	// public boolean delete
 
 }
