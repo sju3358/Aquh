@@ -130,7 +130,6 @@ public class FeedController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	// 게시글 수정
 	@LoginRequired
 	@PutMapping
 	public ResponseEntity<?> modifyFeed(@RequestPart FeedEntity feedEntity,
