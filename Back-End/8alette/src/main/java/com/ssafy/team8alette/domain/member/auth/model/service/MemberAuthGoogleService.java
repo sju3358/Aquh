@@ -101,7 +101,6 @@ public class MemberAuthGoogleService {
 		memberRecord.setMember(newMember);
 		memberRecord.setDate(new Date());
 		memberRecordRepository.save(memberRecord);
-		//
 
 		List<Symbol> symbols = symbolRepository.findAll();
 		Symbol symbol = symbols.get(0);
