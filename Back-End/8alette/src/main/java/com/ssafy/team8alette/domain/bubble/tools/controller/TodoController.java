@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TodoRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
+import com.ssafy.team8alette.domain.bubble.tools.service.TodoService;
 import com.ssafy.team8alette.domain.bubble.tools.service.TwoWayService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
@@ -24,65 +26,63 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/bubble/twoway")
-public class TwoWayController {
-	private final TwoWayService twoWayService;
+@RequestMapping("/api/v1/bubble/todo")
+public class TodoController {
+	private final TodoService todoService;
 
-	// 양자택일 질문 전체 조회
+	// 투두 전체 조회
 	@LoginRequired
-	@GetMapping("/question")
-	public ResponseEntity<Map<String, Object>> findALlTwoWayQuestions(
-		@RequestParam Long member_number,
-		@RequestParam long bubble_number) {
+	@GetMapping("/{bubble_number}")
+	public ResponseEntity<Map<String, Object>> findAllTodoList(@PathVariable long bubble_number) {
 		Map<String, Object> responseData = new HashMap<>();
 
-		responseData.put("message", "양자택일 질문 조회 성공");
+		responseData.put("message", "todo list 조회 성공");
 		responseData.put("status", 200);
-		responseData.put("data", twoWayService.getTwoWayQuestions(bubble_number, member_number));
+		responseData.put("todo_list", todoService.getTodoList(bubble_number));
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	// 양자택일 질문 생성
+	// 투두 생성
 	@LoginRequired
-	@PostMapping("/question")
-	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
-		@RequestBody TwoWayQuestionRequestDTO twoWayQuestionRequestDTO) {
+	@PostMapping
+	public ResponseEntity<Map<String, Object>> createTodo(
+		@RequestBody TodoRequestDTO todoRequestDTO) {
 		Map<String, Object> responseData = new HashMap<>();
 
-		twoWayService.registTwoWayQuestion(twoWayQuestionRequestDTO);
+		todoService.registTodo(todoRequestDTO);
 
-		responseData.put("message", "양자택일 질문 등록 성공");
+		responseData.put("message", "todo 등록 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	// 양자택일 질문 삭제
+	// 투두 상태 변경
 	@LoginRequired
-	@DeleteMapping("/question/{question_number}")
-	public ResponseEntity<Map<String, Object>> createTwoWayQuestion(
-		@PathVariable Long question_number) {
+	@PutMapping("/{todo_number}")
+	public ResponseEntity<Map<String, Object>> updateTodo(
+		@PathVariable Long todo_number) {
 		Map<String, Object> responseData = new HashMap<>();
 
-		twoWayService.deleteTwoWayQuestion(question_number);
+		todoService.updateTodo(todo_number);
 
-		responseData.put("message", "양자택일 질문 삭제 완료");
+		responseData.put("message", "todo 상태 변경 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	// 양자택일 답변 생성
+	// 투두 삭제
 	@LoginRequired
-	@PostMapping("/answer")
-	public ResponseEntity<Map<String, Object>> createTwoWayAnswer(
-		@RequestBody TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {
+	@DeleteMapping("/{todo_number}")
+	public ResponseEntity<Map<String, Object>> deleteTodo(
+		@PathVariable Long todo_number) {
 		Map<String, Object> responseData = new HashMap<>();
 
-		twoWayService.registTwoWayAnswer(twoWayQuestionAnswerDTO);
+		todoService.deleteTodo(todo_number);
 
-		responseData.put("message", "양자택일 답변 등록 성공");
+		responseData.put("message", "todo 삭제 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

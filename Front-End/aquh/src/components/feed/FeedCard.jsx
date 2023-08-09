@@ -29,7 +29,7 @@ function FeedCard({
         alt='User 캐릭터'
       /> */}
       <img
-        src={`https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/${charImg}`}
+        src={`${charImg}`}
         alt='캐릭터이미지'
       />
       <h3 className={classes.feedTitle}>제목 : {title}</h3>
@@ -39,7 +39,7 @@ function FeedCard({
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       {inputImg && (
         <img
-          src={`https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/${inputImg}`}
+          src={`${inputImg}`}
           alt='피드 이미지'
         />
       )}
