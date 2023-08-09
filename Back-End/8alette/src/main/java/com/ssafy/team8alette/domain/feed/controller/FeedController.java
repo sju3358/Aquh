@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.domain.feed.method.FeedMethod;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
@@ -47,10 +46,6 @@ public class FeedController {
 	private final FollowRepository followRepository;
 	private final SymbolRepository symbolRepository;
 	private final MemberRecordRepository memberRecordRepository;
-	//파일경로
-	private static String projectPath = "C:\\pictures";
-
-	//피드 등록 파일
 
 	@LoginRequired
 	@PostMapping
@@ -88,7 +83,6 @@ public class FeedController {
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
-	// 게시글 상세글 조회
 	@LoginRequired
 	@GetMapping("/{feed_number}")
 	public ResponseEntity<Map<String, Object>> detailFeed(@PathVariable Long feed_number) {
@@ -98,8 +92,6 @@ public class FeedController {
 		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feedEntity.getFeedImgTrans() != null) {
-			// File saveFile = new File(projectPath, feedEntity.getFeedImgTrans());
-			// data.put("img", saveFile);
 			data.put("img_name", feedEntity.getFeedImgOrigin());
 			data.put("img_url",
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
@@ -121,11 +113,9 @@ public class FeedController {
 		List<GrantResponseDTO> list = symbolGrantService.getGrantList(feedEntity.getMember().getMemberNumber());
 		data.put("symbolNumber", list);
 		int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
-		FeedMethod feedMethod = new FeedMethod();
-		data.put("level", feedMethod.levelCheck(exp));
+		data.put("level", convertExpToLevel(exp));
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 		responseData.put("data", data);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -137,7 +127,6 @@ public class FeedController {
 		feedService.modifyFeed(feedEntity, file);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
@@ -179,15 +168,28 @@ public class FeedController {
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> getMemberFeedList(@RequestBody Map<String, String> param) {
 		Long memberNumber = Long.parseLong(param.get("memberNumber"));
-		List<FeedEntity> list = feedService.getFeedsByMemberNumber(memberNumber);
-		List<FeedResponseDTO> dtoList = list.stream()
-			.map(feedService::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> dtoList = feedService.getFeedsByMemberNumber(memberNumber);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("status", 200);
 		responseData.put("feedList", dtoList);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	private int convertExpToLevel(int exp) {
+		int level = 1;
+		if (exp >= 1000 && exp < 2500) {
+			level = 2;
+		} else if (exp >= 2500 && exp < 4500) {
+			level = 3;
+		} else if (exp >= 4500 && exp < 7000) {
+			level = 4;
+		} else if (exp >= 7000 && exp < 10000) {
+			level = 5;
+		} else if (exp >= 10000) {
+			level = 6;
+		}
+		return level;
 	}
 
 }

@@ -107,6 +107,7 @@ public class MemberRecordService {
 		dto.setMemberNickName(member.getMemberNickname());
 		dto.setMemberIntro(member.getMemberIntro());
 		dto.setLevel(latestSymbol.getSymbolNumber());
+
 		if (memberRecord.getMemberExpCnt() < 1000) {
 			dto.setRemainingExp(1000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(1000);
