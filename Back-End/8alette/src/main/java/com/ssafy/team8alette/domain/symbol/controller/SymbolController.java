@@ -17,6 +17,7 @@ import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.SymbolListRe
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class SymbolController {
 	private final SymbolService symbolService;
 	private final SymbolGrantService grantService;
 
+	@LoginRequired
 	@GetMapping("/list/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getAllSymbol(@PathVariable Long memberNumber) {
 		List<Symbol> list = symbolService.getAllSymbols();

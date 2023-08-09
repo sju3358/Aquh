@@ -2,6 +2,7 @@ package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
 
 import java.util.Date;
 
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
@@ -15,14 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "bubble")
 public class BubbleEntity {
@@ -34,7 +35,7 @@ public class BubbleEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
-	private Member memberNumber;
+	private Member hostMember;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_number", nullable = false)

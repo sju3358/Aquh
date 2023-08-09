@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.bubble.tools.service.CategoryService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ public class CategoryController {
 
 	private final CategoryService categoryService;
 
+	@LoginRequired
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> getCategoriesRequest() {
 

@@ -24,6 +24,9 @@ public class TokenValidCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
+		// 개발용
+		// return true;
+
 		if (!(handler instanceof HandlerMethod)) {
 			return true;
 		}

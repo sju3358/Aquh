@@ -1,9 +1,20 @@
 package com.ssafy.team8alette.domain.member.record.model.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.response.MemberRecordDTO;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.global.exception.MemberNotExistException;
 
 import lombok.RequiredArgsConstructor;
@@ -13,6 +24,9 @@ import lombok.RequiredArgsConstructor;
 public class MemberRecordService {
 
 	private final MemberRecordRepository memberRecordRepository;
+	private final MemberRepository memberRepository;
+	private final SymbolRepository symbolRepository;
+	private final SymbolGrantRepository symbolGrantRepository;
 
 	public MemberRecord getMemberRecord(Long memberNumber) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
@@ -69,6 +83,49 @@ public class MemberRecordService {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
 		memberRecord.setMemberFollowerCnt(memberRecord.getMemberFollowerCnt() + followerCnt);
 		memberRecordRepository.save(memberRecord);
+	}
+
+	public MemberRecordDTO getMemberRecordDetail(Long memberNumber) {
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
+		List<Grant> grantMember = symbolGrantRepository.findByGrantIDGrantedMemberNumber(memberNumber);
+		List<Symbol> symbolsWithSymbolNumberFive = new ArrayList<>();
+
+		for (Grant grant : grantMember) {
+			GrantID grantID = grant.getGrantID();
+			if (grantID.getSymbolNumber() <= 5) {
+				symbolsWithSymbolNumberFive.add(grant.getSymbol());
+			}
+		}
+		Symbol latestSymbol = null;
+		if (!symbolsWithSymbolNumberFive.isEmpty()) {
+			latestSymbol = symbolsWithSymbolNumberFive.get(symbolsWithSymbolNumberFive.size() - 1);
+		}
+
+		MemberRecordDTO dto = new MemberRecordDTO();
+		dto.setMemberNickName(member.getMemberNickname());
+		dto.setMemberIntro(member.getMemberIntro());
+		dto.setLevel(latestSymbol.getSymbolNumber());
+		if (memberRecord.getMemberExpCnt() < 1000) {
+			dto.setRemainingExp(1000 - memberRecord.getMemberExpCnt());
+			dto.setMaxExp(1000);
+		} else if (memberRecord.getMemberExpCnt() >= 1000 && memberRecord.getMemberExpCnt() < 2500) {
+			dto.setRemainingExp(2500 - memberRecord.getMemberExpCnt());
+			dto.setMaxExp(2500);
+		} else if (memberRecord.getMemberExpCnt() >= 2500 && memberRecord.getMemberExpCnt() < 4500) {
+			dto.setRemainingExp(4500 - memberRecord.getMemberExpCnt());
+			dto.setMaxExp(4500);
+		} else if (memberRecord.getMemberExpCnt() >= 4500 && memberRecord.getMemberExpCnt() < 7000) {
+			dto.setRemainingExp(7000 - memberRecord.getMemberExpCnt());
+			dto.setMaxExp(7000);
+		} else if (memberRecord.getMemberExpCnt() >= 7000 && memberRecord.getMemberExpCnt() < 10000) {
+			dto.setRemainingExp(10000 - memberRecord.getMemberExpCnt());
+			dto.setMaxExp(10000);
+		}
+		dto.setPresentExp(memberRecord.getMemberExpCnt());
+		///
+
+		return dto;
 	}
 
 }

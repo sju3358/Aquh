@@ -2,6 +2,8 @@ import React, { useState } from "react";
 // import "./FeedWrite.css";
 import axios from "axios";
 import classes from "./FeedWrite.module.css";
+import { useRecoilValue } from "recoil";
+import { memberNumberState } from "../../store/loginUserState";
 
 function FeedWrite() {
   // 기본 값 세팅
@@ -11,6 +13,8 @@ function FeedWrite() {
 
   const [isFeedName, setIsFeedName] = useState(false);
   const [isFeedContent, setIsFeedContent] = useState(false);
+
+  const memberNumber = useRecoilValue(memberNumberState);
 
   // input값 변화-> 글 작성
   const onChangeFeedTitle = (e) => {
@@ -36,13 +40,7 @@ function FeedWrite() {
   };
 
   const feedWrite = () => {
-    const memberNumber = localStorage.getItem("member_number");
-    console.log(memberNumber);
 
-    if (!memberNumber) {
-      alert("로그인이 필요합니다."); // 예외 처리: 로그인이 되어 있지 않으면 알림 표시
-      return;
-    }
 
     if (feedTitle && feedContent) {
       const formData = new FormData(); // FormData 객체 생성
@@ -70,7 +68,7 @@ function FeedWrite() {
       //   formData.append("file", fileInput.files[0]);
       // } else {
 
-      console.log("여기");
+     
       const fileInput = document.querySelector("#file");
 
       formData.append("file", fileInput.files[0]); // 파일이 없는 경우에도 null 값으로 추가
