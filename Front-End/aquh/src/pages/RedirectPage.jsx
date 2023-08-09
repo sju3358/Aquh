@@ -6,33 +6,30 @@ import {
   memberEmailState,
   memberIntroState,
   memberNicknameState,
-  memberTypeState
-}from '../store/loginUserInfoState';
+  memberTypeState,
+} from "../store/loginUserInfoState";
 
 import {
   accessTokenState,
   refreshTokenState,
   memberNumberState,
-  isSocialLoginState
-}from '../store/loginUserState';
+  isSocialLoginState,
+} from "../store/loginUserState";
 
 import { useSetRecoilState } from "recoil";
 
 export default function RedirectPage() {
-  
   const navigate = useNavigate();
 
   const setMemberEmail = useSetRecoilState(memberEmailState);
-  const setMemberNickname =useSetRecoilState(memberNicknameState);
-  const setMemberType= useSetRecoilState(memberTypeState);
+  const setMemberNickname = useSetRecoilState(memberNicknameState);
+  const setMemberType = useSetRecoilState(memberTypeState);
   const setMemberIntro = useSetRecoilState(memberIntroState);
-  
+
   const setMemberNumber = useSetRecoilState(memberNumberState);
   const setIsSocialLogin = useSetRecoilState(isSocialLoginState);
 
-
-  useEffect( () => {
-
+  useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
     let state = new URL(window.location.href).searchParams.get("state");
 
@@ -40,41 +37,38 @@ export default function RedirectPage() {
       code: code,
       state: state,
     };
-    https.post("/api/v1/member/auth/naver",data)
-    .then( (res) => {
-      if (res.status === 200) {
-
+    https
+      .post("/api/v1/member/auth/naver", data)
+      .then((res) => {
+        if (res.status === 200) {
           localStorage.setItem("access_token", res.data.data.access_token);
           localStorage.setItem("refresh_token", res.data.data.refresh_token);
 
           setMemberNumber(res.data.data.member_number);
           setIsSocialLogin(res.data.data.isSocialLogin);
 
-          https.get(`/api/v1/member/${res.data.data.member_number}`)
-          .then((res) => {
-
-            setMemberNickname(res.data.data.member_nickname);
-            setMemberType(res.data.data.member_type);
-            setMemberIntro(res.data.data.member_intro);
-            setMemberEmail(res.data.data.member_email);
-
-          });
-
+          https
+            .get(`/api/v1/member/${res.data.data.member_number}`)
+            .then((res) => {
+              setMemberNickname(res.data.data.member_nickname);
+              setMemberType(res.data.data.member_type);
+              setMemberIntro(res.data.data.member_intro);
+              setMemberEmail(res.data.data.member_email);
+            });
+          // if~ (res.data.data.member_state)이게 활성상태면->네비게이트 메인페이지
+          // 활성상태가 아니면 (처음받은 회원)->닉네임 선택 페이지로
           navigate("/");
-          
-      } else {
-         
+        } else {
           alert("다시 시도해주세요!");
           navigate("/login");
-
-      }})
-    .catch((error) => {
-      console.log(error);
-      alert("다시 시도해주세요!");
-      navigate("/login");
-
-    });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("다시 시도해주세요!");
+        navigate("/login");
+      });
   });
 
-  return (<div>로그인중입니다...어쩌구</div>);
+  return <div>로그인중입니다...어쩌구</div>;
 }

@@ -20,7 +20,7 @@ function NicknamePage() {
       />
       {/* TODO: 유효성검사, 중복확인 로직 필요 */}
       <button className={classes.nicknameCheck}>중복확인</button>
-      {/* TODO: 입장하기 클릭->닉네임 변경(maybe 회원정보 수정?) axios.post-> 이메일 인증 요청 페이지(로그인 관문 3) */}
+      {/* TODO: 입장하기 클릭-->닉네임 변경 axios.  한번 날리고 (maybe 회원정보 수정?)  성공하면 then (~ 이 안에서 두번째 axios.post->이메일 인증 요청 페이지(로그인 관문 3)-> 성공하면 ㅔㅔ네비게이트 메인페이지 */}
       <button className={classes.enterBtn}>입장하기</button>
     </div>
   );
