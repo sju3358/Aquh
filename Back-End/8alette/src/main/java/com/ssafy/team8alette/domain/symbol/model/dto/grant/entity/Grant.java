@@ -44,7 +44,7 @@ public class Grant implements Serializable {
 	@Column(name = "is_symbol_active")
 	private boolean activeStatus;
 
-	@Column(name = "create_dttm", nullable = false)
+	@Column(name = "create_dttm")
 	private Date date;
 
 	// @Column(name = "")
