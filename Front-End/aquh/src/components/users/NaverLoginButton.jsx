@@ -13,5 +13,13 @@ export default function NaverLoginButton({}) {
   const handleNaverLogin = () => {
     window.location.href = NAVER_AUTH_URL;
   };
-  return <button onClick={handleNaverLogin} className={classes.login}><img src="../../naver-login-white.png" alt="naver-login" className={classes.naverLogin} /></button>;
+  return (
+    <button onClick={handleNaverLogin} className={classes.login}>
+      <img
+        src='../../naver-login-white.png'
+        alt='naver-login'
+        className={classes.naverLogin}
+      />
+    </button>
+  );
 }

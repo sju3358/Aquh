@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
 public class FeedController {
-	
+
 	private final FeedService feedService;
 	private final LikeService likeService;
 	private final MemberService memberService;
@@ -195,6 +195,20 @@ public class FeedController {
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
 
+	}
+
+	@GetMapping
+	public ResponseEntity<Map<String, Object>> getMemberFeedList(@RequestBody Map<String, String> param) {
+		Long memberNumber = Long.parseLong(param.get("memberNumber"));
+		List<FeedEntity> list = feedService.getFeedsByMemberNumber(memberNumber);
+		List<FeedResponseDTO> dtoList = list.stream()
+			.map(feedService::convertToDTO)
+			.collect(Collectors.toList());
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		responseData.put("feedList", dtoList);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 }
