@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.ssafy.team8alette.domain.feed.method.FeedMethod;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
@@ -200,16 +201,12 @@ public class FeedService {
 		dto.setFeedImgTrans("https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
-
-		// 사실 이부분은 무조건 기록되어져야함 없으면 오류
 		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt();
-		String imgLink = "";
-		imgLink = "https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/"
-			+ symbolRepository.findFirstBySymbolConditionCntIsLessThanEqualOrderBySymbolConditionCntDesc(exp)
-			.getSymbolImgName();
-		dto.setCharacterName(imgLink);
+		FeedMethod feedMethod = new FeedMethod();
+		int level = feedMethod.levelCheck(exp);
+		dto.setLevel(level);
 		dto.setExp(exp);
 		return dto;
 	}
