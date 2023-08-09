@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-// import https from "../utils/https";
+
+import https from "../utils/https";
 export default function RedirectURI(props) {
   const navigate = useNavigate();
 
@@ -11,25 +11,11 @@ export default function RedirectURI(props) {
     console.log(code);
     console.log(state);
 
-    // axios
-    //   .post("http://localhost:8080/api/v1/member/auth/naver", {
-    //     code: code,
-    //     state: state,
-    //   })
-    axios
-      .post(
-        "http://localhost:8080/api/v1/member/auth/naver",
-        {
-          code: code,
-          state: state,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-
+    const data = {
+      code: code,
+      state: state,
+    }
+    https.post("/api/v1/member/auth/naver",data)
       .then((res) => {
         if (res.status === 200) {
           localStorage.setItem("access_token", res.data.data.access_token);
@@ -37,7 +23,7 @@ export default function RedirectURI(props) {
           localStorage.setItem("member_number", res.data.data.member_number);
           localStorage.setItem("isSocialLogin", res.data.data.isSocialLogin);
 
-          // navigate("/main");
+          navigate("/main");
         } else {
           // 로그인이 실패한 경우 처리할 로직
           alert("다시 시도해주세요!");
