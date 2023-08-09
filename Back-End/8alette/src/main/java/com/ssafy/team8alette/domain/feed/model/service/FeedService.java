@@ -86,7 +86,7 @@ public class FeedService {
 
 	public List<FeedEntity> getFeeds(String orderCriteria) {
 		List<FeedEntity> list = null;
-
+		
 		if (orderCriteria.equals("recent")) {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		} else if (orderCriteria.equals("famous")) {
