@@ -41,12 +41,14 @@ export default function AuthPage() {
   return (
     <main className={classes.symbolSection}>
       <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} />
-      <p classes={classes.profileNickname}>{memberNickname}</p>
+      <p className={classes.profileNickname}>{memberNickname}</p>
       <UserSymbolList />
+      <button> 심볼 목록 보기 </button>
       <p>심볼 목록</p>
       <div className={classes.symbolContainer}>
       <SymbolList />
       </div>
+      
     </main>
   );
 }
