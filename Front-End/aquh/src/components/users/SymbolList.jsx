@@ -21,7 +21,7 @@ useEffect(() => {
     }
   };
   fetchSymbolList();
-}, [])
+}, [id])
 
 console.log("Symbols!!!!", symbols)
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { mySymbolList } from '../../utils/api/api.symbol_service';
 import { useParams } from 'react-router-dom';
 import UserSymbolPortrait from './UserSymbolPortrait';
+import classes from './UserSymbolList.module.css';
 
 export default function UserSymbolList() {
 
@@ -22,7 +23,7 @@ export default function UserSymbolList() {
       }
     };
     fetchSymbolList();
-  }, [])
+  }, [id])
 
   const symbolcards = symbols.map((e) => (
   <UserSymbolPortrait 
@@ -33,7 +34,7 @@ export default function UserSymbolList() {
   ));
 
   return (
-    <div>
+    <div className={classes.symbolContainer}>
         {symbolcards}
     </div>
   );
