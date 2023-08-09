@@ -2,6 +2,7 @@ package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +16,11 @@ import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
 import com.ssafy.team8alette.domain.member.auth.util.RegexChecker;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
 import com.ssafy.team8alette.global.exception.MemberNotExistException;
 import com.ssafy.team8alette.global.exception.MemberPasswordInvalidException;
@@ -31,6 +37,8 @@ public class MemberService {
 	private final NullValueChecker nullValueChecker;
 	private final MailSenderUtil mailSenderUtil;
 	private final MemberRecordRepository memberRecordRepository;
+	private final SymbolGrantRepository symbolGrantRepository;
+	private final SymbolRepository symbolRepository;
 
 	public Long register(Map<String, String> param) throws NoSuchAlgorithmException {
 
@@ -79,6 +87,18 @@ public class MemberService {
 		memberRecord.setMember(member);
 		memberRecord.setDate(new Date());
 		memberRecordRepository.save(memberRecord);
+
+		List<Symbol> symbols = symbolRepository.findAll();
+		Symbol symbol = symbols.get(0);
+		Grant grant = new Grant();
+		GrantID grantID = new GrantID();
+		grantID.setGrantedMemberNumber(member.getMemberNumber());
+		grantID.setSymbolNumber(1L);
+		grant.setGrantID(grantID);
+		grant.setMemberRecord(memberRecord);
+		grant.setSymbol(symbol);
+		grant.setDate(new Date());
+		symbolGrantRepository.save(grant);
 
 		return member.getMemberNumber();
 	}
