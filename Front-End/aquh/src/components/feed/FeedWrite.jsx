@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import classes from "./FeedWrite.module.css";
 
+import { useRecoilValue } from "recoil";
+import { memberNumberState } from "../../store/loginUserState";
+
 function FeedWrite() {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState(null);
+
+  const memberNumber = useRecoilValue(memberNumberState);
 
   const onChangeFeedTitle = (e) => {
     const currentFeedTitle = e.target.value;
@@ -22,8 +27,6 @@ function FeedWrite() {
   };
 
   const onClinkWriteBtn = () => {
-    const memberNumber = localStorage.getItem("member_number");
-    console.log("멤버넘버", memberNumber);
 
     if (feedTitle && feedContent) {
       const formData = new FormData();
