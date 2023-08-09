@@ -107,7 +107,7 @@ public class MemberAuthNaverService {
 		Symbol symbol = symbols.get(0);
 		Grant grant = new Grant();
 		GrantID grantID = new GrantID();
-		grantID.setGrantedMemberNumber(member.getMemberNumber());
+		grantID.setGrantedMemberNumber(newMember.getMemberNumber());
 		grantID.setSymbolNumber(1L);
 		grant.setGrantID(grantID);
 		grant.setMemberRecord(memberRecord);
