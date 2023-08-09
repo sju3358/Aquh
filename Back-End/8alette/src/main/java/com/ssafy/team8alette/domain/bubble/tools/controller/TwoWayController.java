@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/twoway")
+@RequestMapping("/api/v1/bubble/twoway")
 public class TwoWayController {
 	private final TwoWayService twoWayService;
 
@@ -35,7 +35,6 @@ public class TwoWayController {
 		@RequestParam Long member_number,
 		@RequestParam long bubble_number) {
 		Map<String, Object> responseData = new HashMap<>();
-		Map<String, Object> data = new HashMap<>();
 
 		responseData.put("message", "양자택일 질문 조회 성공");
 		responseData.put("status", 200);
