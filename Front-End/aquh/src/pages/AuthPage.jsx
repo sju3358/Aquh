@@ -11,10 +11,23 @@ import { useRecoilValue } from "recoil";
 import { main } from "@popperjs/core";
 import classes from "./AuthPage.module.css";
 import SymbolList from "../components/users/SymbolList";
+import { memberNumberState } from '../store/loginUserState'
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";  
 
 function AuthPage() {
-  
-  
+
+  // params로 다른 주소 접근시 방지하기 위한 코드
+  const memberNumber = useRecoilValue(memberNumberState);
+  const navigate = useNavigate();
+  const userId = useParams();
+  useEffect(() => {
+    let urlMemberNumber = userId.userId;
+    console.log(urlMemberNumber,memberNumber);
+    if(memberNumber != urlMemberNumber)
+      navigate('/notfound')
+  },[]);
+
   const memberEmail = useRecoilValue(memberEmailState);
   const memberNickname =useRecoilValue(memberNicknameState);
   const memberType = useRecoilValue(memberTypeState);
