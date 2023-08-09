@@ -12,11 +12,14 @@ import RedirectPage from './pages/RedirectPage'
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
 import VideoPage from './pages/VideoPage';
+
 const router = createBrowserRouter([
   // { path: '/login',
   //   element : <LoginPage />,
   //   errorElement : <NotFound />,
   // },
+
+  
   {
     path: '/',
     element : <Root />,
