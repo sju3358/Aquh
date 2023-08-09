@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
@@ -15,7 +16,6 @@ import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
-import com.ssafy.team8alette.global.exception.MemberNotExistException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -86,7 +86,8 @@ public class MemberRecordService {
 	}
 
 	public MemberRecordDTO getMemberRecordDetail(Long memberNumber) {
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
 		List<Grant> grantMember = symbolGrantRepository.findByGrantIDGrantedMemberNumber(memberNumber);
 		List<Symbol> symbolsWithSymbolNumberFive = new ArrayList<>();

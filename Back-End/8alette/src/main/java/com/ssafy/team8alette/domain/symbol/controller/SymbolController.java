@@ -32,16 +32,19 @@ public class SymbolController {
 	@LoginRequired
 	@GetMapping("/list/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getAllSymbol(@PathVariable Long memberNumber) {
+
 		List<Symbol> list = symbolService.getAllSymbols();
-		//여기가 dtoList 즉 활성화 여부 표시된 리스트를 반환받고(boolean값 포함)
+
 		List<GrantResponseDTO> grantResponseDTOList = grantService.getGrantList(memberNumber);
-		//회원 활성화 여부에 따른 심볼 넘버를 뽑고
+
 		List<Long> activeSymbolNumbers = new ArrayList<>();
+
 		for (GrantResponseDTO dto : grantResponseDTOList) {
 			if (dto.isSymbolActive()) {
 				activeSymbolNumbers.add(dto.getSymbolNumber());
 			}
 		}
+
 		List<SymbolListResponseDTO> dtoList = new ArrayList<>();
 		for (Symbol symbol : list) {
 			boolean isSymbolActive = activeSymbolNumbers.contains(symbol.getSymbolNumber());
@@ -61,7 +64,7 @@ public class SymbolController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("symbolList", dtoList);
 		responseData.put("message", "success");
-		responseData.put("status", 200);
+
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 

@@ -7,13 +7,14 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.domain.member.auth.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberPasswordInvalidException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberType;
 import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
-import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
 import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
-import com.ssafy.team8alette.domain.member.auth.util.RegexChecker;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
@@ -21,9 +22,8 @@ import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
-import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
-import com.ssafy.team8alette.global.exception.MemberNotExistException;
-import com.ssafy.team8alette.global.exception.MemberPasswordInvalidException;
+import com.ssafy.team8alette.global.util.NullValueChecker;
+import com.ssafy.team8alette.global.util.RegexChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,9 +60,8 @@ public class MemberService {
 		regexChecker.checkNicknamePattern(memberNickname);
 		regexChecker.checkPasswordPattern(memberPassword);
 
-		if (memberRepository.findMemberByMemberEmail(memberEmail) != null) {
-			throw new MemberDuplicatedException("이미 회원정보가 존재합니다");
-		}
+		if (memberRepository.findMemberByMemberEmail(memberEmail).isPresent())
+			new MemberDuplicatedException("이미 회원정보가 존재합니다");
 
 		if (memberPassword.equals(memberPasswordRepeat) != true) {
 			throw new MemberPasswordInvalidException("비밀번호를 다시 확인해주세요");
@@ -104,59 +103,34 @@ public class MemberService {
 	}
 
 	public void deactivate(Long memberNumber) {
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 		member.setMemberState(2);
 		memberRepository.save(member);
 	}
 
 	public Member getMemberInfo(Long memberNumber) {
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
-
-		if (member == null) {
-			throw new MemberNotExistException();
-		}
-
-		return member;
+		return memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 	}
 
 	public Member getMemberInfo(String memberId) {
-		Member member = memberRepository.findMemberByMemberId(memberId);
+		return memberRepository.findMemberByMemberId(memberId)
+			.orElseThrow(() -> new MemberNotExistException());
 
-		if (member == null) {
-			throw new MemberNotExistException();
-		}
-
-		return member;
 	}
 
 	public boolean isExistMemberId(String memberId) {
-		Member member = memberRepository.findMemberByMemberId(memberId);
-
-		if (member == null) {
-			return false;
-		}
-
-		return true;
+		return memberRepository.findMemberByMemberId(memberId).isPresent();
 	}
 
 	public boolean isExistMemberNickname(String memberNickname) {
-		Member member = memberRepository.findMemberByMemberNickname(memberNickname);
-
-		if (member == null) {
-			return false;
-		}
-
-		return true;
+		return memberRepository.findMemberByMemberNickname(memberNickname).isPresent();
 	}
 
 	public Member getMemberInfoByNickname(String memberNickName) {
-		Member member = memberRepository.findMemberByMemberNickname(memberNickName);
-
-		if (member == null) {
-			throw new MemberNotExistException();
-		}
-
-		return member;
+		return memberRepository.findMemberByMemberNickname(memberNickName)
+			.orElseThrow(() -> new MemberNotExistException());
 	}
 
 	public void editMemberInfo(Map<String, String> param) throws IllegalAccessException {
@@ -168,7 +142,8 @@ public class MemberService {
 		String memberName = param.get("member_name").trim();
 		String memberEmailReceive = param.get("member_emailReceive").trim();
 
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		if (memberEmail != null && memberEmail.equals("") != true) {
 			member.setMemberEmail(memberEmail);
@@ -195,14 +170,16 @@ public class MemberService {
 	}
 
 	public void verifyMemberState(Long memberNumber) {
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 		member.setMemberState(1);
 		member.setEmailVerified(true);
 		memberRepository.save(member);
 	}
 
 	public void verifyMemberEmail(Long memberNumber) {
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 		member.setEmailVerified(true);
 		memberRepository.save(member);
 	}
@@ -214,7 +191,8 @@ public class MemberService {
 		String memberNewPassword = param.get("new_password").trim();
 		String memberNewPasswordRepeat = param.get("new_password_repeat").trim();
 
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		nullValueChecker.check(memberNewPassword, memberNewPasswordRepeat);
 
@@ -234,7 +212,8 @@ public class MemberService {
 	public void changeMemberPassword(String email, String newPassword) throws
 		NoSuchAlgorithmException {
 
-		Member member = memberRepository.findMemberByMemberEmail(email);
+		Member member = memberRepository.findMemberByMemberEmail(email)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		String newPasswordEncoded = passwordUtil.encodePassword(newPassword);
 
@@ -245,7 +224,8 @@ public class MemberService {
 
 	public boolean checkValid(String memberEmail, String memberPassword) throws NoSuchAlgorithmException {
 
-		Member member = memberRepository.findMemberByMemberEmail(memberEmail);
+		Member member = memberRepository.findMemberByMemberEmail(memberEmail)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		passwordUtil.match(memberPassword, member.getMemberPassword());
 

@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.global.exception;
+package com.ssafy.team8alette.domain.member.auth.exception;
 
 public class MemberLoginException extends RuntimeException {
 

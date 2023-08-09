@@ -57,7 +57,6 @@ public class MemberAuthController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("data", loginData);
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -70,7 +69,6 @@ public class MemberAuthController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -81,7 +79,6 @@ public class MemberAuthController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -118,7 +115,6 @@ public class MemberAuthController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("data", loginData);
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}

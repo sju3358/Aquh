@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 
 import jakarta.mail.Message;
@@ -29,7 +30,9 @@ public class MailSenderUtil {
 
 			String url = "http://" + serverAddress + queryString;
 
-			String memberName = memberRepository.findMemberByMemberNumber(memberNumber).getMemberName();
+			String memberName = memberRepository.findMemberByMemberNumber(memberNumber)
+				.orElseThrow(() -> new MemberNotExistException())
+				.getMemberName();
 
 			message.setSubject(memberName + "님! Aquah에 가입해주셔서 감사합니다");
 			String mailText = "";
@@ -56,7 +59,9 @@ public class MailSenderUtil {
 
 			String url = "http://" + serverAddress + queryString;
 
-			String memberName = memberRepository.findMemberByMemberNumber(memberNumber).getMemberName();
+			String memberName = memberRepository.findMemberByMemberNumber(memberNumber)
+				.orElseThrow(() -> new MemberNotExistException())
+				.getMemberName();
 
 			message.setSubject(memberName + "님! 변경된 이메일 인증을 해주세요");
 

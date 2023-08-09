@@ -4,16 +4,16 @@ import java.security.NoSuchAlgorithmException;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.domain.member.auth.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberLoginException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberLoginInfoRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
-import com.ssafy.team8alette.domain.member.auth.util.NullValueChecker;
 import com.ssafy.team8alette.domain.member.auth.util.PasswordUtil;
-import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
-import com.ssafy.team8alette.global.exception.MemberLoginException;
-import com.ssafy.team8alette.global.exception.MemberNotExistException;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
+import com.ssafy.team8alette.global.util.NullValueChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,11 +32,8 @@ public class MemberAuthService {
 
 		nullValueChecker.check(loginEmail, loginPassword);
 
-		Member member = memberRepository.findMemberByMemberEmail(loginEmail);
-
-		if (member == null) {
-			throw new MemberNotExistException();
-		}
+		Member member = memberRepository.findMemberByMemberEmail(loginEmail)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		if (member.getMemberState() == 0) {
 			throw new UnAuthorizedException("이메일인증을 먼저 진행해 주세요");

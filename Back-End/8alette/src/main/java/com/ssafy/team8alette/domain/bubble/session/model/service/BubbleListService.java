@@ -7,6 +7,7 @@ import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleListRepositor
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleListEntity;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
@@ -22,7 +23,9 @@ public class BubbleListService {
 
 	public void createBubbleList(Long memberNumber, Long bubbleNumber) {
 
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
+
 		BubbleEntity bubble = bubbleRepository.findBubbleEntityByBubbleNumber(bubbleNumber)
 			.orElseThrow(() -> new BubbleNotFoundException());
 

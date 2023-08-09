@@ -39,7 +39,6 @@ public class MemberCheckController {
 
 		responseData.put("message", "success");
 		responseData.put("data", data);
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 
@@ -54,7 +53,6 @@ public class MemberCheckController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("isExistSameEmail", memberService.isExistMemberId(memberEmail));
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 
@@ -69,7 +67,6 @@ public class MemberCheckController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("isExistSameNickname", memberService.isExistMemberNickname(memberNickname));
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 
