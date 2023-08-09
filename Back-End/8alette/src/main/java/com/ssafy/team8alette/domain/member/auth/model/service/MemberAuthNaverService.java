@@ -114,7 +114,7 @@ public class MemberAuthNaverService {
 		grant.setSymbol(symbol);
 		grant.setDate(new Date());
 		symbolGrantRepository.save(grant);
-		//
+
 		return memberRepository.findMemberByMemberId(memberId).getMemberNumber();
 	}
 }
