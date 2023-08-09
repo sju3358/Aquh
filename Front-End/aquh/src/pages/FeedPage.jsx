@@ -96,8 +96,8 @@ function FeedPage() {
             </p>
             <div>
               {newList.map((feed) => {
-                console.log("map으로 뿌린 피드", feed);
-                console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+                // console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
                 return (
                   <div className={classes.newFeedCard}>
