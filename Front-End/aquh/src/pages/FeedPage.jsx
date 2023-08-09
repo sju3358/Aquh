@@ -23,7 +23,7 @@ function FeedPage() {
   async function axiosNew() {
     await axios({
       method: "GET",
-      url: "http://i9b108.p.ssafy.io:8080/api/v1/feed/list",
+      url: "https://i9b108.p.ssafy.io/api/v1/feed/list",
       headers: {
         "AUTH-TOKEN": localStorage.getItem("access_token"),
         // TODO : recoil atom에서 받아오는걸로 추후 수정해야함
