@@ -1,8 +1,11 @@
 import axios from 'axios';
 
+const accessToken = localStorage.getItem('access_token');
+
 const api = axios.create({
-    baseURL: 'https://i9b108.p.ssafy.io/api/v1/symbol',
-    headers: { 'Content-Type': 'application/json' }
+    baseURL: 'https://192.168.31.175:8080/api/v1/symbol',
+    headers: { 'Content-Type' : 'application/json'
+        ,'AUTH-TOKEN': accessToken }
 });
 
 
