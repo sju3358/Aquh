@@ -17,6 +17,7 @@ import com.ssafy.team8alette.domain.member.alarm.method.AlarmListMapper;
 import com.ssafy.team8alette.domain.member.alarm.model.dto.Alarm;
 import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmListResponseDTO;
 import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ public class AlarmController {
 
 	private final AlarmService alarmService;
 
+	@LoginRequired
 	@GetMapping("/list/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> alarmListRequest(@PathVariable Long memberNumber) {
 
@@ -43,6 +45,7 @@ public class AlarmController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	@LoginRequired
 	@PutMapping("/{alarmIndex}")
 	public ResponseEntity<Map<String, Object>> readAlarmRequest(@PathVariable Long alarmIndex) {
 

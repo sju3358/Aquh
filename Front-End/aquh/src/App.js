@@ -3,7 +3,7 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
 import MainPage from './pages/MainPage';
-import LoginModal from './pages/LoginModal';
+// import LoginModal from './pages/LoginModal';
 import NotFound from './components/ui/NotFound';
 import AuthPage from './pages/AuthPage';
 import SignUpForm from './components/users/SignUpForm';
