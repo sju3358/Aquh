@@ -40,7 +40,6 @@ public class AlarmController {
 
 		responseData.put("alarmList", dtoList);
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -53,7 +52,6 @@ public class AlarmController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}

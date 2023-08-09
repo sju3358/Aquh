@@ -35,8 +35,8 @@ public class SymbolGrantController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 		responseData.put("data", list);
+
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
@@ -47,7 +47,7 @@ public class SymbolGrantController {
 		symbolGrantService.putActiveTrue(symbolGrant);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
+		
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 

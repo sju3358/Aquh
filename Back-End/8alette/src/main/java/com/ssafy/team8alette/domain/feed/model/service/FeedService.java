@@ -11,17 +11,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.ssafy.team8alette.domain.feed.exception.FeedMemberNotMatchException;
 import com.ssafy.team8alette.domain.feed.method.FeedMethod;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
-import com.ssafy.team8alette.global.exception.NotMatchException;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
 import lombok.RequiredArgsConstructor;
@@ -172,7 +173,7 @@ public class FeedService {
 				return feedRepository.save(existingFeedEntity);
 			}
 		} else {
-			throw new NotMatchException("회원번호가 일치하지 않습니다.");
+			throw new FeedMemberNotMatchException("회원번호가 일치하지 않습니다.");
 		}
 	}
 
@@ -214,7 +215,8 @@ public class FeedService {
 	public List<FeedEntity> getFeedsByMemberNumber(Long memberNumber) {
 		List<FeedEntity> list = null;
 
-		Member member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		list = feedRepository.findByMemberOrderByFeedNumberDesc(member);
 

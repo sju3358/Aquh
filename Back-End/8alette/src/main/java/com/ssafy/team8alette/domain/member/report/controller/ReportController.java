@@ -30,7 +30,6 @@ public class ReportController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}

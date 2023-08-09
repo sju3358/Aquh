@@ -83,7 +83,6 @@ public class MemberRecordController {
 
 		responseData.put("message", "success");
 		responseData.put("data", data);
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -92,12 +91,12 @@ public class MemberRecordController {
 	public ResponseEntity<Map<String, Object>> getMemberPage(@RequestBody Map<String, String> param) {
 
 		Long memberNumber = Long.parseLong(param.get("memberNumber"));
-		MemberRecordDTO dto = memberRecordService.getMemberRecordDetail(memberNumber);
+		MemberRecordDTO memberRecordDTO = memberRecordService.getMemberRecordDetail(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
-		responseData.put("data", dto);
+		responseData.put("data", memberRecordDTO);
+
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 

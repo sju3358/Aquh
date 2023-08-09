@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.ssafy.team8alette.domain.member.auth.exception.MemberDuplicatedException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberLoginException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberPasswordInvalidException;
 import com.ssafy.team8alette.global.exception.InvalidTokenException;
-import com.ssafy.team8alette.global.exception.MemberDuplicatedException;
-import com.ssafy.team8alette.global.exception.MemberLoginException;
-import com.ssafy.team8alette.global.exception.MemberNotExistException;
-import com.ssafy.team8alette.global.exception.MemberPasswordInvalidException;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
 @RestControllerAdvice

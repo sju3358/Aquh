@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.member.auth.util;
+package com.ssafy.team8alette.global.util;
 
 import org.springframework.stereotype.Component;
 

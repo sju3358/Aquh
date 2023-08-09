@@ -90,7 +90,6 @@ public class MemberController {
 
 		responseData.put("message", "success");
 		responseData.put("data", data);
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -108,7 +107,6 @@ public class MemberController {
 		Map<String, Object> responseData = new HashMap<>();
 
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -122,7 +120,6 @@ public class MemberController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -137,7 +134,6 @@ public class MemberController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -152,7 +148,6 @@ public class MemberController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}

@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
-import com.ssafy.team8alette.global.exception.MemberPasswordInvalidException;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberPasswordInvalidException;
 
 @Component
 public class PasswordUtil {

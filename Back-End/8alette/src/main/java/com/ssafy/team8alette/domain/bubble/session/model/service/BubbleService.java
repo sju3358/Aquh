@@ -11,6 +11,7 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequest;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.CategoryRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
+import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
@@ -29,7 +30,8 @@ public class BubbleService {
 		Long hostMemberNumber = createBubbleRequest.getHostMemberNumber();
 		Long categoryNumber = createBubbleRequest.getCategoryNumber();
 
-		Member member = memberRepository.findMemberByMemberNumber(hostMemberNumber);
+		Member member = memberRepository.findMemberByMemberNumber(hostMemberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
 
 		CategoryEntity category = categoryRepository.findCategoryEntityByCategoryNumber(categoryNumber)
 			.orElseThrow(() -> new CategoryNotFoundException());
