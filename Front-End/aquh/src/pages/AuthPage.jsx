@@ -23,6 +23,8 @@ export default function AuthPage() {
   const memberNumber = useRecoilValue(memberNumberState);
   const navigate = useNavigate();
   const userId = useParams();
+
+  
   useEffect(() => {
     let urlMemberNumber = userId.userId;
     console.log(urlMemberNumber,memberNumber);
