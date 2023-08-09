@@ -45,7 +45,7 @@ export default function AuthPage() {
       <UserSymbolList />
       <p>심볼 목록</p>
       <div className={classes.symbolContainer}>
-        <SymbolList />
+      <SymbolList />
       </div>
     </main>
   );
