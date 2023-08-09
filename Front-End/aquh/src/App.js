@@ -3,7 +3,7 @@ import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
 import MainPage from './pages/MainPage';
-import LoginModal from './pages/LoginModal';
+// import LoginModal from './pages/LoginModal';
 import NotFound from './components/ui/NotFound';
 import AuthPage from './pages/AuthPage';
 import SignUpForm from './components/users/SignUpForm';
@@ -12,11 +12,14 @@ import RedirectPage from './pages/RedirectPage'
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
 import VideoPage from './pages/VideoPage';
+
 const router = createBrowserRouter([
   // { path: '/login',
   //   element : <LoginPage />,
   //   errorElement : <NotFound />,
   // },
+
+  
   {
     path: '/',
     element : <Root />,
