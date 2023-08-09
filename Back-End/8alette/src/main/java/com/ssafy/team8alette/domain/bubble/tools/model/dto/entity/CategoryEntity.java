@@ -1,4 +1,4 @@
-package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
 
 import java.util.Date;
 

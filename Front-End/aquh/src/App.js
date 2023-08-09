@@ -12,11 +12,14 @@ import RedirectPage from './pages/RedirectPage'
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
 import VideoPage from './pages/VideoPage';
+
 const router = createBrowserRouter([
   // { path: '/login',
   //   element : <LoginPage />,
   //   errorElement : <NotFound />,
   // },
+
+  
   {
     path: '/',
     element : <Root />,
@@ -24,7 +27,7 @@ const router = createBrowserRouter([
     children : [
       { index: 'true', element : <MainPage /> },
       { path: '/login', element : <LoginPage />},
-      { path: '/auth', element : <AuthPage />},
+      { path: '/auth/:userId', element : <AuthPage />},
       // TODO : SignupForm을 SignUpPage로 바꾸기. 
       { path: '/feed', element : <FeedPage />},
       { path: '/bubble', element : <BubblePage />},
