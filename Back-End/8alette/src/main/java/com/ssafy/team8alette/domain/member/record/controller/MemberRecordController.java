@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.member.record.model.dto.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.dto.response.MemberRecordDTO;
 import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
@@ -82,6 +84,19 @@ public class MemberRecordController {
 		responseData.put("data", data);
 		responseData.put("status", 200);
 
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	@GetMapping
+	public ResponseEntity<Map<String, Object>> getMemberPage(@RequestBody Map<String, String> param) {
+
+		Long memberNumber = Long.parseLong(param.get("memberNumber"));
+		MemberRecordDTO dto = memberRecordService.getMemberRecordDetail(memberNumber);
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		responseData.put("data", dto);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
