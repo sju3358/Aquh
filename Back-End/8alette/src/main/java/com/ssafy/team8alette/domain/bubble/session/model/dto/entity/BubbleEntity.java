@@ -2,6 +2,7 @@ package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
 
 import java.util.Date;
 
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
