@@ -48,7 +48,7 @@ function FeedWrite() {
       }
 
       axios
-        .post("https://localhost:8080/api/v1/feed", formData, {
+        .post("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
           headers: {
             "AUTH-TOKEN": localStorage.getItem("access_token"),
           },
