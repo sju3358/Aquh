@@ -123,7 +123,7 @@ public class MemberRecordService {
 			dto.setMaxExp(10000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
-		//
+		///
 
 		return dto;
 	}
