@@ -76,7 +76,7 @@ function FeedWrite() {
       formData.append("file", fileInput.files[0]); // 파일이 없는 경우에도 null 값으로 추가
 
       axios
-        .post("https://i9b108.p.ssafy.io:8080/api/v1/feed", {
+        .post("https://i9b108.p.ssafy.io/api/v1/feed", {
           headers: {
             "AUTH-TOKEN": localStorage.getItem("access_token"),
             "Content-Type": "multipart/form-data", // 파일을 보낼 때 Content-Type 설정
