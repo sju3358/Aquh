@@ -25,26 +25,25 @@ public class TokenValidCheckInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 		// 개발용
-		return true;
-		//
+		// return true;
 
-		// if (!(handler instanceof HandlerMethod)) {
-		// 	return true;
-		// }
-		//
-		// HandlerMethod handlerMethod = (HandlerMethod)handler;
-		// LoginRequired loginRequired = handlerMethod.getMethodAnnotation(LoginRequired.class);
-		// if (Objects.isNull(loginRequired)) {
-		// 	return true;
-		// }
-		//
-		// final String token = request.getHeader(HEADER_AUTH);
-		//
-		// if (token != null) {
-		// 	jwtTokenProvider.checkToken(token);
-		// 	return true;
-		// } else {
-		// 	throw new UnAuthorizedException();
-		// }
+		if (!(handler instanceof HandlerMethod)) {
+			return true;
+		}
+
+		HandlerMethod handlerMethod = (HandlerMethod)handler;
+		LoginRequired loginRequired = handlerMethod.getMethodAnnotation(LoginRequired.class);
+		if (Objects.isNull(loginRequired)) {
+			return true;
+		}
+
+		final String token = request.getHeader(HEADER_AUTH);
+
+		if (token != null) {
+			jwtTokenProvider.checkToken(token);
+			return true;
+		} else {
+			throw new UnAuthorizedException();
+		}
 	}
 }
