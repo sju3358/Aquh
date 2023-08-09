@@ -1,64 +1,145 @@
-import React, { useState, setState } from "react";
+import React, { useState, setState, useEffect } from "react";
 import { Component } from "react";
 import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
+import axios from "axios";
 // import classes from "./FeedPage.module.css";
-import https from "../utils/https";
-function FeedPage() {
-  // Dummy Data
 
-  const testList = [
-    {
-      imgPath: 1,
-      title: "오늘은 뜨개질 첫 날",
-      content: "뜨개질 너무 재밌어서 요즘 이거밖에 안해요!!",
-    },
-    {
-      imgPath: 2,
-      title: "베이킹이 취미인데 좋아요",
-      content:
-        "베이킹 영상 광고없이 실습하니까 좋아요. 취미라서 이제 초보라 많이 봐야하는데 광고 나오면 엄청 불편했거든요 ㅠㅠ 이참에 추천받은 다른 콘텐츠 영상도 보려구요",
-    },
-    {
-      imgPath: 3,
-      title: "취미와 취미가 만나는 곳.",
-      content:
-        "이웃과의 소통이 많이 줄어든 요즘! 송파구방이복지관은 참여자들이 함께 소통하며 여가를 즐길 수 있는 ‘DIY취미활동’ 2기 - 원예활동을 진행",
-    },
-  ];
+function FeedPage() {
+  // 카테고리 클릭에 따른 필터 변경
+  const [isNew, setIsNew] = useState(true);
+  const [isPopular, setIsPopular] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
+
+  // 각 필터에 맞는 feedList get
+  const [newList, setNewList] = useState([]);
+
+  useEffect(() => {
+    axiosNew();
+  }, []);
+  // TODO : 글이 새로고침 될 때 실시간으로 업데이트 -> 무한렌더링 고치기
+
+  async function axiosNew() {
+    await axios({
+      method: "GET",
+      url: "http://localhost:8080/api/v1/feed/list",
+      headers: {
+        "AUTH-TOKEN": localStorage.getItem("access_token"),
+        // TODO : recoil atom에서 받아오는걸로 추후 수정해야함
+      },
+      params: {
+        filter: "recent",
+      },
+    })
+      .then((res) => {
+        setNewList(res.data);
+      })
+      .catch((err) => {
+        return;
+      });
+  }
+
+  const clickNew = () => {
+    setIsNew(true);
+    setIsPopular(false);
+    setIsFollow(false);
+  };
+
+  const clickPopular = () => {
+    setIsNew(false);
+    setIsPopular(true);
+    setIsFollow(false);
+  };
+
+  const clickFollow = () => {
+    setIsNew(false);
+    setIsPopular(false);
+    setIsFollow(true);
+  };
 
   return (
     <div className={classes.feedPage}>
-      <p className={classes.latestMent}>
+      <p className={classes.feedMent}>
         <img
           src='../../droplet-white.png'
           alt='droplet'
           className={classes.droplet}
         />
-        여러분의 이야기를 들려주세요!
+        나의 이야기를 작성해주세요
       </p>
-      <FeedWrite />
-      <div>
-        <p className={classes.latestMent}>
-          <img
-            src='../../droplet-white.png'
-            alt='droplet'
-            className={classes.droplet}
-          />
-          최신 버블들을 만나보세요
-        </p>
-        {testList.map((feeditem) => {
-          return (
-            <div className={classes.feedCard}>
-              <FeedCard
-                imgPath={feeditem.imgPath}
-                title={feeditem.title}
-                content={feeditem.content}
+      <div className={classes.feedWriteSection}>
+        <FeedWrite />
+      </div>
+      <div className={classes.feedListSection}>
+        <div className={classes.feedCategories}>
+          <p onClick={clickNew} className={classes.feedCategory}>
+            최신순
+          </p>
+          <p onClick={clickPopular} className={classes.feedCategory}>
+            인기순
+          </p>
+          <p onClick={clickFollow} className={classes.feedCategory}>
+            팔로잉
+          </p>
+        </div>
+
+        {isNew ? (
+          <div className={classes.feedListNew}>
+            <p className={classes.feedMent}>
+              <img
+                src='../../droplet-white.png'
+                alt='droplet'
+                className={classes.droplet}
               />
+              최신 피드들을 만나보세요 !
+            </p>
+            <div>
+              {newList.map((feed) => {
+                console.log("map으로 뿌린 피드", feed);
+                console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+
+                return (
+                  <div className={classes.newFeedCard}>
+                    <FeedCard
+                      title={feed.title}
+                      content={feed.content}
+                      createDate={feed.createDate}
+                      inputImg={feed.feedImgTrans}
+                      inputImgName={feed.feedImgOrigin}
+                    />
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        ) : null}
+
+        {isPopular ? (
+          <div className={classes.feedListPopular}>
+            <p className={classes.feedMent}>
+              <img
+                src='../../droplet-white.png'
+                alt='droplet'
+                className={classes.droplet}
+              />
+              금주의 인기 피드들을 만나보세요 !
+            </p>
+          </div>
+        ) : null}
+
+        {isFollow ? (
+          <div className={classes.feeListFollowing}>
+            <p className={classes.feedMent}>
+              <img
+                src='../../droplet-white.png'
+                alt='droplet'
+                className={classes.droplet}
+              />
+              내 친구들의 피드들을 확인 해 보세요 !
+            </p>
+          </div>
+        ) : null}
       </div>
     </div>
   );
