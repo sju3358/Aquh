@@ -8,9 +8,9 @@ import com.ssafy.team8alette.domain.bubble.session.exception.BubbleNotFoundExcep
 import com.ssafy.team8alette.domain.bubble.session.exception.CategoryNotFoundException;
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequest;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.CategoryRepository;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
