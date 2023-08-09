@@ -29,12 +29,9 @@ public class WebConfig implements WebMvcConfigurer {
 				"https://i9b108.p.ssafy.io:3000",
 				"http://localhost:3000",
 				"https://localhost:3000",
-				"http://i9b108.p.ssafy.io:8080/",
-				"https://i9b108.p.ssafy.io:8080/",
-				"http://i9b108.p.ssafy.io:3000/",
-				"https://i9b108.p.ssafy.io:3000/",
-				"http://localhost:3000/",
-				"https://localhost:3000/")
+				"https://i9b108.p.ssafy.io",
+				"http://i9b108.p.ssafy.io")
+
 			.allowedMethods("GET", "POST", "PUT")
 			.maxAge(3000);
 	}
