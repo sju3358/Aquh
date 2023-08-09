@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.CategoryRepository;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.CategoryEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
 
 import lombok.RequiredArgsConstructor;
 
