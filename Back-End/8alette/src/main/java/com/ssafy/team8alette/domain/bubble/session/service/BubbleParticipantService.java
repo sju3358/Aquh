@@ -22,7 +22,7 @@ public class BubbleParticipantService {
 	private final MemberRepository memberRepository;
 	private final BubbleRepository bubbleRepository;
 	private final BubbleListRepository bubbleListRepository;
-	
+
 	public void createBubbleList(Long memberNumber, Long bubbleNumber) {
 
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
@@ -50,7 +50,7 @@ public class BubbleParticipantService {
 		groupID.setBubbleNumber(bubbleNumber);
 		groupID.setMemberNumber(memberNumber);
 
-		BubbleParticipantEntity bubbleParticipant = bubbleListRepository.findBubbleListEntitiesByGroupID(groupID)
+		BubbleParticipantEntity bubbleParticipant = bubbleListRepository.findBubbleListEntityByGroupID(groupID)
 			.orElseThrow(() -> new BubbleParticipantsNotFoundException());
 
 		bubbleListRepository.delete(bubbleParticipant);
