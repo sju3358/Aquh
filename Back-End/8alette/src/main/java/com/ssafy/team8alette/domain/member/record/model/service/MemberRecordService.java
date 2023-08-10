@@ -15,7 +15,6 @@ import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
-import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +25,6 @@ public class MemberRecordService {
 	private final MemberRecordRepository memberRecordRepository;
 	private final MemberRepository memberRepository;
 	private final SymbolGrantRepository symbolGrantRepository;
-	public final SymbolGrantService symbolGrantService;
 
 	public MemberRecord getMemberRecord(Long memberNumber) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
@@ -125,7 +123,6 @@ public class MemberRecordService {
 			dto.setMaxExp(10000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
-		symbolGrantService.putSymbolGrant(memberNumber);
 
 		return dto;
 	}
