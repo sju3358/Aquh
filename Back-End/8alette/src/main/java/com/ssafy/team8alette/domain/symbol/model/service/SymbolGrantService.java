@@ -31,7 +31,7 @@ public class SymbolGrantService {
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
 				grant.getSymbol().getSymbolCode(),
-				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus(), grant.getDate()))
+				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus()))
 			.collect(
 				Collectors.toList());
 		return dtoList;

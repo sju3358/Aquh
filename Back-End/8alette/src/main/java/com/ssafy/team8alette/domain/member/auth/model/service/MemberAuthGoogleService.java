@@ -99,7 +99,6 @@ public class MemberAuthGoogleService {
 		MemberRecord memberRecord = new MemberRecord();
 		memberRecord.setMemberNumber(newMember.getMemberNumber());
 		memberRecord.setMember(newMember);
-		memberRecord.setDate(new Date());
 		memberRecordRepository.save(memberRecord);
 
 		List<Symbol> symbols = symbolRepository.findAll();
@@ -111,7 +110,6 @@ public class MemberAuthGoogleService {
 		grant.setGrantID(grantID);
 		grant.setMemberRecord(memberRecord);
 		grant.setSymbol(symbol);
-		grant.setDate(new Date());
 		symbolGrantRepository.save(grant);
 
 		return newMember.getMemberNumber();

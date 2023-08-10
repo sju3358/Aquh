@@ -34,8 +34,8 @@ public class MemberRecord {
 	@Column(name = "exp_cnt")
 	private int memberExpCnt;
 
-	@Column(name = "comment_cnt")
-	private int memberCommentCnt;
+	@Column(name = "feed_cnt")
+	private int memberFeedCnt;
 
 	@Column(name = "bubble_join_cnt")
 	private int bubbleJoinCnt;
@@ -54,9 +54,6 @@ public class MemberRecord {
 
 	@Column(name = "follower_cnt")
 	private int memberFollowerCnt;
-
-	@Column(name = "record_update_dttm")
-	private Date date;
 
 	// 이 부분이 member 매핑
 	@MapsId
