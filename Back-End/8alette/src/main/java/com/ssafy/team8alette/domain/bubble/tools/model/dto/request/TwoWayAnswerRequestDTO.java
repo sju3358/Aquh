@@ -5,17 +5,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TwoWayQuestionAnswerDTO {
+public class TwoWayAnswerRequestDTO {
 	private Long two_way_question_number;
 	private Long member_number;
-	private boolean is_pick_right;
+	private boolean left_pick;
 
 	@Override
 	public String toString() {
 		return "TwoWayQuestionAnswerDTO{" +
 			"two_way_question_number=" + two_way_question_number +
 			", member_number=" + member_number +
-			", is_pick_right=" + is_pick_right +
+			", left_pick=" + left_pick +
 			'}';
 	}
 }

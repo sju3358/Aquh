@@ -12,7 +12,7 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayQuestionReposit
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayAnswerEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayQuestionEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayAnswerRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TwoWayQuestionResponseDTO;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
@@ -44,9 +44,9 @@ public class TwoWayService {
 
             for (TwoWayAnswerEntity answer : answers) {
                 if (answer.getMember().getMemberNumber() == memberNumber) {
-                    is_pick = answer.isPickRight() ? 2 : 1;
+                    is_pick = answer.isLeftPick() ? 2 : 1;
                 }
-                if (!answer.isPickRight()) {
+                if (!answer.isLeftPick()) {
                     left_cnt++;
                 }
             }
@@ -82,14 +82,14 @@ public class TwoWayService {
 
     // 양자택일 답변 등록/수정
     @Transactional
-    public void registTwoWayAnswer(TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {
+    public void registTwoWayAnswer(TwoWayAnswerRequestDTO twoWayAnswerRequestDTO) {
         TwoWayQuestionEntity twoWayQuestionEntity = twoWayQuestionRepository.findById(
-                twoWayQuestionAnswerDTO.getTwo_way_question_number()).orElseThrow();
-        Member member = memberRepository.findById(twoWayQuestionAnswerDTO.getMember_number()).orElseThrow();
+                twoWayAnswerRequestDTO.getTwo_way_question_number()).orElseThrow();
+        Member member = memberRepository.findById(twoWayAnswerRequestDTO.getMember_number()).orElseThrow();
 
         TwoWayAnswerID twoWayAnswerID = new TwoWayAnswerID();
-        twoWayAnswerID.setTwoWayQuestionNumber(twoWayQuestionAnswerDTO.getTwo_way_question_number());
-        twoWayAnswerID.setMemberNumber(twoWayQuestionAnswerDTO.getMember_number());
+        twoWayAnswerID.setTwoWayQuestionNumber(twoWayAnswerRequestDTO.getTwo_way_question_number());
+        twoWayAnswerID.setMemberNumber(twoWayAnswerRequestDTO.getMember_number());
 
         if(twoWayAnswerRepository.existsByTwoWayAnswerID(twoWayAnswerID)) {
             twoWayAnswerRepository.deleteByTwoWayAnswerID(twoWayAnswerID);
@@ -98,7 +98,7 @@ public class TwoWayService {
         TwoWayAnswerEntity twoWayAnswerEntity = new TwoWayAnswerEntity();
         twoWayAnswerEntity.setTwoWayQuestionEntity(twoWayQuestionEntity);
         twoWayAnswerEntity.setMember(member);
-        twoWayAnswerEntity.setPickRight(twoWayQuestionAnswerDTO.is_pick_right());
+        twoWayAnswerEntity.setLeftPick(twoWayAnswerRequestDTO.isLeft_pick());
         twoWayAnswerEntity.setTwoWayAnswerID(twoWayAnswerID);
 
         twoWayAnswerRepository.save(twoWayAnswerEntity);
