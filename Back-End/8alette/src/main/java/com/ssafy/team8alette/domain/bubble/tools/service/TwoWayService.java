@@ -85,14 +85,14 @@ public class TwoWayService {
 
 	// 양자택일 답변 등록/수정
 	@Transactional
-	public void registTwoWayAnswer(TwoWayAnswerRequestDTO twoWayAnswerRequestDTO) {
+	public void registTwoWayAnswer(TwoWayAnswerRequestDTO twoWayAnswerRequestDTO, Long member_number) {
 		TwoWayQuestionEntity twoWayQuestionEntity = twoWayQuestionRepository.findById(
 			twoWayAnswerRequestDTO.getTwo_way_question_number()).orElseThrow();
-		Member member = memberRepository.findById(twoWayAnswerRequestDTO.getMember_number()).orElseThrow();
+		Member member = memberRepository.findById(member_number).orElseThrow();
 
 		TwoWayAnswerID twoWayAnswerID = new TwoWayAnswerID();
 		twoWayAnswerID.setTwoWayQuestionNumber(twoWayAnswerRequestDTO.getTwo_way_question_number());
-		twoWayAnswerID.setMemberNumber(twoWayAnswerRequestDTO.getMember_number());
+		twoWayAnswerID.setMemberNumber(member_number);
 
 		if (twoWayAnswerRepository.existsByTwoWayAnswerID(twoWayAnswerID)) {
 			twoWayAnswerRepository.deleteByTwoWayAnswerID(twoWayAnswerID);

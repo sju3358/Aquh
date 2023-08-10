@@ -34,6 +34,9 @@ public class SymbolGrantService {
 		Member member = memberRepository.findById(memberNumber)
 			.orElseThrow(() -> new NullValueException("회원 정보가 존재하지 않습니다."));
 
+		//심볼 부여
+		putSymbolGrant(memberNumber);
+
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
@@ -104,7 +107,6 @@ public class SymbolGrantService {
 	public void putSymbolGrant(Long memberNumber) {
 		//기록을 뽑아오고
 		MemberRecord memberRecord = memberRecordService.getMemberRecord(memberNumber);
-
 		int[] valuesToCheck = {
 			memberRecord.getMemberExpCnt(),
 			memberRecord.getBubbleJoinCnt(),
@@ -125,37 +127,37 @@ public class SymbolGrantService {
 
 		for (int i = 0; i < symbolCode.length; i++) {
 			if (valuesToCheck[i] != 0) {
-				symbolRepository.findAllBySymbolCodeAndAndSymbolConditionCntLessThan(
+				List<Symbol> symbols = symbolRepository.findAllBySymbolCodeAndAndSymbolConditionCntLessThanEqual(
 					symbolCode[i],
-					valuesToCheck[i]).ifPresent(symbol -> {
+					valuesToCheck[i]);
+
+				int ExpCnt = 0;
+				for (Symbol symbol : symbols) {
 					Long symbolNumber = symbol.getSymbolNumber();
 					giveSymbolNumber.add(symbolNumber);
-				});
+					//
+					if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+						symbolNumber) == null) {
+						ExpCnt++;
+						Symbol putSymbol = symbolRepository.findSymbolBySymbolNumber(symbolNumber);
+
+						GrantID grantID = new GrantID();
+						grantID.setGrantedMemberNumber(memberNumber);
+						grantID.setSymbolNumber(symbolNumber);
+
+						Grant newSymbolGrant = new Grant();
+						newSymbolGrant.setGrantID(grantID);
+						newSymbolGrant.setMemberRecord(memberRecord);
+						newSymbolGrant.setSymbol(putSymbol);
+						newSymbolGrant.setActiveStatus(false);
+
+						symbolGrantRepository.save(newSymbolGrant);
+					}
+
+				}
+				memberRecordService.updateMemberExp(memberNumber, ExpCnt * 100);
+
 			}
 		}
-		int ExpCnt = 0;
-		for (Long symbolNumber : giveSymbolNumber) {
-			if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber, symbolNumber)
-				== null) {
-				ExpCnt++;
-				Symbol symbol = symbolRepository.findSymbolBySymbolNumber(symbolNumber);
-
-				GrantID grantID = new GrantID();
-				grantID.setGrantedMemberNumber(memberNumber);
-				grantID.setSymbolNumber(symbolNumber);
-
-				Grant newSymbolGrant = new Grant();
-				newSymbolGrant.setGrantID(grantID);
-				newSymbolGrant.setMemberRecord(memberRecord);
-				newSymbolGrant.setSymbol(symbol);
-				newSymbolGrant.setActiveStatus(false);
-
-				symbolGrantRepository.save(newSymbolGrant);
-
-			}
-		}
-		memberRecordService.updateMemberExp(memberNumber, ExpCnt * 100);
-
 	}
-
 }
