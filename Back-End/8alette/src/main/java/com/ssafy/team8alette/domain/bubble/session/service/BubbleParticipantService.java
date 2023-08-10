@@ -22,7 +22,7 @@ public class BubbleParticipantService {
 	private final MemberRepository memberRepository;
 	private final BubbleRepository bubbleRepository;
 	private final BubbleListRepository bubbleListRepository;
-
+	
 	public void createBubbleList(Long memberNumber, Long bubbleNumber) {
 
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
