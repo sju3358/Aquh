@@ -34,6 +34,9 @@ public class SymbolGrantService {
 		Member member = memberRepository.findById(memberNumber)
 			.orElseThrow(() -> new NullValueException("회원 정보가 존재하지 않습니다."));
 
+		//심볼 부여
+		putSymbolGrant(memberNumber);
+
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
