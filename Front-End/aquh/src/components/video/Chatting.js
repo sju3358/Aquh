@@ -5,8 +5,16 @@ import React, { Component, useState, useEffect } from "react";
 import "./Chatting.css";
 import UserVideoComponent from "./UserVideoComponent";
 
+// import { useRecoilValue } from "recoil";
+// import { memberNicknameState } from "../../store/loginUserInfoState";
+
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
+
+// function GetMemberNickname(){
+//   const memberNickname = useRecoilValue(memberNicknameState);
+//   return memberNickname;
+// }
 
 export default class Chatting extends Component {
   constructor(props) {
@@ -14,7 +22,7 @@ export default class Chatting extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: "1234",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -118,7 +126,7 @@ export default class Chatting extends Component {
         // --- 4) Connect to the session with a valid user token ---
 
         // Get a token from the OpenVidu deployment
-        this.getToken().then((token) => {
+        this.enterSession(this.state.mySessionId).then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -350,8 +358,22 @@ export default class Chatting extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
+  async enterSession(bubble_number) {
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/v1/bubble-session/" + bubble_number,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data; // The token
+  }
+
+
+
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: "+sessionId);
     return await this.createToken(sessionId);
   }
 
