@@ -11,6 +11,8 @@ import com.ssafy.team8alette.domain.bubble.session.exception.CategoryNotFoundExc
 import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequestDto;
 import com.ssafy.team8alette.domain.bubble.session.model.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.bubble.session.model.entity.BubbleParticipantEntity;
+import com.ssafy.team8alette.domain.bubble.session.repository.BubbleListRepository;
 import com.ssafy.team8alette.domain.bubble.session.repository.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.bubble.tools.repository.CategoryRepository;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class BubbleService {
 
 	private final BubbleRepository bubbleRepository;
+	private final BubbleListRepository bubbleListRepository;
 	private final MemberRepository memberRepository;
 	private final CategoryRepository categoryRepository;
 
@@ -103,6 +106,28 @@ public class BubbleService {
 		for (BubbleEntity bubbleEntity : bubblingListEntity) {
 			bubblingList.add(bubbleEntity.convertToDto());
 		}
+
+		return bubblingList;
+	}
+
+	public List<BubbleDto> getBubblingList(Long memberNumber) {
+
+		List<BubbleParticipantEntity> myBubblingList =
+			bubbleListRepository.findBubbleParticipantEntitiesByGroupID_MemberNumber(memberNumber)
+				.orElse(new ArrayList<>());
+
+		List<BubbleDto> bubblingList = new ArrayList<>();
+
+		for (BubbleParticipantEntity bubbling : myBubblingList) {
+			BubbleDto bubble = bubbleRepository
+				.findBubbleEntityByBubbleNumber(bubbling.getBubbleEntity().getBubbleNumber()).get().convertToDto();
+
+			if (bubble.isBubbleState() != true)
+				bubblingList.add(bubble);
+		}
+
+		bubblingList.sort(
+			(bubble1, bubble2) -> bubble1.getPlanOpenDate().isAfter(bubble2.getPlanOpenDate()) == true ? 1 : -1);
 
 		return bubblingList;
 	}
