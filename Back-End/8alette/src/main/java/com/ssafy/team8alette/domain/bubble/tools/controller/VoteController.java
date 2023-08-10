@@ -34,7 +34,7 @@ public class VoteController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "vote question list 조회 성공");
 		responseData.put("status", 200);
-		responseData.put("vote_questions", voteService.getVoteQuestions(bubble_number,member_number));
+		responseData.put("vote_questions", voteService.getVoteQuestions(bubble_number, member_number));
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -79,6 +79,21 @@ public class VoteController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "vote select 등록 성공");
+		responseData.put("status", 200);
+
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	// 투표 선택 생성
+	// @LoginRequired
+	@DeleteMapping("/answer")
+	public ResponseEntity<Map<String, Object>> deleteVoteQuestion(
+		@RequestBody VoteSelectRequestDTO voteSelectRequestDTO) {
+
+		voteService.deleteVoteSelect(voteSelectRequestDTO);
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "vote select 삭제 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
