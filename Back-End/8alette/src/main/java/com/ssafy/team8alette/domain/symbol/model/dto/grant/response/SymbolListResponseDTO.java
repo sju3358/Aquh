@@ -15,7 +15,6 @@ public class SymbolListResponseDTO {
 	private String symbolImgName;
 	private String symbolCode;
 	private int symbolConditionCnt;
-	private Date createDate;
 
 	//여기서는 심볼에따른 활성화여부
 	private boolean symbolActive;

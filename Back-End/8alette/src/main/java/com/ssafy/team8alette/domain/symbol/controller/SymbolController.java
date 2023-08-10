@@ -54,7 +54,6 @@ public class SymbolController {
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + symbol.getSymbolImgName(),
 				symbol.getSymbolCode(),
 				symbol.getSymbolConditionCnt(),
-				symbol.getCreateDate(),
 				isSymbolActive);
 			dtoList.add(responseDTO);
 

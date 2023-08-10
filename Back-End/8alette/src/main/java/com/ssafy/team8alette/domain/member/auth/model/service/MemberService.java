@@ -84,7 +84,6 @@ public class MemberService {
 		MemberRecord memberRecord = new MemberRecord();
 		memberRecord.setMemberNumber(member.getMemberNumber());
 		memberRecord.setMember(member);
-		memberRecord.setDate(new Date());
 		memberRecordRepository.save(memberRecord);
 
 		List<Symbol> symbols = symbolRepository.findAll();
@@ -96,7 +95,6 @@ public class MemberService {
 		grant.setGrantID(grantID);
 		grant.setMemberRecord(memberRecord);
 		grant.setSymbol(symbol);
-		grant.setDate(new Date());
 		symbolGrantRepository.save(grant);
 
 		return member.getMemberNumber();

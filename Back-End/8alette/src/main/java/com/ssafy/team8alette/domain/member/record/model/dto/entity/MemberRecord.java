@@ -55,9 +55,6 @@ public class MemberRecord {
 	@Column(name = "follower_cnt")
 	private int memberFollowerCnt;
 
-	@Column(name = "record_update_dttm")
-	private Date date;
-
 	// 이 부분이 member 매핑
 	@MapsId
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

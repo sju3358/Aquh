@@ -797,8 +797,9 @@ INSERT INTO category (category_number, category_name) VALUES
 	('7', '자기개발'),
 	('8', '기타');
 	
-insert into member (member_id, member_email, member_password, member_nickname, member_name, member_intro, member_type, member_state, is_email_authentication, is_email_receive) 
-values('testtesttest','test@test.com', 'test', '테스트계정', '테스트계정', '테스트계정입니다.', 'CO', 1, true,true);
+--insert into member (member_id, member_email, member_password, member_nickname, member_name, member_intro, member_type, member_state, is_email_authentication, is_email_receive) 
+--values('testtesttest','test@test.com', 'test', '테스트계정', '테스트계정', '테스트계정입니다.', 'CO', 1, true,true);
 
-insert into bubble (member_number,category_number,bubble_title,bubble_content,bubble_thumbnail,bubble_state, plan_open_dttm,plan_close_dttm)
-values(1, 1, '테스트버블제목', '테스트버블내용', '테스트버블섬네일', true,'2023-08-18 09:00:00', '2023-08-18 12:00:00');
+
+--insert into bubble (member_number,category_number,bubble_title,bubble_content,bubble_thumbnail,bubble_state, plan_open_dttm,plan_close_dttm)
+--values(1, 1, '테스트버블제목', '테스트버블내용', '테스트버블섬네일', true,'2023-08-18 09:00:00', '2023-08-18 12:00:00');
