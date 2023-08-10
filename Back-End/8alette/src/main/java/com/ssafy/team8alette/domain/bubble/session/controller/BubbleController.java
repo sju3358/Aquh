@@ -82,22 +82,21 @@ public class BubbleController {
 			.build();
 	}
 
-	// @LoginRequired
-	// @PutMapping
-	// public BubbleResponseDto enterBubbleRequest(
-	// 	@RequestBody EnterBubbleRequest enterBubbleRequest) {
-	//
-	// 	Long bubbleNumber = bubbleService.(createBubbleRequestDto);
-	//
-	// 	bubbleParticipantService.createBubbleList(enterBubbleRequest.getMemberNumber(),
-	// 		enterBubbleRequest.getBubbleNumber());
-	//
-	// 	return BubbleResponseDto.builder()
-	// 		.data()
-	// 		.message("success")
-	// 		.build();
-	//
-	// }
+	@LoginRequired
+	@PutMapping("/{bubbleNumber}")
+	public BubbleResponseDto enterBubbleRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable Long bubbleNumber) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		bubbleParticipantService.createBubbleList(bubbleNumber, memberNumber);
+
+		return BubbleResponseDto.builder()
+			.message("success")
+			.build();
+
+	}
 
 	@GetMapping("/bubblings")
 	public BubbleResponseDto getBubblingListRequest() {
