@@ -1,7 +1,5 @@
 package com.ssafy.team8alette.domain.member.record.model.dto.entity;
 
-import java.util.Date;
-
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.CascadeType;
@@ -61,5 +59,4 @@ public class MemberRecord {
 	@JoinColumn(name = "member_number", referencedColumnName = "member_number")
 	private Member member;
 
-	// , referencedColumnName = "member_number"
 }
