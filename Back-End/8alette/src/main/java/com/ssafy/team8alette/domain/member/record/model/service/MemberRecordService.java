@@ -126,7 +126,7 @@ public class MemberRecordService {
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
 		symbolGrantService.putSymbolGrant(memberNumber);
-		//
+
 		return dto;
 	}
 
