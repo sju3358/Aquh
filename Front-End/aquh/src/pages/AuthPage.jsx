@@ -18,6 +18,7 @@ import UserSymbolList from "../components/users/UserSymbolList";
 import { fetchSingleUser } from "../utils/api/api.auth_service";
 import UserFeedList from "../components/feed/UserFeedList";
 import UserLevelCard from "../components/users/UserLevelCard";
+import AvatarImg from "../components/ui/AvatarImg";
 
 export default function AuthPage() {
 
@@ -56,13 +57,13 @@ export default function AuthPage() {
   const memberType = useRecoilValue(memberTypeState);
   const memberIntro = useRecoilValue(memberIntroState);
 
-
   return (
     <main className={classes.symbolSection}>
-      <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} />
+      {/* <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} /> */}
+      <AvatarImg level={user.level} />
       <UserLevelCard level={user.level} maxExp={user.maxExp} presentExp={user.presentExp} remainingExp={user.remainingExp}/>
       <p className={classes.profileNickname}>{memberNickname}</p>
-      {memberIntro && <div className={classes.memberIntro}>{memberIntro}</div>}
+      {memberIntro ? <div className={classes.memberIntro}>{memberIntro}</div> : <div className={classes.memberIntro}>작성된 자기소개가 없습니다.</div>}
       <UserSymbolList />
       {/* <button> 심볼 목록 보기 </button> */}
       {/* <p>심볼 목록</p> */}
