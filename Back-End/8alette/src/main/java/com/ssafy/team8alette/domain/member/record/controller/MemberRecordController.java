@@ -97,7 +97,9 @@ public class MemberRecordController {
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws
 		ParseException {
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
-		
+
+		symbolGrantService.putSymbolGrant(memberNumber);
+
 		MemberRecordDTO memberRecordDTO = memberRecordService.getMemberRecordDetail(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
