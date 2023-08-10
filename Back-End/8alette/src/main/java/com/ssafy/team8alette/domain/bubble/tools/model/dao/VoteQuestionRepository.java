@@ -11,5 +11,5 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.VoteQuestionEn
 
 @Repository
 public interface VoteQuestionRepository extends JpaRepository<VoteQuestionEntity, Long> {
-
+	List<VoteQuestionEntity> findAllByBubbleEntity(BubbleEntity bubbleEntity);
 }

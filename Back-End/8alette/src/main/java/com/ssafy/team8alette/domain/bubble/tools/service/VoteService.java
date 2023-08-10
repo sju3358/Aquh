@@ -5,15 +5,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleListRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.TodoRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.VoteQuestionRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.VoteSelectrRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TodoEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.VoteQuestionEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.VoteID;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TodoRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TodoResponseDTO;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.VoteQuestionResponseDTO;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,22 +27,31 @@ import lombok.RequiredArgsConstructor;
 public class VoteService {
     private final VoteQuestionRepository voteQuestionRepository;
     private final VoteSelectrRepository voteSelectrRepository;
+    private final BubbleRepository bubbleRepository;
+    private final BubbleListRepository bubbleListRepository;
+    private final MemberRepository memberRepository;
 
-    //
-    // // 투두 전체 조회
-    // public List<TodoResponseDTO> getTodoList(Long bubbleNumber) {
-    //     BubbleEntity bubbleEntity = bubbleRepository.findById(bubbleNumber).orElseThrow();
-    //     List<TodoEntity> todoEntities = todoRepository.findAllByBubbleEntity(bubbleEntity);
-    //     List<TodoResponseDTO> dtoList = new ArrayList<>();
-    //     for (TodoEntity entity:todoEntities) {
-    //         TodoResponseDTO dto = new TodoResponseDTO();
-    //         dto.setTodo_number(entity.getTodoNumber());
-    //         dto.setTodo_context(entity.getTodoContext());
-    //         dto.setTodo_done_state(entity.isTodoDoneStatus());
-    //         dtoList.add(dto);
-    //     }
-    //     return dtoList;
-    // }
+    // 투표 질문 전체 조회
+    public List<VoteQuestionResponseDTO> getVoteQuestions(Long bubble_number, Long member_number) {
+
+        BubbleEntity bubbleEntity = bubbleRepository.findById(bubble_number).orElseThrow();
+        Member member = memberRepository.findById(member_number).orElseThrow();
+        VoteID voteID = new VoteID(bubbleEntity.getBubbleNumber(), member.getMemberNumber());
+
+        List<VoteQuestionEntity> voteQuestionEntities = voteQuestionRepository.findAllByBubbleEntity(bubbleEntity);
+        List<VoteQuestionResponseDTO> dtos = new ArrayList<>();
+
+        for (VoteQuestionEntity voteQuestionEntity : voteQuestionEntities) {
+            VoteQuestionResponseDTO dto = new VoteQuestionResponseDTO();
+            dto.setVote_question_number(voteQuestionEntity.getVoteQuestionNumber());
+            dto.setVote_question_context(voteQuestionEntity.getVoteQuestionContext());
+            dto.set_my_pick(voteSelectrRepository.existsByVoteID(voteID));
+            dto.setVote_answer_cnt(voteSelectrRepository.countAllByVoteQuestionEntity(voteQuestionEntity));
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
     //
     // // 투두 등록
     // public void registTodo(TodoRequestDTO todoRequestDTO) {

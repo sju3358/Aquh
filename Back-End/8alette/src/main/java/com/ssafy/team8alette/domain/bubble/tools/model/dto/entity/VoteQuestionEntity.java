@@ -32,7 +32,7 @@ public class VoteQuestionEntity {
 	private Long voteQuestionNumber;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "room_number", nullable = false)
+	@JoinColumn(name = "bubble_number", nullable = false)
 	private BubbleEntity bubbleEntity;
 
 	@Column(name = "vote_question_context", nullable = false)
