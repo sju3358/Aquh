@@ -27,7 +27,6 @@ function FeedWrite() {
   };
 
   const onClinkWriteBtn = () => {
-
     if (feedTitle && feedContent) {
       const formData = new FormData();
       const jsonData = {
