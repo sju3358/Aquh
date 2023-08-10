@@ -133,7 +133,7 @@ public class MemberController {
 	}
 
 	@LoginRequired
-	@PutMapping
+	@PutMapping("/deactivation")
 	public ResponseEntity<Map<String, Object>> deactivateMemberRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
 
