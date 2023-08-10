@@ -60,7 +60,7 @@ public class MemberAuthGoogleController {
 
 		Long memberNumber = memberAuthGoogleService.register(googleMemberData);
 
-		Map tokens = jwtTokenProvider.getTokens(googleMemberId);
+		Map tokens = jwtTokenProvider.getTokens(memberNumber);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
 		memberAuthGoogleService.login(memberNumber, refreshToken);
