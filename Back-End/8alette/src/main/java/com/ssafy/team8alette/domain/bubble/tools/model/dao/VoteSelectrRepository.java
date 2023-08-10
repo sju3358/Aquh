@@ -11,5 +11,7 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.VoteID;
 public interface VoteSelectrRepository extends JpaRepository<VoteSelectEntity, VoteID> {
 	boolean existsByVoteID(VoteID voteID);
 
+	void save(VoteID voteID);
+
 	int countAllByVoteQuestionEntity(VoteQuestionEntity voteQuestionEntity);
 }

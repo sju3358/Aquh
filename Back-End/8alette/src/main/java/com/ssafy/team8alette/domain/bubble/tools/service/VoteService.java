@@ -16,6 +16,7 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.VoteSelectEnti
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.VoteID;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TodoRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.VoteQuestionRequestDTO;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.VoteSelectRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.VoteQuestionResponseDTO;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
@@ -61,17 +62,25 @@ public class VoteService {
         voteQuestionEntity.setBubbleEntity(bubbleEntity);
         voteQuestionRepository.save(voteQuestionEntity);
     }
-    // 양자택일 질문 삭제
+
+    // 투표 질문 삭제
     public void deleteVoteQuestion(Long vote_question_number) {
         if(voteQuestionRepository.existsById(vote_question_number))
             voteQuestionRepository.deleteById(vote_question_number);
     }
-    //
-    // // 투두 상태 변경
-    // public void updateTodo(Long todo_number) {
-    //     TodoEntity todoEntity = todoRepository.findById(todo_number).orElseThrow();
-    //     todoEntity.setTodoDoneStatus(!todoEntity.isTodoDoneStatus());
-    //     todoRepository.save(todoEntity);
-    // }
-    //
+
+
+    // 투표 선택 등록
+    public void registVoteSelect(VoteSelectRequestDTO voteSelectRequestDTO) {
+        VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(voteSelectRequestDTO.getVote_question_number()).orElseThrow();
+        Member member = memberRepository.findById(voteSelectRequestDTO.getMember_number()).orElseThrow();
+        VoteID voteID = new VoteID(voteQuestionEntity.getVoteQuestionNumber(), member.getMemberNumber());
+
+        VoteSelectEntity voteSelectEntity = new VoteSelectEntity();
+        voteSelectEntity.setVoteID(voteID);
+        voteSelectEntity.setVoteQuestionEntity(voteQuestionEntity);
+        voteSelectEntity.setMember(member);
+
+        voteSelectrRepository.save(voteSelectEntity);
+    }
 }
