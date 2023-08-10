@@ -20,4 +20,6 @@ public interface TwoWayAnswerRepository extends JpaRepository<TwoWayAnswerEntity
 	boolean existsByTwoWayAnswerID(TwoWayAnswerID twoWayAnswerID);
 
 	void deleteByTwoWayAnswerID(TwoWayAnswerID twoWayAnswerID);
+
+	void deleteAllByTwoWayQuestionEntity(TwoWayQuestionEntity twoWayQuestionEntity);
 }

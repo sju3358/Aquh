@@ -39,7 +39,7 @@ public class TwoWayAnswerEntity implements Serializable {
 	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 
-	@Column(name = "is_pick_right", nullable = false)
-	private boolean isPickRight;
+	@Column(name = "left_pick", nullable = false)
+	private boolean leftPick;
 
 }
