@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.VoteQuestionResponseDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.VoteService;
-import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +46,20 @@ public class VoteController {
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "vote question 등록 성공");
+		responseData.put("status", 200);
+
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	// @LoginRequired
+	@DeleteMapping("/question/{vote_question_number}")
+	public ResponseEntity<Map<String, Object>> deleteVoteQuestion(
+		@PathVariable Long vote_question_number) {
+
+		voteService.deleteVoteQuestion(vote_question_number);
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("message", "vote question 삭제 성공");
 		responseData.put("status", 200);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

@@ -61,6 +61,11 @@ public class VoteService {
         voteQuestionEntity.setBubbleEntity(bubbleEntity);
         voteQuestionRepository.save(voteQuestionEntity);
     }
+    // 양자택일 질문 삭제
+    public void deleteVoteQuestion(Long vote_question_number) {
+        if(voteQuestionRepository.existsById(vote_question_number))
+            voteQuestionRepository.deleteById(vote_question_number);
+    }
     //
     // // 투두 상태 변경
     // public void updateTodo(Long todo_number) {
@@ -69,9 +74,4 @@ public class VoteService {
     //     todoRepository.save(todoEntity);
     // }
     //
-    // // 양자택일 질문 삭제
-    // public void deleteTodo(Long todo_number) {
-    //     if(todoRepository.existsById(todo_number))
-    //         todoRepository.deleteById(todo_number);
-    // }
 }
