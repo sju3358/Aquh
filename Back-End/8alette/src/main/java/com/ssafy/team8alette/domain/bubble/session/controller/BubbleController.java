@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/bubble")
+@RequestMapping("/api/v1/bubble")
 public class BubbleController {
 
 	private final BubbleService bubbleService;
