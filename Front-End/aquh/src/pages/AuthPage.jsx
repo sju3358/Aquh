@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import UserSymbolList from "../components/users/UserSymbolList";
 import { fetchSingleUser } from "../utils/api/api.auth_service";
 import UserFeedList from "../components/feed/UserFeedList";
+import UserLevelCard from "../components/users/UserLevelCard";
 
 export default function AuthPage() {
 
@@ -24,20 +25,23 @@ export default function AuthPage() {
   const memberNumber = useRecoilValue(memberNumberState);
   const navigate = useNavigate();
   const userId = useParams();
-  // const [user, setUser] = useState({member_nickname: '', member_intro : ''});
-  // useEffect(() => {
-  //   const getSingleUser = async () => {
-  //     const response = await fetchSingleUser(userId.userId);
-  //     try{
-  //       const res = response.data.data
-  //       console.log("가져왔다 유저정보보보보", res)
-  //     }
-  //     catch(error){
-  //       console.log("에러ㅏ에러에러", error)
-  //     }
-  //   };
-  //   getSingleUser();
-  // },[]);
+  const [user, setUser] = useState({level : 0, maxExp : 0, presentExp : 0, remainingExp: 0});
+  
+  
+  useEffect(() => {
+    const getSingleUser = async () => {
+      const response = await fetchSingleUser();
+      try{
+        const res = response.data.data
+        // console.log("가져왔다 유저정보보보보", res)
+        setUser(res)
+      }
+      catch(error){
+        console.log("에러ㅏ에러에러", error)
+      }
+    };
+    getSingleUser();
+  },[]);
 
   
   useEffect(() => {
@@ -45,7 +49,6 @@ export default function AuthPage() {
     if(memberNumber != urlMemberNumber)
       navigate('/notfound')
   },[navigate, memberNumber, userId.userId]);
-
 
 
   const memberEmail = useRecoilValue(memberEmailState);
@@ -57,6 +60,7 @@ export default function AuthPage() {
   return (
     <main className={classes.symbolSection}>
       <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} />
+      <UserLevelCard level={user.level} maxExp={user.maxExp} presentExp={user.presentExp} remainingExp={user.remainingExp}/>
       <p className={classes.profileNickname}>{memberNickname}</p>
       {memberIntro && <div className={classes.memberIntro}>{memberIntro}</div>}
       <UserSymbolList />

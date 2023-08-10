@@ -24,8 +24,8 @@ import https from '../https';
 export const logout = (memberNumber) =>
     https.delete(`/api/v1/member/auth/${memberNumber}`)
 
-export const fetchSingleUser = (memberNumber) => 
-    https.get(`/api/v1/member/${memberNumber}`, { headers : { "MEMBER_CODE" : `${memberNumber}`}})
+export const fetchSingleUser = () => 
+    https.get(`/api/v1/member/record`)
 
 export const fetchFeedListByUser = () => 
     https.get(`/api/v1/feed`)
