@@ -1,18 +1,18 @@
 package com.ssafy.team8alette.domain.member.auth.controller;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
@@ -33,18 +34,21 @@ public class MemberController {
 	private final MemberService memberService;
 	private final MemberAuthService memberAuthService;
 	private final MailSenderUtil mailSenderUtil;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@LoginRequired
-	@GetMapping("/{memberNumber}")
+	@GetMapping
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
-		@PathVariable Long memberNumber,
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@RequestParam Optional<String> nickname,
 		@RequestParam Optional<String> name,
 		@RequestParam Optional<String> email,
 		@RequestParam Optional<String> intro,
 		@RequestParam Optional<String> state,
 		@RequestParam Optional<String> type,
-		@RequestParam Optional<String> emailReceive) {
+		@RequestParam Optional<String> emailReceive) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
 		Member member = memberService.getMemberInfo(memberNumber);
 
@@ -113,10 +117,14 @@ public class MemberController {
 
 	@LoginRequired
 	@PutMapping
-	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(@RequestBody Map<String, String> param) throws
-		IllegalAccessException {
+	public ResponseEntity<Map<String, Object>> changeMemberInfoRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@RequestBody Map<String, String> param) throws
+		IllegalAccessException, ParseException {
 
-		memberService.editMemberInfo(param);
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		memberService.editMemberInfo(memberNumber, param);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
@@ -125,9 +133,11 @@ public class MemberController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{memberNumber}")
-	public ResponseEntity<Map<String, Object>> deactivateMemberRequest(@PathVariable Long memberNumber) throws
-		SQLException {
+	@PutMapping
+	public ResponseEntity<Map<String, Object>> deactivateMemberRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
 		memberService.deactivate(memberNumber);
 		memberAuthService.logout(memberNumber);
@@ -141,10 +151,12 @@ public class MemberController {
 	@LoginRequired
 	@PostMapping("/password")
 	public ResponseEntity<Map<String, Object>> changeMemberPasswordRequest(
-		@RequestBody Map<String, String> param) throws
-		NoSuchAlgorithmException {
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@RequestBody Map<String, String> param) throws NoSuchAlgorithmException, ParseException {
 
-		memberService.changeMemberPassword(param);
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		memberService.changeMemberPassword(memberNumber, param);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
