@@ -12,14 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TodoRequestDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.TodoService;
-import com.ssafy.team8alette.domain.bubble.tools.service.TwoWayService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
