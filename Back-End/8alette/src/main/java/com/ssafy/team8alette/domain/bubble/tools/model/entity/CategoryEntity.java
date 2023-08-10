@@ -1,6 +1,8 @@
-package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.entity;
 
 import java.util.Date;
+
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.Category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,5 +33,12 @@ public class CategoryEntity {
 
 	@Column(name = "create_dt", nullable = false)
 	private Date createDate;
+
+	public Category convertToDTO() {
+		return Category.builder()
+			.categoryName(this.categoryName)
+			.createDate(this.createDate)
+			.build();
+	}
 
 }
