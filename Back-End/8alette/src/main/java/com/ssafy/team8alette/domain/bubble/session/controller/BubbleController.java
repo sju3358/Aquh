@@ -68,7 +68,7 @@ public class BubbleController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{bubbleNumber}")
+	@PutMapping("/{bubbleNumber}/enter")
 	public BubbleResponseDto closeBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable Long bubbleNumber) throws ParseException {
