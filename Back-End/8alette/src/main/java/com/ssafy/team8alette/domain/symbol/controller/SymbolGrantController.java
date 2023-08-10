@@ -51,5 +51,5 @@ public class SymbolGrantController {
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
-
+	//심볼 수정
 }
