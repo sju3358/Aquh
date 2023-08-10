@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayAnswerRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.TwoWayService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
@@ -77,10 +76,10 @@ public class TwoWayController {
 	@LoginRequired
 	@PostMapping("/answer")
 	public ResponseEntity<Map<String, Object>> createTwoWayAnswer(
-		@RequestBody TwoWayQuestionAnswerDTO twoWayQuestionAnswerDTO) {
+		@RequestBody TwoWayAnswerRequestDTO twoWayAnswerRequestDTO) {
 		Map<String, Object> responseData = new HashMap<>();
 
-		twoWayService.registTwoWayAnswer(twoWayQuestionAnswerDTO);
+		twoWayService.registTwoWayAnswer(twoWayAnswerRequestDTO);
 
 		responseData.put("message", "양자택일 답변 등록 성공");
 		responseData.put("status", 200);
