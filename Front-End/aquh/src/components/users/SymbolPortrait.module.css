@@ -18,12 +18,36 @@
 .symbolImage{
   width: 2.5rem;
   height: 2.5rem;
-
 }
 /* 
 .symbolCard{
   width: 1rem;
 } */
+
+.imgBackground{
+  width: 4rem;
+  height: 4rem;
+  background-color: #E9EEFF;
+  border-radius: 50%;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem;
+  cursor: pointer;
+}
+
+.imgBackgroundInvalid{
+  width: 4rem;
+  height: 4rem;
+  background-color: #E9EEFF;
+  border-radius: 50%;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem;
+  cursor: pointer;
+  filter: grayscale(100%)
+}
 
 
 
