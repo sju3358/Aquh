@@ -14,7 +14,7 @@ import FeedPage from "./pages/FeedPage";
 import VideoPage from "./pages/VideoPage";
 import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
-import Test from "./Test";
+// import Test from "./Test";
 
 const router = createBrowserRouter([
   // { path: '/login',
