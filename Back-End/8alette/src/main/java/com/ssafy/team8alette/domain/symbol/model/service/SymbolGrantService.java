@@ -107,7 +107,6 @@ public class SymbolGrantService {
 	public void putSymbolGrant(Long memberNumber) {
 		//기록을 뽑아오고
 		MemberRecord memberRecord = memberRecordService.getMemberRecord(memberNumber);
-
 		int[] valuesToCheck = {
 			memberRecord.getMemberExpCnt(),
 			memberRecord.getBubbleJoinCnt(),
@@ -128,37 +127,37 @@ public class SymbolGrantService {
 
 		for (int i = 0; i < symbolCode.length; i++) {
 			if (valuesToCheck[i] != 0) {
-				symbolRepository.findAllBySymbolCodeAndAndSymbolConditionCntLessThan(
+				List<Symbol> symbols = symbolRepository.findAllBySymbolCodeAndAndSymbolConditionCntLessThanEqual(
 					symbolCode[i],
-					valuesToCheck[i]).ifPresent(symbol -> {
+					valuesToCheck[i]);
+
+				int ExpCnt = 0;
+				for (Symbol symbol : symbols) {
 					Long symbolNumber = symbol.getSymbolNumber();
 					giveSymbolNumber.add(symbolNumber);
-				});
+
+					if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+						symbolNumber) == null) {
+						ExpCnt++;
+						Symbol putSymbol = symbolRepository.findSymbolBySymbolNumber(symbolNumber);
+
+						GrantID grantID = new GrantID();
+						grantID.setGrantedMemberNumber(memberNumber);
+						grantID.setSymbolNumber(symbolNumber);
+
+						Grant newSymbolGrant = new Grant();
+						newSymbolGrant.setGrantID(grantID);
+						newSymbolGrant.setMemberRecord(memberRecord);
+						newSymbolGrant.setSymbol(putSymbol);
+						newSymbolGrant.setActiveStatus(false);
+
+						symbolGrantRepository.save(newSymbolGrant);
+					}
+
+				}
+				memberRecordService.updateMemberExp(memberNumber, ExpCnt * 100);
+
 			}
 		}
-		int ExpCnt = 0;
-		for (Long symbolNumber : giveSymbolNumber) {
-			if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber, symbolNumber)
-				== null) {
-				ExpCnt++;
-				Symbol symbol = symbolRepository.findSymbolBySymbolNumber(symbolNumber);
-
-				GrantID grantID = new GrantID();
-				grantID.setGrantedMemberNumber(memberNumber);
-				grantID.setSymbolNumber(symbolNumber);
-
-				Grant newSymbolGrant = new Grant();
-				newSymbolGrant.setGrantID(grantID);
-				newSymbolGrant.setMemberRecord(memberRecord);
-				newSymbolGrant.setSymbol(symbol);
-				newSymbolGrant.setActiveStatus(false);
-
-				symbolGrantRepository.save(newSymbolGrant);
-
-			}
-		}
-		memberRecordService.updateMemberExp(memberNumber, ExpCnt * 100);
-
 	}
-
 }
