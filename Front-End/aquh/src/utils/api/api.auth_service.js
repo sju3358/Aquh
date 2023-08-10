@@ -26,3 +26,6 @@ export const logout = (memberNumber) =>
 
 export const fetchSingleUser = (memberNumber) => 
     https.get(`/api/v1/member/${memberNumber}`, { headers : { "MEMBER_CODE" : `${memberNumber}`}})
+
+export const fetchFeedListByUser = () => 
+    https.get(`/api/v1/feed`)
