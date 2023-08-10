@@ -40,11 +40,4 @@ public class VoteQuestionEntity {
 
 	@Column(name = "is_active", nullable = false)
 	private boolean activeStatus;
-
-	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
-
-	@Column(name = "delete_dttm", nullable = false)
-	private Date deleteDate;
-
 }
