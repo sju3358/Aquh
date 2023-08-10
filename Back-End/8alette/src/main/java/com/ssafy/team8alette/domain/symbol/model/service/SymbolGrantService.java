@@ -37,7 +37,7 @@ public class SymbolGrantService {
 		//심볼 부여
 		putSymbolGrant(memberNumber);
 
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatus(memberNumber, true);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
@@ -45,29 +45,8 @@ public class SymbolGrantService {
 				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus()))
 			.collect(
 				Collectors.toList());
+
 		return dtoList;
-	}
-
-	public List<GrantResponseDTO> getRemainList(Long memberNumber) {
-		Member member = memberRepository.findById(memberNumber)
-			.orElseThrow(() -> new NullValueException("회원 정보가 존재하지 않습니다."));
-
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
-		List<Long> usedSymbolNumbers = list.stream()
-			.map(grant -> grant.getSymbol().getSymbolNumber())
-			.collect(Collectors.toList());
-
-		List<Symbol> remainList = symbolRepository.findAll().stream()
-			.filter(symbol -> !usedSymbolNumbers.contains(symbol.getSymbolNumber()))
-			.collect(Collectors.toList());
-
-		List<GrantResponseDTO> remainDtoList = remainList.stream()
-			.map(symbol -> new GrantResponseDTO(symbol.getSymbolNumber(), symbol.getSymbolName(),
-				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + symbol.getSymbolImgName(),
-				symbol.getSymbolCode(), symbol.getSymbolConditionCnt(), false))
-			.collect(Collectors.toList());
-
-		return remainDtoList;
 	}
 
 	public void putActiveTrue(SymbolGrantRequestDTO symbolGrantRequestDTO) {
