@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.domain.bubble.session.controller.handler;
 
 public class BubbleSessionHandler {
+
 	// Prepare the response with the token
 
 	// Return the response to the client

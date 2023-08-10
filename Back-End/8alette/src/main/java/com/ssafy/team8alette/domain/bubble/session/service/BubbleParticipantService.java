@@ -50,7 +50,7 @@ public class BubbleParticipantService {
 		groupID.setBubbleNumber(bubbleNumber);
 		groupID.setMemberNumber(memberNumber);
 
-		BubbleParticipantEntity bubbleParticipant = bubbleListRepository.findBubbleListEntitiesByGroupID(groupID)
+		BubbleParticipantEntity bubbleParticipant = bubbleListRepository.findBubbleListEntityByGroupID(groupID)
 			.orElseThrow(() -> new BubbleParticipantsNotFoundException());
 
 		bubbleListRepository.delete(bubbleParticipant);
