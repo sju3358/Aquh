@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -24,6 +26,7 @@ import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
@@ -41,6 +44,7 @@ public class FeedController {
 	private final MemberService memberService;
 	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@LoginRequired
 	@PostMapping
@@ -157,8 +161,9 @@ public class FeedController {
 
 	@LoginRequired
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> getMemberFeedList(@RequestBody Map<String, String> param) {
-		Long memberNumber = Long.parseLong(param.get("memberNumber"));
+	public ResponseEntity<Map<String, Object>> getMemberFeedList(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 		List<FeedResponseDTO> dtoList = feedService.getFeedsByMemberNumber(memberNumber);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");

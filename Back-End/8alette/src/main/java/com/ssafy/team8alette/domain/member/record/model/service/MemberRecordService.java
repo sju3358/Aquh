@@ -41,9 +41,9 @@ public class MemberRecordService {
 		memberRecordRepository.save(memberRecord);
 	}
 
-	public void updateMemberComment(Long memberNumber, int commentCnt) {
+	public void updateMemberFeedCnt(Long memberNumber, int feedCnt) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberFeedCnt(memberRecord.getMemberFeedCnt() + commentCnt);
+		memberRecord.setMemberFeedCnt(memberRecord.getMemberFeedCnt() + feedCnt);
 		memberRecordRepository.save(memberRecord);
 	}
 
@@ -126,6 +126,5 @@ public class MemberRecordService {
 
 		return dto;
 	}
-	//
 
 }
