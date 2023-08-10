@@ -43,7 +43,7 @@ public class MemberAuthController {
 		Long memberNumber = memberAuthService.loginCheck(memberEmail, memberPassword);
 
 		Map<String, Object> loginData = new HashMap<>();
-		Map<String, Object> tokens = jwtTokenProvider.getTokens(memberEmail);
+		Map<String, Object> tokens = jwtTokenProvider.getTokens(memberNumber);
 
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
@@ -98,9 +98,7 @@ public class MemberAuthController {
 			throw new InvalidTokenException("리프레쉬 토큰이 일치하지 않습니다");
 		}
 
-		String memberEmail = memberService.getMemberInfo(memberNumber).getMemberEmail();
-
-		Map<String, Object> tokens = jwtTokenProvider.getTokens(memberEmail);
+		Map<String, Object> tokens = jwtTokenProvider.getTokens(memberNumber);
 
 		String newAccessToken = tokens.get("accessToken").toString();
 		String newRefreshToken = tokens.get("refreshToken").toString();
