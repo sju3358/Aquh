@@ -1,11 +1,12 @@
 package com.ssafy.team8alette.domain.bubble.session.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleSessionRequestDto;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleSessionService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 
@@ -21,14 +22,30 @@ public class BubbleSessionController {
 	private final JwtTokenProvider tokenProvider;
 	private final BubbleSessionService bubbleSessionService;
 
-	@PostMapping
-	public String createBubbleSessionRequest(
-		@RequestBody CreateBubbleSessionRequestDto requestDto) throws
+	@PostMapping("/{bubbleNumber}")
+	public ResponseEntity createBubbleSessionRequest(
+		@PathVariable Long bubbleNumber) throws
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
-		String token = bubbleSessionService.createHostBubbleSession(requestDto.getBubbleNumber());
+		String token = bubbleSessionService.createHostBubbleSession(bubbleNumber);
 
-		return token;
+		return ResponseEntity
+			.status(200)
+			.header("OpenviduToken", token)
+			.build();
 	}
+
+	@PutMapping("/{bubbleNumber}")
+	public ResponseEntity enterBubbleSessionRequest(
+		@PathVariable Long bubbleNumber) throws OpenViduJavaClientException, OpenViduHttpException {
+
+		String token = bubbleSessionService.createSubBubbleSession(bubbleNumber);
+
+		return ResponseEntity
+			.status(200)
+			.header("OpenviduToken", token)
+			.build();
+	}
+
 }
