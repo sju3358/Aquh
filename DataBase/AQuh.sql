@@ -428,7 +428,6 @@ CREATE TABLE "vote_question" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
 	"bubble_number"	BIGSERIAL		NOT NULL,
 	"vote_question_context"	VARCHAR(50)		NOT NULL,
-	"is_active"	BOOLEAN	DEFAULT TRUE	NOT NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
@@ -437,8 +436,6 @@ COMMENT ON COLUMN "vote_question"."vote_question_number" IS '투표 질문 인�
 COMMENT ON COLUMN "vote_question"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "vote_question"."vote_question_context" IS '투표 질문 내용 : 글자 제한 50';
-
-COMMENT ON COLUMN "vote_question"."is_active" IS 'TRUE : 투표 중인 질문 / FALSE : 삭제 된 질문';
 
 COMMENT ON COLUMN "vote_question"."create_dttm" IS '투표 질문 생성 일시';
 
@@ -801,5 +798,4 @@ INSERT INTO category (category_number, category_name) VALUES
 --values('testtesttest','test@test.com', 'test', '테스트계정', '테스트계정', '테스트계정입니다.', 'CO', 1, true,true);
 
 
---insert into bubble (member_number,category_number,bubble_title,bubble_content,bubble_thumbnail,bubble_state, plan_open_dttm,plan_close_dttm)
---values(1, 1, '테스트버블제목', '테스트버블내용', '테스트버블섬네일', true,'2023-08-18 09:00:00', '2023-08-18 12:00:00');
+--insert into bubble (member_number,category_number,bubble_title,bubble_content,bubble_thumbnail,bubble_state, plan_open_dttm,plan_close_dttm) values(1, 1, '테스트버블제목', '테스트버블내용', '테스트버블섬네일', true,'2023-08-18 09:00:00', '2023-08-18 12:00:00');
