@@ -9,15 +9,17 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleSessionDto;
 
 import io.openvidu.java.client.OpenViduRole;
 import io.openvidu.java.client.Session;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @RedisHash(value = "bubble_session")
 public class BubbleSessionEntity {
 
