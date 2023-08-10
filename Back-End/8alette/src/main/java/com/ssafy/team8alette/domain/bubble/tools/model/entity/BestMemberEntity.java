@@ -1,9 +1,10 @@
-package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
+import com.ssafy.team8alette.domain.bubble.session.model.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.BestMemberID;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
@@ -24,23 +25,27 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "two_way_answer")
-public class TwoWayAnswerEntity implements Serializable {
+@Table(name = "best_member")
+public class BestMemberEntity implements Serializable {
 
 	@EmbeddedId
-	private TwoWayAnswerID twoWayAnswerID;
+	private BestMemberID bestMemberID;
 
-	@MapsId("twoWayQuestionNumber")
+	@MapsId("bubbleNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "two_way_question_number", nullable = false)
-	private TwoWayQuestionEntity twoWayQuestionEntity;
+	@JoinColumn(name = "bubble_number", nullable = false)
+	private BubbleEntity bubbleEntity;
 
 	@MapsId("memberNumber")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number", nullable = false)
 	private Member member;
 
-	@Column(name = "left_pick", nullable = false)
-	private boolean leftPick;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "best_member_number", nullable = false)
+	private Member bestMember;
+
+	@Column(name = "create_dttm", nullable = false)
+	private Date createDate;
 
 }
