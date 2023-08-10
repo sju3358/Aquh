@@ -12,7 +12,7 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbl
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.EnterBubbleRequest;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.CreateBubbleResponse;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.EnterBubbleResponse;
-import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleListService;
+import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleParticipantService;
 import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleService;
 import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleSessionService;
 
@@ -27,17 +27,17 @@ public class BubbleController {
 
 	private final BubbleService bubbleService;
 	private final BubbleSessionService bubbleSessionService;
-	private final BubbleListService bubbleListService;
+	private final BubbleParticipantService bubbleParticipantService;
 
 	@PostMapping
-	public ResponseEntity<CreateBubbleResponse> createBubbleRequest(
+	public ResponseEntity<CreateBubbleResponse> createBubbleTalkRequest(
 		@RequestBody CreateBubbleRequest createBubbleRequest) throws
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
 		Long bubbleNumber = bubbleService.createBubble(createBubbleRequest);
 
-		bubbleListService.createBubbleList(createBubbleRequest.getHostMemberNumber(), bubbleNumber);
+		bubbleParticipantService.createBubbleList(createBubbleRequest.getHostMemberNumber(), bubbleNumber);
 
 		String sessionToken = bubbleSessionService.createHostBubbleSession(Long.toString(bubbleNumber));
 
@@ -51,7 +51,7 @@ public class BubbleController {
 	}
 
 	@PutMapping("/enter")
-	public ResponseEntity<EnterBubbleResponse> enterBubbleRequest(
+	public ResponseEntity<EnterBubbleResponse> enterBubbleTalkRequest(
 		@RequestBody EnterBubbleRequest enterBubbleRequest) throws
 		OpenViduJavaClientException,
 		OpenViduHttpException {
@@ -59,7 +59,8 @@ public class BubbleController {
 		String sessionToken = bubbleSessionService.createSubBubbleSession(
 			Long.toString(enterBubbleRequest.getBubbleNumber()));
 
-		bubbleListService.createBubbleList(enterBubbleRequest.getMemberNumber(), enterBubbleRequest.getBubbleNumber());
+		bubbleParticipantService.createBubbleList(enterBubbleRequest.getMemberNumber(),
+			enterBubbleRequest.getBubbleNumber());
 
 		EnterBubbleResponse enterBubbleResponse = EnterBubbleResponse.builder()
 			.message("OK")

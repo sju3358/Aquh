@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "bubble_list")
-public class BubbleListEntity implements Serializable {
+public class BubbleParticipantEntity implements Serializable {
 
 	@EmbeddedId
 	private GroupID groupID;
