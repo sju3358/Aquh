@@ -70,6 +70,7 @@ public class FeedService {
 			feedRepository.save(feedEntity);
 			/* 기록 테이블 경험치 추가 */
 			memberRecordService.updateMemberExp(member.getMemberNumber(), 50);
+			memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
 
 		} else {
 			Date nowDate = new Date();
@@ -81,6 +82,7 @@ public class FeedService {
 
 			/* 기록 테이블 경험치 추가 */
 			memberRecordService.updateMemberExp(member.getMemberNumber(), 20);
+			memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
 		}
 	}
 
@@ -123,7 +125,16 @@ public class FeedService {
 	public void deleteFeed(Long feedNumber) {
 		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedNumber);
 		existingFeedEntity.setFeedActive(false);
+
+		if (existingFeedEntity.getFeedImgTrans().isEmpty()) {
+			memberRecordService.updateMemberExp(existingFeedEntity.getMember().getMemberNumber(), -20);
+			memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
+		}
+		memberRecordService.updateMemberExp(existingFeedEntity.getMember().getMemberNumber(), -50);
+		memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
+
 		feedRepository.save(existingFeedEntity);
+
 	}
 
 	// 피드 수정
