@@ -1,7 +1,7 @@
 package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.ssafy.team8alette.domain.bubble.session.model.dto.key.GroupID;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
@@ -59,5 +59,5 @@ public class BubbleListEntity implements Serializable {
 	private int joinStatus;
 
 	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
+	private LocalDateTime createDate;
 }

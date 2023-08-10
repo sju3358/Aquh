@@ -1,6 +1,6 @@
 package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
@@ -19,8 +19,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -57,15 +59,15 @@ public class BubbleEntity {
 	private boolean bubbleState;
 
 	@Column(name = "plan_open_dttm")
-	private Date planOpenDate;
+	private LocalDateTime planOpenDate;
 
 	@Column(name = "plan_close_dttm")
-	private Date planCloseDate;
+	private LocalDateTime planCloseDate;
 
 	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
+	private LocalDateTime createDate;
 
 	@Column(name = "done_dttm")
-	private Date closeDate;
+	private LocalDateTime closeDate;
 
 }

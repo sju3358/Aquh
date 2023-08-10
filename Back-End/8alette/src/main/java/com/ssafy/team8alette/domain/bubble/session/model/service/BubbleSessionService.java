@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.team8alette.domain.bubble.session.exception.SessionNotFoundException;
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleSessionRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleSessionEntity;
+import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
 import io.openvidu.java.client.ConnectionProperties;
 import io.openvidu.java.client.ConnectionType;
@@ -69,5 +70,16 @@ public class BubbleSessionService {
 		bubbleSession.getBubblers().put(token, OpenViduRole.SUBSCRIBER);
 
 		return token;
+	}
+
+	public void deleteBubbleSession(String sessionId, String token) {
+
+		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
+			.orElseThrow(() -> new SessionNotFoundException());
+
+		if (bubbleSession.getBubblers().get(token) != OpenViduRole.PUBLISHER)
+			throw new UnAuthorizedException();
+
+		bubbleSessionRepository.delete(bubbleSession);
 	}
 }

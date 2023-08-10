@@ -1,5 +1,7 @@
 package com.ssafy.team8alette.domain.bubble.session.model.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity
 import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,10 +55,16 @@ public class BubbleService {
 		return bubble.getBubbleNumber();
 	}
 
-	public void closeBubble() {
-		//버블 객체 찾아서 state false로 변경
-		//버블 세션 모두 삭제
-		//버블 참가자 리스트 삭제??????
+	public void closeBubble(Long bubbleNumber, Long hostMemberNumber) {
+
+		BubbleEntity bubble = bubbleRepository.findBubbleEntityByBubbleNumber(bubbleNumber)
+			.orElseThrow(() -> new BubbleNotFoundException());
+
+		if (bubble.getHostMember().getMemberNumber() != hostMemberNumber)
+			throw new UnAuthorizedException();
+
+		bubble.setBubbleState(false);
+		bubble.setCloseDate(LocalDateTime.now());
 	}
 
 	public BubbleEntity getBubbleInfo(Long bubbleNumber) {
@@ -65,22 +74,14 @@ public class BubbleService {
 
 	public List<BubbleEntity> getBubbleTalkList() {
 
-		List<BubbleEntity> bubbleList = bubbleRepository.findBubbleEntitiesByBubbleTypeIsTrue();
-
-		if (bubbleList == null)
-			throw new BubbleNotFoundException();
-
-		return bubbleList;
+		return bubbleRepository.findBubbleEntitiesByBubbleTypeIsTrue()
+			.orElse(new ArrayList<>());
 	}
 
 	public List<BubbleEntity> getBubblingList() {
 
-		List<BubbleEntity> bubbleList = bubbleRepository.findBubbleEntitiesByBubbleTypeIsFalse();
-
-		if (bubbleList == null)
-			throw new BubbleNotFoundException();
-
-		return bubbleList;
+		return bubbleRepository.findBubbleEntitiesByBubbleTypeIsFalse()
+			.orElse(new ArrayList<>());
 	}
 
 }
