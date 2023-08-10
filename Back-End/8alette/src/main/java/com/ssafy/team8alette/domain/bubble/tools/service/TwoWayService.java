@@ -75,7 +75,10 @@ public class TwoWayService {
     }
 
     // 양자택일 질문 삭제
+    @Transactional
     public void deleteTwoWayQuestion(Long twoWayQuestionNumber) {
+        TwoWayQuestionEntity twoWayQuestionEntity = twoWayQuestionRepository.findById(twoWayQuestionNumber).orElseThrow();
+        twoWayAnswerRepository.deleteAllByTwoWayQuestionEntity(twoWayQuestionEntity);
         twoWayQuestionRepository.deleteById(twoWayQuestionNumber);
     }
 
