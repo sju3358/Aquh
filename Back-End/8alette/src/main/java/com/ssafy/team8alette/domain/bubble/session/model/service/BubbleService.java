@@ -39,7 +39,6 @@ public class BubbleService {
 		CategoryEntity category = categoryRepository.findCategoryEntityByCategoryNumber(categoryNumber)
 			.orElseThrow(() -> new CategoryNotFoundException());
 
-		//오픈예정시간, 종료예정시간 추가해야함
 		BubbleEntity bubble = BubbleEntity.builder()
 			.bubbleTitle(createBubbleRequest.getBubbleTitle())
 			.bubbleContent((createBubbleRequest.getBubbleContent()))
@@ -48,6 +47,8 @@ public class BubbleService {
 			.bubbleState(true)
 			.categoryEntity(category)
 			.hostMember(member)
+			.planOpenDate(createBubbleRequest.getPlanOpenDate())
+			.planCloseDate(createBubbleRequest.getPlanCloseDate())
 			.build();
 
 		bubbleRepository.save(bubble);
@@ -83,5 +84,5 @@ public class BubbleService {
 		return bubbleRepository.findBubbleEntitiesByBubbleTypeIsFalse()
 			.orElse(new ArrayList<>());
 	}
-
+	
 }

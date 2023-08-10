@@ -72,6 +72,15 @@ public class BubbleSessionService {
 		return token;
 	}
 
+	public void leaveBubbleSession(String sessionId, String token) {
+		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
+			.orElseThrow(() -> new SessionNotFoundException());
+
+		bubbleSession.getBubblers().remove(token);
+
+		bubbleSessionRepository.save(bubbleSession);
+	}
+
 	public void deleteBubbleSession(String sessionId, String token) {
 
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
@@ -82,4 +91,5 @@ public class BubbleSessionService {
 
 		bubbleSessionRepository.delete(bubbleSession);
 	}
+
 }
