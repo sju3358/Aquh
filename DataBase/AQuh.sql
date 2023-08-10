@@ -186,8 +186,7 @@ COMMENT ON COLUMN "bubble_list"."craete_dttm" IS '버블 신청 일시(취소시
 CREATE TABLE "hashtag" (
 	"hashtag_number"	BIGSERIAL		NOT NULL,
 	"hashtag_name"	VARCHAR(10)		NOT NULL,
-	"create_dt"	DATE	DEFAULT now()	NOT NULL,
-	"delete_dt"	DATE		NULL
+	"create_dt"	DATE	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "hashtag"."hashtag_number" IS '해시태그 인덱스';
@@ -195,9 +194,6 @@ COMMENT ON COLUMN "hashtag"."hashtag_number" IS '해시태그 인덱스';
 COMMENT ON COLUMN "hashtag"."hashtag_name" IS '해시태그 이름';
 
 COMMENT ON COLUMN "hashtag"."create_dt" IS '태그 파일 생성 날짜';
-
-COMMENT ON COLUMN "hashtag"."delete_dt" IS '태그 삭제(폐기) 날짜';
-
 
 CREATE TABLE "likes" (
 	"like_feed_number"	BIGSERIAL		NOT NULL,
@@ -245,8 +241,7 @@ CREATE TABLE "symbol" (
 	"symbol_img_name"	VARCHAR(30)		NOT NULL,
 	"symbol_code"	VARCHAR(16)		NOT NULL,
 	"symbol_condition_cnt"	INTEGER		NOT NULL,
-	"create_dt"	DATE	DEFAULT now()	NOT NULL,
-	"delete_dt"	DATE		NULL
+	"create_dt"	DATE	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "symbol"."symbol_number" IS '심볼 인덱스';
@@ -260,8 +255,6 @@ COMMENT ON COLUMN "symbol"."symbol_code" IS '조건 구분 코드 : 메모 참�
 COMMENT ON COLUMN "symbol"."symbol_condition_cnt" IS '심볼 부여 조건 수';
 
 COMMENT ON COLUMN "symbol"."create_dt" IS '심볼 데이터 추가 날짜';
-
-COMMENT ON COLUMN "symbol"."delete_dt" IS '심볼 데이터 삭제(폐기) 날짜';
 
 CREATE TABLE "report" (
 	"report_number"	BIGSERIAL		NOT NULL,
@@ -297,7 +290,6 @@ CREATE TABLE "alarm" (
 	"alarm_reason"	VARCHAR(30)		NULL,
 	"alarm_state"	SMALLINT	DEFAULT 0	NOT NULL,
 	"read_dttm"	TIMESTAMP		NULL,
-	"delete_dttm"	TIMESTAMP		NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
@@ -312,8 +304,6 @@ COMMENT ON COLUMN "alarm"."alarm_reason" IS '회원 닉네임 / 칭호 이름 / 
 COMMENT ON COLUMN "alarm"."alarm_state" IS '0 : 안읽음 / 1 : 읽음 / 2 : 삭제됨';
 
 COMMENT ON COLUMN "alarm"."read_dttm" IS '회원이 알람을 읽은 시간(알람을 클릭 혹은 삭제)';
-
-COMMENT ON COLUMN "alarm"."delete_dttm" IS '회원이 알람을 삭제한 일시';
 
 COMMENT ON COLUMN "alarm"."create_dttm" IS '알람 발생 일시';
 
@@ -439,8 +429,7 @@ CREATE TABLE "vote_question" (
 	"bubble_number"	BIGSERIAL		NOT NULL,
 	"vote_question_context"	VARCHAR(50)		NOT NULL,
 	"is_active"	BOOLEAN	DEFAULT TRUE	NOT NULL,
-	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL,
-	"delete_dttm"	TIMESTAMP		NULL
+	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "vote_question"."vote_question_number" IS '투표 질문 인덱스';
@@ -452,8 +441,6 @@ COMMENT ON COLUMN "vote_question"."vote_question_context" IS '투표 질문 내�
 COMMENT ON COLUMN "vote_question"."is_active" IS 'TRUE : 투표 중인 질문 / FALSE : 삭제 된 질문';
 
 COMMENT ON COLUMN "vote_question"."create_dttm" IS '투표 질문 생성 일시';
-
-COMMENT ON COLUMN "vote_question"."delete_dttm" IS '투표 질문이 비활성화 된 일시';
 
 CREATE TABLE "vote_select" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
