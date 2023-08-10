@@ -1,29 +1,17 @@
 package com.ssafy.team8alette.domain.bubble.tools.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EmptyStackException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.TodoRepository;
-import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayAnswerRepository;
-import com.ssafy.team8alette.domain.bubble.tools.model.dao.TwoWayQuestionRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TodoEntity;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayAnswerEntity;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayQuestionEntity;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TodoRequestDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionAnswerDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.TwoWayQuestionRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TodoResponseDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.TwoWayQuestionResponseDTO;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import lombok.RequiredArgsConstructor;
 
