@@ -15,10 +15,12 @@ function FeedWrite() {
   const onChangeFeedTitle = (e) => {
     const currentFeedTitle = e.target.value;
     setFeedTitle(currentFeedTitle);
+    console.log(currentFeedTitle);
   };
   const onChangeFeedContent = (e) => {
     const currentFeedContent = e.target.value;
     setFeedConTent(currentFeedContent);
+    console.log(currentFeedContent);
   };
   const onChangeFeedFile = (e) => {
     const currentFile = e.target.files[0];
@@ -49,8 +51,26 @@ function FeedWrite() {
         formData.append("file", new Blob(), "empty");
       }
 
+      //     axios
+      //       .post("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
+      //         headers: {
+      //           "AUTH-TOKEN": localStorage.getItem("access_token"),
+      //         },
+      //       })
+      //       .then((response) => {
+      //         console.log("Response:", response.data);
+      //       })
+      //       .catch((error) => {
+      //         console.error("Error:", error);
+      //       });
+      //   } else if (!feedTitle) {
+      //     alert("글 제목을 작성해주세요");
+      //   } else if (!feedContent) {
+      //     alert("글 내용을 작성해주세요");
+      //   }
+      // };
       axios
-        .post("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
+        .post("https://localhost:8080/api/v1/feed", formData, {
           headers: {
             "AUTH-TOKEN": localStorage.getItem("access_token"),
           },
@@ -59,7 +79,7 @@ function FeedWrite() {
           console.log("Response:", response.data);
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error(":", error);
         });
     } else if (!feedTitle) {
       alert("글 제목을 작성해주세요");
@@ -67,6 +87,7 @@ function FeedWrite() {
       alert("글 내용을 작성해주세요");
     }
   };
+
   return (
     <div className={classes.feedWriteCard}>
       <div className={classes.feedTitle}>
