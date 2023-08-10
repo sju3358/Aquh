@@ -121,6 +121,10 @@ public class MemberRecordService {
 		} else if (memberRecord.getMemberExpCnt() >= 7000 && memberRecord.getMemberExpCnt() < 10000) {
 			dto.setRemainingExp(10000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(10000);
+		} else if (memberRecord.getMemberExpCnt() >= 10000) {
+			dto.setRemainingExp(100000 - memberRecord.getMemberExpCnt());
+			dto.setLevel(6L);
+			dto.setMaxExp(100000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
 
