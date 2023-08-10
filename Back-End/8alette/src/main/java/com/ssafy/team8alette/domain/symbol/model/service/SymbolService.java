@@ -70,7 +70,7 @@ public class SymbolService {
 	}
 
 	public void putSymbolGrant(Long memberNumber) {
-		//기록을 뽑아오고
+
 		MemberRecord memberRecord = memberRecordService.getMemberRecord(memberNumber);
 		int[] valuesToCheck = {
 			memberRecord.getMemberExpCnt(),
