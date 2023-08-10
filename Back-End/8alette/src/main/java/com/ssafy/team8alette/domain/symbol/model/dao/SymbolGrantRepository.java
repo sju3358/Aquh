@@ -13,6 +13,8 @@ public interface SymbolGrantRepository extends JpaRepository<Grant, GrantID> {
 
 	List<Grant> findByMemberRecord_MemberNumber(Long memberNumber);
 
+	List<Grant> findByMemberRecord_MemberNumberAndActiveStatus(Long memberNumber, boolean status);
+
 	Grant findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(Long grantedMemberNumber, Long symbolNumber);
 
 	List<Grant> findByGrantIDGrantedMemberNumber(Long grantedMemberNumber);
