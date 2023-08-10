@@ -34,7 +34,6 @@ public class TwoWayService {
         BubbleEntity bubbleEntity = bubbleRepository.findById(bubbleNumber).orElseThrow();
         List<TwoWayQuestionEntity> questions = twoWayQuestionRepository.findAllByBubbleEntity(bubbleEntity);
         List<TwoWayQuestionResponseDTO> response = new ArrayList<>();
-        int pick_member_cnt = questions.size();
 
         for (TwoWayQuestionEntity question : questions) {
             List<TwoWayAnswerEntity> answers = twoWayAnswerRepository.findAllByTwoWayQuestionEntity(question);
@@ -44,9 +43,9 @@ public class TwoWayService {
 
             for (TwoWayAnswerEntity answer : answers) {
                 if (answer.getMember().getMemberNumber() == memberNumber) {
-                    is_pick = answer.isLeftPick() ? 2 : 1;
+                    is_pick = answer.isLeftPick() ? 1 : 2;
                 }
-                if (!answer.isLeftPick()) {
+                if (answer.isLeftPick()) {
                     left_cnt++;
                 }
             }
