@@ -26,8 +26,9 @@ public class BubbleSessionService {
 	private final BubbleSessionRepository bubbleSessionRepository;
 	private final OpenVidu openVidu;
 
-	public String createHostBubbleSession(String sessionId) throws OpenViduJavaClientException, OpenViduHttpException {
+	public String createHostBubbleSession(Long bubbleNumber) throws OpenViduJavaClientException, OpenViduHttpException {
 
+		String sessionId = Long.toString(bubbleNumber);
 		String serverData = "{\"serverData\": \"" + sessionId + "\"}";
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
 			.type(ConnectionType.WEBRTC)
@@ -52,9 +53,12 @@ public class BubbleSessionService {
 		return token;
 	}
 
-	public String createSubBubbleSession(String sessionId) throws
+	public String createSubBubbleSession(Long bubbleNumber) throws
 		OpenViduJavaClientException,
 		OpenViduHttpException {
+
+		String sessionId = Long.toString(bubbleNumber);
+		
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
 
@@ -72,7 +76,10 @@ public class BubbleSessionService {
 		return token;
 	}
 
-	public void leaveBubbleSession(String sessionId, String token) {
+	public void leaveBubbleSession(Long bubbleNumber, String token) {
+
+		String sessionId = Long.toString(bubbleNumber);
+
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
 
