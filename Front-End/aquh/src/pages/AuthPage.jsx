@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";  
 import UserSymbolList from "../components/users/UserSymbolList";
 import { fetchSingleUser } from "../utils/api/api.auth_service";
-
+import UserFeedList from "../components/feed/UserFeedList";
 
 export default function AuthPage() {
 
@@ -38,6 +38,7 @@ export default function AuthPage() {
   //   };
   //   getSingleUser();
   // },[]);
+
   
   useEffect(() => {
     let urlMemberNumber = userId.userId;
@@ -64,7 +65,9 @@ export default function AuthPage() {
       <div className={classes.symbolContainer}>
       <SymbolList />
       </div>
-      
+      <div>
+      <UserFeedList />
+      </div>
     </main>
   );
 }
