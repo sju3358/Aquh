@@ -1,13 +1,13 @@
 package com.ssafy.team8alette.domain.bubble.session.model.dto.request;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CreateBubbleRequest {
+public class CreateBubbleRequestDto {
 
 	private Long hostMemberNumber;
 
@@ -21,8 +21,8 @@ public class CreateBubbleRequest {
 
 	private String bubbleThumbnail;
 
-	private Date planOpenDate;
+	private LocalDateTime planOpenDate;
 
-	private Date planCloseDate;
+	private LocalDateTime planCloseDate;
 
 }

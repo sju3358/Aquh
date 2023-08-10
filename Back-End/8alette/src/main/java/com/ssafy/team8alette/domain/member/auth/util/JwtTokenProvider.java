@@ -2,10 +2,14 @@ package com.ssafy.team8alette.domain.member.auth.util;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 import com.ssafy.team8alette.global.exception.InvalidTokenException;
@@ -50,12 +54,12 @@ public class JwtTokenProvider {
 		return jwt;
 	}
 
-	public Map<String, Object> getTokens(String memberEmail) throws SQLException, UnsupportedEncodingException {
+	public Map<String, Object> getTokens(Long memberNumber) throws SQLException, UnsupportedEncodingException {
 
 		Map<String, Object> tokens = new HashMap<>();
 
-		String accessToken = this.createAccessToken("memberEmail", memberEmail);
-		String refreshToken = this.createRefreshToken("memberEmail", memberEmail);
+		String accessToken = this.createAccessToken("memberNumber", memberNumber);
+		String refreshToken = this.createRefreshToken("memberNumber", memberNumber);
 
 		tokens.put("accessToken", accessToken);
 		tokens.put("refreshToken", refreshToken);
@@ -72,5 +76,18 @@ public class JwtTokenProvider {
 		}
 
 	}
+
+	public Long getMemberNumber(String jwt) throws ParseException {
+
+		Base64.Decoder decoder = Base64.getDecoder();
+
+		String payLoad = new String(decoder.decode(jwt.split("\\.")[1]));
+
+		JSONParser parser = new JSONParser();
+		JSONObject userInfo = (JSONObject)parser.parse(payLoad);
+
+		return Long.parseLong(userInfo.get("memberNumber").toString());
+	}
+
 }
 
