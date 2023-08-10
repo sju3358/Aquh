@@ -135,7 +135,7 @@ public class SymbolGrantService {
 				for (Symbol symbol : symbols) {
 					Long symbolNumber = symbol.getSymbolNumber();
 					giveSymbolNumber.add(symbolNumber);
-
+					//
 					if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
 						symbolNumber) == null) {
 						ExpCnt++;
