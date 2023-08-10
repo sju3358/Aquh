@@ -14,4 +14,6 @@ public interface VoteSelectrRepository extends JpaRepository<VoteSelectEntity, V
 	void save(VoteID voteID);
 
 	int countAllByVoteQuestionEntity(VoteQuestionEntity voteQuestionEntity);
+
+	void deleteAllByVoteQuestionEntity(VoteQuestionEntity voteQuestionEntity);
 }

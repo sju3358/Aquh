@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.VoteSelectRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.VoteQuestionResponseDTO;
 import com.ssafy.team8alette.domain.bubble.tools.service.VoteService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +28,7 @@ public class VoteController {
 	private final VoteService voteService;
 
 	// 투표 질문 리스트 조회
-	// @LoginRequired
+	@LoginRequired
 	@GetMapping("/question")
 	public ResponseEntity<Map<String, Object>> findAllVoteQuestions(
 		@RequestParam Long bubble_number, @RequestParam Long member_number) {
@@ -40,7 +41,7 @@ public class VoteController {
 	}
 
 	// 투표 질문 생성
-	// @LoginRequired
+	@LoginRequired
 	@PostMapping("/question")
 	public ResponseEntity<Map<String, Object>> createVoteQuestion(
 		@RequestBody VoteQuestionResponseDTO voteQuestionResponseDTO) {
@@ -55,7 +56,7 @@ public class VoteController {
 	}
 
 	// 투표 질문 삭제
-	// @LoginRequired
+	@LoginRequired
 	@DeleteMapping("/question/{vote_question_number}")
 	public ResponseEntity<Map<String, Object>> deleteVoteQuestion(
 		@PathVariable Long vote_question_number) {
@@ -70,7 +71,7 @@ public class VoteController {
 	}
 
 	// 투표 선택 생성
-	// @LoginRequired
+	@LoginRequired
 	@PostMapping("/answer")
 	public ResponseEntity<Map<String, Object>> createVoteQuestion(
 		@RequestBody VoteSelectRequestDTO voteSelectRequestDTO) {
@@ -85,7 +86,7 @@ public class VoteController {
 	}
 
 	// 투표 선택 생성
-	// @LoginRequired
+	@LoginRequired
 	@DeleteMapping("/answer")
 	public ResponseEntity<Map<String, Object>> deleteVoteQuestion(
 		@RequestBody VoteSelectRequestDTO voteSelectRequestDTO) {
