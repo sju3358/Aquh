@@ -1,8 +1,9 @@
-package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.session.model.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
+import com.ssafy.team8alette.domain.bubble.tools.model.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
@@ -19,8 +20,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -57,15 +60,31 @@ public class BubbleEntity {
 	private boolean bubbleState;
 
 	@Column(name = "plan_open_dttm")
-	private Date planOpenDate;
+	private LocalDateTime planOpenDate;
 
 	@Column(name = "plan_close_dttm")
-	private Date planCloseDate;
+	private LocalDateTime planCloseDate;
 
 	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
+	private LocalDateTime createDate;
 
 	@Column(name = "done_dttm")
-	private Date closeDate;
+	private LocalDateTime closeDate;
+
+	public BubbleDto convertToDto() {
+		return BubbleDto.builder()
+			.bubbleNumber(this.bubbleNumber)
+			.hostMemberNumber(this.hostMember.getMemberNumber())
+			.bubbleTitle(this.bubbleTitle)
+			.bubbleContent(this.bubbleContent)
+			.bubbleThumbnail(this.bubbleThumbnail)
+			.bubbleType(this.bubbleType)
+			.categoryEntity(this.categoryEntity)
+			.planCloseDate(this.planCloseDate)
+			.planOpenDate(this.planOpenDate)
+			.createDate(this.createDate)
+			.closeDate(this.closeDate)
+			.build();
+	}
 
 }

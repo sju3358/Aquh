@@ -1,12 +1,12 @@
-package com.ssafy.team8alette.domain.bubble.tools.model.dao;
+package com.ssafy.team8alette.domain.bubble.tools.repository;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayAnswerEntity;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.TwoWayQuestionEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
+import com.ssafy.team8alette.domain.bubble.tools.model.entity.TwoWayAnswerEntity;
+import com.ssafy.team8alette.domain.bubble.tools.model.entity.TwoWayQuestionEntity;
 
 public interface TwoWayAnswerRepository extends JpaRepository<TwoWayAnswerEntity, Long> {
 	/**

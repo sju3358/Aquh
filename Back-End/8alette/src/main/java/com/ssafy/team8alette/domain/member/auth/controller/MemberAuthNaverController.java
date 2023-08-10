@@ -63,7 +63,7 @@ public class MemberAuthNaverController {
 
 		Long memberNumber = memberNaverService.register(naverMemberData);
 
-		Map tokens = jwtTokenProvider.getTokens(naverMemberId);
+		Map tokens = jwtTokenProvider.getTokens(memberNumber);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
 		memberNaverService.login(memberNumber, refreshToken);

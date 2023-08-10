@@ -1,14 +1,16 @@
 package com.ssafy.team8alette.domain.bubble.session.model.dto.response;
 
-import org.springframework.http.HttpStatus;
-
+import jakarta.annotation.Nullable;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
-public class CreateBubbleResponse {
+public class BubbleResponseDto {
 
-	private String token;
-	private HttpStatus status;
+	@Nullable
+	private Object data;
+
 	private String message;
-	
+
 }
