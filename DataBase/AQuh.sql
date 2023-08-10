@@ -409,8 +409,7 @@ COMMENT ON COLUMN "two_way_question"."create_dttm" IS '양자택일 질문 생�
 CREATE TABLE "two_way_answer" (
 	"two_way_question_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
-	"bubble_number"	BIGSERIAL		NOT NULL,
-	"is_pick_right"	BOOLEAN	DEFAULT TRUE	NOT NULL,
+	"left_pick"	BOOLEAN	DEFAULT TRUE	NOT null ,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
@@ -418,9 +417,7 @@ COMMENT ON COLUMN "two_way_answer"."two_way_question_number" IS '양자택일 �
 
 COMMENT ON COLUMN "two_way_answer"."member_number" IS '회원번호 인덱스 : 자동증가';
 
-COMMENT ON COLUMN "two_way_answer"."bubble_number" IS '버블 인덱스';
-
-COMMENT ON COLUMN "two_way_answer"."is_pick_right" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
+COMMENT ON COLUMN "two_way_answer"."left_pick" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
 
 COMMENT ON COLUMN "two_way_answer"."create_dttm" IS '양자택일 답변 일시';
 
@@ -701,13 +698,6 @@ ALTER TABLE "two_way_answer" ADD CONSTRAINT "FK_member_TO_two_way_answer_1" FORE
 )
 REFERENCES "member" (
 	"member_number"
-);
-
-ALTER TABLE "two_way_answer" ADD CONSTRAINT "FK_bubble_TO_two_way_answer_1" FOREIGN KEY (
-	"bubble_number"
-)
-REFERENCES "bubble" (
-	"bubble_number"
 );
 
 ALTER TABLE "vote_question" ADD CONSTRAINT "FK_bubble_TO_vote_question_1" FOREIGN KEY (
