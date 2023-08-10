@@ -14,6 +14,7 @@ useEffect(() => {
     try {
       const response = await symbolList(id);
       const res = response.data.symbolList;
+      console.log(res)
       setSymbols(res)
     }
     catch(error){
@@ -28,7 +29,8 @@ const symbolcards = symbols.map((e) => (
 <SymbolPortrait 
   key={e.symbolNumber} 
   symbolImgName={e.symbolImgName} 
-  symbolName={e.symbolName} 
+  symbolName={e.symbolName}
+  isActive={e.symbolActive} 
 />
 ));
   return (
