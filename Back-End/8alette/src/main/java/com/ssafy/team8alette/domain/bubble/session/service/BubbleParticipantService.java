@@ -1,14 +1,14 @@
-package com.ssafy.team8alette.domain.bubble.session.model.service;
+package com.ssafy.team8alette.domain.bubble.session.service;
 
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.bubble.session.exception.BubbleNotFoundException;
 import com.ssafy.team8alette.domain.bubble.session.exception.BubbleParticipantsNotFoundException;
-import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleListRepository;
-import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleParticipantEntity;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.key.GroupID;
+import com.ssafy.team8alette.domain.bubble.session.model.entity.BubbleEntity;
+import com.ssafy.team8alette.domain.bubble.session.model.entity.BubbleParticipantEntity;
+import com.ssafy.team8alette.domain.bubble.session.repository.BubbleListRepository;
+import com.ssafy.team8alette.domain.bubble.session.repository.BubbleRepository;
 import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;

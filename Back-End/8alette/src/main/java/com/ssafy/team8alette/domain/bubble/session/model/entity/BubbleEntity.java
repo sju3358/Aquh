@@ -1,8 +1,9 @@
-package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.session.model.entity;
 
 import java.time.LocalDateTime;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.entity.CategoryEntity;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
+import com.ssafy.team8alette.domain.bubble.tools.model.entity.CategoryEntity;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.Column;
@@ -69,5 +70,21 @@ public class BubbleEntity {
 
 	@Column(name = "done_dttm")
 	private LocalDateTime closeDate;
+
+	public BubbleDto convertToDto() {
+		return BubbleDto.builder()
+			.bubbleNumber(this.bubbleNumber)
+			.hostMemberNumber(this.hostMember.getMemberNumber())
+			.bubbleTitle(this.bubbleTitle)
+			.bubbleContent(this.bubbleContent)
+			.bubbleThumbnail(this.bubbleThumbnail)
+			.bubbleType(this.bubbleType)
+			.categoryEntity(this.categoryEntity)
+			.planCloseDate(this.planCloseDate)
+			.planOpenDate(this.planOpenDate)
+			.createDate(this.createDate)
+			.closeDate(this.closeDate)
+			.build();
+	}
 
 }

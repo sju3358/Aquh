@@ -1,24 +1,30 @@
 package com.ssafy.team8alette.domain.bubble.session.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequest;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CloseBubbleRequestDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequestDto;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.EnterBubbleRequest;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.response.CreateBubbleResponse;
-import com.ssafy.team8alette.domain.bubble.session.model.dto.response.EnterBubbleResponse;
-import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleParticipantService;
-import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleService;
-import com.ssafy.team8alette.domain.bubble.session.model.service.BubbleSessionService;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleSessionService;
+import com.ssafy.team8alette.domain.member.auth.model.dto.MemberLoginInfo;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
 
-import io.openvidu.java.client.OpenViduHttpException;
-import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -26,48 +32,83 @@ import lombok.RequiredArgsConstructor;
 public class BubbleController {
 
 	private final BubbleService bubbleService;
-	private final BubbleSessionService bubbleSessionService;
 	private final BubbleParticipantService bubbleParticipantService;
+	private final MemberAuthService memberAuthService;
 
-	@PostMapping
-	public ResponseEntity<CreateBubbleResponse> createBubbleTalkRequest(
-		@RequestBody CreateBubbleRequest createBubbleRequest) throws
-		OpenViduJavaClientException,
-		OpenViduHttpException {
+	@LoginRequired
+	@GetMapping("/{bubbleNumber}")
+	public BubbleResponseDto getBubbleInfoRequest(
+		@PathVariable Long bubbleNumber) {
 
-		Long bubbleNumber = bubbleService.createBubble(createBubbleRequest);
+		BubbleDto bubble = bubbleService.getBubbleInfo(bubbleNumber);
 
-		bubbleParticipantService.createBubbleList(createBubbleRequest.getHostMemberNumber(), bubbleNumber);
-
-		String sessionToken = bubbleSessionService.createHostBubbleSession(Long.toString(bubbleNumber));
-
-		CreateBubbleResponse createBubbleResponse = CreateBubbleResponse.builder()
-			.message("OK")
-			.status(HttpStatus.OK)
-			.token(sessionToken)
+		return BubbleResponseDto.builder()
+			.data(bubble)
+			.message("success")
 			.build();
-
-		return new ResponseEntity<>(createBubbleResponse, HttpStatus.OK);
 	}
+	@LoginRequired
+	@PostMapping
+	public BubbleResponseDto createBubbleRequest(
+		@RequestBody CreateBubbleRequestDto createBubbleRequestDto) {
 
-	@PutMapping("/enter")
-	public ResponseEntity<EnterBubbleResponse> enterBubbleTalkRequest(
-		@RequestBody EnterBubbleRequest enterBubbleRequest) throws
-		OpenViduJavaClientException,
-		OpenViduHttpException {
+		Long bubbleNumber = bubbleService.createBubble(createBubbleRequestDto);
 
-		String sessionToken = bubbleSessionService.createSubBubbleSession(
-			Long.toString(enterBubbleRequest.getBubbleNumber()));
+		bubbleParticipantService.createBubbleList(createBubbleRequestDto.getHostMemberNumber(), bubbleNumber);
+
+		return BubbleResponseDto.builder()
+			.data(bubbleNumber)
+			.message("success")
+			.build();
+	}
+	@LoginRequired
+	@PutMapping
+	public BubbleResponseDto closeBubbleRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String accessToken,
+		@RequestBody CloseBubbleRequestDto closeBubbleRequestDto){
+
+		Long bubbleNumber = closeBubbleRequestDto.getBubbleNumber();
+
+		BubbleDto bubble = bubbleService.getBubbleInfo(bubbleNumber);
+		Long hostNumber = bubble.getHostMemberNumber();
+
+		memberAuthService.getLoginMemberInfo()
+
+	}
+	@LoginRequired
+	@PutMapping
+	public BubbleResponseDto enterBubbleRequest(
+		@RequestBody EnterBubbleRequest enterBubbleRequest) {
+
+		Long bubbleNumber = bubbleService.(createBubbleRequestDto);
 
 		bubbleParticipantService.createBubbleList(enterBubbleRequest.getMemberNumber(),
 			enterBubbleRequest.getBubbleNumber());
 
-		EnterBubbleResponse enterBubbleResponse = EnterBubbleResponse.builder()
-			.message("OK")
-			.status(HttpStatus.OK)
-			.token(sessionToken)
+		return BubbleResponseDto.builder()
+			.data()
+			.message("success")
 			.build();
 
-		return new ResponseEntity<>(enterBubbleResponse, HttpStatus.OK);
+	}
+
+	@GetMapping("/bubblings")
+	public BubbleResponseDto getBubblingListRequest(){
+		List<BubbleDto> bubblings = bubbleService.getBubblingList();
+
+		return BubbleResponseDto.builder()
+			.data(bubblings)
+			.message("success")
+			.build();
+	}
+
+	@GetMapping("/bubbletalks")
+	public BubbleResponseDto getBubbleTalkRequest(){
+		List<BubbleDto> bubbleTalks = bubbleService.getBubbleTalkList();
+
+		return BubbleResponseDto.builder()
+			.data(bubbleTalks)
+			.message("success")
+			.build();
 	}
 }

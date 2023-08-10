@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CreateBubbleRequest {
+public class CreateBubbleRequestDto {
 
 	private Long hostMemberNumber;
 

@@ -1,8 +1,7 @@
-package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.entity;
 
 import java.io.Serializable;
 
-import com.ssafy.team8alette.domain.bubble.session.model.dto.entity.BubbleEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.TwoWayAnswerID;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
