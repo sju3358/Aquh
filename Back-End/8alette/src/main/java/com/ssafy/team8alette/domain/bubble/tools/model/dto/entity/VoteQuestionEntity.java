@@ -37,7 +37,4 @@ public class VoteQuestionEntity {
 
 	@Column(name = "vote_question_context", nullable = false)
 	private String voteQuestionContext;
-
-	@Column(name = "is_active", nullable = false)
-	private boolean activeStatus;
 }
