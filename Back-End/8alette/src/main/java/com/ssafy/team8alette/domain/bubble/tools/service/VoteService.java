@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleListRepository;
 import com.ssafy.team8alette.domain.bubble.session.model.dao.BubbleRepository;
@@ -64,7 +65,10 @@ public class VoteService {
     }
 
     // 투표 질문 삭제
+    @Transactional
     public void deleteVoteQuestion(Long vote_question_number) {
+            VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(vote_question_number).orElseThrow();
+            voteSelectrRepository.deleteAllByVoteQuestionEntity(voteQuestionEntity);
             voteQuestionRepository.deleteById(vote_question_number);
     }
 
