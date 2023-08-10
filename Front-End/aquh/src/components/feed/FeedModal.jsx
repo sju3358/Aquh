@@ -53,27 +53,8 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       } else {
         formData.append("file", new Blob(), "empty");
       }
-      //       axios
-      //       .put("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
-      //         headers: {
-      //           "AUTH-TOKEN": localStorage.getItem("access_token"),
-      //         },
-      //       })
-      //       .then((response) => {
-      //         console.log("Response:", response.data);
-      //       })
-
-      //       .catch((error) => {
-      //         console.error(":", error);
-      //       });
-      //   } else if (!feedTitle) {
-      //     alert("글 제목을 작성해주세요");
-      //   } else if (!feedContent) {
-      //     alert("글 내용을 작성해주세요");
-      //   }
-      // };
       axios
-        .put("https://localhost:8080/api/v1/feed", formData, {
+        .put("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
           headers: {
             "AUTH-TOKEN": localStorage.getItem("access_token"),
           },
@@ -94,6 +75,29 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       alert("글 내용을 작성해주세요");
     }
   };
+
+  //     axios
+  //       .put("https://localhost:8080/api/v1/feed", formData, {
+  //         headers: {
+  //           "AUTH-TOKEN": localStorage.getItem("access_token"),
+  //         },
+  //       })
+  //       .then((response) => {
+  //         console.log("Response:", response.data);
+  //         closeModal(false);
+  //         alert("피드가 수정되었습니다. 아직은 새로고침 해야 적용됩니다 :<");
+  //         // TODO : 모달창 닫히고 작성완료된거 알리기 or 자동새로고침
+  //       })
+
+  //       .catch((error) => {
+  //         console.error(":", error);
+  //       });
+  //   } else if (!feedTitle) {
+  //     alert("글 제목을 작성해주세요");
+  //   } else if (!feedContent) {
+  //     alert("글 내용을 작성해주세요");
+  //   }
+  // };
 
   // <수정하기> 버튼 누르면 수정 가능한 창으로 변경
   const onClickModify = () => {
