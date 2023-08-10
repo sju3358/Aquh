@@ -14,7 +14,7 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/v1/bubble/bubble-session")
+@RequestMapping("/api/v1/bubble-session")
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class BubbleSessionController {
