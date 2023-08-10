@@ -48,6 +48,28 @@ public class SymbolGrantService {
 		return dtoList;
 	}
 
+	public List<GrantResponseDTO> getRemainList(Long memberNumber) {
+		Member member = memberRepository.findById(memberNumber)
+			.orElseThrow(() -> new NullValueException("회원 정보가 존재하지 않습니다."));
+
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
+		List<Long> usedSymbolNumbers = list.stream()
+			.map(grant -> grant.getSymbol().getSymbolNumber())
+			.collect(Collectors.toList());
+
+		List<Symbol> remainList = symbolRepository.findAll().stream()
+			.filter(symbol -> !usedSymbolNumbers.contains(symbol.getSymbolNumber()))
+			.collect(Collectors.toList());
+
+		List<GrantResponseDTO> remainDtoList = remainList.stream()
+			.map(symbol -> new GrantResponseDTO(symbol.getSymbolNumber(), symbol.getSymbolName(),
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + symbol.getSymbolImgName(),
+				symbol.getSymbolCode(), symbol.getSymbolConditionCnt(), false))
+			.collect(Collectors.toList());
+
+		return remainDtoList;
+	}
+
 	public void putActiveTrue(SymbolGrantRequestDTO symbolGrantRequestDTO) {
 		Long memberNumber = symbolGrantRequestDTO.getMemberNumber();
 		//
@@ -94,15 +116,6 @@ public class SymbolGrantService {
 			symbolGrantRepository.save(grant);
 		}
 	}
-
-	// public void putSymbolGrant(Long memberNumber, Long symbolNumber) {
-	// 	Grant symbolGrant = new Grant();
-	// 	GrantID grantID = new GrantID();
-	// 	grantID.setGrantedMemberNumber(memberNumber);
-	// 	grantID.setSymbolNumber(symbolNumber);
-	// 	symbolGrant.setGrantID(grantID);
-	// 	symbolGrantRepository.save(symbolGrant);
-	// }
 
 	public void putSymbolGrant(Long memberNumber) {
 		//기록을 뽑아오고
