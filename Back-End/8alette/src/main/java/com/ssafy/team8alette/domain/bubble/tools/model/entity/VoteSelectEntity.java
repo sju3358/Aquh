@@ -1,9 +1,9 @@
-package com.ssafy.team8alette.domain.bubble.tools.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.tools.model.entity;
 
 import java.io.Serializable;
 
-import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.VoteID;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

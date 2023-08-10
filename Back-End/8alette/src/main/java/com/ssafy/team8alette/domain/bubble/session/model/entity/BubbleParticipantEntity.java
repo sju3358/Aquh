@@ -1,8 +1,9 @@
-package com.ssafy.team8alette.domain.bubble.session.model.dto.entity;
+package com.ssafy.team8alette.domain.bubble.session.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleParticipantDto;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.key.GroupID;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
@@ -18,8 +19,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -60,4 +63,12 @@ public class BubbleParticipantEntity implements Serializable {
 
 	@Column(name = "create_dttm", nullable = false)
 	private LocalDateTime createDate;
+
+	public BubbleParticipantDto convertToDto() {
+		return BubbleParticipantDto.builder()
+			.bubbleNumber(this.bubbleEntity.getBubbleNumber())
+			.hostMemberNumber(this.member.getMemberNumber())
+			.createDate(this.createDate)
+			.build();
+	}
 }
