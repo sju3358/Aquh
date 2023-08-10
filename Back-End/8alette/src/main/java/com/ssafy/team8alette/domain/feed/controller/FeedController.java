@@ -169,6 +169,8 @@ public class FeedController {
 		responseData.put("message", "success");
 		responseData.put("status", 200);
 		responseData.put("feedList", dtoList);
+		//마이페이지 자신꺼 볼때 호출
+		symbolGrantService.putSymbolGrant(memberNumber);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
