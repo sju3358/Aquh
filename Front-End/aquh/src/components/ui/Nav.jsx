@@ -9,7 +9,7 @@ export default function Nav() {
   // console.log("memberNumberrrrrrr", memberNumber)
   return (
     <nav className={classes.navBar}>
-      <Link to='/'>
+      <Link to={memberNumber !== -1 ? '/' : '/login'}>
         {" "}
         <img
           src='../../aquh-logo.png'
@@ -19,10 +19,10 @@ export default function Nav() {
       </Link>
       <div className={classes.navItemContainer}>
         <div className={classes.menuItems}>
-          <Link to='/feed' style={{ textDecoration: "none" }}>
+          <Link to={memberNumber !== -1 ? '/feed' : '/login'} style={{ textDecoration: "none" }}>
             <span className={classes.navItem}>피드</span>
           </Link>
-          <Link to='/bubble' style={{ textDecoration: "none" }}>
+          <Link to={memberNumber !== -1 ? '/bubble' : '/login'} style={{ textDecoration: "none" }}>
             <span className={classes.navItem}>버블</span>
           </Link>
           <Link

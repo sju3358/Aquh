@@ -37,11 +37,4 @@ public class Symbol {
 
 	@Column(name = "symbol_condition_cnt", nullable = false)
 	private int symbolConditionCnt;
-
-	@Column(name = "create_dt")
-	private Date createDate;
-
-	@Column(name = "delete_dt")
-	private Date deleteDate;
-
 }
