@@ -3,8 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import classes from "./FeedModal.module.css";
 import Modal from "react-modal";
-import { memberNumberState } from "../store/loginUserState";
 import { useRecoilValue } from "recoil";
+import { memberNumberState } from "../../store/loginUserState";
 
 export default function FeedModal(
   setModalOpen,
