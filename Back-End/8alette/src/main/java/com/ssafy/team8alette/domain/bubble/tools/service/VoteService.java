@@ -65,7 +65,6 @@ public class VoteService {
 
     // 투표 질문 삭제
     public void deleteVoteQuestion(Long vote_question_number) {
-        if(voteQuestionRepository.existsById(vote_question_number))
             voteQuestionRepository.deleteById(vote_question_number);
     }
 
@@ -82,5 +81,14 @@ public class VoteService {
         voteSelectEntity.setMember(member);
 
         voteSelectrRepository.save(voteSelectEntity);
+    }
+
+    // 투표 선택 삭제
+    public void deleteVoteSelect(VoteSelectRequestDTO voteSelectRequestDTO) {
+        VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(voteSelectRequestDTO.getVote_question_number()).orElseThrow();
+        Member member = memberRepository.findById(voteSelectRequestDTO.getMember_number()).orElseThrow();
+        VoteID voteID = new VoteID(voteQuestionEntity.getVoteQuestionNumber(), member.getMemberNumber());
+
+        voteSelectrRepository.deleteById(voteID);
     }
 }
