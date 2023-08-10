@@ -51,12 +51,12 @@ public class BubbleController {
 	@PostMapping
 	public BubbleResponseDto createBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
-		@RequestBody CreateBubbleRequestDto createBubbleRequestDto) throws ParseException {
+		@RequestBody CreateBubbleRequestDto requestDto) throws ParseException {
 
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
-		Long bubbleNumber = bubbleService.createBubble(createBubbleRequestDto);
+		Long bubbleNumber = bubbleService.createBubble(requestDto);
 
-		if (memberNumber != createBubbleRequestDto.getHostMemberNumber())
+		if (memberNumber != requestDto.getHostMemberNumber())
 			throw new UnAuthorizedException("본인만 방을 만들 수 있습니다");
 
 		bubbleParticipantService.createBubbleList(memberNumber, bubbleNumber);
@@ -114,6 +114,18 @@ public class BubbleController {
 
 		return BubbleResponseDto.builder()
 			.data(bubbleTalks)
+			.message("success")
+			.build();
+	}
+
+	@GetMapping("/bubblings/my")
+	public BubbleResponseDto getMyBubblingListRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		List<BubbleDto> bubblings = bubbleService.getBubblingList(memberNumber);
+
+		return BubbleResponseDto.builder()
+			.data(bubblings)
 			.message("success")
 			.build();
 	}
