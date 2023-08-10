@@ -32,7 +32,7 @@ public class MemberRecordController {
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
 		@PathVariable Long memberNumber,
 		@RequestParam Optional<String> exp_cnt,
-		@RequestParam Optional<String> comment_cnt,
+		@RequestParam Optional<String> feed_cnt,
 		@RequestParam Optional<String> room_join_cnt,
 		@RequestParam Optional<String> like_give_cnt,
 		@RequestParam Optional<String> best_cnt,
@@ -44,11 +44,11 @@ public class MemberRecordController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 
-		if (exp_cnt.isEmpty() && comment_cnt.isEmpty() && room_join_cnt.isEmpty()
+		if (exp_cnt.isEmpty() && feed_cnt.isEmpty() && room_join_cnt.isEmpty()
 			&& like_give_cnt.isEmpty() && best_cnt.isEmpty() && following_cnt.isEmpty() && follower_cnt.isEmpty()) {
 
 			data.put("exp_cnt", memberRecord.getMemberExpCnt());
-			data.put("comment_cnt", memberRecord.getMemberFeedCnt());
+			data.put("feed_cnt", memberRecord.getMemberFeedCnt());
 			data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
 			data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());
 			data.put("best_cnt", memberRecord.getMemberBestCnt());
@@ -60,7 +60,7 @@ public class MemberRecordController {
 			if (exp_cnt.orElse("N").equals("Y")) {
 				data.put("exp_cnt", memberRecord.getMemberExpCnt());
 			}
-			if (comment_cnt.orElse("N").equals("Y")) {
+			if (feed_cnt.orElse("N").equals("Y")) {
 				data.put("comment_cnt", memberRecord.getMemberFeedCnt());
 			}
 			if (room_join_cnt.orElse("N").equals("Y")) {

@@ -1,5 +1,6 @@
 package com.ssafy.team8alette.domain.symbol.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,10 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.request.SymbolGrantRequestDTO;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
+import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +26,9 @@ import lombok.RequiredArgsConstructor;
 public class SymbolGrantService {
 
 	private final SymbolGrantRepository symbolGrantRepository;
+	private final SymbolRepository symbolRepository;
 	private final MemberRepository memberRepository;
+	private final MemberRecordService memberRecordService;
 
 	public List<GrantResponseDTO> getGrantList(Long memberNumber) {
 		Member member = memberRepository.findById(memberNumber)
@@ -82,6 +90,72 @@ public class SymbolGrantService {
 			grant.setActiveStatus(true);
 			symbolGrantRepository.save(grant);
 		}
+	}
+
+	// public void putSymbolGrant(Long memberNumber, Long symbolNumber) {
+	// 	Grant symbolGrant = new Grant();
+	// 	GrantID grantID = new GrantID();
+	// 	grantID.setGrantedMemberNumber(memberNumber);
+	// 	grantID.setSymbolNumber(symbolNumber);
+	// 	symbolGrant.setGrantID(grantID);
+	// 	symbolGrantRepository.save(symbolGrant);
+	// }
+
+	public void putSymbolGrant(Long memberNumber) {
+		//기록을 뽑아오고
+		MemberRecord memberRecord = memberRecordService.getMemberRecord(memberNumber);
+
+		int[] valuesToCheck = {
+			memberRecord.getMemberExpCnt(),
+			memberRecord.getBubbleJoinCnt(),
+			memberRecord.getMemberBestCnt(),
+			memberRecord.getMemberFeedCnt(),
+			memberRecord.getMemberLikeGiveCnt(),
+			memberRecord.getMemberLikeReceiveCnt(),
+			memberRecord.getMemberFollowingCnt(),
+			memberRecord.getMemberFollowerCnt()
+		};
+
+		List<Long> giveSymbolNumber = new ArrayList<>();
+
+		String[] symbolCode = {
+			"exp_cnt", "bubble_join_cnt", "best_cnt",
+			"feed_cnt", "like_give_cnt", "like_receive_cnt",
+			"following_cnt", "follower_cnt"};
+
+		for (int i = 0; i < symbolCode.length; i++) {
+			if (valuesToCheck[i] != 0) {
+				symbolRepository.findAllBySymbolCodeAndAndSymbolConditionCntLessThan(
+					symbolCode[i],
+					valuesToCheck[i]).ifPresent(symbol -> {
+					Long symbolNumber = symbol.getSymbolNumber();
+					giveSymbolNumber.add(symbolNumber);
+				});
+			}
+		}
+		int ExpCnt = 0;
+		for (Long symbolNumber : giveSymbolNumber) {
+			if (symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber, symbolNumber)
+				== null) {
+				ExpCnt++;
+				Symbol symbol = symbolRepository.findSymbolBySymbolNumber(symbolNumber);
+
+				GrantID grantID = new GrantID();
+				grantID.setGrantedMemberNumber(memberNumber);
+				grantID.setSymbolNumber(symbolNumber);
+
+				Grant newSymbolGrant = new Grant();
+				newSymbolGrant.setGrantID(grantID);
+				newSymbolGrant.setMemberRecord(memberRecord);
+				newSymbolGrant.setSymbol(symbol);
+				newSymbolGrant.setActiveStatus(false);
+
+				symbolGrantRepository.save(newSymbolGrant);
+
+			}
+		}
+		memberRecordService.updateMemberExp(memberNumber, ExpCnt * 100);
+
 	}
 
 }
