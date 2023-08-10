@@ -36,7 +36,7 @@ public class SymbolService {
 		//심볼 부여
 		putSymbolGrant(memberNumber);
 
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberOrderBySymbolAsc(memberNumber);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
@@ -51,7 +51,7 @@ public class SymbolService {
 		Member member = memberRepository.findById(memberNumber)
 			.orElseThrow(() -> new NullValueException("회원 정보가 존재하지 않습니다."));
 
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberOrderBySymbolAsc(memberNumber);
 		List<Long> usedSymbolNumbers = list.stream()
 			.map(grant -> grant.getSymbol().getSymbolNumber())
 			.collect(Collectors.toList());
