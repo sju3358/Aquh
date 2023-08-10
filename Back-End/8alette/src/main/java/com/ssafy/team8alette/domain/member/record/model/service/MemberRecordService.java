@@ -43,7 +43,7 @@ public class MemberRecordService {
 
 	public void updateMemberComment(Long memberNumber, int commentCnt) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberCommentCnt(memberRecord.getMemberCommentCnt() + commentCnt);
+		memberRecord.setMemberFeedCnt(memberRecord.getMemberFeedCnt() + commentCnt);
 		memberRecordRepository.save(memberRecord);
 	}
 

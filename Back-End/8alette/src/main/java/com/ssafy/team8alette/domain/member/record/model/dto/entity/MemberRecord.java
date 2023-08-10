@@ -34,8 +34,8 @@ public class MemberRecord {
 	@Column(name = "exp_cnt")
 	private int memberExpCnt;
 
-	@Column(name = "comment_cnt")
-	private int memberCommentCnt;
+	@Column(name = "feed_cnt")
+	private int memberFeedCnt;
 
 	@Column(name = "bubble_join_cnt")
 	private int bubbleJoinCnt;
