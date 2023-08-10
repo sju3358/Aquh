@@ -5,7 +5,7 @@ import classes from "./FeedWrite.module.css";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
 
-function FeedWrite() {
+function FeedWrite({ setIsNewFeed }) {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState(null);
@@ -78,6 +78,7 @@ function FeedWrite() {
         .then((response) => {
           console.log("Response:", response.data);
         })
+        .then(setIsNewFeed(true))
         .catch((error) => {
           console.error(":", error);
         });
