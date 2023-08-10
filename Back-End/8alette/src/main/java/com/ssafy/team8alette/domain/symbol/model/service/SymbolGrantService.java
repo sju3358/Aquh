@@ -37,7 +37,8 @@ public class SymbolGrantService {
 		//심볼 부여
 		putSymbolGrant(memberNumber);
 
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatus(memberNumber, true);
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
+			memberNumber, true);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
