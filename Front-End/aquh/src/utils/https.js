@@ -58,6 +58,7 @@ instance.interceptors.response.use(
             const SERVER_URL = process.env.REACT_APP_LOGIN_SERVER_URL;
             // eslint-disable-next-line no-restricted-globals
             location.href = `${SERVER_URL}/login`;
+            localStorage.clear();
           });
       }
     } catch (error) {
