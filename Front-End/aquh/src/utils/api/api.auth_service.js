@@ -21,8 +21,8 @@ import https from '../https';
 //     api.post('auth/refresh');
 
 // TODO: get documentation for this and adjust accordingly.
-export const logout = (memberNumber) =>
-    https.delete(`/api/v1/member/auth/${memberNumber}`)
+export const logout = () =>
+    https.delete(`/api/v1/member/auth`)
 
 export const fetchSingleUser = () => 
     https.get(`/api/v1/member/record`)
