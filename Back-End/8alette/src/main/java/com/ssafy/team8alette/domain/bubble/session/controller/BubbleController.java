@@ -94,8 +94,6 @@ public class BubbleController {
 
 		bubbleParticipantService.createBubbleList(bubbleNumber, memberNumber);
 
-		memberRecordService.updateMemberExp(memberNumber, 30);
-
 		return BubbleResponseDto.builder()
 			.message("success")
 			.build();
