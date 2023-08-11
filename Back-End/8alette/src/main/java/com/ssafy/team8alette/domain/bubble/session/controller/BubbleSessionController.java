@@ -1,5 +1,8 @@
 package com.ssafy.team8alette.domain.bubble.session.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +32,12 @@ public class BubbleSessionController {
 		OpenViduHttpException {
 
 		String token = bubbleSessionService.createHostBubbleSession(bubbleNumber);
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("token", token);
 
 		return ResponseEntity
 			.status(200)
-			.header("OpenviduToken", token)
-			.build();
+			.body(responseData);
 	}
 
 	@PutMapping("/{bubbleNumber}")
@@ -41,11 +45,12 @@ public class BubbleSessionController {
 		@PathVariable Long bubbleNumber) throws OpenViduJavaClientException, OpenViduHttpException {
 
 		String token = bubbleSessionService.createSubBubbleSession(bubbleNumber);
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("token", token);
 
 		return ResponseEntity
 			.status(200)
-			.header("OpenviduToken", token)
-			.build();
+			.body(responseData);
 	}
 
 }
