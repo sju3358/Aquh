@@ -4,6 +4,8 @@ import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
 import axios from "axios";
+import Modal from "react-modal";
+import FeedModal from "../components/feed/FeedModal";
 // import classes from "./FeedPage.module.css";
 
 function FeedPage() {
@@ -14,11 +16,20 @@ function FeedPage() {
 
   // 각 필터에 맞는 feedList get
   const [newList, setNewList] = useState([]);
+  const [isNewFeed, setIsNewFeed] = useState(false);
 
+  // TODO: 글 작성하면 새로고침 없이 바로 list에 보이기
   useEffect(() => {
     axiosNew();
   }, []);
-  // TODO : 글이 새로고침 될 때 실시간으로 업데이트 -> 무한렌더링 고치기
+
+  useEffect(() => {
+    if (isNewFeed) {
+      console.log(isNewFeed);
+      axiosNew();
+    }
+    // setIsNewFeed(false);we
+  }, [isNewFeed]);
 
   async function axiosNew() {
     await axios({
@@ -26,7 +37,6 @@ function FeedPage() {
       url: "https://i9b108.p.ssafy.io/api/v1/feed/list",
       headers: {
         "AUTH-TOKEN": localStorage.getItem("access_token"),
-        // TODO : recoil atom에서 받아오는걸로 추후 수정해야함
       },
       params: {
         filter: "recent",
@@ -34,12 +44,37 @@ function FeedPage() {
     })
       .then((res) => {
         setNewList(res.data);
+        // console.log("데이터", res.data);
       })
+      .then(setIsNewFeed(false))
       .catch((err) => {
+        console.log("에러", err);
         return;
       });
   }
+  // async function axiosNew() {
+  //   await axios({
+  //     method: "GET",
+  //     url: "https://localhost:8080/api/v1/feed/list",
+  //     headers: {
+  //       "AUTH-TOKEN": localStorage.getItem("access_token"),
+  //     },
+  //     params: {
+  //       filter: "recent",
+  //     },
+  //   })
+  //     .then((res) => {
+  //       setNewList(res.data);
+  //       // console.log("데이터", res.data);
+  //     })
+  //     .then(setIsNewFeed(false))
+  //     .catch((err) => {
+  //       console.log("에러", err);
+  //       return;
+  //     });
+  // }
 
+  // ====================================================
   const clickNew = () => {
     setIsNew(true);
     setIsPopular(false);
@@ -57,6 +92,30 @@ function FeedPage() {
     setIsPopular(false);
     setIsFollow(true);
   };
+  // FeedCard 상세 페이지 modal 오픈
+  const [modalOpen, setModalOpen] = useState(false);
+  const [clickFeedData, setClickFeedData] = useState();
+
+  useEffect(() => {
+    async function axiosFeedData() {
+      try {
+        const responseData = await axios.get(
+          `https://localhost:8080/api/v1/feed/${localStorage.getItem(
+            "feedNumber"
+          )}`,
+          {
+            headers: { "AUTH-TOKEN": localStorage.getItem("access_token") },
+          }
+        );
+
+        console.log(responseData.data.data);
+        setClickFeedData(responseData.data.data);
+      } catch {
+        console.log("error");
+      }
+    }
+    axiosFeedData();
+  }, [modalOpen]);
 
   return (
     <div className={classes.feedPage}>
@@ -69,7 +128,7 @@ function FeedPage() {
         나의 이야기를 작성해주세요
       </p>
       <div className={classes.feedWriteSection}>
-        <FeedWrite />
+        <FeedWrite setIsNewFeed={setIsNewFeed} />
       </div>
       <div className={classes.feedListSection}>
         <div className={classes.feedCategories}>
@@ -96,11 +155,11 @@ function FeedPage() {
             </p>
             <div>
               {newList.map((feed) => {
-                console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
                 return (
-                  <div className={classes.newFeedCard}>
+                  <div className={classes.newFeedCard} key={feed.feedNumber}>
                     <FeedCard
                       title={feed.title}
                       content={feed.content}
@@ -108,11 +167,19 @@ function FeedPage() {
                       inputImg={feed.feedImgTrans}
                       inputImgName={feed.feedImgOrigin}
                       feedNumber={feed.feedNumber}
+                      nickName={feed.nickName}
+                      setModalOpen={setModalOpen}
+                      // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
                 );
               })}
             </div>
+            <FeedModal
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              clickFeedData={clickFeedData}
+            />
           </div>
         ) : null}
 
