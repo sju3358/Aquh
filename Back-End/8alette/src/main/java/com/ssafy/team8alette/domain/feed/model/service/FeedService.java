@@ -220,7 +220,8 @@ public class FeedService {
 		dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
-			feedEntity.getFeedNumber(), true);
+			feedEntity.getMember().getMemberNumber(), true);
+		;
 
 		List<String> symbolLinkList = new ArrayList<>();
 		for (Grant grant : list) {
@@ -228,7 +229,7 @@ public class FeedService {
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName();
 			symbolLinkList.add(symbolImgLink);
 		}
-		// dto.setSymbolLink(list);
+		dto.setSymbolLink(symbolLinkList);
 		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt();
