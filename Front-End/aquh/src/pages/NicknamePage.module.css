@@ -1,5 +1,36 @@
 .container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .infoText {
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+.nicknameImg {
+  width: 400px;
+  height: 400px;
+}
+.infoTextDetail {
+  padding: 10px;
+  font-size: 55px;
+}
+.infoTextDetailSmall {
+  padding: 10px;
+  font-size: 30px;
+}
+.nicknameSection {
+  /* width: 100%; */
+}
+.nicknameInput {
+  width: 300px;
+  padding: 5px;
+  border-radius: 20px;
+}
+.nicknameCheck {
+  padding: 5px;
+  border-radius: 20px;
 }
