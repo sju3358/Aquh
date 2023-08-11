@@ -55,7 +55,7 @@ public class MemberAuthControllerAdviser {
 	}
 
 	@ExceptionHandler(InvalidTokenException.class)
-	public ResponseEntity<Map<String, Object>> invalidTokenHandler(MemberDuplicatedException exception) {
+	public ResponseEntity<Map<String, Object>> invalidTokenHandler(InvalidTokenException exception) {
 		Map<String, Object> token = new HashMap<>();
 		token.put("message", exception.getMessage());
 		token.put("status", 401);

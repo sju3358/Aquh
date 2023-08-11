@@ -21,13 +21,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenProvider {
 
-	private static final String SALT = "campingSecretcampingSecretcampingSecretcampingSecret";
+	private static final String SALT = "team8alleteKangSeolChoiJoKimWillWonPrizeAt9thCommonProject";
 	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
 	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
-
-	//일단 REFRESH 토큰 요청안하므로 길게 잡음
+	
 	private <T> String createAccessToken(String key, T data) throws UnsupportedEncodingException {
-		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES * 60);
+		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
 	}
 
 	private <T> String createRefreshToken(String key, T data) throws UnsupportedEncodingException {
