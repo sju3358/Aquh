@@ -54,11 +54,14 @@ instance.interceptors.response.use(
             return axios(originalRequest);
           })
           .catch((error) => {
-            return Promise.reject(error);
+            alert("로그인이 필요합니다.");
+            const SERVER_URL = process.env.REACT_APP_LOGIN_SERVER_URL;
+            // eslint-disable-next-line no-restricted-globals
+            location.href = `${SERVER_URL}/login`;
           });
       }
     } catch (error) {
-      new Error(error);
+      console.log(error);
     }
     return Promise.reject(error);
   }
