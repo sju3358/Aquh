@@ -4,8 +4,7 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-
-import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleSessionDto;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import io.openvidu.java.client.OpenViduRole;
 import io.openvidu.java.client.Session;
@@ -21,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @RedisHash(value = "bubble_session")
-public class BubbleSessionEntity {
+public class BubbleSessionEntity extends StringRedisSerializer {
 
 	@Id
 	private String sessionId;
@@ -29,12 +28,4 @@ public class BubbleSessionEntity {
 	private Session session;
 
 	private Map<String, OpenViduRole> bubblers;
-
-	public BubbleSessionDto convertToDto() {
-		return BubbleSessionDto.builder()
-			.sessionId(this.sessionId)
-			.session(this.session)
-			.bubblers(this.bubblers)
-			.build();
-	}
 }
