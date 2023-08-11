@@ -54,6 +54,17 @@ public class AlarmService {
 		alarmRepository.save(alarm);
 	}
 
+	public void alarmRegist(Long memberNumber, String alarmType, String alarmReason, int alarmState) {
+		Optional<Member> member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Alarm alarm = new Alarm();
+		alarm.setMemberNumber(member.get());
+		alarm.setAlarmType(alarmType);
+		alarm.setAlarmReason(alarmReason);
+		alarm.setAlarmState(alarmState);
+		alarm.setCreateDateTime(new Date());
+		alarmRepository.save(alarm);
+	}
+
 	public boolean getAlarm(Member member, String alarmType) {
 		Optional<Alarm> alarm = alarmRepository.findByMemberNumberAndAlarmType(member, alarmType);
 		boolean alarmOrNull = alarm.isPresent();

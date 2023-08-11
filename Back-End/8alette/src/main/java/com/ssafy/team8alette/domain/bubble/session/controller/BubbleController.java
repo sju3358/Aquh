@@ -17,7 +17,9 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbl
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
@@ -35,6 +37,8 @@ public class BubbleController {
 	private final MemberAuthService memberAuthService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final MemberRecordService memberRecordService;
+	private final AlarmService alarmService;
+	private final MemberService memberService;
 
 	@LoginRequired
 	@GetMapping("/{bubbleNumber}")
@@ -121,6 +125,16 @@ public class BubbleController {
 			.build();
 	}
 
+	@GetMapping
+	public BubbleResponseDto getAllBubbleRoomRequest() {
+		List<BubbleDto> allBubbleRooms = bubbleService.getAllBubbleRoomList();
+
+		return BubbleResponseDto.builder()
+			.data(allBubbleRooms)
+			.message("success")
+			.build();
+	}
+
 	@GetMapping("/bubblings/my")
 	public BubbleResponseDto getMyBubblingListRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
@@ -132,4 +146,18 @@ public class BubbleController {
 			.message("success")
 			.build();
 	}
+
+	// 경험치 부여, 알림 부여를 어디서 해야하는지 물어보기
+	// boolean bubblingOrBubbleTalk = bubbleService.getBubbleInfo(bubbleNumber).isBubbleType();
+	// 	if (bubblingOrBubbleTalk) {
+	// 	memberRecordService.updateMemberExp(memberNumber, 30);
+	// 	memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+	// 	Member member = memberService.getMemberInfo(memberNumber);
+	// 	alarmService.requestAlarm(member, "bubbling", member.getMemberNickname() + "님이 버블톡방에 참여하였습니다.", 0);
+	//
+	// }
+	// 	memberRecordService.updateMemberExp(memberNumber, 100);
+	// 	memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+	// Member member = memberService.getMemberInfo(memberNumber);
+	// 	alarmService.requestAlarm(member, "bubbling", member.getMemberNickname() + "님이 버블링방에 참여하였습니다.", 0);
 }
