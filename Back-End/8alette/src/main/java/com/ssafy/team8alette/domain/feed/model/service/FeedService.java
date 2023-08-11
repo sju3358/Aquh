@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.domain.feed.model.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +23,8 @@ import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
 import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
-import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
+import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.global.exception.NullValueException;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class FeedService {
 	private final MemberRepository memberRepository;
 	private final MemberRecordService memberRecordService;
 	private final FollowRepository followRepository;
-	private final SymbolRepository symbolRepository;
+	private final SymbolGrantRepository symbolGrantRepository;
 	private final AmazonS3Client amazonS3Client;
 	private final MemberRecordRepository memberRecordRepository;
 
@@ -124,9 +126,10 @@ public class FeedService {
 	// 피드 삭제
 	public void deleteFeed(Long feedNumber) {
 		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedNumber);
+
 		existingFeedEntity.setFeedActive(false);
 
-		if (existingFeedEntity.getFeedImgTrans().isEmpty()) {
+		if (existingFeedEntity.getFeedImgTrans() == null || existingFeedEntity.getFeedImgTrans().isEmpty() == true) {
 			memberRecordService.updateMemberExp(existingFeedEntity.getMember().getMemberNumber(), -20);
 			memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
 		}
@@ -134,7 +137,6 @@ public class FeedService {
 		memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
 
 		feedRepository.save(existingFeedEntity);
-
 	}
 
 	// 피드 수정
@@ -211,9 +213,22 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		dto.setFeedImgTrans("https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
+		if (feedEntity.getFeedImgTrans() != null) {
+			dto.setFeedImgTrans(
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
+		}
 		dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
+			feedEntity.getFeedNumber(), true);
+
+		List<String> symbolLinkList = new ArrayList<>();
+		for (Grant grant : list) {
+			String symbolImgLink =
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName();
+			symbolLinkList.add(symbolImgLink);
+		}
+		// dto.setSymbolLink(list);
 		dto.setFollowingCnt(followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		int exp = memberRecordRepository.findMemberRecordByMemberNumber(feedEntity.getMember().getMemberNumber())
 			.getMemberExpCnt();

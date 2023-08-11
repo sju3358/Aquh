@@ -117,14 +117,15 @@ public class FeedController {
 
 	@LoginRequired
 	@PutMapping
-	public ResponseEntity<?> modifyFeed(@RequestPart FeedEntity feedEntity,
+	public ResponseEntity<?> modifyFeed(@RequestPart(value = "feed") FeedEntity feed,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		feedService.modifyFeed(feedEntity, file);
+		feedService.modifyFeed(feed, file);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	//
 	// 게시글 삭제
 	@LoginRequired
 	@PutMapping("/{feed_number}")
