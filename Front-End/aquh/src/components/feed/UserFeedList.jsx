@@ -14,18 +14,18 @@ export default function UserFeedList() {
       const response = await fetchFeedListByUser();
       try{
         const res = response.data.feedList;
-        console.log(res)
+        // console.log(res)
         setUserFeeds(res)
       }
       catch(error){
       
         console.log(error)
       }
-    };
+    }; 
     fetchFeedList();
   }, []);
 
-  const userFeedCards = userFeeds.map((e) => 
+  const userFeedCards = userFeeds?.map((e) => 
     <UserFeedCard
       key={e.feedNumber}
       userNumber={e.feedCreatorNumber}
