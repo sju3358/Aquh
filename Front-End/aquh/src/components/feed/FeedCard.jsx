@@ -8,17 +8,12 @@ import { memberNumberState } from "../../store/loginUserState";
 import FeedModal from "./FeedModal";
 // import FeedModal from "./FeedModalPage";
 import Modal from "react-modal";
+import https from '../../utils/https';
+
 
 function FeedCard({
-  level,
-  title,
-  content,
-  createDate,
-  inputImg,
   feedNumber,
-  setModalOpen,
-  nickName,
-  setClickedFeedNum,
+  setModalOpen
 }) {
   // TODO : 캐릭터 레벨에 따른 사진 보여주기
 
@@ -27,20 +22,53 @@ function FeedCard({
     localStorage.setItem("feedNumber", feedNumber);
     setModalOpen(true);
   };
+
+  const userLevel = -1;
+  const userNickName = "";
+  const userFollowingCnt = "";
+  
+  const feedTitle = "";
+  const feedContent = "";
+  const feedImage = "";
+  const feedLikeCnt = -1;
+  const feedViewCnt = -1;
+
+  const feedCreateDate = "";
+
+  useEffect(() => {
+    https.get(`/api/v1/feed/${feedNumber}`,{headers : {
+      "Content-Type" : "application/json"
+    }})
+    .then((res) => {
+      userLevel = res.data.data.level;
+      userNickName =res.data.data.memberNickName;
+      userFollowingCnt = res.data.data.followingCnt;
+
+      feedTitle = res.data.data.title;
+      feedContent = res.data.data.content;
+      feedImage = res.data.data.img_url;
+      feedLikeCnt = res.data.data.feedLikeCnt;
+      feedViewCnt = res.data.data.viewCnt;
+      feedCreateDate = res.data.data.createDate;
+    })
+    .catch((error ) => console.log(error));
+
+  },[]);
+
   // =========================================================
   return (
     <div className={classes.FeedCard} onClick={openModal}>
       {/* TODO : 카드를 클릭하면 모달창으로 상세페이지 설정 */}
 
       {/* {charImg()} */}
-      <h3 className={classes.feedTitle}>제목 : {title}</h3>
-      <p className={classes.creator_nickname}>닉네임 :{nickName} </p>
-      <p className={classes.feedContent}>내용: {content}</p>
+      <h3 className={classes.feedTitle}>제목 : {feedTitle}</h3>
+      <p className={classes.creator_nickname}>닉네임 :{userNickName} </p>
+      <p className={classes.feedContent}>내용: {feedContent}</p>
       {/* TODO : 내용 일부만(3줄) 보이게 수정->css */}
-      <p className={classes.feedWriteTime}>작성 시간 : {createDate}</p>
+      <p className={classes.feedWriteTime}>작성 시간 : {feedCreateDate}</p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
-      {inputImg && (
-        <img className={classes.feedImg} src={`${inputImg}`} alt='img_null' />
+      {feedImage && (
+        <img className={classes.feedImg} src={`${feedImage}`} alt='img_null' />
       )}
       {/* TODO : 이미지 null값일때 아예 안보이게 수정필요 */}
     </div>
