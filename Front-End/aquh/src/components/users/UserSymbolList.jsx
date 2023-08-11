@@ -34,7 +34,7 @@ export default function UserSymbolList() {
     fetchSymbolList();
   }, [id])
 
-  const symbolcards = symbols.map((e) => (
+  const symbolcards = symbols?.map((e) => (
   <UserSymbolPortrait 
     key={e.symbolNumber} 
     symbolImgName={e.symbolImgName} 
@@ -44,7 +44,13 @@ export default function UserSymbolList() {
 
   return (
     <div className={classes.symbolContainer}>
-        {symbolcards}
+       { symbols && symbols.map((e) => (
+  <UserSymbolPortrait 
+    key={e.symbolNumber} 
+    symbolImgName={e.symbolImgName} 
+    symbolName={e.symbolName} 
+  />
+  ))}
     </div>
     
   );

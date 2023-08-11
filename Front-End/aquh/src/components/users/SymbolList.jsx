@@ -27,7 +27,7 @@ useEffect(() => {
 console.log(symbols)
 
 
-const symbolcards = symbols.map((e) => (
+const symbolcards = symbols?.map((e) => (
 <SymbolPortrait 
   key={e.symbolNumber} 
   symbolImgName={e.symbolImgName} 
