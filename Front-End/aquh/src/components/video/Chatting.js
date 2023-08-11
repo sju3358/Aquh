@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
 import "./Chatting.css";
 import UserVideoComponent from "./UserVideoComponent";
+import { json } from "react-router-dom";
 
 // import { useRecoilValue } from "recoil";
 // import { memberNicknameState } from "../../store/loginUserInfoState";
@@ -127,6 +128,7 @@ export default class Chatting extends Component {
 
         // Get a token from the OpenVidu deployment
         this.enterSession(this.state.mySessionId).then((token) => {
+        // this.getToken().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -197,7 +199,7 @@ export default class Chatting extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      mySessionId: "1234",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
@@ -308,13 +310,13 @@ export default class Chatting extends Component {
               />
             </div>
 
-            {/* {this.state.mainStreamManager !== undefined ? (
+            {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="main-video">
                 <UserVideoComponent
                   streamManager={this.state.mainStreamManager}
                 />
               </div>
-            ) : null} */}
+            ) : null}
             <div id="video-container" className="video-container">
               {this.state.publisher !== undefined ? (
                 <div
@@ -332,7 +334,7 @@ export default class Chatting extends Component {
                   className="stream-container"
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
-                  {/* <span>{sub.id}</span> */}
+                  <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
               ))}
@@ -366,7 +368,9 @@ export default class Chatting extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
-    return response.data; // The token
+    console.log(response.data.token);
+
+    return response.data.token; // The token
   }
 
 
@@ -385,6 +389,7 @@ export default class Chatting extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
+    console.log("this is your createSession: " + response.data);
     return response.data; // The sessionId
   }
 
@@ -396,6 +401,9 @@ export default class Chatting extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
+    console.log("this is your createToken: " + response.data);
+    console.log(response.data);
+
     return response.data; // The token
   }
 }
