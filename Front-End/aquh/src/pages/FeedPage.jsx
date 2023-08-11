@@ -129,13 +129,12 @@ function FeedPage() {
                 return (
                   <div className={classes.newFeedCard} key={feed.feedNumber}>
                     <FeedCard
-                      title={feed.title}
-                      content={feed.content}
-                      createDate={feed.createDate}
-                      inputImg={feed.feedImgTrans}
-                      inputImgName={feed.feedImgOrigin}
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
-                      nickName={feed.nickName}
+                      userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
                       // setClickedFeedNum={setClickedFeedNum}
                     />
