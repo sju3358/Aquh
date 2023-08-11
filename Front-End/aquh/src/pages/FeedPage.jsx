@@ -3,9 +3,9 @@ import { Component } from "react";
 import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
-import axios from "axios";
 import Modal from "react-modal";
 import FeedModal from "../components/feed/FeedModal";
+import https from "../utils/https";
 // import classes from "./FeedPage.module.css";
 
 function FeedPage() {
@@ -17,34 +17,31 @@ function FeedPage() {
   // 각 필터에 맞는 feedList get
   const [newList, setNewList] = useState([]);
   const [isNewFeed, setIsNewFeed] = useState(false);
+  const [popularList, setPopularList] = useState([]);
+  const [isPopularFeed, setIsPopularFeed] = useState(false);
 
+  //============피드 최신순 리스트 뿌리기===========
   // TODO: 글 작성하면 새로고침 없이 바로 list에 보이기
   useEffect(() => {
-    axiosNew();
+    getList("recent");
   }, []);
 
   useEffect(() => {
     if (isNewFeed) {
       console.log(isNewFeed);
-      axiosNew();
+      getList("recent");
     }
-    // setIsNewFeed(false);we
   }, [isNewFeed]);
 
-  async function axiosNew() {
-    await axios({
-      method: "GET",
-      url: "https://i9b108.p.ssafy.io/api/v1/feed/list",
-      headers: {
-        "AUTH-TOKEN": localStorage.getItem("access_token"),
-      },
-      params: {
-        filter: "recent",
-      },
-    })
+  async function getList(filter) {
+    await https
+      .get("api/v1/feed/list", {
+        params: {
+          filter: filter,
+        },
+      })
       .then((res) => {
         setNewList(res.data);
-        // console.log("데이터", res.data);
       })
       .then(setIsNewFeed(false))
       .catch((err) => {
@@ -52,42 +49,53 @@ function FeedPage() {
         return;
       });
   }
-  // async function axiosNew() {
-  //   await axios({
-  //     method: "GET",
-  //     url: "https://localhost:8080/api/v1/feed/list",
-  //     headers: {
-  //       "AUTH-TOKEN": localStorage.getItem("access_token"),
-  //     },
-  //     params: {
-  //       filter: "recent",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       setNewList(res.data);
-  //       // console.log("데이터", res.data);
-  //     })
-  //     .then(setIsNewFeed(false))
-  //     .catch((err) => {
-  //       console.log("에러", err);
-  //       return;
-  //     });
-  // }
 
-  // ====================================================
   const clickNew = () => {
+    getList("recent");
     setIsNew(true);
     setIsPopular(false);
     setIsFollow(false);
   };
 
+  // =================피드 인기순 리스트 뿌리기 ================
+  useEffect(() => {
+    getList("recent");
+  }, []);
+
+  useEffect(() => {
+    if (isPopularFeed) {
+      console.log(isPopularFeed);
+      getList("famous");
+    }
+    // setIsNewFeed(false);we
+  }, [isPopularFeed]);
+
+  async function getList(famous) {
+    await https
+      .get("api/v1/feed/list", {
+        params: {
+          filter: famous,
+        },
+      })
+      .then((res) => {
+        setPopularList(res.data);
+      })
+      .then(setIsPopularFeed(false))
+      .catch((err) => {
+        console.log("에러", err);
+        return;
+      });
+  }
+
   const clickPopular = () => {
+    getList("famous");
     setIsNew(false);
     setIsPopular(true);
     setIsFollow(false);
   };
 
   const clickFollow = () => {
+    getList("recent");
     setIsNew(false);
     setIsPopular(false);
     setIsFollow(true);
@@ -99,13 +107,8 @@ function FeedPage() {
   useEffect(() => {
     async function axiosFeedData() {
       try {
-        const responseData = await axios.get(
-          `https://localhost:8080/api/v1/feed/${localStorage.getItem(
-            "feedNumber"
-          )}`,
-          {
-            headers: { "AUTH-TOKEN": localStorage.getItem("access_token") },
-          }
+        const responseData = await https.get(
+          `/api/v1/feed/${localStorage.getItem("feedNumber")}`
         );
 
         console.log(responseData.data.data);
@@ -161,13 +164,12 @@ function FeedPage() {
                 return (
                   <div className={classes.newFeedCard} key={feed.feedNumber}>
                     <FeedCard
-                      title={feed.title}
-                      content={feed.content}
-                      createDate={feed.createDate}
-                      inputImg={feed.feedImgTrans}
-                      inputImgName={feed.feedImgOrigin}
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
-                      nickName={feed.nickName}
+                      userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
                       // setClickedFeedNum={setClickedFeedNum}
                     />
@@ -193,6 +195,32 @@ function FeedPage() {
               />
               금주의 인기 피드들을 만나보세요 !
             </p>
+            <div>
+              {popularList.map((feed) => {
+                // console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+
+                return (
+                  <div className={classes.newFeedCard} key={feed.feedNumber}>
+                    <FeedCard
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
+                      feedNumber={feed.feedNumber}
+                      userNickName={feed.nickName}
+                      setModalOpen={setModalOpen}
+                      // setClickedFeedNum={setClickedFeedNum}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <FeedModal
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              clickFeedData={clickFeedData}
+            />
           </div>
         ) : null}
 
@@ -206,6 +234,32 @@ function FeedPage() {
               />
               내 친구들의 피드들을 확인 해 보세요 !
             </p>
+            <div>
+              {newList.map((feed) => {
+                // console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+
+                return (
+                  <div className={classes.newFeedCard} key={feed.feedNumber}>
+                    <FeedCard
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
+                      feedNumber={feed.feedNumber}
+                      userNickName={feed.nickName}
+                      setModalOpen={setModalOpen}
+                      // setClickedFeedNum={setClickedFeedNum}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <FeedModal
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              clickFeedData={clickFeedData}
+            />
           </div>
         ) : null}
       </div>
