@@ -19,6 +19,7 @@ public class CreateBubbleRequestDto {
 
 	private String bubbleContent;
 
+	//아 여기를 멀티파트로
 	private String bubbleThumbnail;
 
 	private LocalDateTime planOpenDate;
