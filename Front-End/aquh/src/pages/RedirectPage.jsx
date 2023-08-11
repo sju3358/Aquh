@@ -51,7 +51,7 @@ export default function RedirectPage() {
           setIsSocialLogin(res.data.data.isSocialLogin);
 
           https
-            .get(`/api/v1/member/${res.data.data.member_number}`)
+            .get(`/api/v1/member`)
             // axios
             //   .get(
             //     `https://localhost:8080/api/v1/member/${res.data.data.member_number}`
