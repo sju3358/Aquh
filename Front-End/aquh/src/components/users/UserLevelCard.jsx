@@ -7,14 +7,15 @@ import classes from "./UserLevelCard.module.css";
 
 //here are the docs: https://www.framer.com/motion/transition/
 export default function UserLevelCard({ maxExp, presentExp }) {
-  const fillPercent = (presentExp / maxExp) * 100;
+  // NaN 에러 해결 Math.round 추가 
+  const fillPercent = Math.round((presentExp / maxExp) * 100);
 
   const transition = {
     duration: 2,
     type: "spring",
-    bounce: 0.25,
-    damping: 50,
-    mass: 0.5
+    // bounce: 0.25,
+    // damping: 50,
+    // mass: 0.5
   }
   return (
     <div className={classes.track}>
