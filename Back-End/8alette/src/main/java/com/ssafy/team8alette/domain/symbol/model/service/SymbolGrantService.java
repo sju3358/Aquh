@@ -37,7 +37,8 @@ public class SymbolGrantService {
 		//심볼 부여
 		putSymbolGrant(memberNumber);
 
-		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumber(memberNumber);
+		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
+			memberNumber, true);
 		List<GrantResponseDTO> dtoList = list.stream()
 			.map(grant -> new GrantResponseDTO(grant.getSymbol().getSymbolNumber(), grant.getSymbol().getSymbolName(),
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + grant.getSymbol().getSymbolImgName(),
@@ -45,6 +46,7 @@ public class SymbolGrantService {
 				grant.getSymbol().getSymbolConditionCnt(), grant.isActiveStatus()))
 			.collect(
 				Collectors.toList());
+
 		return dtoList;
 	}
 
@@ -94,15 +96,6 @@ public class SymbolGrantService {
 			symbolGrantRepository.save(grant);
 		}
 	}
-
-	// public void putSymbolGrant(Long memberNumber, Long symbolNumber) {
-	// 	Grant symbolGrant = new Grant();
-	// 	GrantID grantID = new GrantID();
-	// 	grantID.setGrantedMemberNumber(memberNumber);
-	// 	grantID.setSymbolNumber(symbolNumber);
-	// 	symbolGrant.setGrantID(grantID);
-	// 	symbolGrantRepository.save(symbolGrant);
-	// }
 
 	public void putSymbolGrant(Long memberNumber) {
 		//기록을 뽑아오고

@@ -1,7 +1,6 @@
 package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -131,9 +130,8 @@ public class MemberService {
 			.orElseThrow(() -> new MemberNotExistException());
 	}
 
-	public void editMemberInfo(Map<String, String> param) throws IllegalAccessException {
-
-		Long memberNumber = Long.parseLong(param.get("member_number").trim());
+	public void editMemberInfo(Long memberNumber, Map<String, String> param) throws IllegalAccessException {
+		
 		String memberEmail = param.get("member_email").trim();
 		String memberNickname = param.get("member_nickname").trim();
 		String memberIntro = param.get("member_intro").trim();
@@ -182,10 +180,9 @@ public class MemberService {
 		memberRepository.save(member);
 	}
 
-	public void changeMemberPassword(Map<String, String> param) throws
+	public void changeMemberPassword(Long memberNumber, Map<String, String> param) throws
 		NoSuchAlgorithmException {
 
-		Long memberNumber = Long.parseLong(param.get("member_number").trim());
 		String memberNewPassword = param.get("new_password").trim();
 		String memberNewPasswordRepeat = param.get("new_password_repeat").trim();
 
