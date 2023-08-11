@@ -231,3 +231,6 @@ Back-End/8alette/src/main/resources/application-OpenVIdu-KEY.properties
 
 keystore.p12
 Back-End/8alette/src/main/resources/keystore.p12
+
+.env.local
+Front-End/aquh/.env.local
