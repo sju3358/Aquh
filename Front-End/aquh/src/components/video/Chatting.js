@@ -310,29 +310,18 @@ export default class Chatting extends Component {
               />
             </div>
             {/* 여기부터 시작  */}
-            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기*/}
-            {this.state.mainStreamManager !== undefined ? (
-              <div id='main-video' className='main-video'>
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                />
-              </div>
-            ) : null}
+            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
+            {/* 나의 화면 =  */}
             <div id='video-container' className='video-container'>
               {this.state.publisher !== undefined ? (
-                <div
-                  className='stream-container'
-                  onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
-                  }>
+                <div className='stream-container'>
                   <UserVideoComponent streamManager={this.state.publisher} />
                 </div>
               ) : null}
+
+              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
               {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={sub.id}
-                  className='stream-container'
-                  onClick={() => this.handleMainVideoStream(sub)}>
+                <div key={sub.id} className='stream-container'>
                   <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
