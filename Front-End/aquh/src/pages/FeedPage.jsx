@@ -20,22 +20,22 @@ function FeedPage() {
 
   // TODO: 글 작성하면 새로고침 없이 바로 list에 보이기
   useEffect(() => {
-    axiosNew();
+    getList("recent");
   }, []);
 
   useEffect(() => {
     if (isNewFeed) {
       console.log(isNewFeed);
-      axiosNew();
+      getList("recent");
     }
     // setIsNewFeed(false);we
   }, [isNewFeed]);
 
-  async function axiosNew() {
+  async function getList(filter) {
     await https
       .get("api/v1/feed/list", {
         params: {
-          filter: "recent",
+          filter: filter,
         },
       })
       .then((res) => {
@@ -49,18 +49,21 @@ function FeedPage() {
   }
 
   const clickNew = () => {
+    getList("recent");
     setIsNew(true);
     setIsPopular(false);
     setIsFollow(false);
   };
 
   const clickPopular = () => {
+    getList("famous");
     setIsNew(false);
     setIsPopular(true);
     setIsFollow(false);
   };
 
   const clickFollow = () => {
+    getList("recent");
     setIsNew(false);
     setIsPopular(false);
     setIsFollow(true);
@@ -160,6 +163,32 @@ function FeedPage() {
               />
               금주의 인기 피드들을 만나보세요 !
             </p>
+            <div>
+              {newList.map((feed) => {
+                // console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+
+                return (
+                  <div className={classes.newFeedCard} key={feed.feedNumber}>
+                    <FeedCard
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
+                      feedNumber={feed.feedNumber}
+                      userNickName={feed.nickName}
+                      setModalOpen={setModalOpen}
+                      // setClickedFeedNum={setClickedFeedNum}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <FeedModal
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              clickFeedData={clickFeedData}
+            />
           </div>
         ) : null}
 
@@ -173,6 +202,32 @@ function FeedPage() {
               />
               내 친구들의 피드들을 확인 해 보세요 !
             </p>
+            <div>
+              {newList.map((feed) => {
+                // console.log("map으로 뿌린 피드", feed);
+                // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
+
+                return (
+                  <div className={classes.newFeedCard} key={feed.feedNumber}>
+                    <FeedCard
+                      feedTitle={feed.title}
+                      feedContent={feed.content}
+                      feedCreateDate={feed.createDate}
+                      feedImage={feed.feedImgTrans}
+                      feedNumber={feed.feedNumber}
+                      userNickName={feed.nickName}
+                      setModalOpen={setModalOpen}
+                      // setClickedFeedNum={setClickedFeedNum}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <FeedModal
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              clickFeedData={clickFeedData}
+            />
           </div>
         ) : null}
       </div>
