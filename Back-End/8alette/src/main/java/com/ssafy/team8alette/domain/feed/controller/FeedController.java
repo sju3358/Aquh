@@ -24,6 +24,7 @@ import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
@@ -45,6 +46,7 @@ public class FeedController {
 	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final AlarmService alarmService;
 
 	@LoginRequired
 	@PostMapping
@@ -143,22 +145,39 @@ public class FeedController {
 	@LoginRequired
 	@PostMapping("/like")
 	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
+
+		Member receivedLikeMember = feedService.getFeedCreatorNumber(likeRequestDTO.getFeedNumber());
+
 		boolean result;
 
-		//수정
 		result = likeService.addLike(likeRequestDTO.getFeedNumber(), likeRequestDTO.getMemberNumber());
+
 		if (result) {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 되었습니다.");
+			responseData.put("message", "피드 좋아요 되었습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 눌렀습니다.",
+					0);
+			}
+
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 취소했습니다.");
+			responseData.put("message", "피드 좋아요를 취소했습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 취소했습니다.",
+					0);
+			}
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
-
 	}
 
 	@LoginRequired
