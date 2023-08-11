@@ -15,4 +15,6 @@ public interface BubbleRepository extends JpaRepository<BubbleEntity, Long> {
 
 	Optional<List<BubbleEntity>> findBubbleEntitiesByBubbleTypeIsFalse();
 
+	Optional<List<BubbleEntity>> findBubbleEntitiesByOrderByCreateDateDesc();
+
 }

@@ -132,4 +132,19 @@ public class BubbleService {
 		return bubblingList;
 	}
 
+	public List<BubbleDto> getAllBubbleRoomList() {
+
+		List<BubbleEntity> allBubbleListEntity = bubbleRepository.findBubbleEntitiesByOrderByCreateDateDesc()
+			.orElse(new ArrayList<>());
+
+		List<BubbleDto> bubblingList = new ArrayList<>();
+
+		for (BubbleEntity bubbleEntity : allBubbleListEntity) {
+			bubblingList.add(bubbleEntity.convertToDto());
+		}
+
+		return bubblingList;
+
+	}
+
 }
