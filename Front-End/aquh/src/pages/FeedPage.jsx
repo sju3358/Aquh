@@ -17,7 +17,10 @@ function FeedPage() {
   // 각 필터에 맞는 feedList get
   const [newList, setNewList] = useState([]);
   const [isNewFeed, setIsNewFeed] = useState(false);
+  const [popularList, setPopularList] = useState([]);
+  const [isPopularFeed, setIsPopularFeed] = useState(false);
 
+  //============피드 최신순 리스트 뿌리기===========
   // TODO: 글 작성하면 새로고침 없이 바로 list에 보이기
   useEffect(() => {
     getList("recent");
@@ -28,7 +31,6 @@ function FeedPage() {
       console.log(isNewFeed);
       getList("recent");
     }
-    // setIsNewFeed(false);we
   }, [isNewFeed]);
 
   async function getList(filter) {
@@ -54,6 +56,36 @@ function FeedPage() {
     setIsPopular(false);
     setIsFollow(false);
   };
+
+  // =================피드 인기순 리스트 뿌리기 ================
+  useEffect(() => {
+    getList("recent");
+  }, []);
+
+  useEffect(() => {
+    if (isPopularFeed) {
+      console.log(isPopularFeed);
+      getList("famous");
+    }
+    // setIsNewFeed(false);we
+  }, [isPopularFeed]);
+
+  async function getList(famous) {
+    await https
+      .get("api/v1/feed/list", {
+        params: {
+          filter: famous,
+        },
+      })
+      .then((res) => {
+        setPopularList(res.data);
+      })
+      .then(setIsPopularFeed(false))
+      .catch((err) => {
+        console.log("에러", err);
+        return;
+      });
+  }
 
   const clickPopular = () => {
     getList("famous");
@@ -92,8 +124,8 @@ function FeedPage() {
     <div className={classes.feedPage}>
       <p className={classes.feedMent}>
         <img
-          src="../../droplet-white.png"
-          alt="droplet"
+          src='../../droplet-white.png'
+          alt='droplet'
           className={classes.droplet}
         />
         나의 이야기를 작성해주세요
@@ -118,8 +150,8 @@ function FeedPage() {
           <div className={classes.feedListNew}>
             <p className={classes.feedMent}>
               <img
-                src="../../droplet-white.png"
-                alt="droplet"
+                src='../../droplet-white.png'
+                alt='droplet'
                 className={classes.droplet}
               />
               최신 피드들을 만나보세요 !
@@ -157,14 +189,14 @@ function FeedPage() {
           <div className={classes.feedListPopular}>
             <p className={classes.feedMent}>
               <img
-                src="../../droplet-white.png"
-                alt="droplet"
+                src='../../droplet-white.png'
+                alt='droplet'
                 className={classes.droplet}
               />
               금주의 인기 피드들을 만나보세요 !
             </p>
             <div>
-              {newList.map((feed) => {
+              {popularList.map((feed) => {
                 // console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
@@ -196,8 +228,8 @@ function FeedPage() {
           <div className={classes.feeListFollowing}>
             <p className={classes.feedMent}>
               <img
-                src="../../droplet-white.png"
-                alt="droplet"
+                src='../../droplet-white.png'
+                alt='droplet'
                 className={classes.droplet}
               />
               내 친구들의 피드들을 확인 해 보세요 !
