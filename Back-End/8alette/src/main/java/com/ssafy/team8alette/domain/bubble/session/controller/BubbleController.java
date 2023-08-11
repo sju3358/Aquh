@@ -100,6 +100,7 @@ public class BubbleController {
 
 	}
 
+	//
 	@GetMapping("/bubblings")
 	public BubbleResponseDto getBubblingListRequest() {
 		List<BubbleDto> bubblings = bubbleService.getBubblingList();
