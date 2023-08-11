@@ -160,16 +160,9 @@ function FeedPage() {
 
                 return (
                   <div className={classes.newFeedCard} key={feed.feedNumber}>
-                    <FeedCard
-                      title={feed.title}
-                      content={feed.content}
-                      createDate={feed.createDate}
-                      inputImg={feed.feedImgTrans}
-                      inputImgName={feed.feedImgOrigin}
+                    <FeedCard                      
                       feedNumber={feed.feedNumber}
-                      nickName={feed.nickName}
                       setModalOpen={setModalOpen}
-                      // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
                 );
