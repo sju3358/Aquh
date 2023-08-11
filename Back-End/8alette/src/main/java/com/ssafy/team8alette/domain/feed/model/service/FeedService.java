@@ -201,6 +201,11 @@ public class FeedService {
 		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
 	}
 
+	public Member getFeedCreatorNumber(Long feedNumber) {
+		Member member = feedRepository.findFeedByFeedNumber(feedNumber).getMember();
+		return member;
+	}
+
 	//심볼 은 추가기능
 	public FeedResponseDTO convertToDTO(FeedEntity feedEntity) {
 

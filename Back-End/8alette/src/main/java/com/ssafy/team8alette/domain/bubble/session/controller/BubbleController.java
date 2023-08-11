@@ -19,6 +19,7 @@ import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantServ
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
@@ -33,6 +34,7 @@ public class BubbleController {
 	private final BubbleParticipantService bubbleParticipantService;
 	private final MemberAuthService memberAuthService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberRecordService memberRecordService;
 
 	@LoginRequired
 	@GetMapping("/{bubbleNumber}")
@@ -91,6 +93,8 @@ public class BubbleController {
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
 		bubbleParticipantService.createBubbleList(bubbleNumber, memberNumber);
+
+		memberRecordService.updateMemberExp(memberNumber, 30);
 
 		return BubbleResponseDto.builder()
 			.message("success")
