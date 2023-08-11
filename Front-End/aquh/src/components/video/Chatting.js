@@ -2,7 +2,7 @@ import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
-import "./Chatting.css";
+import classes from "./Chatting.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
@@ -127,8 +127,8 @@ export default class Chatting extends Component {
         // --- 4) Connect to the session with a valid user token ---
 
         // Get a token from the OpenVidu deployment
-        this.enterSession(this.state.mySessionId).then((token) => {
-        // this.getToken().then((token) => {
+        // this.enterSession(this.state.mySessionId).then((token) => {
+        this.getToken().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -249,18 +249,18 @@ export default class Chatting extends Component {
     const myUserName = this.state.myUserName;
 
     return (
-      <div className="container">
+      <div className='container'>
         {this.state.session === undefined ? (
-          <div id="join">
-            <div id="join-dialog" className="jumbotron vertical-center">
+          <div id='join'>
+            <div id='join-dialog' className='jumbotron vertical-center'>
               <h1> Join a video session </h1>
-              <form className="form-group" onSubmit={this.joinSession}>
+              <form className='form-group' onSubmit={this.joinSession}>
                 <p>
                   <label>Participant: </label>
                   <input
-                    className="form-control"
-                    type="text"
-                    id="userName"
+                    className='form-control'
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -269,20 +269,20 @@ export default class Chatting extends Component {
                 <p>
                   <label> Session: </label>
                   <input
-                    className="form-control"
-                    type="text"
-                    id="sessionId"
+                    className='form-control'
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
                   />
                 </p>
-                <p className="text-center">
+                <p className='text-center'>
                   <input
-                    className="btn btn-lg btn-success"
-                    name="commit"
-                    type="submit"
-                    value="JOIN"
+                    className='btn btn-lg btn-success'
+                    name='commit'
+                    type='submit'
+                    value='JOIN'
                   />
                 </p>
               </form>
@@ -291,49 +291,48 @@ export default class Chatting extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
+          <div id='session'>
+            <div id='session-header'>
+              <h1 id='session-title'>{mySessionId}</h1>
               <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
+                className='btn btn-large btn-danger'
+                type='button'
+                id='buttonLeaveSession'
                 onClick={this.leaveSession}
-                value="Leave session"
+                value='Leave session'
               />
               <input
-                className="btn btn-large btn-success"
-                type="button"
-                id="buttonSwitchCamera"
+                className='btn btn-large btn-success'
+                type='button'
+                id='buttonSwitchCamera'
                 onClick={this.switchCamera}
-                value="Switch Camera"
+                value='Switch Camera'
               />
             </div>
-
+            {/* 여기부터 시작  */}
+            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기*/}
             {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="main-video">
+              <div id='main-video' className='main-video'>
                 <UserVideoComponent
                   streamManager={this.state.mainStreamManager}
                 />
               </div>
             ) : null}
-            <div id="video-container" className="video-container">
+            <div id='video-container' className='video-container'>
               {this.state.publisher !== undefined ? (
                 <div
-                  className="stream-container"
+                  className='stream-container'
                   onClick={() =>
                     this.handleMainVideoStream(this.state.publisher)
-                  }
-                >
+                  }>
                   <UserVideoComponent streamManager={this.state.publisher} />
                 </div>
               ) : null}
               {this.state.subscribers.map((sub, i) => (
                 <div
                   key={sub.id}
-                  className="stream-container"
-                  onClick={() => this.handleMainVideoStream(sub)}
-                >
+                  className='stream-container'
+                  onClick={() => this.handleMainVideoStream(sub)}>
                   <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
@@ -373,11 +372,9 @@ export default class Chatting extends Component {
     return response.data.token; // The token
   }
 
-
-
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
-    console.log("this is your sessionID: "+sessionId);
+    console.log("this is your sessionID: " + sessionId);
     return await this.createToken(sessionId);
   }
 
