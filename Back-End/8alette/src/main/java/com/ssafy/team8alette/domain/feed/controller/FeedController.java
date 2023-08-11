@@ -75,6 +75,7 @@ public class FeedController {
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
 	) {
 		List<FeedResponseDTO> dtoList = feedService.getFeeds(orderCriteria);
+
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
