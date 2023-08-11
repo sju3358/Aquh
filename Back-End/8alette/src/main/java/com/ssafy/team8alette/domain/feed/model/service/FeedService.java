@@ -126,9 +126,10 @@ public class FeedService {
 	// 피드 삭제
 	public void deleteFeed(Long feedNumber) {
 		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedNumber);
+
 		existingFeedEntity.setFeedActive(false);
 
-		if (existingFeedEntity.getFeedImgTrans().isEmpty()) {
+		if (existingFeedEntity.getFeedImgTrans() == null || existingFeedEntity.getFeedImgTrans().isEmpty() == true) {
 			memberRecordService.updateMemberExp(existingFeedEntity.getMember().getMemberNumber(), -20);
 			memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
 		}
@@ -136,7 +137,6 @@ public class FeedService {
 		memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
 
 		feedRepository.save(existingFeedEntity);
-
 	}
 
 	// 피드 수정
