@@ -1,7 +1,4 @@
-package com.ssafy.team8alette.domain.member.alarm.method;
-
-import com.ssafy.team8alette.domain.member.alarm.model.dto.Alarm;
-import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmListResponseDTO;
+package com.ssafy.team8alette.domain.member.alarm.model.dto;
 
 public class AlarmListMapper {
 	public static AlarmListResponseDTO convertToDTO(Alarm alarm) {
