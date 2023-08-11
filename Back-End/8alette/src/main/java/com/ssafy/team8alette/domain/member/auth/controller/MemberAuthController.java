@@ -96,8 +96,6 @@ public class MemberAuthController {
 
 		MemberLoginInfo memberLoginInfo = memberAuthService.getLoginMemberInfo(memberNumber);
 
-		System.out.println("현재 토큰 : " + memberLoginInfo.getRefreshToken());
-
 		if (memberLoginInfo.getRefreshToken().equals(refreshToken) != true) {
 			throw new InvalidTokenException("리프레쉬 토큰이 일치하지 않습니다");
 		}
@@ -117,8 +115,6 @@ public class MemberAuthController {
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("data", newTokens);
-
-		System.out.println("토큰 재발급 : " + newRefreshToken);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
