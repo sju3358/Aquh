@@ -1,0 +1,14 @@
+.track {
+    --height: 30px;
+    width: 100%;
+    height: var(--height);
+    border-radius: calc(var(--height) / 2);
+    background-color: azure;
+}
+
+.inner {
+    background-color: #4475F4;
+    width: 0%;
+    height: var(--height);
+    border-radius: calc(var(--height) / 2);
+}
