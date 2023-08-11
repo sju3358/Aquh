@@ -3,9 +3,9 @@ import { Component } from "react";
 import classes from "./FeedPage.module.css";
 import FeedWrite from "../components/feed/FeedWrite";
 import FeedCard from "../components/feed/FeedCard";
-import axios from "axios";
 import Modal from "react-modal";
 import FeedModal from "../components/feed/FeedModal";
+import https from "../utils/https";
 // import classes from "./FeedPage.module.css";
 
 function FeedPage() {
@@ -32,19 +32,14 @@ function FeedPage() {
   }, [isNewFeed]);
 
   async function axiosNew() {
-    await axios({
-      method: "GET",
-      url: "https://i9b108.p.ssafy.io/api/v1/feed/list",
-      headers: {
-        "AUTH-TOKEN": localStorage.getItem("access_token"),
-      },
-      params: {
-        filter: "recent",
-      },
-    })
+    await https
+      .get("api/v1/feed/list", {
+        params: {
+          filter: "recent",
+        },
+      })
       .then((res) => {
         setNewList(res.data);
-        // console.log("데이터", res.data);
       })
       .then(setIsNewFeed(false))
       .catch((err) => {
@@ -52,29 +47,7 @@ function FeedPage() {
         return;
       });
   }
-  // async function axiosNew() {
-  //   await axios({
-  //     method: "GET",
-  //     url: "https://localhost:8080/api/v1/feed/list",
-  //     headers: {
-  //       "AUTH-TOKEN": localStorage.getItem("access_token"),
-  //     },
-  //     params: {
-  //       filter: "recent",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       setNewList(res.data);
-  //       // console.log("데이터", res.data);
-  //     })
-  //     .then(setIsNewFeed(false))
-  //     .catch((err) => {
-  //       console.log("에러", err);
-  //       return;
-  //     });
-  // }
 
-  // ====================================================
   const clickNew = () => {
     setIsNew(true);
     setIsPopular(false);
@@ -99,13 +72,8 @@ function FeedPage() {
   useEffect(() => {
     async function axiosFeedData() {
       try {
-        const responseData = await axios.get(
-          `https://localhost:8080/api/v1/feed/${localStorage.getItem(
-            "feedNumber"
-          )}`,
-          {
-            headers: { "AUTH-TOKEN": localStorage.getItem("access_token") },
-          }
+        const responseData = await https.get(
+          `/api/v1/feed/${localStorage.getItem("feedNumber")}`
         );
 
         console.log(responseData.data.data);
@@ -121,8 +89,8 @@ function FeedPage() {
     <div className={classes.feedPage}>
       <p className={classes.feedMent}>
         <img
-          src='../../droplet-white.png'
-          alt='droplet'
+          src="../../droplet-white.png"
+          alt="droplet"
           className={classes.droplet}
         />
         나의 이야기를 작성해주세요
@@ -147,8 +115,8 @@ function FeedPage() {
           <div className={classes.feedListNew}>
             <p className={classes.feedMent}>
               <img
-                src='../../droplet-white.png'
-                alt='droplet'
+                src="../../droplet-white.png"
+                alt="droplet"
                 className={classes.droplet}
               />
               최신 피드들을 만나보세요 !
@@ -187,8 +155,8 @@ function FeedPage() {
           <div className={classes.feedListPopular}>
             <p className={classes.feedMent}>
               <img
-                src='../../droplet-white.png'
-                alt='droplet'
+                src="../../droplet-white.png"
+                alt="droplet"
                 className={classes.droplet}
               />
               금주의 인기 피드들을 만나보세요 !
@@ -200,8 +168,8 @@ function FeedPage() {
           <div className={classes.feeListFollowing}>
             <p className={classes.feedMent}>
               <img
-                src='../../droplet-white.png'
-                alt='droplet'
+                src="../../droplet-white.png"
+                alt="droplet"
                 className={classes.droplet}
               />
               내 친구들의 피드들을 확인 해 보세요 !
