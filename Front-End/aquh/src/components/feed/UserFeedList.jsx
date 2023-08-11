@@ -8,20 +8,17 @@ import FeedModal from "./FeedModal";
 export default function UserFeedList() {
   const [modalOpen, setModalOpen] = useState(false);
   const [clickFeedData, setClickFeedData] = useState();
+  const [feedList, setFeedList] = useState([]);
 
-  let feedList = [];
-
-  useEffect(() => {
-    https
-      .get("api/v1/feed")
-      .then((res) => {
-        feedList = res.data.feedList;
-        console.log(feedList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  https
+    .get("api/v1/feed")
+    .then((res) => {
+      setFeedList(res.data.feedList);
+      console.log(feedList);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   return (
     <div className={classes.feedPage}>
