@@ -87,7 +87,6 @@ public class MemberAuthController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	@LoginRequired
 	@PostMapping("/refresh_token")
 	public ResponseEntity<Map<String, Object>> refreshTokenRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String refreshToken) throws
@@ -97,7 +96,8 @@ public class MemberAuthController {
 
 		MemberLoginInfo memberLoginInfo = memberAuthService.getLoginMemberInfo(memberNumber);
 
-		jwtTokenProvider.checkToken(refreshToken);
+		System.out.println("현재 토큰 : " + memberLoginInfo.getRefreshToken());
+
 		if (memberLoginInfo.getRefreshToken().equals(refreshToken) != true) {
 			throw new InvalidTokenException("리프레쉬 토큰이 일치하지 않습니다");
 		}
@@ -106,17 +106,19 @@ public class MemberAuthController {
 
 		String newAccessToken = tokens.get("accessToken").toString();
 		String newRefreshToken = tokens.get("refreshToken").toString();
-		memberAuthService.refreshToken(memberNumber, refreshToken);
 
-		Map<String, Object> loginData = new HashMap<>();
-		loginData.put("member_number", memberNumber);
-		loginData.put("access_token", newAccessToken);
-		loginData.put("refresh_token", newRefreshToken);
-		loginData.put("isSocialLogin", memberLoginInfo.isSocialLogin());
+		memberAuthService.refreshToken(memberNumber, newRefreshToken);
+
+		Map<String, Object> newTokens = new HashMap<>();
+
+		newTokens.put("access_token", newAccessToken);
+		newTokens.put("refresh_token", newRefreshToken);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("data", loginData);
+		responseData.put("data", newTokens);
+
+		System.out.println("토큰 재발급 : " + newRefreshToken);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
