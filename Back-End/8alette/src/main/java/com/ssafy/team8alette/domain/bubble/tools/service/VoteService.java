@@ -12,7 +12,6 @@ import com.ssafy.team8alette.domain.bubble.session.repository.BubbleRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dao.VoteQuestionRepository;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.key.VoteID;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.VoteQuestionRequestDTO;
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.request.VoteSelectRequestDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.VoteQuestionResponseDTO;
 import com.ssafy.team8alette.domain.bubble.tools.model.entity.VoteQuestionEntity;
 import com.ssafy.team8alette.domain.bubble.tools.model.entity.VoteSelectEntity;
@@ -71,10 +70,9 @@ public class VoteService {
 	}
 
 	// 투표 선택 등록
-	public void registVoteSelect(VoteSelectRequestDTO voteSelectRequestDTO) {
-		VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(
-			voteSelectRequestDTO.getVote_question_number()).orElseThrow();
-		Member member = memberRepository.findById(voteSelectRequestDTO.getMember_number()).orElseThrow();
+	public void registVoteSelect(Long vote_question_number, Long member_number) {
+		VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(vote_question_number).orElseThrow();
+		Member member = memberRepository.findById(member_number).orElseThrow();
 		VoteID voteID = new VoteID(voteQuestionEntity.getVoteQuestionNumber(), member.getMemberNumber());
 
 		VoteSelectEntity voteSelectEntity = new VoteSelectEntity();
@@ -86,10 +84,9 @@ public class VoteService {
 	}
 
 	// 투표 선택 삭제
-	public void deleteVoteSelect(VoteSelectRequestDTO voteSelectRequestDTO) {
-		VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(
-			voteSelectRequestDTO.getVote_question_number()).orElseThrow();
-		Member member = memberRepository.findById(voteSelectRequestDTO.getMember_number()).orElseThrow();
+	public void deleteVoteSelect(Long vote_question_number, Long member_number) {
+		VoteQuestionEntity voteQuestionEntity = voteQuestionRepository.findById(vote_question_number).orElseThrow();
+		Member member = memberRepository.findById(member_number).orElseThrow();
 		VoteID voteID = new VoteID(voteQuestionEntity.getVoteQuestionNumber(), member.getMemberNumber());
 
 		voteSelectrRepository.deleteById(voteID);
