@@ -65,6 +65,7 @@ public class LikeService {
 		memberRecordService.updateMemberLikeGiveCnt(member.getMemberNumber(), -1);
 		memberRecordService.updateMemberReceiveCnt(feedEntity.getMember().getMemberNumber(), -1);
 		return false;
+		
 	}
 
 }
