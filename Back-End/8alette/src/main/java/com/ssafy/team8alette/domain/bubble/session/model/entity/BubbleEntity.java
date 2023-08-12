@@ -68,9 +68,6 @@ public class BubbleEntity {
 	@Column(name = "create_dttm", nullable = false)
 	private LocalDateTime createDate;
 
-	@Column(name = "done_dttm")
-	private LocalDateTime closeDate;
-
 	public BubbleDto convertToDto() {
 		return BubbleDto.builder()
 			.bubbleNumber(this.bubbleNumber)
@@ -79,11 +76,9 @@ public class BubbleEntity {
 			.bubbleContent(this.bubbleContent)
 			.bubbleThumbnail(this.bubbleThumbnail)
 			.bubbleType(this.bubbleType)
-			.categoryEntity(this.categoryEntity)
+			.categoryName(this.categoryEntity.getCategoryName())
 			.planCloseDate(this.planCloseDate)
 			.planOpenDate(this.planOpenDate)
-			.createDate(this.createDate)
-			.closeDate(this.closeDate)
 			.build();
 	}
 
