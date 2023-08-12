@@ -1,18 +1,13 @@
 package com.ssafy.team8alette.domain.feed.model.service;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.team8alette.domain.feed.exception.FeedMemberNotMatchException;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
@@ -26,6 +21,7 @@ import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordServ
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.global.exception.NullValueException;
+import com.ssafy.team8alette.global.util.S3FileManager;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,54 +34,34 @@ public class FeedService {
 	private final MemberRecordService memberRecordService;
 	private final FollowRepository followRepository;
 	private final SymbolGrantRepository symbolGrantRepository;
-	private final AmazonS3Client amazonS3Client;
 	private final MemberRecordRepository memberRecordRepository;
-
-	@Value("${spring.data.couchbase.bucket-name}/feed_img")
-	private String bucket;
+	private final S3FileManager s3FileManager;
 
 	public void registFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
+
 		if (feedEntity.getMember() == null || feedEntity.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
 		}
-		Member member = memberRepository.findById(feedEntity.getMember().getMemberNumber()).orElse(null);
-		if (member == null) {
-			throw new NullValueException("작성자 정보를 찾을 수 없습니다.");
-		}
-		if (!file.isEmpty()) {
-			Date nowDate = new Date();
-			// 파일명 : 현재일시_랜덤6자리
-			String fileName = dateToString(nowDate) + '_' + getRandNum();
 
-			// AWS S3 파일 저장
-			ObjectMetadata metadata = new ObjectMetadata();
-			metadata.setContentType(file.getContentType());
-			metadata.setContentLength(file.getSize());
-			amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+		Member member = memberRepository.findById(feedEntity.getMember().getMemberNumber())
+			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
-			feedEntity.setFeedActive(true);
-			feedEntity.setFeedLikeCnt(0);
-			feedEntity.setFeedImgOrigin(file.getOriginalFilename());
-			feedEntity.setFeedImgTrans(fileName);
-			feedEntity.setCreateDate(nowDate);
-			feedEntity.setMember(member);
-			feedRepository.save(feedEntity);
-			/* 기록 테이블 경험치 추가 */
-			memberRecordService.updateMemberExp(member.getMemberNumber(), 50);
-			memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
+		String[] fileNames = s3FileManager.saveFeedImage(file);
 
-		} else {
-			Date nowDate = new Date();
-			feedEntity.setFeedActive(true);
-			feedEntity.setFeedLikeCnt(0);
-			feedEntity.setCreateDate(nowDate);
-			feedEntity.setMember(member);
-			feedRepository.save(feedEntity);
+		feedEntity.setFeedActive(true);
+		feedEntity.setFeedLikeCnt(0);
+		feedEntity.setFeedImgOrigin(fileNames[0]);
+		feedEntity.setFeedImgTrans(fileNames[1]);
+		feedEntity.setCreateDate(LocalDate.now());
+		feedEntity.setMember(member);
+		feedRepository.save(feedEntity);
 
-			/* 기록 테이블 경험치 추가 */
-			memberRecordService.updateMemberExp(member.getMemberNumber(), 20);
-			memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
-		}
+		// 이미지 파일 있을때 없을때
+		int exp = fileNames[0].equals("") ? 20 : 50;
+
+		memberRecordService.updateMemberExp(member.getMemberNumber(), exp);
+		memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
+
 	}
 
 	public List<FeedResponseDTO> getFeeds(String orderCriteria) {
@@ -139,37 +115,22 @@ public class FeedService {
 		feedRepository.save(existingFeedEntity);
 	}
 
-	// 피드 수정
 	public FeedEntity modifyFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
 		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedEntity.getFeedNumber());
 
-		if (existingFeedEntity.getMember().getMemberNumber() == feedEntity.getMember().getMemberNumber()) {
-			existingFeedEntity.setTitle(feedEntity.getTitle());
-			existingFeedEntity.setContent(feedEntity.getContent());
-
-			if (file.isEmpty()) {
-				existingFeedEntity.setFeedImgOrigin(null);
-				existingFeedEntity.setFeedImgTrans(null);
-				return feedRepository.save(existingFeedEntity);
-			} else {
-				Date nowDate = new Date();
-				/* 파일명 : 현재일시_랜덤6자리*/
-				String fileName = dateToString(nowDate) + '_' + getRandNum();
-
-				// AWS S3 파일 저장
-				ObjectMetadata metadata = new ObjectMetadata();
-				metadata.setContentType(file.getContentType());
-				metadata.setContentLength(file.getSize());
-				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-
-				existingFeedEntity.setFeedImgOrigin(file.getOriginalFilename()); //원본 이미지 이름명으로 저장
-				existingFeedEntity.setFeedImgTrans(fileName); //멤버 이미지변환명으로 저장
-
-				return feedRepository.save(existingFeedEntity);
-			}
-		} else {
+		if (existingFeedEntity.getMember().getMemberNumber() == feedEntity.getMember().getMemberNumber())
 			throw new FeedMemberNotMatchException("회원번호가 일치하지 않습니다.");
-		}
+
+		existingFeedEntity.setTitle(feedEntity.getTitle());
+		existingFeedEntity.setContent(feedEntity.getContent());
+
+		String[] fileNames = s3FileManager.saveFeedImage(file);
+
+		existingFeedEntity.setFeedImgOrigin(fileNames[0]);
+		existingFeedEntity.setFeedImgTrans(fileNames[1]);
+
+		return feedRepository.save(existingFeedEntity);
+
 	}
 
 	public List<FeedResponseDTO> getFeedsByMemberNumber(Long memberNumber) {
@@ -189,16 +150,6 @@ public class FeedService {
 			.collect(Collectors.toList());
 
 		return responseDTOList;
-	}
-
-	private String getRandNum() {
-		Random generator = new java.util.Random();
-		generator.setSeed(System.currentTimeMillis());
-		return String.format("%06d", generator.nextInt(1000000) % 1000000);
-	}
-
-	private String dateToString(Date nowDate) {
-		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
 	}
 
 	public Member getFeedCreatorNumber(Long feedNumber) {
