@@ -131,10 +131,11 @@ public class FeedService {
 		existingFeedEntity.setTitle(feedDto.getTitle());
 		existingFeedEntity.setContent(feedDto.getContent());
 
-		String[] fileNames = s3FileManager.saveFeedImage(file);
-
-		existingFeedEntity.setFeedImgOrigin(fileNames[0]);
-		existingFeedEntity.setFeedImgTrans(fileNames[1]);
+		if (file != null && file.getOriginalFilename().equals("empty") != true) {
+			String[] fileNames = s3FileManager.saveFeedImage(file);
+			existingFeedEntity.setFeedImgOrigin(fileNames[0]);
+			existingFeedEntity.setFeedImgTrans(fileNames[1]);
+		}
 
 		return feedRepository.save(existingFeedEntity);
 
