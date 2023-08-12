@@ -48,14 +48,12 @@ export default function RedirectPage() {
           setMemberNumber(res.data.data.member_number);
           setIsSocialLogin(res.data.data.isSocialLogin);
 
-          https
-            .get(`/api/v1/member/${res.data.data.member_number}`)
-            .then((res) => {
-              setMemberNickname(res.data.data.member_nickname);
-              setMemberType(res.data.data.member_type);
-              setMemberIntro(res.data.data.member_intro);
-              setMemberEmail(res.data.data.member_email);
-            });
+          https.get(`/api/v1/member`).then((res) => {
+            setMemberNickname(res.data.data.member_nickname);
+            setMemberType(res.data.data.member_type);
+            setMemberIntro(res.data.data.member_intro);
+            setMemberEmail(res.data.data.member_email);
+          });
 
           navigate("/");
         } else {
