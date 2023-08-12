@@ -47,8 +47,8 @@ public class FeedService {
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
 		String[] fileNames = new String[2];
-
-		if (file != null && file.getName().equals("empty") != true)
+		
+		if (file != null && file.getOriginalFilename().equals("empty") != true)
 			fileNames = s3FileManager.saveFeedImage(file);
 
 		FeedEntity feedEntity = FeedEntity.builder()
