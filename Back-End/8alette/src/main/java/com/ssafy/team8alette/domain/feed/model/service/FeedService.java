@@ -48,7 +48,7 @@ public class FeedService {
 
 		String[] fileNames = s3FileManager.saveFeedImage(file);
 
-		if (fileNames[0] == null || fileNames[0].isEmpty() || fileNames[0] == "empty" || fileNames[0] == "") {
+		if (fileNames[0] == null || fileNames[0].isEmpty() || fileNames[0].equals("empty") || fileNames[0] == "") {
 			FeedEntity feedEntity = FeedEntity.builder()
 				.member(member)
 				.title(feedDto.getTitle())
@@ -71,7 +71,7 @@ public class FeedService {
 		}
 
 		// 이미지 파일 있을때 없을때
-		int exp = fileNames[0].equals("") ? 20 : 50;
+		int exp = fileNames[0].equals("") || fileNames[0].equals("empty") ? 20 : 50;
 
 		memberRecordService.updateMemberExp(member.getMemberNumber(), exp);
 		memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
