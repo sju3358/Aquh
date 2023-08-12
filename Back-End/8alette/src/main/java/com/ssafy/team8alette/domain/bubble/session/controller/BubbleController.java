@@ -74,7 +74,7 @@ public class BubbleController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{bubbleNumber}/enter")
+	@PutMapping("/{bubbleNumber}")
 	public BubbleResponseDto closeBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable Long bubbleNumber) throws ParseException {
@@ -89,7 +89,7 @@ public class BubbleController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{bubbleNumber}")
+	@PutMapping("/{bubbleNumber}/enter")
 	public BubbleResponseDto enterBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable Long bubbleNumber) throws ParseException {
