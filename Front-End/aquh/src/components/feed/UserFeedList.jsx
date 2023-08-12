@@ -10,15 +10,17 @@ export default function UserFeedList() {
   const [clickFeedData, setClickFeedData] = useState();
   const [feedList, setFeedList] = useState([]);
 
-  https
-    .get("api/v1/feed")
-    .then((res) => {
-      setFeedList(res.data.feedList);
-      console.log(feedList);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    https
+      .get("api/v1/feed")
+      .then((res) => {
+        setFeedList(res.data.feedList);
+        console.log(feedList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className={classes.feedPage}>

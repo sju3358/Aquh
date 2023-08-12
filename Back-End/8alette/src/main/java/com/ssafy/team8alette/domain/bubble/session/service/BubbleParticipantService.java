@@ -1,5 +1,7 @@
 package com.ssafy.team8alette.domain.bubble.session.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.team8alette.domain.bubble.session.exception.BubbleNotFoundException;
@@ -39,6 +41,7 @@ public class BubbleParticipantService {
 			.groupID(groupID)
 			.bubbleEntity(bubble)
 			.member(member)
+			.createDate(LocalDateTime.now())
 			.build();
 
 		bubbleListRepository.save(bubbleParticipantEntity);
