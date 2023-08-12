@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
-import axios from "axios";
 import https from "../utils/https";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { memberNicknameState } from "../store/loginUserInfoState";
 
 function NicknamePage() {
-  const [nickName, setNickname] = useState();
+  const [nickName, setNickname] = useRecoilState(memberNicknameState);
   // 유효성검사
   const [isNickName, setIsNickName] = useState(false);
   // 유효성검사 메시지 발송
@@ -61,14 +62,14 @@ function NicknamePage() {
         //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
       })
       .then((res) => {
-        console.log("닉네임변경 :", res);
+        // console.log("닉네임변경 :", res);
         navigate("/");
       });
   };
   return (
     <div className={classes.nicknameCheck}>
       <div className={classes.container}>
-        <img src='../../aquh3.png' alt='' className={classes.nicknameImg} />{" "}
+        <img src="../../aquh3.png" alt="" className={classes.nicknameImg} />{" "}
         <div className={classes.infoText}>
           <h1 className={classes.infoTextDetail}>
             Aquh에 오신것을 환영합니다!
@@ -80,24 +81,25 @@ function NicknamePage() {
         <div className={classes.nicknameSection}>
           <input
             className={classes.nicknameInput}
-            type='text'
-            name='nickName'
+            type="text"
+            name="nickName"
             value={nickName}
-            id='nickName'
-            placeholder='불리고 싶은 이름을 적어주세요'
+            id="nickName"
+            placeholder="불리고 싶은 이름을 적어주세요"
             onChange={onChangeNickName}
           />
           {/* TODO: 유효성검사, 중복확인 로직 필요 */}
           {isNickName ? (
             <button
               onClick={nickNameCheckAxios}
-              className={classes.nicknameCheck}>
+              className={classes.nicknameCheck}
+            >
               중복확인
             </button>
           ) : (
             <button disabled>중복확인</button>
           )}
-          <p className='message'>{nickNameMessage}</p>
+          <p className="message">{nickNameMessage}</p>
         </div>
         {/* TODO: 입장하기 클릭-->닉네임 변경 axios.  한번 날리고 (maybe 회원정보 수정?)  성공하면 then (~ 이 안에서 두번째 axios.post->이메일 인증 요청 페이지(로그인 관문 3)-> 성공하면 ㅔㅔ네비게이트 메인페이지 */}
         <button onClick={enterMainPage} className={classes.enterBtn}>

@@ -55,6 +55,21 @@ public class BubbleSessionController {
 		return ResponseEntity
 			.status(200)
 			.body(responseData);
+
+		// 경험치 부여, 알림 부여를 어디서 해야하는지 물어보기
+		// boolean bubblingOrBubbleTalk = bubbleService.getBubbleInfo(bubbleNumber).isBubbleType();
+		// 	if (bubblingOrBubbleTalk) {
+		// 	memberRecordService.updateMemberExp(memberNumber, 30);
+		// 	memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+		// 	Member member = memberService.getMemberInfo(memberNumber);
+		// 	alarmService.requestAlarm(member, "bubbling", member.getMemberNickname() + "님이 버블톡방에 참여하였습니다.", 0);
+		//
+		// }
+		// 	memberRecordService.updateMemberExp(memberNumber, 100);
+		// 	memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+		// Member member = memberService.getMemberInfo(memberNumber);
+		// 	alarmService.requestAlarm(member, "bubbling", member.getMemberNickname() + "님이 버블링방에 참여하였습니다.", 0);
+
 	}
 
 }
