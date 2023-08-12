@@ -136,6 +136,9 @@ public class FeedService {
 			String[] fileNames = s3FileManager.saveFeedImage(file);
 			existingFeedEntity.setFeedImgOrigin(fileNames[0]);
 			existingFeedEntity.setFeedImgTrans(fileNames[1]);
+		} else {
+			existingFeedEntity.setFeedImgOrigin(null);
+			existingFeedEntity.setFeedImgTrans(null);
 		}
 
 		return feedRepository.save(existingFeedEntity);
@@ -178,7 +181,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().equals("")) {
+		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgOrigin().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}
