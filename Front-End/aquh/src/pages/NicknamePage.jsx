@@ -62,7 +62,7 @@ function NicknamePage() {
         //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
       })
       .then((res) => {
-        console.log("닉네임변경 :", res);
+        // console.log("닉네임변경 :", res);
         navigate("/");
       });
   };
