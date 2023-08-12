@@ -249,16 +249,16 @@ export default class Chatting extends Component {
     const myUserName = this.state.myUserName;
 
     return (
-      <div className='container'>
+      <div className={classes.container}>
         {this.state.session === undefined ? (
           <div id='join'>
-            <div id='join-dialog' className='jumbotron vertical-center'>
+            <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Join a video session </h1>
-              <form className='form-group' onSubmit={this.joinSession}>
+              <form className={classes.formGroup} onSubmit={this.joinSession}>
                 <p>
                   <label>Participant: </label>
                   <input
-                    className='form-control'
+                    className={classes.formControl}
                     type='text'
                     id='userName'
                     value={myUserName}
@@ -269,7 +269,7 @@ export default class Chatting extends Component {
                 <p>
                   <label> Session: </label>
                   <input
-                    className='form-control'
+                    className={classes.formControl}
                     type='text'
                     id='sessionId'
                     value={mySessionId}
@@ -277,9 +277,9 @@ export default class Chatting extends Component {
                     required
                   />
                 </p>
-                <p className='text-center'>
+                <p className={classes.textCenter}>
                   <input
-                    className='btn btn-lg btn-success'
+                    className={classes.controlBtn}
                     name='commit'
                     type='submit'
                     value='JOIN'
@@ -295,14 +295,14 @@ export default class Chatting extends Component {
             <div id='session-header'>
               <h1 id='session-title'>{mySessionId}</h1>
               <input
-                className='btn btn-large btn-danger'
+                className={classes.controlBtn}
                 type='button'
                 id='buttonLeaveSession'
                 onClick={this.leaveSession}
                 value='Leave session'
               />
               <input
-                className='btn btn-large btn-success'
+                className={classes.switchCameraBtn}
                 type='button'
                 id='buttonSwitchCamera'
                 onClick={this.switchCamera}
@@ -312,16 +312,16 @@ export default class Chatting extends Component {
             {/* 여기부터 시작  */}
             {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
             {/* 나의 화면 =  */}
-            <div id='video-container' className='video-container'>
+            <div id='video-container' className={classes.videoContainer}>
               {this.state.publisher !== undefined ? (
-                <div className='stream-container'>
+                <div className={classes.streamContainer}>
                   <UserVideoComponent streamManager={this.state.publisher} />
                 </div>
               ) : null}
 
               {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
               {this.state.subscribers.map((sub, i) => (
-                <div key={sub.id} className='stream-container'>
+                <div key={sub.id} className={classes.streamContainer}>
                   <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
