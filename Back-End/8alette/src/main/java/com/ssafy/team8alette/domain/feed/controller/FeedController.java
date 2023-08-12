@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.team8alette.domain.feed.model.dto.FeedDto;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
@@ -50,20 +51,20 @@ public class FeedController {
 
 	@LoginRequired
 	@PostMapping
-	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedEntity feedEntity,
+	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		if (feedEntity.getTitle() == null) {
+		if (feedDto.getTitle() == null) {
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "제목을 작성해주세요");
 			responseData.put("status", 405);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else if (feedEntity.getContent() == null) {
+		} else if (feedDto.getContent() == null) {
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "내용을 작성해주세요");
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
-			feedService.registFeed(feedEntity, file);
+			feedService.registFeed(feedDto, file);
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "success");
 			responseData.put("status", 200);
@@ -120,9 +121,9 @@ public class FeedController {
 
 	@LoginRequired
 	@PutMapping
-	public ResponseEntity<?> modifyFeed(@RequestPart(value = "feed") FeedEntity feed,
+	public ResponseEntity<?> modifyFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		feedService.modifyFeed(feed, file);
+		feedService.modifyFeed(feedDto, file);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

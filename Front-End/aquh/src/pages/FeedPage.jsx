@@ -59,18 +59,18 @@ function FeedPage() {
 
   // =================피드 인기순 리스트 뿌리기 ================
   useEffect(() => {
-    getList("recent");
+    getFamousList("famous");
   }, []);
 
   useEffect(() => {
     if (isPopularFeed) {
       console.log(isPopularFeed);
-      getList("famous");
+      getFamousList("famous");
     }
     // setIsNewFeed(false);we
   }, [isPopularFeed]);
 
-  async function getList(famous) {
+  async function getFamousList(famous) {
     await https
       .get("api/v1/feed/list", {
         params: {
@@ -94,12 +94,14 @@ function FeedPage() {
     setIsFollow(false);
   };
 
+  //=========피드 팔로잉한 사람들 리스트 뿌리기==========
   const clickFollow = () => {
-    getList("recent");
+    getList("follow");
     setIsNew(false);
     setIsPopular(false);
     setIsFollow(true);
   };
+
   // FeedCard 상세 페이지 modal 오픈
   const [modalOpen, setModalOpen] = useState(false);
   const [clickFeedData, setClickFeedData] = useState();
@@ -224,7 +226,7 @@ function FeedPage() {
           </div>
         ) : null}
 
-        {isFollow ? (
+        {/* {isFollow ? (
           <div className={classes.feeListFollowing}>
             <p className={classes.feedMent}>
               <img
@@ -261,7 +263,7 @@ function FeedPage() {
               clickFeedData={clickFeedData}
             />
           </div>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );
