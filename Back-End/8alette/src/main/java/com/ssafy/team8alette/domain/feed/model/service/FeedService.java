@@ -47,7 +47,7 @@ public class FeedService {
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
 		String[] fileNames = new String[2];
-		
+
 		if (file != null && file.getOriginalFilename().equals("empty") != true)
 			fileNames = s3FileManager.saveFeedImage(file);
 
@@ -80,6 +80,7 @@ public class FeedService {
 		} else {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		}
+		//
 
 		if (list == null || list.isEmpty()) {
 			throw new NullValueException("피드가 존재하지 않습니다");
