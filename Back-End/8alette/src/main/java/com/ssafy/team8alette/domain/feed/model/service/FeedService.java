@@ -125,7 +125,7 @@ public class FeedService {
 		}
 		memberRecordService.updateMemberExp(existingFeedEntity.getMember().getMemberNumber(), -50);
 		memberRecordService.updateMemberFeedCnt(existingFeedEntity.getMember().getMemberNumber(), -1);
-
+		//
 		feedRepository.save(existingFeedEntity);
 	}
 
