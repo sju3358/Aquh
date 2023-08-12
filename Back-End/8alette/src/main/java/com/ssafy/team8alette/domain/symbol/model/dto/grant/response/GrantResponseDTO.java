@@ -17,7 +17,4 @@ public class GrantResponseDTO {
 	String symbolCode;
 	int symbolConditionCnt;
 	boolean isSymbolActive;
-
-	Date createDate;
-
 }

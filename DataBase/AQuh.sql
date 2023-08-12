@@ -24,7 +24,7 @@ CREATE TABLE "member" (
 	"member_id"	VARCHAR(50)		NOT NULL,
 	"member_email"	VARCHAR(50)		NOT NULL,
 	"member_password"	VARCHAR(64)		NOT NULL,
-	"member_nickname"	VARCHAR(8)		NOT NULL,
+	"member_nickname"	VARCHAR(20)		NOT NULL,
 	"member_name"	VARCHAR(5)		NOT NULL,
 	"member_intro"	VARCHAR(250)		NULL,
 	"member_type"	CHAR(2)		NOT NULL,
@@ -43,7 +43,7 @@ COMMENT ON COLUMN "member"."member_email" IS '연락용 이메일 [유니크 X] 
 
 COMMENT ON COLUMN "member"."member_password" IS '8~16자 + 영문 + 숫자 + 특수문자 ( SHA256 암호화 = 32byte =  64개의 16진수 문자 )';
 
-COMMENT ON COLUMN "member"."member_nickname" IS '2~8자 (한글 or 영문 or 숫자) [유니크]';
+COMMENT ON COLUMN "member"."member_nickname" IS '2~20자 (한글 or 영문 or 숫자) [유니크]';
 
 COMMENT ON COLUMN "member"."member_name" IS '2~5글자(한글만)';
 
@@ -66,7 +66,7 @@ CREATE TABLE "feed" (
 	"feed_number"	BIGSERIAL		NOT NULL,
 	"feed_creator_number"	BIGSERIAL		NOT NULL,
 	"feed_title"	VARCHAR(20)		NOT NULL,
-	"feed_content"	VARCHAR(250)		NOT NULL,
+	"feed_content"	VARCHAR(500)		NOT NULL,
 	"feed_like_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"feed_view_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"feed_active"	BOOLEAN	DEFAULT TRUE	NOT NULL,
@@ -82,7 +82,7 @@ COMMENT ON COLUMN "feed"."feed_creator_number" IS '피드를 작성한 회원의
 
 COMMENT ON COLUMN "feed"."feed_title" IS '최대 20자';
 
-COMMENT ON COLUMN "feed"."feed_content" IS '최대 250자';
+COMMENT ON COLUMN "feed"."feed_content" IS '최대 500자';
 
 COMMENT ON COLUMN "feed"."feed_like_cnt" IS '좋아요 받은 수';
 
@@ -186,8 +186,7 @@ COMMENT ON COLUMN "bubble_list"."craete_dttm" IS '버블 신청 일시(취소시
 CREATE TABLE "hashtag" (
 	"hashtag_number"	BIGSERIAL		NOT NULL,
 	"hashtag_name"	VARCHAR(10)		NOT NULL,
-	"create_dt"	DATE	DEFAULT now()	NOT NULL,
-	"delete_dt"	DATE		NULL
+	"create_dt"	DATE	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "hashtag"."hashtag_number" IS '해시태그 인덱스';
@@ -195,9 +194,6 @@ COMMENT ON COLUMN "hashtag"."hashtag_number" IS '해시태그 인덱스';
 COMMENT ON COLUMN "hashtag"."hashtag_name" IS '해시태그 이름';
 
 COMMENT ON COLUMN "hashtag"."create_dt" IS '태그 파일 생성 날짜';
-
-COMMENT ON COLUMN "hashtag"."delete_dt" IS '태그 삭제(폐기) 날짜';
-
 
 CREATE TABLE "likes" (
 	"like_feed_number"	BIGSERIAL		NOT NULL,
@@ -245,8 +241,7 @@ CREATE TABLE "symbol" (
 	"symbol_img_name"	VARCHAR(30)		NOT NULL,
 	"symbol_code"	VARCHAR(16)		NOT NULL,
 	"symbol_condition_cnt"	INTEGER		NOT NULL,
-	"create_dt"	DATE	DEFAULT now()	NOT NULL,
-	"delete_dt"	DATE		NULL
+	"create_dt"	DATE	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "symbol"."symbol_number" IS '심볼 인덱스';
@@ -260,8 +255,6 @@ COMMENT ON COLUMN "symbol"."symbol_code" IS '조건 구분 코드 : 메모 참�
 COMMENT ON COLUMN "symbol"."symbol_condition_cnt" IS '심볼 부여 조건 수';
 
 COMMENT ON COLUMN "symbol"."create_dt" IS '심볼 데이터 추가 날짜';
-
-COMMENT ON COLUMN "symbol"."delete_dt" IS '심볼 데이터 삭제(폐기) 날짜';
 
 CREATE TABLE "report" (
 	"report_number"	BIGSERIAL		NOT NULL,
@@ -297,7 +290,6 @@ CREATE TABLE "alarm" (
 	"alarm_reason"	VARCHAR(30)		NULL,
 	"alarm_state"	SMALLINT	DEFAULT 0	NOT NULL,
 	"read_dttm"	TIMESTAMP		NULL,
-	"delete_dttm"	TIMESTAMP		NULL,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
@@ -312,8 +304,6 @@ COMMENT ON COLUMN "alarm"."alarm_reason" IS '회원 닉네임 / 칭호 이름 / 
 COMMENT ON COLUMN "alarm"."alarm_state" IS '0 : 안읽음 / 1 : 읽음 / 2 : 삭제됨';
 
 COMMENT ON COLUMN "alarm"."read_dttm" IS '회원이 알람을 읽은 시간(알람을 클릭 혹은 삭제)';
-
-COMMENT ON COLUMN "alarm"."delete_dttm" IS '회원이 알람을 삭제한 일시';
 
 COMMENT ON COLUMN "alarm"."create_dttm" IS '알람 발생 일시';
 
@@ -335,7 +325,7 @@ COMMENT ON COLUMN "symbol_grant"."create_dttm" IS '심볼을 받은 일시';
 CREATE TABLE "record" (
 	"member_number"	BIGSERIAL		NOT NULL,
 	"exp_cnt"	INTEGER	DEFAULT 0	NOT NULL,
-	"comment_cnt"	INTEGER	DEFAULT 0	NOT NULL,
+	"feed_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"bubble_join_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"like_give_cnt"	INTEGER	DEFAULT 0	NOT NULL,
 	"like_receive_cnt"	INTEGER	DEFAULT 0	NOT NULL,
@@ -349,7 +339,7 @@ COMMENT ON COLUMN "record"."member_number" IS '회원번호 인덱스 : 자동�
 
 COMMENT ON COLUMN "record"."exp_cnt" IS '사이트 이용 경험치';
 
-COMMENT ON COLUMN "record"."comment_cnt" IS '작성한 댓글 개수';
+COMMENT ON COLUMN "record"."feed_cnt" IS '작성한 피드 개수';
 
 COMMENT ON COLUMN "record"."bubble_join_cnt" IS '버블 참여 횟수';
 
@@ -419,7 +409,7 @@ COMMENT ON COLUMN "two_way_question"."create_dttm" IS '양자택일 질문 생�
 CREATE TABLE "two_way_answer" (
 	"two_way_question_number"	BIGSERIAL		NOT NULL,
 	"member_number"	BIGSERIAL		NOT NULL,
-	"is_pick_right"	BOOLEAN	DEFAULT TRUE	NOT NULL,
+	"left_pick"	BOOLEAN	DEFAULT TRUE	NOT null ,
 	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
@@ -427,8 +417,7 @@ COMMENT ON COLUMN "two_way_answer"."two_way_question_number" IS '양자택일 �
 
 COMMENT ON COLUMN "two_way_answer"."member_number" IS '회원번호 인덱스 : 자동증가';
 
-
-COMMENT ON COLUMN "two_way_answer"."is_pick_right" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
+COMMENT ON COLUMN "two_way_answer"."left_pick" IS 'TRUE : 오른쪽 / FALSE : 왼쪽 뽑음';
 
 COMMENT ON COLUMN "two_way_answer"."create_dttm" IS '양자택일 답변 일시';
 
@@ -436,9 +425,7 @@ CREATE TABLE "vote_question" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
 	"bubble_number"	BIGSERIAL		NOT NULL,
 	"vote_question_context"	VARCHAR(50)		NOT NULL,
-	"is_active"	BOOLEAN	DEFAULT TRUE	NOT NULL,
-	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL,
-	"delete_dttm"	TIMESTAMP		NULL
+	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "vote_question"."vote_question_number" IS '투표 질문 인덱스';
@@ -447,11 +434,7 @@ COMMENT ON COLUMN "vote_question"."bubble_number" IS '버블 인덱스';
 
 COMMENT ON COLUMN "vote_question"."vote_question_context" IS '투표 질문 내용 : 글자 제한 50';
 
-COMMENT ON COLUMN "vote_question"."is_active" IS 'TRUE : 투표 중인 질문 / FALSE : 삭제 된 질문';
-
 COMMENT ON COLUMN "vote_question"."create_dttm" IS '투표 질문 생성 일시';
-
-COMMENT ON COLUMN "vote_question"."delete_dttm" IS '투표 질문이 비활성화 된 일시';
 
 CREATE TABLE "vote_select" (
 	"vote_question_number"	BIGSERIAL		NOT NULL,
@@ -738,3 +721,71 @@ REFERENCES "member" (
 	"member_number"
 );
 
+
+
+INSERT INTO "symbol" ("symbol_name", "symbol_img_name", "symbol_code", "symbol_condition_cnt") VALUES
+	('1레벨 : AQuh 에 오신걸 환영합니다!', 'lv1.png', 'exp_cnt', 0),
+	('2레벨 : 뉴비를 벗어나다', 'lv2.png', 'exp_cnt', 1000),
+	('3레벨 : AQuh를 즐기는', 'lv3.png', 'exp_cnt', 2500),
+	('4레벨 : AQuh 주민', 'lv4.png', 'exp_cnt', 4500),
+	('5레벨 : AQuh 마스터', 'lv5.png', 'exp_cnt', 7000),
+	('6레벨 : AQuh 고인물', 'lv6.png', 'exp_cnt', 10000),
+	('버블 입문자', 'bb1.png', 'bubble_join_cnt', 1),
+	('버블 이용자', 'bb2.png', 'bubble_join_cnt', 5),
+	('버블 중견 이용자', 'bb3.png', 'bubble_join_cnt', 10),
+	('버블을 즐기는', 'bb4.png', 'bubble_join_cnt', 20),
+	('버블 마스터', 'bb5.png', 'bubble_join_cnt', 50),
+	('버블 고인물', 'bb6.png', 'bubble_join_cnt', 100),
+	('첫 베스트 멤버', 'Man_Standing.png', 'best_cnt', 1),
+	('베스트 멤버에 익숙해진', 'Man_walking.png', 'best_cnt', 10),
+	('베스트 멤버 마스터', 'Man_Running.png', 'best_cnt', 50),
+	('AQua 베스트 멤버', 'Man_Dancing.png', 'best_cnt', 100),
+	('피드를 시작한', 'p1.png', 'feed_cnt', 1),
+	('피드를 즐겨 쓰는', 'p2.png', 'feed_cnt', 10),
+	('피드에 할 말이 많은', 'p3.png', 'feed_cnt', 50),
+	('피드 마스터', 'p4.png', 'feed_cnt', 200),
+	('짝사랑', 'l1.png', 'like_give_cnt', 1),
+	('좋아요를 누르기 시작한', 'l2.png', 'like_give_cnt', 10),
+	('좋은 것들이 많아서', 'l3.png', 'like_give_cnt', 50),
+	('적극적인 좋아요 표현', 'l4.png', 'like_give_cnt', 100),
+	('AQuh를 좋아하는', 'l5.png', 'like_give_cnt', 200),
+	('첫사랑', 'll1.png', 'like_receive_cnt', 1),
+	('좋아요를 받기 시작한', 'll2.png', 'like_receive_cnt', 10),
+	('좋아요를 많이 받은', 'll3.png', 'like_receive_cnt', 50),
+	('수 많은 좋아요', 'll4.png', 'like_receive_cnt', 100),
+	('AQuh 아이돌', 'll5.png', 'like_receive_cnt', 200),
+	('팔로잉 시작', 'fg1.png', 'following_cnt', 1),
+	('팔로잉을 즐기는', 'fg2.png', 'following_cnt', 10),
+	('수 많은 팔로잉', 'fg3.png', 'following_cnt', 50),
+	('팔로잉 마스터', 'fg4.png', 'following_cnt', 100),
+	('AQuh를 팔로잉', 'fg5.png', 'following_cnt', 200),
+	('팔로워 시작', 'fr1.png', 'follower_cnt', 1),
+	('팔로워를 거느린', 'fr2.png', 'follower_cnt', 10),
+	('수 많은 팔로워들', 'fr3.png', 'follower_cnt', 50),
+	('팔로워 마스터', 'fr4.png', 'follower_cnt', 100),
+	('AQuh 인플루언서', 'fr5.png', 'follower_cnt', 200),
+	('스포츠-운동', '스포츠-운동.png', 'category', 10),
+	('수공예-드로잉', '수공예-드로잉.png', 'category', 10),
+	('요리-베이킹', '요리-베이킹.png', 'category', 10),
+	('문화-예술', '문화-예술.png', 'category', 10),
+	('미용-뷰티', '미용-뷰티.png', 'category', 10),
+	('홈-리빙', '홈-리빙.png', 'category', 10),
+	('자기개발', '자기개발.png', 'category', 10),
+	('기타', '기타.png', 'category', 10);
+	
+
+INSERT INTO category (category_number, category_name) VALUES
+	('1', '스포츠-운동'),
+	('2', '수공예-드로잉'),
+	('3', '요리-베이킹'),
+	('4', '문화-예술'),
+	('5', '미용-뷰티'),
+	('6', '홈-리빙'),
+	('7', '자기개발'),
+	('8', '기타');
+	
+--insert into member (member_id, member_email, member_password, member_nickname, member_name, member_intro, member_type, member_state, is_email_authentication, is_email_receive) 
+--values('testtesttest','test@test.com', 'test', '테스트계정', '테스트계정', '테스트계정입니다.', 'CO', 1, true,true);
+
+
+--insert into bubble (member_number,category_number,bubble_title,bubble_content,bubble_thumbnail,bubble_state, plan_open_dttm,plan_close_dttm) values(1, 1, '테스트버블제목', '테스트버블내용', '테스트버블섬네일', true,'2023-08-18 09:00:00', '2023-08-18 12:00:00');

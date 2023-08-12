@@ -16,4 +16,6 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
 	Optional<Alarm> findAlarmsByAlarmNumber(Long alarmNumber);
 
+	Optional<Alarm> findByMemberNumberAndAlarmType(Member memberNumber, String alarmType);
+
 }
