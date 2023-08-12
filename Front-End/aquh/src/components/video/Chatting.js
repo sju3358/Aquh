@@ -291,39 +291,44 @@ export default class Chatting extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div className={classes.videoPage}>
+          <div className={classes.container}>
             <h1 className={classes.sessionTitle}>{mySessionId}</h1>
-            <div className={classes.sessionNav}>
-              <input
-                className={classes.controlBtn}
-                type='button'
-                onClick={this.leaveSession}
-                value='화면 종료하기'
-              />
-              <input
-                className={classes.switchCameraBtn}
-                type='button'
-                onClick={this.switchCamera}
-                value='카메라끄기'
-              />
-            </div>
-            <div>
-              {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
-              {/* 나의 화면 =  */}
-              <div className={classes.videoContainer}>
-                {this.state.publisher !== undefined ? (
-                  <div className={classes.streamContainer}>
-                    <UserVideoComponent streamManager={this.state.publisher} />
-                  </div>
-                ) : null}
-                {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
-                {this.state.subscribers.map((sub, i) => (
-                  <div key={sub.id} className={classes.streamContainer}>
-                    {/* <span>{sub.id}</span> */}
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))}
+            <div className={classes.videoPage}>
+              <div className={classes.sessionNav}>
+                <input
+                  className={classes.controlBtn}
+                  type='button'
+                  onClick={this.leaveSession}
+                  value='화면 종료하기'
+                />
+                <input
+                  className={classes.switchCameraBtn}
+                  type='button'
+                  onClick={this.switchCamera}
+                  value='카메라끄기'
+                />
               </div>
+              <div className={classes.sessionMain}>
+                {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
+                {/* 나의 화면 =  */}
+                <div className={classes.videoContainer}>
+                  {this.state.publisher !== undefined ? (
+                    <div className={classes.streamContainer}>
+                      <UserVideoComponent
+                        streamManager={this.state.publisher}
+                      />
+                    </div>
+                  ) : null}
+                  {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
+                  {this.state.subscribers.map((sub, i) => (
+                    <div key={sub.id} className={classes.streamContainer}>
+                      {/* <span>{sub.id}</span> */}
+                      <UserVideoComponent streamManager={sub} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
             </div>
           </div>
         ) : null}
