@@ -129,7 +129,6 @@ public class FeedController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	//
 	// 게시글 삭제
 	@LoginRequired
 	@PutMapping("/{feed_number}")

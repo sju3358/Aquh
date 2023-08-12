@@ -190,7 +190,7 @@ public class FeedService {
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
 			feedEntity.getMember().getMemberNumber(), true);
-		//
+
 		List<String> symbolLinkList = new ArrayList<>();
 		for (Grant grant : list) {
 			String symbolImgLink =
