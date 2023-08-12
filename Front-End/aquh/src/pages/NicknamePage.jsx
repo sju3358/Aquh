@@ -13,7 +13,7 @@ function NicknamePage() {
   // 중복체크를 통한 가입 가능 여부
   const [vaildNickName, setValidNickName] = useState(false);
 
-  const navigate = useNavigate(false);
+  const navigate = useNavigate();
 
   // 닉네임 유효성검사
   const onChangeNickName = (e) => {

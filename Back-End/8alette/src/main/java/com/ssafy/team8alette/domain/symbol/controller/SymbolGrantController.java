@@ -32,10 +32,9 @@ public class SymbolGrantController {
 	public ResponseEntity<Map<String, Object>> getMemberSymbolList(@PathVariable Long memberNumber) {
 
 		List<GrantResponseDTO> list = symbolGrantService.getGrantList(memberNumber);
-
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("data", list);
+		responseData.put("symbolList", list);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
@@ -47,8 +46,8 @@ public class SymbolGrantController {
 		symbolGrantService.putActiveTrue(symbolGrant);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		
+
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
-
+	//심볼 수정
 }

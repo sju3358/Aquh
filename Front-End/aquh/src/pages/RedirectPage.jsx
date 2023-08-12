@@ -17,6 +17,7 @@ import {
 } from "../store/loginUserState";
 
 import { useSetRecoilState } from "recoil";
+import axios from "axios";
 
 export default function RedirectPage() {
   const navigate = useNavigate();
@@ -55,8 +56,7 @@ export default function RedirectPage() {
               setMemberIntro(res.data.data.member_intro);
               setMemberEmail(res.data.data.member_email);
             });
-          // if~ (res.data.data.member_state)이게 활성상태면->네비게이트 메인페이지
-          // 활성상태가 아니면 (처음받은 회원)->닉네임 선택 페이지로
+
           navigate("/");
         } else {
           alert("다시 시도해주세요!");

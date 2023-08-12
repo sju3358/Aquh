@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.domain.symbol.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.AllSymbolListResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
-import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.SymbolListResponseDTO;
-import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
@@ -33,36 +33,40 @@ public class SymbolController {
 	@GetMapping("/list/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getAllSymbol(@PathVariable Long memberNumber) {
 
-		List<Symbol> list = symbolService.getAllSymbols();
+		List<AllSymbolListResponseDTO> symbolList = new ArrayList<>();
 
-		List<GrantResponseDTO> grantResponseDTOList = grantService.getGrantList(memberNumber);
+		List<GrantResponseDTO> requiredSymbolList = symbolService.getRequiredSymbolList(memberNumber);
+		List<GrantResponseDTO> remainList = symbolService.getRemainList(memberNumber);
 
-		List<Long> activeSymbolNumbers = new ArrayList<>();
-
-		for (GrantResponseDTO dto : grantResponseDTOList) {
-			if (dto.isSymbolActive()) {
-				activeSymbolNumbers.add(dto.getSymbolNumber());
-			}
+		for (GrantResponseDTO requiredSymbol : requiredSymbolList) {
+			symbolList.add(new AllSymbolListResponseDTO(
+				requiredSymbol.getSymbolNumber(),
+				requiredSymbol.getSymbolName(),
+				requiredSymbol.getSymbolImgName(),
+				requiredSymbol.getSymbolCode(),
+				requiredSymbol.getSymbolConditionCnt(),
+				true, // acquiredActive
+				requiredSymbol.isSymbolActive()
+			));
 		}
 
-		List<SymbolListResponseDTO> dtoList = new ArrayList<>();
-		for (Symbol symbol : list) {
-			boolean isSymbolActive = activeSymbolNumbers.contains(symbol.getSymbolNumber());
-			SymbolListResponseDTO responseDTO = new SymbolListResponseDTO(
-				symbol.getSymbolNumber(),
-				symbol.getSymbolName(),
-				"https://aquh.s3.ap-northeast-2.amazonaws.com/symbol/" + symbol.getSymbolImgName(),
-				symbol.getSymbolCode(),
-				symbol.getSymbolConditionCnt(),
-				symbol.getCreateDate(),
-				isSymbolActive);
-			dtoList.add(responseDTO);
-
-			//수정
+		for (GrantResponseDTO remainSymbol : remainList) {
+			symbolList.add(new AllSymbolListResponseDTO(
+				remainSymbol.getSymbolNumber(),
+				remainSymbol.getSymbolName(),
+				remainSymbol.getSymbolImgName(),
+				remainSymbol.getSymbolCode(),
+				remainSymbol.getSymbolConditionCnt(),
+				false, // acquiredActive
+				remainSymbol.isSymbolActive()
+			));
 		}
+
+		Collections.sort(symbolList,
+			(symbol1, symbol2) -> Long.compare(symbol1.getSymbolNumber(), symbol2.getSymbolNumber()));
 
 		Map<String, Object> responseData = new HashMap<>();
-		responseData.put("symbolList", dtoList);
+		responseData.put("symbolList", symbolList);
 		responseData.put("message", "success");
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);

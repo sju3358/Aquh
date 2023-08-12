@@ -59,11 +59,9 @@ public class MemberAuthNaverController {
 		String naverResponseData = profileData.get("response").toString();
 		JSONObject naverMemberData = (JSONObject)parser.parse(naverResponseData);
 
-		String naverMemberId = naverMemberData.get("id").toString();
-
 		Long memberNumber = memberNaverService.register(naverMemberData);
 
-		Map tokens = jwtTokenProvider.getTokens(naverMemberId);
+		Map tokens = jwtTokenProvider.getTokens(memberNumber);
 		String accessToken = tokens.get("accessToken").toString();
 		String refreshToken = tokens.get("refreshToken").toString();
 		memberNaverService.login(memberNumber, refreshToken);
@@ -73,6 +71,8 @@ public class MemberAuthNaverController {
 		loginData.put("access_token", accessToken);
 		loginData.put("refresh_token", refreshToken);
 		loginData.put("isSocialLogin", true);
+
+		System.out.println("로그인 refreshtoken " + refreshToken);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
