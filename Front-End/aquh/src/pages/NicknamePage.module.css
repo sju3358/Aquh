@@ -22,15 +22,26 @@
   padding: 10px;
   font-size: 30px;
 }
-.nicknameSection {
-  /* width: 100%; */
-}
+
 .nicknameInput {
   width: 300px;
-  padding: 5px;
+  padding: 13px;
   border-radius: 20px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  margin-right: 5px;
 }
 .nicknameCheck {
-  padding: 5px;
+  padding: 10px;
   border-radius: 20px;
+}
+.enterBtn {
+  width: 120px;
+  height: 45px;
+  margin: 35px;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 17px;
 }
