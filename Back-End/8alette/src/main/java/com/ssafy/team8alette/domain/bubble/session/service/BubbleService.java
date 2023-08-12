@@ -55,8 +55,8 @@ public class BubbleService {
 			.bubbleState(true)
 			.categoryEntity(category)
 			.hostMember(member)
-			.planOpenDate(createBubbleRequestDto.getPlanOpenDate())
-			.planCloseDate(createBubbleRequestDto.getPlanCloseDate())
+			.planOpenDate(LocalDateTime.parse(createBubbleRequestDto.getPlanOpenDate()))
+			.planCloseDate(LocalDateTime.parse(createBubbleRequestDto.getPlanCloseDate()))
 			.build();
 
 		bubbleRepository.save(bubble);
