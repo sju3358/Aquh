@@ -53,23 +53,26 @@ public class FeedController {
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
+
+		Map<String, Object> responseData = new HashMap<>();
+
 		if (feedDto.getTitle() == null) {
-			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "제목을 작성해주세요");
 			responseData.put("status", 405);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else if (feedDto.getContent() == null) {
-			Map<String, Object> responseData = new HashMap<>();
+		}
+		if (feedDto.getContent() == null) {
 			responseData.put("message", "내용을 작성해주세요");
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else {
-			feedService.registFeed(feedDto, file);
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "success");
-			responseData.put("status", 200);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
+
+		feedService.registFeed(feedDto, file);
+
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+
 	}
 
 	@LoginRequired
