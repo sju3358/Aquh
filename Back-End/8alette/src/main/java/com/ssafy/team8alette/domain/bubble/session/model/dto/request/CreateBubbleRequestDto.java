@@ -1,7 +1,5 @@
 package com.ssafy.team8alette.domain.bubble.session.model.dto.request;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -18,12 +16,11 @@ public class CreateBubbleRequestDto {
 	private String bubbleTitle;
 
 	private String bubbleContent;
-
-	//아 여기를 멀티파트로
+	
 	private String bubbleThumbnail;
 
-	private LocalDateTime planOpenDate;
+	private String planOpenDate;
 
-	private LocalDateTime planCloseDate;
+	private String planCloseDate;
 
 }
