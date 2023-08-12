@@ -1,0 +1,27 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.bubbleBox{
+  width: 100rem;
+  padding: 100px;
+}
+
+.bubbleMainImg{
+  width: 100%;
+  height: 53%;
+  margin: 50px;
+
+}
+
+
+.feedMainImg{
+  width: 100%;
+  height: 344px;
+  margin: 50px;
+
+}

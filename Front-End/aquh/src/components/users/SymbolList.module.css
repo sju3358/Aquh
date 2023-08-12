@@ -1,0 +1,10 @@
+
+.symbolContainer{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 60rem;
+  background-color: white;
+  border-radius: 2rem;
+
+  /* flex-wrap: wrap; */
+}
