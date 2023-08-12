@@ -2,8 +2,8 @@ package com.ssafy.team8alette.global.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -119,10 +119,11 @@ public class S3FileManager {
 		generator.setSeed(System.currentTimeMillis());
 		String randomNumber = String.format("%06d", generator.nextInt(1000000) % 1000000);
 
-		return convertDateToString(LocalDate.now()) + '_' + randomNumber;
+		return convertDateToString(LocalDateTime.now()) + '_' + randomNumber;
 	}
 
-	private String convertDateToString(LocalDate nowDate) {
-		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
+	private String convertDateToString(LocalDateTime nowDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		return nowDate.format(formatter);
 	}
 }

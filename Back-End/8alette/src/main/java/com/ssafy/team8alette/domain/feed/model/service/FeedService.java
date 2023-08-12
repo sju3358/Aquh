@@ -1,6 +1,5 @@
 package com.ssafy.team8alette.domain.feed.model.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.domain.feed.exception.FeedMemberNotMatchException;
 import com.ssafy.team8alette.domain.feed.model.dao.FeedRepository;
+import com.ssafy.team8alette.domain.feed.model.dto.FeedDto;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
@@ -37,24 +37,38 @@ public class FeedService {
 	private final MemberRecordRepository memberRecordRepository;
 	private final S3FileManager s3FileManager;
 
-	public void registFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
+	public void registFeed(FeedDto feedDto, MultipartFile file) throws Exception {
 
-		if (feedEntity.getMember() == null || feedEntity.getMember().getMemberNumber() == null) {
+		if (feedDto.getMember() == null || feedDto.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
 		}
 
-		Member member = memberRepository.findById(feedEntity.getMember().getMemberNumber())
+		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
 		String[] fileNames = s3FileManager.saveFeedImage(file);
 
-		feedEntity.setFeedActive(true);
-		feedEntity.setFeedLikeCnt(0);
-		feedEntity.setFeedImgOrigin(fileNames[0]);
-		feedEntity.setFeedImgTrans(fileNames[1]);
-		feedEntity.setCreateDate(LocalDate.now());
-		feedEntity.setMember(member);
-		feedRepository.save(feedEntity);
+		if (fileNames[0] == null || fileNames[0].isEmpty()) {
+			FeedEntity feedEntity = FeedEntity.builder()
+				.member(member)
+				.title(feedDto.getTitle())
+				.content(feedDto.getContent())
+				.feedLikeCnt(0)
+				.feedActive(true)
+				.build();
+			feedRepository.save(feedEntity);
+		} else {
+			FeedEntity feedEntity = FeedEntity.builder()
+				.member(member)
+				.title(feedDto.getTitle())
+				.content(feedDto.getContent())
+				.feedLikeCnt(0)
+				.feedImgOrigin(fileNames[0])
+				.feedImgTrans(fileNames[1])
+				.feedActive(true)
+				.build();
+			feedRepository.save(feedEntity);
+		}
 
 		// 이미지 파일 있을때 없을때
 		int exp = fileNames[0].equals("") ? 20 : 50;
@@ -115,14 +129,14 @@ public class FeedService {
 		feedRepository.save(existingFeedEntity);
 	}
 
-	public FeedEntity modifyFeed(FeedEntity feedEntity, MultipartFile file) throws Exception {
-		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedEntity.getFeedNumber());
+	public FeedEntity modifyFeed(FeedDto feedDto, MultipartFile file) throws Exception {
+		FeedEntity existingFeedEntity = feedRepository.findFeedByFeedNumber(feedDto.getFeedNumber());
 
-		if (existingFeedEntity.getMember().getMemberNumber() == feedEntity.getMember().getMemberNumber())
+		if (existingFeedEntity.getMember().getMemberNumber() != feedDto.getMember().getMemberNumber())
 			throw new FeedMemberNotMatchException("회원번호가 일치하지 않습니다.");
 
-		existingFeedEntity.setTitle(feedEntity.getTitle());
-		existingFeedEntity.setContent(feedEntity.getContent());
+		existingFeedEntity.setTitle(feedDto.getTitle());
+		existingFeedEntity.setContent(feedDto.getContent());
 
 		String[] fileNames = s3FileManager.saveFeedImage(file);
 
@@ -173,7 +187,7 @@ public class FeedService {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}
-		dto.setCreateDate(feedEntity.getCreateDate());
+		// dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
 			feedEntity.getMember().getMemberNumber(), true);
