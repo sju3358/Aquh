@@ -1,17 +1,43 @@
-.streamContainer {
-  padding: 20px;
-  width: 30%;
+/* 1.가장 큰 페이지 */
+.videoPage {
+  display: flex;
+  flex-direction: column;
+}
+/* 2.왼쪽페이지 */
+.videoLeft {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+}
+/* 2-1왼쪽 리모컨 */
+.sessionNav {
+  background-color: #f8f8f8;
+  margin: 10px;
+  flex: 2;
+}
+/* 2-1-1 제목 */
+.sessionTitle {
+  display: inline-block;
+}
+/* 2-1-1. 버튼 */
+.controlBtn,
+.switchCameraBtn {
+  /* float: right; */
+  margin-top: 20px;
 }
 
+/* 3. 사용자 화면들 모아놓은 section */
 .videoContainer {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  height: 90%;
 }
-/* media css */
-/* .mainContainer {
-  padding-bottom: 80px;
-} */
+/* 3-1. 참가자들 화면 하나 */
+.streamContainer {
+  padding: 20px;
+  width: 30%;
+}
 
 .vertical-center {
   position: absolute;
@@ -120,20 +146,6 @@ a:hover .demo-logo {
 
 #join-dialog input.btn {
   margin-top: 15px;
-}
-
-#session-header {
-  margin-bottom: 20px;
-}
-
-#session-title {
-  display: inline-block;
-}
-
-#buttonLeaveSession,
-#buttonSwitchCamera {
-  float: right;
-  margin-top: 20px;
 }
 
 #video-container video {
