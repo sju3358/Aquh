@@ -1,9 +1,9 @@
-.stream-container {
+/* .stream-container {
 	padding: 0;
 }
 
 /* media css */
-#main-container {
+/* #main-container {
 	padding-bottom: 80px;
 }
 
@@ -125,7 +125,7 @@ a:hover .demo-logo {
 #buttonLeaveSession, #buttonSwitchCamera {
 	float: right;
 	margin-top: 20px;
-}
+} */
 
 /* #video-container video {
 	position: relative;
@@ -143,7 +143,7 @@ a:hover .demo-logo {
 	border-bottom-right-radius: 4px;
 } */
 
-.video-container{
+/* .video-container{
 	display: flex;
 }
 
@@ -180,15 +180,14 @@ a:hover .demo-logo {
 	cursor: pointer;
 	object-fit: cover;
 	height: 180px;
-}
-
+} */
 
 /* xs ans md screen resolutions*/
 
-@media screen and (max-width: 991px) {
+/* @media screen and (max-width: 991px) {
 	.vertical-center {
 		width: 85%;
 		padding-top: 10px;
 		top: 57%;
 	}
-}
+} */
