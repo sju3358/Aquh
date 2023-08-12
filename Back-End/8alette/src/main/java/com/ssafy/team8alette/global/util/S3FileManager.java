@@ -83,13 +83,15 @@ public class S3FileManager {
 
 			String fileName = getRandomFileName(file.getName());
 
-			ObjectMetadata metadata = new ObjectMetadata();
-			metadata.setContentType(file.getContentType());
-			metadata.setContentLength(file.getSize());
-			amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
+			if (file.getName() != "empty") {
+				ObjectMetadata metadata = new ObjectMetadata();
+				metadata.setContentType(file.getContentType());
+				metadata.setContentLength(file.getSize());
+				amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
 
-			fileNames[0] = file.getOriginalFilename();
-			fileNames[1] = fileName;
+				fileNames[0] = file.getOriginalFilename();
+				fileNames[1] = fileName;
+			}
 
 		} catch (NullValueException e) {
 			fileNames = new String[] {"", ""};
