@@ -1,7 +1,7 @@
 import LoginForm from "../components/users/LoginForm";
 
 export default {
-  title: 'Users/LoginModal',
+  title: 'Users/LoginForm',
   component: LoginForm
 };
 

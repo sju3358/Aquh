@@ -63,7 +63,7 @@ public class FeedService {
 		feedRepository.save(feedEntity);
 
 		// 이미지 파일 있을때 없을때
-		int exp = fileNames[0].equals("") ? 20 : 50;
+		int exp = fileNames[0].equals("") || fileNames[0].equals("empty") ? 20 : 50;
 
 		memberRecordService.updateMemberExp(member.getMemberNumber(), exp);
 		memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
@@ -179,7 +179,6 @@ public class FeedService {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}
-		// dto.setCreateDate(feedEntity.getCreateDate());
 		dto.setNickName(feedEntity.getMember().getMemberNickname());
 		List<Grant> list = symbolGrantRepository.findByMemberRecord_MemberNumberAndActiveStatusOrderBySymbolAsc(
 			feedEntity.getMember().getMemberNumber(), true);
