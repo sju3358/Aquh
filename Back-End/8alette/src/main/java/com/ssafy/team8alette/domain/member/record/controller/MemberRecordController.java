@@ -4,18 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.member.record.model.dto.response.MemberRecordDTO;
 import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
+import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
@@ -26,13 +29,15 @@ import lombok.RequiredArgsConstructor;
 public class MemberRecordController {
 
 	private final MemberRecordService memberRecordService;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final SymbolGrantService symbolGrantService;
 
 	@LoginRequired
 	@GetMapping("/{memberNumber}")
 	public ResponseEntity<Map<String, Object>> getMemberInfoRequest(
 		@PathVariable Long memberNumber,
 		@RequestParam Optional<String> exp_cnt,
-		@RequestParam Optional<String> comment_cnt,
+		@RequestParam Optional<String> feed_cnt,
 		@RequestParam Optional<String> room_join_cnt,
 		@RequestParam Optional<String> like_give_cnt,
 		@RequestParam Optional<String> best_cnt,
@@ -44,11 +49,11 @@ public class MemberRecordController {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 
-		if (exp_cnt.isEmpty() && comment_cnt.isEmpty() && room_join_cnt.isEmpty()
+		if (exp_cnt.isEmpty() && feed_cnt.isEmpty() && room_join_cnt.isEmpty()
 			&& like_give_cnt.isEmpty() && best_cnt.isEmpty() && following_cnt.isEmpty() && follower_cnt.isEmpty()) {
 
 			data.put("exp_cnt", memberRecord.getMemberExpCnt());
-			data.put("comment_cnt", memberRecord.getMemberCommentCnt());
+			data.put("feed_cnt", memberRecord.getMemberFeedCnt());
 			data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
 			data.put("like_give_cnt", memberRecord.getMemberLikeGiveCnt());
 			data.put("best_cnt", memberRecord.getMemberBestCnt());
@@ -60,8 +65,8 @@ public class MemberRecordController {
 			if (exp_cnt.orElse("N").equals("Y")) {
 				data.put("exp_cnt", memberRecord.getMemberExpCnt());
 			}
-			if (comment_cnt.orElse("N").equals("Y")) {
-				data.put("comment_cnt", memberRecord.getMemberCommentCnt());
+			if (feed_cnt.orElse("N").equals("Y")) {
+				data.put("comment_cnt", memberRecord.getMemberFeedCnt());
 			}
 			if (room_join_cnt.orElse("N").equals("Y")) {
 				data.put("room_join_cnt", memberRecord.getBubbleJoinCnt());
@@ -88,9 +93,13 @@ public class MemberRecordController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> getMemberPage(@RequestBody Map<String, String> param) {
+	public ResponseEntity<Map<String, Object>> getMemberPage(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws
+		ParseException {
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
-		Long memberNumber = Long.parseLong(param.get("memberNumber"));
+		symbolGrantService.putSymbolGrant(memberNumber);
+
 		MemberRecordDTO memberRecordDTO = memberRecordService.getMemberRecordDetail(memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();

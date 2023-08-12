@@ -2,11 +2,20 @@ import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
-import "./Chatting.css";
+import classes from "./Chatting.module.css";
 import UserVideoComponent from "./UserVideoComponent";
+import { json } from "react-router-dom";
+
+// import { useRecoilValue } from "recoil";
+// import { memberNicknameState } from "../../store/loginUserInfoState";
 
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
+
+// function GetMemberNickname(){
+//   const memberNickname = useRecoilValue(memberNicknameState);
+//   return memberNickname;
+// }
 
 export default class Chatting extends Component {
   constructor(props) {
@@ -14,7 +23,7 @@ export default class Chatting extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: "1234",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -118,6 +127,7 @@ export default class Chatting extends Component {
         // --- 4) Connect to the session with a valid user token ---
 
         // Get a token from the OpenVidu deployment
+        // this.enterSession(this.state.mySessionId).then((token) => {
         this.getToken().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
@@ -189,7 +199,7 @@ export default class Chatting extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      mySessionId: "1234",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
@@ -239,18 +249,18 @@ export default class Chatting extends Component {
     const myUserName = this.state.myUserName;
 
     return (
-      <div className="container">
+      <div className={classes.container}>
         {this.state.session === undefined ? (
-          <div id="join">
-            <div id="join-dialog" className="jumbotron vertical-center">
+          <div id='join'>
+            <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Join a video session </h1>
-              <form className="form-group" onSubmit={this.joinSession}>
+              <form className={classes.formGroup} onSubmit={this.joinSession}>
                 <p>
                   <label>Participant: </label>
                   <input
-                    className="form-control"
-                    type="text"
-                    id="userName"
+                    className={classes.formControl}
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -259,20 +269,20 @@ export default class Chatting extends Component {
                 <p>
                   <label> Session: </label>
                   <input
-                    className="form-control"
-                    type="text"
-                    id="sessionId"
+                    className={classes.formControl}
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
                   />
                 </p>
-                <p className="text-center">
+                <p className={classes.textCenter}>
                   <input
-                    className="btn btn-lg btn-success"
-                    name="commit"
-                    type="submit"
-                    value="JOIN"
+                    className={classes.controlBtn}
+                    name='commit'
+                    type='submit'
+                    value='JOIN'
                   />
                 </p>
               </form>
@@ -281,50 +291,38 @@ export default class Chatting extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
+          <div id='session'>
+            <div id='session-header'>
+              <h1 id='session-title'>{mySessionId}</h1>
               <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
+                className={classes.controlBtn}
+                type='button'
+                id='buttonLeaveSession'
                 onClick={this.leaveSession}
-                value="Leave session"
+                value='Leave session'
               />
               <input
-                className="btn btn-large btn-success"
-                type="button"
-                id="buttonSwitchCamera"
+                className={classes.switchCameraBtn}
+                type='button'
+                id='buttonSwitchCamera'
                 onClick={this.switchCamera}
-                value="Switch Camera"
+                value='Switch Camera'
               />
             </div>
-
-            {/* {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="main-video">
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                />
-              </div>
-            ) : null} */}
-            <div id="video-container" className="video-container">
+            {/* 여기부터 시작  */}
+            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
+            {/* 나의 화면 =  */}
+            <div id='video-container' className={classes.videoContainer}>
               {this.state.publisher !== undefined ? (
-                <div
-                  className="stream-container"
-                  onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
-                  }
-                >
+                <div className={classes.streamContainer}>
                   <UserVideoComponent streamManager={this.state.publisher} />
                 </div>
               ) : null}
+
+              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
               {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={sub.id}
-                  className="stream-container"
-                  onClick={() => this.handleMainVideoStream(sub)}
-                >
-                  {/* <span>{sub.id}</span> */}
+                <div key={sub.id} className={classes.streamContainer}>
+                  <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
               ))}
@@ -350,8 +348,22 @@ export default class Chatting extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
+  async enterSession(bubble_number) {
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + "api/v1/bubble-session/" + bubble_number,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    console.log(response.data.token);
+
+    return response.data.token; // The token
+  }
+
   async getToken() {
     const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: " + sessionId);
     return await this.createToken(sessionId);
   }
 
@@ -363,6 +375,7 @@ export default class Chatting extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
+    console.log("this is your createSession: " + response.data);
     return response.data; // The sessionId
   }
 
@@ -374,6 +387,9 @@ export default class Chatting extends Component {
         headers: { "Content-Type": "application/json" },
       }
     );
+    console.log("this is your createToken: " + response.data);
+    console.log(response.data);
+
     return response.data; // The token
   }
 }

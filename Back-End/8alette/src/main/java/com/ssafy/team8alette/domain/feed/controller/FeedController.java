@@ -3,8 +3,8 @@ package com.ssafy.team8alette.domain.feed.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.team8alette.domain.feed.method.FeedMethod;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
-import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
-import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.response.GrantResponseDTO;
 import com.ssafy.team8alette.domain.symbol.model.service.SymbolGrantService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
@@ -45,12 +45,8 @@ public class FeedController {
 	private final MemberService memberService;
 	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
-	private final SymbolRepository symbolRepository;
-	private final MemberRecordRepository memberRecordRepository;
-	//파일경로
-	private static String projectPath = "C:\\pictures";
-
-	//피드 등록 파일
+	private final JwtTokenProvider jwtTokenProvider;
+	private final AlarmService alarmService;
 
 	@LoginRequired
 	@PostMapping
@@ -67,7 +63,6 @@ public class FeedController {
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
-			//피드 잘 넣어지면 200
 			feedService.registFeed(feedEntity, file);
 			Map<String, Object> responseData = new HashMap<>();
 			responseData.put("message", "success");
@@ -81,14 +76,11 @@ public class FeedController {
 	public ResponseEntity<List<?>> findAllFeeds(
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
 	) {
-		List<FeedEntity> feedEntityList = feedService.getFeeds(orderCriteria);
-		List<FeedResponseDTO> dtoList = feedEntityList.stream()
-			.map(feedService::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> dtoList = feedService.getFeeds(orderCriteria);
+
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
-	// 게시글 상세글 조회
 	@LoginRequired
 	@GetMapping("/{feed_number}")
 	public ResponseEntity<Map<String, Object>> detailFeed(@PathVariable Long feed_number) {
@@ -98,8 +90,6 @@ public class FeedController {
 		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feedEntity.getFeedImgTrans() != null) {
-			// File saveFile = new File(projectPath, feedEntity.getFeedImgTrans());
-			// data.put("img", saveFile);
 			data.put("img_name", feedEntity.getFeedImgOrigin());
 			data.put("img_url",
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
@@ -121,26 +111,24 @@ public class FeedController {
 		List<GrantResponseDTO> list = symbolGrantService.getGrantList(feedEntity.getMember().getMemberNumber());
 		data.put("symbolNumber", list);
 		int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
-		FeedMethod feedMethod = new FeedMethod();
-		data.put("level", feedMethod.levelCheck(exp));
+		data.put("level", convertExpToLevel(exp));
 		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 		responseData.put("data", data);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
 	@LoginRequired
 	@PutMapping
-	public ResponseEntity<?> modifyFeed(@RequestPart FeedEntity feedEntity,
+	public ResponseEntity<?> modifyFeed(@RequestPart(value = "feed") FeedEntity feed,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		feedService.modifyFeed(feedEntity, file);
+		feedService.modifyFeed(feed, file);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("status", 200);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	//
 	// 게시글 삭제
 	@LoginRequired
 	@PutMapping("/{feed_number}")
@@ -157,37 +145,70 @@ public class FeedController {
 	@LoginRequired
 	@PostMapping("/like")
 	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
+
+		Member receivedLikeMember = feedService.getFeedCreatorNumber(likeRequestDTO.getFeedNumber());
+
 		boolean result;
 
-		//수정
 		result = likeService.addLike(likeRequestDTO.getFeedNumber(), likeRequestDTO.getMemberNumber());
+
 		if (result) {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 되었습니다.");
+			responseData.put("message", "피드 좋아요 되었습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 눌렀습니다.",
+					0);
+			}
+
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 취소했습니다.");
+			responseData.put("message", "피드 좋아요를 취소했습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 취소했습니다.",
+					0);
+			}
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
-
 	}
 
 	@LoginRequired
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> getMemberFeedList(@RequestBody Map<String, String> param) {
-		Long memberNumber = Long.parseLong(param.get("memberNumber"));
-		List<FeedEntity> list = feedService.getFeedsByMemberNumber(memberNumber);
-		List<FeedResponseDTO> dtoList = list.stream()
-			.map(feedService::convertToDTO)
-			.collect(Collectors.toList());
+	public ResponseEntity<Map<String, Object>> getMemberFeedList(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		List<FeedResponseDTO> dtoList = feedService.getFeedsByMemberNumber(memberNumber);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		responseData.put("status", 200);
 		responseData.put("feedList", dtoList);
+		//마이페이지 자신꺼 볼때 호출
+		symbolGrantService.putSymbolGrant(memberNumber);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
+	}
+
+	private int convertExpToLevel(int exp) {
+		int level = 1;
+		if (exp >= 1000 && exp < 2500) {
+			level = 2;
+		} else if (exp >= 2500 && exp < 4500) {
+			level = 3;
+		} else if (exp >= 4500 && exp < 7000) {
+			level = 4;
+		} else if (exp >= 7000 && exp < 10000) {
+			level = 5;
+		} else if (exp >= 10000) {
+			level = 6;
+		}
+		return level;
 	}
 
 }
