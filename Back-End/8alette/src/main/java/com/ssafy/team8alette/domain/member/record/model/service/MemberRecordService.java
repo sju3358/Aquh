@@ -12,7 +12,6 @@ import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordReposito
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.member.record.model.dto.response.MemberRecordDTO;
 import com.ssafy.team8alette.domain.symbol.model.dao.SymbolGrantRepository;
-import com.ssafy.team8alette.domain.symbol.model.dao.SymbolRepository;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.entity.Grant;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;
 import com.ssafy.team8alette.domain.symbol.model.dto.symbol.Symbol;
@@ -25,7 +24,6 @@ public class MemberRecordService {
 
 	private final MemberRecordRepository memberRecordRepository;
 	private final MemberRepository memberRepository;
-	private final SymbolRepository symbolRepository;
 	private final SymbolGrantRepository symbolGrantRepository;
 
 	public MemberRecord getMemberRecord(Long memberNumber) {
@@ -43,9 +41,9 @@ public class MemberRecordService {
 		memberRecordRepository.save(memberRecord);
 	}
 
-	public void updateMemberComment(Long memberNumber, int commentCnt) {
+	public void updateMemberFeedCnt(Long memberNumber, int feedCnt) {
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		memberRecord.setMemberCommentCnt(memberRecord.getMemberCommentCnt() + commentCnt);
+		memberRecord.setMemberFeedCnt(memberRecord.getMemberFeedCnt() + feedCnt);
 		memberRecordRepository.save(memberRecord);
 	}
 
@@ -107,6 +105,7 @@ public class MemberRecordService {
 		dto.setMemberNickName(member.getMemberNickname());
 		dto.setMemberIntro(member.getMemberIntro());
 		dto.setLevel(latestSymbol.getSymbolNumber());
+
 		if (memberRecord.getMemberExpCnt() < 1000) {
 			dto.setRemainingExp(1000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(1000);
@@ -122,9 +121,12 @@ public class MemberRecordService {
 		} else if (memberRecord.getMemberExpCnt() >= 7000 && memberRecord.getMemberExpCnt() < 10000) {
 			dto.setRemainingExp(10000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(10000);
+		} else if (memberRecord.getMemberExpCnt() >= 10000) {
+			dto.setRemainingExp(100000 - memberRecord.getMemberExpCnt());
+			dto.setLevel(6L);
+			dto.setMaxExp(100000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
-		///
 
 		return dto;
 	}

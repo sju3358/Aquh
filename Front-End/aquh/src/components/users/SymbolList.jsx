@@ -14,23 +14,26 @@ useEffect(() => {
     try {
       const response = await symbolList(id);
       const res = response.data.symbolList;
-      console.log("resssssssssssssss", res)
-      setSymbols(res)
+      console.log("symbolList", res)
+      setSymbols(res);
     }
     catch(error){
       console.log(`Oh nonono SymbolList! ${error}`);
     }
   };
   fetchSymbolList();
-}, [])
+}, [id])
 
-console.log("Symbols!!!!", symbols)
+console.log(symbols)
 
-const symbolcards = symbols.map((e) => (
+
+const symbolcards = symbols?.map((e) => (
 <SymbolPortrait 
   key={e.symbolNumber} 
   symbolImgName={e.symbolImgName} 
-  symbolName={e.symbolName} 
+  symbolName={e.symbolName}
+  isAcquired={e.symbolActive}
+  isActive={e.acquiredActive}
 />
 ));
   return (

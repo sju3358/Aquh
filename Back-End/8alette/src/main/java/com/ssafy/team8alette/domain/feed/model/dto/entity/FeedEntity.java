@@ -1,6 +1,6 @@
 package com.ssafy.team8alette.domain.feed.model.dto.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 
@@ -59,9 +59,9 @@ public class FeedEntity {
 	private String feedImgTrans;
 
 	@Column(name = "create_dttm", nullable = false)
-	private Date createDate;
+	private LocalDate createDate;
 
 	@Column(name = "delete_dttm")
-	private Date deleteDate;
+	private LocalDate deleteDate;
 
 }

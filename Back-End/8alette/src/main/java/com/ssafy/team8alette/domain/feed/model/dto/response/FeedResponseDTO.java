@@ -1,6 +1,7 @@
 package com.ssafy.team8alette.domain.feed.model.dto.response;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +22,11 @@ public class FeedResponseDTO {
 	private boolean feedActive;
 	private String feedImgOrigin;
 	private String feedImgTrans;
-	private Date createDate;
-	private Date deleteDate;
+	private LocalDate createDate;
+	private LocalDate deleteDate;
 	//여기서부터 다른 엔티티
 	private int exp;
-	private long symbolNumber;
+	private List<String> symbolLink;
 	private int followingCnt;
 	private String nickName;
 	private int level;

@@ -47,9 +47,7 @@ public class Alarm {
 	@Column(name = "read_dttm")
 	private Date readDateTime;
 
-	@Column(name = "delete_dttm")
-	private Date deleteDateTime;
-	// @Column(name = "alarm_text", nullable = false)
-	// private String alarmText;
-
+	@Column(name = "create_dttm")
+	private Date createDateTime;
+	
 }

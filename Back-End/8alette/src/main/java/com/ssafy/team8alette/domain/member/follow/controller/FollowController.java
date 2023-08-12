@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.follow.model.service.FollowService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
@@ -27,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class FollowController {
 
 	private final FollowService followService;
+	private final AlarmService alarmService;
+	private final MemberService memberService;
 
 	@LoginRequired
 	@GetMapping("/{memberNumber}")
@@ -58,7 +63,12 @@ public class FollowController {
 		Long followerMemberNumber = Long.parseLong(param.get("member_follower").toString());
 		Long followingMemberNumber = Long.parseLong(param.get("member_following").toString());
 
+		Member followerMember = memberService.getMemberInfo(followerMemberNumber);
+		Member followingMember = memberService.getMemberInfo(followingMemberNumber);
+		String followerNickName = followerMember.getMemberNickname();
+
 		followService.followMember(followerMemberNumber, followingMemberNumber);
+		alarmService.requestAlarm(followingMember, "follow", followerNickName + "님이 팔로우 하였습니다.", 0);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");

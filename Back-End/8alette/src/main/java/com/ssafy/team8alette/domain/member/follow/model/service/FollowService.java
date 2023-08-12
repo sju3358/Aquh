@@ -11,6 +11,8 @@ import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.follow.exception.FollowNotFoundException;
 import com.ssafy.team8alette.domain.member.follow.model.dao.FollowRepository;
 import com.ssafy.team8alette.domain.member.follow.model.dto.Entity.Follow;
+import com.ssafy.team8alette.domain.member.record.model.dao.MemberRecordRepository;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +22,8 @@ public class FollowService {
 
 	private final FollowRepository followRepository;
 	private final MemberRepository memberRepository;
-	// private final MemberRecordService memberRecordService;
+	private final MemberRecordRepository memberRecordRepository;
+	private final MemberRecordService memberRecordService;
 
 	public List<Long> getFollowerMemberList(Long memberNumber) {
 		Member member = memberRepository.findById(memberNumber).orElseThrow();
@@ -68,12 +71,13 @@ public class FollowService {
 			follow.setCreateDate(new Date());
 
 			followRepository.save(follow);
-
-			//멤버기록에서 수정해야함
-			// memberRecordService.updateMemberFollowingCnt(memberNumber, 1);
-			// memberRecordService.updateMemberFollowerCnt(targetMemberNumber, 1);
-
+			/* 기록 테이블 경험치 추가 */
+			memberRecordService.updateMemberExp(followerMember.getMemberNumber(), 20);
+			memberRecordService.updateMemberExp(followingMember.getMemberNumber(), 50);
+			memberRecordService.updateMemberFollowingCnt(memberNumber, 1);
+			memberRecordService.updateMemberFollowerCnt(targetMemberNumber, 1);
 			/* 업적에 맞는지 확인 후 심볼 획득 */
+
 		}
 	}
 
@@ -88,10 +92,11 @@ public class FollowService {
 			throw new FollowNotFoundException("팔로우 정보가 존재하지 않습니다.");
 
 		followRepository.delete(follow);
-
-		//멤버기록에서 수정
-		// memberRecordService.updateMemberFollowingCnt(memberNumber, -1);
-		// memberRecordService.updateMemberFollowerCnt(targetMemberNumber, -1);
+		/* 기록 테이블 경험치 추가 */
+		memberRecordService.updateMemberExp(followerMember.getMemberNumber(), -20);
+		memberRecordService.updateMemberExp(followingMember.getMemberNumber(), -50);
+		memberRecordService.updateMemberFollowingCnt(memberNumber, -1);
+		memberRecordService.updateMemberFollowerCnt(targetMemberNumber, -1);
 
 	}
 }

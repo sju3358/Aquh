@@ -1,6 +1,8 @@
 package com.ssafy.team8alette.domain.member.alarm.model.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,35 @@ public class AlarmService {
 		);
 
 		alarm.setAlarmState(1);
+		alarm.setReadDateTime(new Date());
 		alarmRepository.save(alarm);
+	}
+
+	public void requestAlarm(Member member, String alarmType, String alarmReason, int alarmState) {
+		Alarm alarm = new Alarm();
+		alarm.setMemberNumber(member);
+		alarm.setAlarmType(alarmType);
+		alarm.setAlarmReason(alarmReason);
+		alarm.setAlarmState(alarmState);
+		alarm.setCreateDateTime(new Date());
+		alarmRepository.save(alarm);
+	}
+
+	public void alarmRegist(Long memberNumber, String alarmType, String alarmReason, int alarmState) {
+		Optional<Member> member = memberRepository.findMemberByMemberNumber(memberNumber);
+		Alarm alarm = new Alarm();
+		alarm.setMemberNumber(member.get());
+		alarm.setAlarmType(alarmType);
+		alarm.setAlarmReason(alarmReason);
+		alarm.setAlarmState(alarmState);
+		alarm.setCreateDateTime(new Date());
+		alarmRepository.save(alarm);
+	}
+
+	public boolean getAlarm(Member member, String alarmType) {
+		Optional<Alarm> alarm = alarmRepository.findByMemberNumberAndAlarmType(member, alarmType);
+		boolean alarmOrNull = alarm.isPresent();
+		return alarmOrNull;
 	}
 
 }
