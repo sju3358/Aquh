@@ -47,6 +47,14 @@ public class BubbleService {
 		CategoryEntity category = categoryRepository.findCategoryEntityByCategoryNumber(categoryNumber)
 			.orElseThrow(() -> new CategoryNotFoundException());
 
+		LocalDateTime planOpenDate = LocalDateTime.now();
+		LocalDateTime planCloseDate = LocalDateTime.now();
+
+		if (createBubbleRequestDto.getPlanOpenDate() != null)
+			planOpenDate = LocalDateTime.parse(createBubbleRequestDto.getPlanOpenDate());
+		if (createBubbleRequestDto.getPlanCloseDate() != null)
+			planCloseDate = LocalDateTime.parse(createBubbleRequestDto.getPlanCloseDate());
+
 		BubbleEntity bubble = BubbleEntity.builder()
 			.bubbleTitle(createBubbleRequestDto.getBubbleTitle())
 			.bubbleContent((createBubbleRequestDto.getBubbleContent()))
@@ -55,8 +63,9 @@ public class BubbleService {
 			.bubbleState(true)
 			.categoryEntity(category)
 			.hostMember(member)
-			.planOpenDate(LocalDateTime.parse(createBubbleRequestDto.getPlanOpenDate()))
-			.planCloseDate(LocalDateTime.parse(createBubbleRequestDto.getPlanCloseDate()))
+			.planOpenDate(planOpenDate)
+			.planCloseDate(planCloseDate)
+			.createDate(LocalDateTime.now())
 			.build();
 
 		bubbleRepository.save(bubble);
@@ -73,7 +82,6 @@ public class BubbleService {
 			throw new UnAuthorizedException();
 
 		bubble.setBubbleState(false);
-		bubble.setCloseDate(LocalDateTime.now());
 
 		bubbleRepository.save(bubble);
 	}
