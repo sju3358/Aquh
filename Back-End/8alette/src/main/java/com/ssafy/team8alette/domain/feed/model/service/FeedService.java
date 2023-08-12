@@ -46,29 +46,21 @@ public class FeedService {
 		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
-		String[] fileNames = s3FileManager.saveFeedImage(file);
+		String[] fileNames = new String[2];
 
-		if (fileNames[0] == null || fileNames[0].isEmpty() || fileNames[0].equals("empty") || fileNames[0] == "") {
-			FeedEntity feedEntity = FeedEntity.builder()
-				.member(member)
-				.title(feedDto.getTitle())
-				.content(feedDto.getContent())
-				.feedLikeCnt(0)
-				.feedActive(true)
-				.build();
-			feedRepository.save(feedEntity);
-		} else {
-			FeedEntity feedEntity = FeedEntity.builder()
-				.member(member)
-				.title(feedDto.getTitle())
-				.content(feedDto.getContent())
-				.feedLikeCnt(0)
-				.feedImgOrigin(fileNames[0])
-				.feedImgTrans(fileNames[1])
-				.feedActive(true)
-				.build();
-			feedRepository.save(feedEntity);
-		}
+		if (file != null && file.getName().equals("empty") != true)
+			fileNames = s3FileManager.saveFeedImage(file);
+
+		FeedEntity feedEntity = FeedEntity.builder()
+			.member(member)
+			.title(feedDto.getTitle())
+			.content(feedDto.getContent())
+			.feedLikeCnt(0)
+			.feedImgOrigin(fileNames[0])
+			.feedImgTrans(fileNames[1])
+			.feedActive(true)
+			.build();
+		feedRepository.save(feedEntity);
 
 		// 이미지 파일 있을때 없을때
 		int exp = fileNames[0].equals("") || fileNames[0].equals("empty") ? 20 : 50;
@@ -183,7 +175,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().isEmpty()) {
+		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}

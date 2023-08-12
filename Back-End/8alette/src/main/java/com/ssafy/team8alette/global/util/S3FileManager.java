@@ -83,16 +83,13 @@ public class S3FileManager {
 
 			String fileName = getRandomFileName(file.getName());
 
-			/*파일 보낼때 프론트에서 empty로 보냄 */
-			if (fileNames[0].equals("empty")) {
-				ObjectMetadata metadata = new ObjectMetadata();
-				metadata.setContentType(file.getContentType());
-				metadata.setContentLength(file.getSize());
-				amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
+			ObjectMetadata metadata = new ObjectMetadata();
+			metadata.setContentType(file.getContentType());
+			metadata.setContentLength(file.getSize());
+			amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
 
-				fileNames[0] = file.getOriginalFilename();
-				fileNames[1] = fileName;
-			}
+			fileNames[0] = file.getOriginalFilename();
+			fileNames[1] = fileName;
 
 		} catch (NullValueException e) {
 			fileNames = new String[] {"", ""};
