@@ -48,7 +48,7 @@ public class FeedService {
 
 		String[] fileNames = s3FileManager.saveFeedImage(file);
 
-		if (fileNames[0] == null || fileNames[0].isEmpty()) {
+		if (fileNames[0] == null || fileNames[0].isEmpty() || fileNames[0] == "empty" || fileNames[0] == "") {
 			FeedEntity feedEntity = FeedEntity.builder()
 				.member(member)
 				.title(feedDto.getTitle())

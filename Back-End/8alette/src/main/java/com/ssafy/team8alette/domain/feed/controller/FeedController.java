@@ -90,7 +90,7 @@ public class FeedController {
 		FeedEntity feedEntity = feedService.getFeedById(feed_number);
 		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
-		if (feedEntity.getFeedImgTrans() != null) {
+		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().isEmpty()) {
 			data.put("img_name", feedEntity.getFeedImgOrigin());
 			data.put("img_url",
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
