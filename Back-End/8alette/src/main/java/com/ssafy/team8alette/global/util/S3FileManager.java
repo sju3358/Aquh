@@ -78,7 +78,7 @@ public class S3FileManager {
 		String[] fileNames = new String[2];
 
 		try {
-			if (file == null)
+			if (file == null || file.getName().equals("empty"))
 				throw new NullValueException();
 
 			String fileName = getRandomFileName(file.getName());
