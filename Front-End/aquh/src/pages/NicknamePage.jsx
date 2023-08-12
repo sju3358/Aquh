@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import axios from "axios";
 import https from "../utils/https";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 function NicknamePage() {
   const [nickName, setNickname] = useState();
@@ -61,7 +61,7 @@ function NicknamePage() {
         //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
       })
       .then((res) => {
-        console.log("닉네임변경 :", res);
+        // console.log("닉네임변경 :", res);
         navigate("/");
       });
   };
