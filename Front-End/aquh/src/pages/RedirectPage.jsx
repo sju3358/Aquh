@@ -40,8 +40,6 @@ export default function RedirectPage() {
     };
     https
       .post("/api/v1/member/auth/naver", data)
-      // axios
-      //   .post("https://localhost:8080/api/v1/member/auth/naver", data)
       .then((res) => {
         if (res.status === 200) {
           localStorage.setItem("access_token", res.data.data.access_token);
@@ -51,11 +49,7 @@ export default function RedirectPage() {
           setIsSocialLogin(res.data.data.isSocialLogin);
 
           https
-            .get(`/api/v1/member`)
-            // axios
-            //   .get(
-            //     `https://localhost:8080/api/v1/member/${res.data.data.member_number}`
-            //   )
+            .get(`/api/v1/member/${res.data.data.member_number}`)
             .then((res) => {
               setMemberNickname(res.data.data.member_nickname);
               setMemberType(res.data.data.member_type);

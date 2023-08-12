@@ -1,12 +1,11 @@
-
-.login{
+.login {
   appearance: none;
   border: none;
   background-color: transparent;
   align-self: center;
 }
 
-.naverLogin{
+.naverLogin {
   height: 6rem;
   cursor: pointer;
 }
