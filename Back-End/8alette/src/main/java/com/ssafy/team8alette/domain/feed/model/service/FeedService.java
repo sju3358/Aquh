@@ -41,6 +41,7 @@ public class FeedService {
 
 		if (feedDto.getMember() == null || feedDto.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
+			//
 		}
 
 		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
