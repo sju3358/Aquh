@@ -83,7 +83,7 @@ public class S3FileManager {
 
 			String fileName = getRandomFileName(file.getName());
 
-			if (file.getName() != "empty") {
+			if (fileNames[0].equals("empty")) {
 				ObjectMetadata metadata = new ObjectMetadata();
 				metadata.setContentType(file.getContentType());
 				metadata.setContentLength(file.getSize());
