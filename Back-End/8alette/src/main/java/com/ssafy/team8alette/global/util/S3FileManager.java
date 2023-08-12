@@ -2,8 +2,8 @@ package com.ssafy.team8alette.global.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -83,13 +83,16 @@ public class S3FileManager {
 
 			String fileName = getRandomFileName(file.getName());
 
-			ObjectMetadata metadata = new ObjectMetadata();
-			metadata.setContentType(file.getContentType());
-			metadata.setContentLength(file.getSize());
-			amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
+			/*파일 보낼때 프론트에서 empty로 보냄 */
+			if (fileNames[0].equals("empty")) {
+				ObjectMetadata metadata = new ObjectMetadata();
+				metadata.setContentType(file.getContentType());
+				metadata.setContentLength(file.getSize());
+				amazonS3Client.putObject(feedImage_bucket, fileName, file.getInputStream(), metadata);
 
-			fileNames[0] = file.getOriginalFilename();
-			fileNames[1] = fileName;
+				fileNames[0] = file.getOriginalFilename();
+				fileNames[1] = fileName;
+			}
 
 		} catch (NullValueException e) {
 			fileNames = new String[] {"", ""};
@@ -119,10 +122,11 @@ public class S3FileManager {
 		generator.setSeed(System.currentTimeMillis());
 		String randomNumber = String.format("%06d", generator.nextInt(1000000) % 1000000);
 
-		return convertDateToString(LocalDate.now()) + '_' + randomNumber;
+		return convertDateToString(LocalDateTime.now()) + '_' + randomNumber;
 	}
 
-	private String convertDateToString(LocalDate nowDate) {
-		return new SimpleDateFormat("yyyyMMddHHmmss").format(nowDate);
+	private String convertDateToString(LocalDateTime nowDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		return nowDate.format(formatter);
 	}
 }
