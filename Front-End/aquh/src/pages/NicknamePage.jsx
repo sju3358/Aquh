@@ -11,7 +11,7 @@ function NicknamePage() {
   // 유효성검사 메시지 발송
   const [nickNameMessage, setNickNameMessage] = useState();
   // 중복체크를 통한 가입 가능 여부
-  const [vaildNickName, setValidNickName] = useState();
+  const [vaildNickName, setValidNickName] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,12 +43,12 @@ function NicknamePage() {
 
         if (!isValidNick) {
           // 중복체크 통과 로직
-          setValidNickName(isValidNick); //true 값으로 바뀜
+          setValidNickName(isValidNick); //flase=중복된게 없다는 뜻 = 사용가능
           alert("사용 가능한 닉네임 입니다!");
         } else {
           // 중복된 닉네임인 경우 로직
           alert("이미 존재하는 닉네임입니다!");
-          setNickname("");
+          setIsNickName("");
         }
       });
   };
