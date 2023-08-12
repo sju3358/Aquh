@@ -1,0 +1,30 @@
+
+
+
+.symbolSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.profileNickname{
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 10px;
+}
+/* 
+.acquiredSymbols{
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 700;
+} */
+
+.memberIntro{
+  background-color: white;
+  width: 50rem;
+  height: 5rem;
+  margin: 10px;
+  border-radius: 1.5rem;
+}

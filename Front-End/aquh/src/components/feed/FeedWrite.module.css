@@ -1,0 +1,38 @@
+.feedWriteCard {
+}
+
+.feedTitle {
+  /* margin-bottom: 5px; */
+  padding: 10px;
+  border-radius: 15px;
+  width: 860px;
+  border: #999999;
+}
+
+.feedContent {
+  padding: 10px;
+  resize: none; /* 사용자 임의 변경 불가 */
+  border-radius: 15px;
+  margin-bottom: 10px;
+  width: 860px;
+  height: 70%;
+  border: #999999;
+}
+
+.latestChat {
+  width: 100rem;
+}
+.droplet {
+  width: 2.5rem;
+  height: 4rem;
+}
+.latestMent {
+  color: white;
+  font-weight: 700;
+  font-family: Pretendard;
+  align-self: start;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-left: 6rem;
+  margin-top: 5rem;
+}

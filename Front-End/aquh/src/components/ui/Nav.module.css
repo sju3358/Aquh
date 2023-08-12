@@ -12,14 +12,14 @@
 
 .navBar{
     display: flex;
-
     align-items: center;
     height: 60px;
     padding: 0 20px;
     color: white;
     font-size: 20px;
     font-weight: 500;
-   
+    margin-top: 20px;
+    margin-bottom: 90px;
 }
 
 .logoPng {
@@ -30,7 +30,7 @@
 
 .navItemContainer{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     width: 100%;
 }
@@ -44,6 +44,18 @@
 .avatarPng{
   width: 5rem;
   height: 5rem;
-  margin-top: 25px;
+  /* margin-top: 25px; */
 }
 
+.searchContainer{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.menuItems{
+  display: flex;
+  justify-content: row;
+}

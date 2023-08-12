@@ -1,5 +1,5 @@
 * {
-  margin : 0;
+  margin: 0;
 }
 
 .card {
@@ -14,25 +14,24 @@
   margin: 30px;
   padding: 1.5rem;
 }
-.eventTitle{
+.eventTitle {
   font-size: 2rem;
   font-weight: 700;
-  margin-left : 0.5rem;
+  margin-left: 0.5rem;
 }
-.eventDate{
-  font-size : 1.5rem;
+.eventDate {
+  font-size: 1.5rem;
   font-weight: 500;
-  margin-left : 0.5rem;
+  margin-left: 0.5rem;
 }
 
-img{
+img {
   border-radius: 1rem;
   width: 23rem;
   height: 12rem;
   align-self: center;
   margin: 10px;
 }
-
 
 /* button{
   width: 7rem;

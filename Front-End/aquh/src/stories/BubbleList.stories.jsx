@@ -1,8 +1,8 @@
 import BubbleList from '../components/bubble/BubbleList';
 import BubbleCard from '../components/bubble/BubbleCard';
-import bubble_mock from '../utils/api/api.bubble_mock';
 
 export default {
+  title: 'Bubble/BubbleList',
   component: BubbleList
 };
 
