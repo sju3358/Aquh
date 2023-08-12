@@ -76,7 +76,7 @@ public class BubbleEntity {
 			.bubbleContent(this.bubbleContent)
 			.bubbleThumbnail(this.bubbleThumbnail)
 			.bubbleType(this.bubbleType)
-			.categoryEntity(this.categoryEntity)
+			.categoryName(this.categoryEntity.getCategoryName())
 			.planCloseDate(this.planCloseDate)
 			.planOpenDate(this.planOpenDate)
 			.build();
