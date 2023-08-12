@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import axios from "axios";
 import https from "../utils/https";
+import { useNavigate } from "react-router";
 
 function NicknamePage() {
   const [nickName, setNickname] = useState();
@@ -10,13 +11,14 @@ function NicknamePage() {
   // 유효성검사 메시지 발송
   const [nickNameMessage, setNickNameMessage] = useState();
   // 중복체크를 통한 가입 가능 여부
-  const [vaildNickName, setValidNickName] = useState();
+  const [vaildNickName, setValidNickName] = useState(false);
 
+  const navigate = useNavigate(false);
+
+  // 닉네임 유효성검사
   const onChangeNickName = (e) => {
     const currentUserName = e.target.value;
-
     setNickname(currentUserName);
-
     const usernameRegExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{3,10}$/;
     if (!usernameRegExp.test(currentUserName)) {
       setNickNameMessage(
@@ -41,16 +43,28 @@ function NicknamePage() {
 
         if (!isValidNick) {
           // 중복체크 통과 로직
-          setValidNickName(isValidNick); //true 값으로 바뀜
+          setValidNickName(isValidNick); //flase=중복된게 없다는 뜻 = 사용가능
           alert("사용 가능한 닉네임 입니다!");
         } else {
           // 중복된 닉네임인 경우 로직
           alert("이미 존재하는 닉네임입니다!");
-          setNickname("");
+          setIsNickName("");
         }
       });
   };
 
+  // 입장하기 버튼 클릭 시 회원정보 변경
+  const enterMainPage = () => {
+    https
+      .put("/api/v1/member", {
+        member_nickname: nickName,
+        //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
+      })
+      .then((res) => {
+        console.log("닉네임변경 :", res);
+        navigate("/");
+      });
+  };
   return (
     <div className={classes.nicknameCheck}>
       <div className={classes.container}>
@@ -86,7 +100,9 @@ function NicknamePage() {
           <p className='message'>{nickNameMessage}</p>
         </div>
         {/* TODO: 입장하기 클릭-->닉네임 변경 axios.  한번 날리고 (maybe 회원정보 수정?)  성공하면 then (~ 이 안에서 두번째 axios.post->이메일 인증 요청 페이지(로그인 관문 3)-> 성공하면 ㅔㅔ네비게이트 메인페이지 */}
-        <button className={classes.enterBtn}>입장하기</button>
+        <button onClick={enterMainPage} className={classes.enterBtn}>
+          입장하기
+        </button>
       </div>
     </div>
   );
