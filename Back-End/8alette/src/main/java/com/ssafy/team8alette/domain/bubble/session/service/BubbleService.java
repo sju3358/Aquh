@@ -20,6 +20,7 @@ import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistExceptio
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
+import com.ssafy.team8alette.global.util.S3FileManager;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,11 +32,14 @@ public class BubbleService {
 	private final BubbleListRepository bubbleListRepository;
 	private final MemberRepository memberRepository;
 	private final CategoryRepository categoryRepository;
+	private final S3FileManager s3FileManager;
 
 	public Long createBubble(CreateBubbleRequestDto createBubbleRequestDto) {
 
 		Long hostMemberNumber = createBubbleRequestDto.getHostMemberNumber();
 		Long categoryNumber = createBubbleRequestDto.getCategoryNumber();
+
+		String[] fileNames = s3FileManager.saveThumbnailImage(createBubbleRequestDto.getBubbleThumbnail());
 
 		Member member = memberRepository.findMemberByMemberNumber(hostMemberNumber)
 			.orElseThrow(() -> new MemberNotExistException());
@@ -46,7 +50,7 @@ public class BubbleService {
 		BubbleEntity bubble = BubbleEntity.builder()
 			.bubbleTitle(createBubbleRequestDto.getBubbleTitle())
 			.bubbleContent((createBubbleRequestDto.getBubbleContent()))
-			.bubbleThumbnail(createBubbleRequestDto.getBubbleThumbnail())
+			.bubbleThumbnail(fileNames[1])
 			.bubbleType(createBubbleRequestDto.isBubbleType())
 			.bubbleState(true)
 			.categoryEntity(category)

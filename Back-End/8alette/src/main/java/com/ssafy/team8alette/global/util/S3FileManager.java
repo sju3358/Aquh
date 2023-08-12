@@ -35,8 +35,8 @@ public class S3FileManager {
 	 * Save imgfile in S3/feed
 	 * @param imgUrl
 	 * @return
-	 * string[0] : origin FileName
-	 * string[1] : TransFileName
+	 * string[0] : origin FileName (exception : ""),
+	 * string[1] : TransFileName (exception : "")
 	 * @throws IOException
 	 */
 	public String[] saveThumbnailImage(String imgUrl) {
@@ -69,8 +69,8 @@ public class S3FileManager {
 	 * Save imgfile in S3/feed
 	 * @param file
 	 * @return
-	 * string[0] : origin FileName
-	 * string[1] : TransFileName
+	 * string[0] : origin FileName (exception : ""),
+	 * string[1] : TransFileName (exception : "")
 	 * @throws IOException
 	 */
 	public String[] saveFeedImage(MultipartFile file) throws IOException {
