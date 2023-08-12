@@ -34,10 +34,4 @@ public class BubbleDto {
 	@Nullable
 	private LocalDateTime planCloseDate;
 
-	@Nullable
-	private LocalDateTime createDate;
-
-	@Nullable
-	private LocalDateTime closeDate;
-
 }
