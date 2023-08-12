@@ -30,7 +30,7 @@ export default function BubbleCard({
       <p className={classes.eventTitle}>{title}</p>
       <p className={classes.eventDate}>
         {" "}
-        <FaRegCalendarCheck /> {openDate.slice(0, 10)} ~{" "} {closeDate.slice(0, 10)}
+        <FaRegCalendarCheck /> {openDate?.slice(0, 10)} ~{" "} {closeDate?.slice(0, 10)}
       </p>
       <div>{type}</div>
       <Button onClick={onJoin} variant='regular' className='card-button'>

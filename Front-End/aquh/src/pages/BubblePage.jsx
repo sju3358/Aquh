@@ -83,7 +83,7 @@ export default function BubblePage() {
   return (
    
     <div className={classes.container}>
-       {categories}
+      {categories}
       <p className={classes.latestMent}>
         <img
           src='../../droplet-white.png'
