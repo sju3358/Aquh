@@ -54,7 +54,7 @@ color: #212529;
   font-size: 10px;
   margin: 8px 0 0;
 }
-.received_withd_msg { width: 57%;}
+.received_withd_msg { width: 57%; margin-bottom: 16px;}
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
