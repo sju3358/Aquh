@@ -1,8 +1,7 @@
 // import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
 //TODO : 실제 api 받아오면 bubble_mock 지우기
 import classes from "./BubblePage.module.css";
-import { bubbleList } from "../utils/api/api.bubble_service";
-import { bubbleCategory } from "../utils/api/api.bubble_service";
+import { bubbleList, joinedBubbleList, bubbleCategory } from "../utils/api/api.bubble_service";
 import { useEffect, useState } from "react";
 import ButtonSelector from "../components/ui/ButtonSelector";
 import BubbleList from "../components/bubble/BubbleList";
@@ -15,6 +14,7 @@ export default function BubblePage() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
+  const [joinedBubbles, setJoinedBubbles] = useState([]);
 
   // fetch CategoryList
   useEffect(() => {
@@ -47,6 +47,21 @@ export default function BubblePage() {
     fetchBubbleList();
   }, [])
 
+  //fetch JoinedBubbleList
+  useEffect(() => {
+    const fetchJoinedBubbleList = async () => {
+      try {
+        const response = await joinedBubbleList();
+        const res = response.data.data;
+        setJoinedBubbles(res)
+      }
+      catch(error){
+        console.log(error)
+      }
+      }
+      fetchJoinedBubbleList();
+    }, [])
+
   const categoryNames = categories
     .map(category => category.categoryName)
 
@@ -67,7 +82,9 @@ export default function BubblePage() {
         현재 참여중인 버블이예요
       </p>
       <div className={classes.latestChat}>
-        {/* TODO: */}
+        <BubbleList 
+        bubbles={joinedBubbles}
+        />
       </div>
       <p className={classes.latestMent}>
         <img
@@ -93,3 +110,4 @@ export default function BubblePage() {
     </div>
   );
 }
+    
