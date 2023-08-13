@@ -191,7 +191,7 @@ function FeedPage() {
             </p>
             <div>
               {popularList.map((feed) => {
-                // console.log("map으로 뿌린 피드", feed);
+                console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
                 return (
