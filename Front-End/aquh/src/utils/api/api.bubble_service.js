@@ -17,3 +17,4 @@ export const bubbleList = () =>
 
 export const bubbleCategory = () => 
       https.get('api/v1/category')
+

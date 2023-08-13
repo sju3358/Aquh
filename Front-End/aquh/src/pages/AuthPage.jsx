@@ -61,10 +61,8 @@ export default function AuthPage() {
       {/* <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} /> */}
       <AvatarImg level={user.level} />
       <UserLevelCard
-        level={user.level}
         maxExp={user.maxExp}
         presentExp={user.presentExp}
-        remainingExp={user.remainingExp}
       />
       <p className={classes.profileNickname}>{memberNickname}</p>
       {memberIntro ? (

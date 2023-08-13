@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    gap: 1em;
+}
+
+.baseButton {
+    /* Base button styles */
+    all: unset;
+    --button-color: aquamarine;
+    border: 1px solid var(--button-color);
+}
+
+.regular {
+    composes: baseButton;
+    --button-color: azure;
+    /* TODO: apply styles specific to regular */
+}
+
+.alternate {
+    composes: baseButton;
+    --button-color: salmon;
+    /* TODO: apply styles specific to alternate */
+}
+
+.selected {
+    background-color: var(--button-color);
+}

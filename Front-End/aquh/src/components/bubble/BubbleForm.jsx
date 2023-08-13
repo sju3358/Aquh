@@ -1,15 +1,20 @@
 import { useState } from 'react'
 
 export default function BubbleForm(){
-  const [bubbleForm, setBubbleForm] = useState({ title : '', imgUrl : '', description : '', headcount: 0})
+  const [bubbleForm, setBubbleForm] = useState({
+    title: '',
+    imgUrl: '',
+    description: '',
+    headcount: 0
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
   }
   
   const handleChange = (e) => {
-    const { title, imgUrl, description, headcount } = e.target;
-    setBubbleForm({ ...bubbleForm, [title]: title, [imgUrl]: imgUrl, [description]: description, [headcount]: headcount })
+    const { value, name } = e.target;
+    setBubbleForm({ ...bubbleForm, [name]: value })
   }
 
   return(
