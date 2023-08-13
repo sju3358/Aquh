@@ -32,7 +32,7 @@
   width: 100rem;
 }
 
-.categories{
+.types{
   align-self: flex-start;
   display: flex;
   flex-direction: row;
@@ -41,7 +41,7 @@
   width: 100rem;
 }
 
-.category{
+.type{
   margin : 10px;
   font-size: 2rem;
   width: 8rem;
@@ -50,7 +50,7 @@
   line-height: 5rem;
 }
 
-.category:hover{
+.type:hover{
   cursor: pointer;
   font-weight: 700;
   background-color: white;
