@@ -41,7 +41,10 @@ function FeedWrite({ setIsNewFeed }) {
       };
 
       // Append the JSON data under a different key
-      formData.append("feed", new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+      formData.append(
+        "feed",
+        new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+      );
 
       if (file) {
         formData.append("file", file);
@@ -88,27 +91,55 @@ function FeedWrite({ setIsNewFeed }) {
 
   return (
     <div className={classes.feedWriteCard}>
-      <div className={classes.feedTitle}>
+      <p className={classes.feedWriteMent}>
+        <img
+          src='../../droplet-white.png'
+          alt='droplet'
+          className={classes.droplet}
+        />
+        나의 이야기를 작성해주세요
+      </p>
+      <div className={classes.feedWriteSection}>
         <input
-          type="text"
+          type='text'
           value={feedTitle}
           onChange={onChangeFeedTitle}
-          placeholder="제목을 입력하세요"
+          placeholder='제목을 입력하세요'
+          className={classes.feedTitleInput}
         />
-      </div>
-      <div className={classes.feedContent}>
+
         <textarea
-          cols="30"
-          rows="10"
+          cols=''
+          rows='10'
           value={feedContent}
+          className={classes.feedContent}
           onChange={onChangeFeedContent}
-          placeholder="내용을 입력하세요"
-        ></textarea>
+          placeholder='내용을 입력하세요'></textarea>
+
+        <div className={classes.feedWriteUnder}>
+          <div className={classes.feedFileInput}>
+            <input
+              className={classes.uploadFeedName}
+              value='첨부파일'
+              placeholder='첨부파일'
+              disabled
+            />
+            <label for='file' className={classes.feedFileLabel}>
+              파일찾기
+            </label>
+            <input
+              onClick={onChangeFeedFile}
+              className={classes.feedImgRealBtn}
+              accept='image/*'
+              id='file'
+              type='file'
+            />
+          </div>
+          <button className={classes.feedWritButton} onClick={onClinkWriteBtn}>
+            글 작성하기
+          </button>{" "}
+        </div>
       </div>
-      <div className={classes.feedFile}>
-        <input onChange={onChangeFeedFile} accept="image/*" type="file" />
-      </div>
-      <button onClick={onClinkWriteBtn}>글 작성하기</button>
     </div>
   );
 }
