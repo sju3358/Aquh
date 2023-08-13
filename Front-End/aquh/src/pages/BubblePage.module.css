@@ -56,3 +56,16 @@
   background-color: white;
   border-radius: 1rem;
 }
+
+/* TODO : 모달 띄워질 경우 배경 어둡게 처리하기 */
+.containerInvalid{
+  /* box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  background: rgba(0, 0, 0, 0.5); */
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}

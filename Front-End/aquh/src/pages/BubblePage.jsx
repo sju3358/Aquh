@@ -1,12 +1,11 @@
-// import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
-//TODO : 실제 api 받아오면 bubble_mock 지우기
 import classes from "./BubblePage.module.css";
-import { bubbleList, joinedBubbleList, bubbleCategory } from "../utils/api/api.bubble_service";
+import { bubbleList, joinedBubbleList, bubbleCategory, createBubble } from "../utils/api/api.bubble_service";
 import { useEffect, useState } from "react";
 import ButtonSelector from "../components/ui/ButtonSelector";
 import BubbleList from "../components/bubble/BubbleList";
-// TODO: remove file
-// import BubbleCategory from "../components/bubble/BubbleCategory";
+import Modal from "../components/ui/Modal";
+import BubbleForm from "../components/bubble/BubbleForm";
+import https from "../utils/https";
 
 export default function BubblePage() {
 
@@ -15,6 +14,7 @@ export default function BubblePage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [joinedBubbles, setJoinedBubbles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // fetch CategoryList
   useEffect(() => {
@@ -65,8 +65,42 @@ export default function BubblePage() {
   const categoryNames = categories
     .map(category => category.categoryName)
 
+  // related Modal
+  const showModal = () => {
+    setIsModalOpen(prev => !prev)
+  }
+
+//   const handleFormSubmit = () => {
+//   const createSingleBubble = async (bubbleForm) => {
+//     try {
+//       const response = await createBubble(JSON.stringify(bubbleForm));
+//       const res = response
+//       console.log("BubbleForm", res)
+//     }
+//     catch(error){
+//       console.log(error)
+//     }
+//   } 
+//   createSingleBubble();
+// }
+
+const handleFormSubmit = (form) => {
+  https.post('api/v1/bubble', form)
+    .then(
+      (response) => {
+        console.log(response)
+      }
+    )
+    .catch(
+      (error) => {
+        console.log(error)
+      }
+  )
+}
+
+
   return (
-    <div className={classes.container}>
+    <div className={!isModalOpen ? classes.container : classes.containerInvalid }>
       <ButtonSelector
         variant="regular"
         initiallySelected="전체"
@@ -100,7 +134,8 @@ export default function BubblePage() {
         initiallySelected="전체"
         options={["전체", "버블링", "버블톡"]}
         onSelect={type => setSelectedType(type)} />
-
+      <button onClick={showModal}>방 생성하기</button>
+      { isModalOpen && <Modal setIsModalOpen={setIsModalOpen} > <BubbleForm onSubmit={handleFormSubmit} /> </Modal> }
       <div className={classes.oldChat}>
         <BubbleList
           bubbles={bubbles}
