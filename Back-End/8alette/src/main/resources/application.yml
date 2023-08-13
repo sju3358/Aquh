@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: AWS,AWS-KEY,Mail,Redis,PostgreSQL,OpenVidu,OpenVidu-KEY,NAVER
+    include: AWS,AWS-KEY,Mail,Redis,PostgreSQL,OpenVidu,OpenVidu-KEY,NAVER,MongoDB
 
   servlet:
     multipart:
