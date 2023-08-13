@@ -18,3 +18,5 @@ export const bubbleList = () =>
 export const bubbleCategory = () => 
       https.get('api/v1/category')
 
+export const joinedBubbleList = () =>
+      https.get('/api/v1/bubble/bubblings/my')
