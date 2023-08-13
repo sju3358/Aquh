@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "chat")
-public class ChatResponseDTO {
+public class Chat {
     @Id
     private String id;
     private String msg;
