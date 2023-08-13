@@ -3,7 +3,9 @@ let username = prompt("아이디를 입력하세요");
 let roomNum = prompt("채팅방 번호를 입력하세요");
 
 // SSE 연결하기
-const eventSource = new EventSource(`http://localhost:8080/chat/roomNum/${roomNum}`);
+const eventSource = new EventSource(
+  `https://localhost:8080/api/v1/bubble/Chat/chat/roomNum/${roomNum}`
+);
 eventSource.onmessage = (event) => {
   const data = JSON.parse(event.data);
 
