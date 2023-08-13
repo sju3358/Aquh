@@ -7,7 +7,7 @@
 
   padding: 30px 40px;
   &:hover {
-    background-color: rgba(238, 247, 255, 0.867);
+    background-color: rgba(229, 229, 233, 0.707);
     color: black;
   }
 }
@@ -18,18 +18,16 @@
 } */
 .feedTitle {
   font-size: 25px;
-
   margin-bottom: 15px;
 }
 .feedContent {
   font-size: 17px;
   margin-bottom: 15px;
 }
-.feedWriteTime {
+.feedCreateDate {
   margin-bottom: 15px;
 }
 .creator_nickname {
   font-size: 15px;
-
   margin-bottom: 15px;
 }

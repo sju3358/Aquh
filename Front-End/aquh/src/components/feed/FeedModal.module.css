@@ -1,0 +1,118 @@
+.modalReadContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+.title {
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+.nickname {
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+.createTime {
+  margin-bottom: 15px;
+}
+.content {
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+.buttonRewrite {
+  border-radius: 10px;
+  background: #2442a1aa;
+  color: #131111;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 13px;
+  margin: 20px;
+  border: none;
+  &:hover,
+  &:active {
+    background-color: #3f5cbd;
+    color: #eaf1f7;
+  }
+}
+.buttonDelete {
+  border-radius: 10px;
+  background: #f45555c3;
+  color: #131111;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 13px;
+  margin: 20px;
+  border: none;
+  &:hover,
+  &:active {
+    background-color: #dc3131;
+    color: #eaf1f7;
+  }
+}
+
+/* modal 내 수정페이지 */
+.feedTitle {
+  width: 70%;
+  margin: 10px 0px;
+  background-color: #c8c9cd;
+  padding: 2px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  border-radius: 20px;
+}
+.feedContent {
+  /* width: 70%; */
+  resize: none;
+  margin: 10px 0px;
+  background-color: #c8c9cd;
+  padding: 2px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  border-radius: 20px;
+}
+.uploadFeedName {
+  margin: 0px 20px;
+  display: inline-block;
+  height: 45px;
+  padding: 14px;
+  border-radius: 1rem;
+  color: #6c6767;
+  background-color: #e0e0e0af;
+
+  border: 1px solid #ddddddb9;
+  /* &:focus {
+    outline: none;
+  } */
+}
+.feedImgRealBtn {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+.feedFileLabel {
+  display: inline-block;
+  border-radius: 1rem;
+  padding: 10px;
+  color: #020202;
+  background-color: #ffffffac;
+  cursor: pointer;
+  height: 45px;
+  font-size: 14px;
+  padding: 14px;
+  margin-left: 15px;
+  &:hover,
+  &:active {
+    background-color: #acacaccc;
+    color: #262626;
+  }
+}
