@@ -75,11 +75,10 @@
   border-radius: 1rem;
   color: #6c6767;
   background-color: #e0e0e0af;
-
-  border: 1px solid #ddddddb9;
-  /* &:focus {
+  border: none;
+  &:focus {
     outline: none;
-  } */
+  }
 }
 .feedImgRealBtn {
   position: absolute;

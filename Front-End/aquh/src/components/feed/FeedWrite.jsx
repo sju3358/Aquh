@@ -9,7 +9,8 @@ import { memberNumberState } from "../../store/loginUserState";
 function FeedWrite({ setIsNewFeed }) {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null); //진짜 사진 파일 변경해주는 부분
+  const [fileName, setFileName] = useState(null); //사진변경에 따른 파일명 보이는 부분
 
   const memberNumber = useRecoilValue(memberNumberState);
 
@@ -23,9 +24,19 @@ function FeedWrite({ setIsNewFeed }) {
     setFeedConTent(currentFeedContent);
     console.log(currentFeedContent);
   };
+  // const onChangeFeedFile = (e) => {
+  //   const currentFile = e.target.files[0];
+  //   setFile(currentFile);
+  //   console.log("여기 파일임", currentFile);
+  // };
   const onChangeFeedFile = (e) => {
     const currentFile = e.target.files[0];
-    setFile(currentFile);
+    if (currentFile) {
+      setFile(currentFile);
+      setFileName(currentFile.name);
+    } else {
+      setFileName("사진이 없습니다");
+    }
     console.log("여기 파일임", currentFile);
   };
 
@@ -120,19 +131,19 @@ function FeedWrite({ setIsNewFeed }) {
           <div className={classes.feedFileInput}>
             <input
               className={classes.uploadFeedName}
-              value='첨부파일'
+              Value={fileName}
               placeholder='첨부파일'
-              disabled
+              readOnly={true}
             />
-            <label for='file' className={classes.feedFileLabel}>
+            <label htmlFor='file' className={classes.feedFileLabel}>
               파일찾기
             </label>
             <input
-              onClick={onChangeFeedFile}
-              className={classes.feedImgRealBtn}
-              accept='image/*'
-              id='file'
               type='file'
+              id='file'
+              onChange={onChangeFeedFile}
+              accept='image/*'
+              className={classes.feedImgRealBtn}
             />
           </div>
           <button className={classes.feedWritButton} onClick={onClinkWriteBtn}>
