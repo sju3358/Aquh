@@ -1,7 +1,14 @@
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
+#      host: i9b108.p.ssafy.io
+##      host: localhost
+#      port: 27017
+#      database: chatdb
+#      username: AQuh
+#      password: AQuh
+#      authentication-database: chatdb
+      uri: mongodb://AQuh:AQuh@i9b108.p.ssafy.io:27017/?authSource=admin&authMechanism=SCRAM-SHA-1
       database: chatdb
+
 
