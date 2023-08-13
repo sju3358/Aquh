@@ -41,6 +41,7 @@ public class FeedService {
 
 		if (feedDto.getMember() == null || feedDto.getMember().getMemberNumber() == null) {
 			throw new NullValueException("피드 작성자 정보가 없습니다.");
+			//
 		}
 
 		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
@@ -48,7 +49,7 @@ public class FeedService {
 
 		String[] fileNames = new String[2];
 
-		if (file != null && file.getName().equals("empty") != true)
+		if (file != null && file.getOriginalFilename().equals("empty") != true)
 			fileNames = s3FileManager.saveFeedImage(file);
 
 		FeedEntity feedEntity = FeedEntity.builder()
@@ -80,6 +81,7 @@ public class FeedService {
 		} else {
 			list = feedRepository.findByFeedActiveOrderByFeedNumberDesc(true);
 		}
+		//
 
 		if (list == null || list.isEmpty()) {
 			throw new NullValueException("피드가 존재하지 않습니다");
@@ -130,10 +132,14 @@ public class FeedService {
 		existingFeedEntity.setTitle(feedDto.getTitle());
 		existingFeedEntity.setContent(feedDto.getContent());
 
-		String[] fileNames = s3FileManager.saveFeedImage(file);
-
-		existingFeedEntity.setFeedImgOrigin(fileNames[0]);
-		existingFeedEntity.setFeedImgTrans(fileNames[1]);
+		if (file != null && file.getOriginalFilename().equals("empty") != true) {
+			String[] fileNames = s3FileManager.saveFeedImage(file);
+			existingFeedEntity.setFeedImgOrigin(fileNames[0]);
+			existingFeedEntity.setFeedImgTrans(fileNames[1]);
+		} else {
+			existingFeedEntity.setFeedImgOrigin(null);
+			existingFeedEntity.setFeedImgTrans(null);
+		}
 
 		return feedRepository.save(existingFeedEntity);
 
@@ -175,7 +181,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
-		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().equals("")) {
+		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgOrigin().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
 		}

@@ -53,7 +53,6 @@ public class FeedController {
 	@PostMapping
 	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-
 		Map<String, Object> responseData = new HashMap<>();
 
 		if (feedDto.getTitle() == null) {
@@ -66,7 +65,6 @@ public class FeedController {
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
-
 		feedService.registFeed(feedDto, file);
 
 		responseData.put("message", "success");
@@ -93,7 +91,7 @@ public class FeedController {
 		FeedEntity feedEntity = feedService.getFeedById(feed_number);
 		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
-		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgTrans().isEmpty()) {
+		if (feedEntity.getFeedImgTrans() != null) {
 			data.put("img_name", feedEntity.getFeedImgOrigin());
 			data.put("img_url",
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
@@ -132,6 +130,7 @@ public class FeedController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	//
 	// 게시글 삭제
 	@LoginRequired
 	@PutMapping("/{feed_number}")
