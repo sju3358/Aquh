@@ -44,7 +44,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       };
 
       // Append the JSON data under a different key
-      formData.append("feed", new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+      formData.append(
+        "feed",
+        new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+      );
 
       if (file) {
         formData.append("file", file);
@@ -123,10 +126,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       zIndex: 10,
       // top,left,right,bottom ==> 모달창의 사이즈가 아니고 여백에서부터
       // 얼마나 떨어지게 할지 입니다.
-      top: "150px",
-      left: "150px",
-      right: "150px",
-      bottom: "150px",
+      top: "250px",
+      left: "250px",
+      right: "250px",
+      bottom: "250px",
       border: "2px solid black",
       borderRadius: "20px",
     },
@@ -138,45 +141,56 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   };
 
   return (
-    <Modal style={modalStyle} isOpen={modalOpen} onRequestClose={() => closeModal()}>
+    <Modal
+      // className={classes.modalCard}
+      style={modalStyle}
+      isOpen={modalOpen}
+      onRequestClose={() => closeModal()}>
       {isModify ? (
         <div className={classes.feedWriteCard}>
           <div className={classes.feedTitle}>
             <input
-              type="text"
+              type='text'
               value={feedTitle}
               onChange={onChangeFeedTitle}
-              placeholder="제목을 입력하세요"
+              placeholder='제목을 입력하세요'
             />
           </div>
           <div className={classes.feedContent}>
             <textarea
-              cols="30"
-              rows="10"
+              cols='30'
+              rows='10'
               value={feedContent}
               onChange={onChangeFeedContent}
-              placeholder="내용을 입력하세요"
-            ></textarea>
+              placeholder='내용을 입력하세요'></textarea>
           </div>
           <div className={classes.feedFile}>
-            <input onChange={onChangeFeedFile} accept="image/*" type="file" />
+            <input onChange={onChangeFeedFile} accept='image/*' type='file' />
           </div>
           <button onClick={onClinkModifyBtn}>수정하기</button>
         </div>
       ) : (
         <div>
           <h3 className={classes.title}>제목 : {clickFeedData?.title}</h3>
-          <div className={classes.nickname}>닉네임 : {clickFeedData?.memberNickName}</div>
-          <div className={classes.createTime}>작성시간 : {clickFeedData?.createDate}</div>
+          <div className={classes.nickname}>
+            닉네임 : {clickFeedData?.memberNickName}
+          </div>
+          <div className={classes.createTime}>
+            작성시간 : {clickFeedData?.createDate}
+          </div>
           <div className={classes.content}>{clickFeedData?.content}</div>
-          {clickFeedData?.img_url && <img src={`${clickFeedData?.img_url}`} alt="피드 이미지" />}
+          {clickFeedData?.img_url && (
+            <img src={`${clickFeedData?.img_url}`} alt='피드 이미지' />
+          )}
           {/* 작성자랑 유저가 같을때만 수정/삭제 가능 */}
           {
             userNumber === clickFeedData?.feedCreatorNumber ? (
               <button onClick={onClickModify}>수정하기</button>
             ) : null // <button>수정하기</button>
           }
-          {userNumber === clickFeedData?.feedCreatorNumber ? <button>삭제하기</button> : null}
+          {userNumber === clickFeedData?.feedCreatorNumber ? (
+            <button>삭제하기</button>
+          ) : null}
         </div>
       )}
     </Modal>
