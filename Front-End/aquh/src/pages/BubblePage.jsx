@@ -135,7 +135,10 @@ const handleFormSubmit = (form) => {
         options={["전체", "버블링", "버블톡"]}
         onSelect={type => setSelectedType(type)} />
       <button onClick={showModal}>방 생성하기</button>
-      { isModalOpen && <Modal setIsModalOpen={setIsModalOpen} > <BubbleForm onSubmit={handleFormSubmit} /> </Modal> }
+      <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}> 
+        <BubbleForm onSubmit={handleFormSubmit} />
+      </Modal>
+
       <div className={classes.oldChat}>
         <BubbleList
           bubbles={bubbles}
