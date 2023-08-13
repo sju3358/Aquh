@@ -2,7 +2,8 @@ import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
-import classes from "./Chatting.module.css";
+// import classes from "./Chatting.module.css";
+import classes from "./ChattingRow.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
