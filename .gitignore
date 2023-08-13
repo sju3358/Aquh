@@ -237,3 +237,5 @@ Front-End/aquh/.env.local
 
 install-state.gz
 Front-End/aquh/.yarn/install-state.gz
+Back-End/8alette/src/main/resources/application-AWS-KEY.yml
+Back-End/8alette/src/main/resources/application-OpenVidu-KEY.yml
