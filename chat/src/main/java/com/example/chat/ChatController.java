@@ -16,32 +16,31 @@ import reactor.core.scheduler.Schedulers;
 @RequiredArgsConstructor
 @RestController
 public class ChatController {
-    private final ChatRepository chatRepository;
+    private final ChatService chatService;
 
     // 귓속말
-    @CrossOrigin
-    @GetMapping(value = "/sender/{sender}/receiver/{receiver}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Chat> getMsg(
-            @PathVariable String sender,
-            @PathVariable String receiver
-    ) {
-        return chatRepository.mFindBySender(sender, receiver)
-                .subscribeOn(Schedulers.boundedElastic());
-    }
+//    @CrossOrigin
+//    @GetMapping(value = "/sender/{sender}/receiver/{receiver}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+//    public Flux<Chat> getMsg(
+//            @PathVariable String sender,
+//            @PathVariable String receiver
+//    ) {
+//        return chatRepository.mFindBySender(sender, receiver)
+//                .subscribeOn(Schedulers.boundedElastic());
+//    }
 
     @CrossOrigin
-    @GetMapping(value = "/chat/roomNum/{roomNum}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/chat/{bubbleNum}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Chat> findByRoomNum(
-            @PathVariable Long roomNum
+            @PathVariable Long bubbleNum
     ) {
-        return chatRepository.mFindByRoomNum(roomNum)
-                .subscribeOn(Schedulers.boundedElastic());
+        return chatService.getChatLog(bubbleNum);
     }
 
     @CrossOrigin
     @PostMapping("/chat")
     public Mono<Chat> setMsg(@RequestBody Chat chat) {
         chat.setCreatedAt(LocalDateTime.now());
-        return chatRepository.save(chat);
+        return chatService.insertChat(chat, 1L);
     }
 }
