@@ -124,14 +124,6 @@ function FeedPage() {
 
   return (
     <div className={classes.feedPage}>
-      <p className={classes.feedMent}>
-        <img
-          src='../../droplet-white.png'
-          alt='droplet'
-          className={classes.droplet}
-        />
-        나의 이야기를 작성해주세요
-      </p>
       <div className={classes.feedWriteSection}>
         <FeedWrite setIsNewFeed={setIsNewFeed} />
       </div>
@@ -158,7 +150,7 @@ function FeedPage() {
               />
               최신 피드들을 만나보세요 !
             </p>
-            <div>
+            <div className={classes.feedCards}>
               {newList.map((feed) => {
                 // console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
@@ -199,7 +191,7 @@ function FeedPage() {
             </p>
             <div>
               {popularList.map((feed) => {
-                // console.log("map으로 뿌린 피드", feed);
+                console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
                 return (

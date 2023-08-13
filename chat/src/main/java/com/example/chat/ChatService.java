@@ -1,7 +1,5 @@
-package com.ssafy.team8alette.domain.bubble.tools.service;
+package com.example.chat;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.dto.response.Chat;
-import com.ssafy.team8alette.domain.bubble.tools.repository.ChatRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +13,13 @@ public class ChatService {
     private final ChatRepository chatRepository;
 
     public Flux<Chat> getChatLog(Long bubble_number) {
-        return chatRepository.mFindByBubbleNumber(bubble_number)
+        return chatRepository.mFindByBubbleNum(bubble_number)
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
-    public Mono<Chat> insertChat(Chat chat, Long member_number) {
+	public Mono<Chat> insertChat(Chat chat, Long member_number) {
         chat.setSender(member_number);
         chat.setCreatedAt(LocalDateTime.now());
-        System.out.println(chat);
-
-        return chatRepository.save(chat);
-    }
+		return chatRepository.save(chat);
+	}
 }
