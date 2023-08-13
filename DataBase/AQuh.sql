@@ -161,7 +161,7 @@ CREATE TABLE "bubble_list" (
 	"is_cam_lock"	BOOLEAN	DEFAULT FALSE	NOT NULL,
 	"is_chat_lock"	BOOLEAN	DEFAULT FALSE	NOT NULL,
 	"join_state"	SMALLINT	DEFAULT 0	NOT NULL,
-	"craete_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
+	"create_dttm"	TIMESTAMP	DEFAULT now()	NOT NULL
 );
 
 COMMENT ON COLUMN "bubble_list"."bubble_number" IS '버블 인덱스';
@@ -180,7 +180,7 @@ COMMENT ON COLUMN "bubble_list"."is_chat_lock" IS 'TRUE : 채팅 강제 off / FA
 
 COMMENT ON COLUMN "bubble_list"."join_state" IS '0: 신청 / 1: 참여 / 2: 강퇴';
 
-COMMENT ON COLUMN "bubble_list"."craete_dttm" IS '버블 신청 일시(취소시 삭제)';
+COMMENT ON COLUMN "bubble_list"."create_dttm" IS '버블 신청 일시(취소시 삭제)';
 
 
 CREATE TABLE "hashtag" (

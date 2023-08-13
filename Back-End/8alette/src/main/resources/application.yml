@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    include: AWS,AWS-KEY,Mail,Redis,PostgreSQL,OpenVidu,OpenVidu-KEY,NAVER
+
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
