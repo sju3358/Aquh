@@ -112,7 +112,7 @@ export default class Chatting extends Component {
           console.warn(exception);
         });
 
-        this.postSession(this.state.mySessionId).then((token) => {
+        this.postSession().then((token) => {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
@@ -201,7 +201,7 @@ export default class Chatting extends Component {
 
         // Get a token from the OpenVidu deployment
         // this.enterSession(this.state.mySessionId).then((token) => {
-        this.putSession(this.state.mySessionId).then((token) => {
+        this.putSession().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -461,8 +461,10 @@ export default class Chatting extends Component {
    * more about the integration of OpenVidu in your application server.
    */
   
-  async postSession(bubbleNumber) {
-    const response = await https.post("api/v1/bubble-session/" + bubbleNumber,
+  async postSession() {
+    const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: " + sessionId);
+    const response = await https.post("api/v1/bubble-session/" + sessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -473,8 +475,10 @@ export default class Chatting extends Component {
     return await response.data.token; // The token
   }
 
-  async putSession(bubbleNumber) {
-    const response = await https.put("api/v1/bubble-session/" + bubbleNumber,
+  async putSession() {
+    const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: " + sessionId);
+    const response = await https.put("api/v1/bubble-session/" + sessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
