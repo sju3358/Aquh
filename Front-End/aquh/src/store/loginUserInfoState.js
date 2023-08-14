@@ -1,8 +1,8 @@
 import { atom } from "recoil";
-import { recoilPersist } from 'recoil-persist';
+import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
-  key: 'loginUserState',
+  key: "loginUserState",
   storage: localStorage,
 });
 
@@ -26,6 +26,12 @@ export const memberIntroState = atom({
 export const memberEmailState = atom({
   key: "member_email",
   default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const memberActiveSymbolState = atom({
+  key: "member_active_symbols",
+  default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
