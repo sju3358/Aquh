@@ -30,8 +30,8 @@ export default function LogoutPage() {
     https
       .delete("/api/v1/member/auth")
       .then(() => {
-        localStorage.delete("access_token");
-        localStorage.delete("refresh_token");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         resetMemberEmail();
         resetMemberNickname();
         resetMemberType();
