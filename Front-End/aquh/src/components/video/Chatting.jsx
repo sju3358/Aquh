@@ -438,7 +438,7 @@ export default class Chatting extends Component {
                   ))}
                 </div>
               </div>
-              <div className={classes.sessionChat}><ChattingSection/></div>
+              <div className={classes.sessionChat}>asdfasdf<ChattingSection/></div>
             </div>
           </div>
         ) : null}
