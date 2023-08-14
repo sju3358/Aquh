@@ -131,34 +131,39 @@ public class MemberService {
 	}
 
 	public void editMemberInfo(Long memberNumber, Map<String, String> param) throws IllegalAccessException {
-		
-		String memberEmail = param.get("member_email").trim();
-		String memberNickname = param.get("member_nickname").trim();
-		String memberIntro = param.get("member_intro").trim();
-		String memberName = param.get("member_name").trim();
-		String memberEmailReceive = param.get("member_emailReceive").trim();
+
+		String memberEmail = param.get("member_email");
+		String memberNickname = param.get("member_nickname");
+		String memberIntro = param.get("member_intro");
+		String memberName = param.get("member_name");
+		String memberEmailReceive = param.get("member_emailReceive");
 
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
 			.orElseThrow(() -> new MemberNotExistException());
 
 		if (memberEmail != null && memberEmail.equals("") != true) {
+			memberEmail = memberEmail.trim();
 			member.setMemberEmail(memberEmail);
 			member.setEmailVerified(false);
 			mailSenderUtil.sendVerifyEmailMessage(memberNumber, memberEmail);
 		}
 		if (memberNickname != null && memberNickname.equals("") != true) {
+			memberNickname = memberNickname.trim();
 			member.setMemberNickname(memberNickname);
 		}
 
 		if (memberIntro != null && memberIntro.equals("") != true) {
+			memberIntro = memberIntro.trim();
 			member.setMemberIntro(memberIntro);
 		}
 
 		if (memberName != null && memberName.equals("") != true) {
+			memberName = memberName.trim();
 			member.setMemberName(memberName);
 		}
 
 		if (memberEmailReceive != null && memberEmailReceive.equals("") != true) {
+			memberEmailReceive = memberEmailReceive.trim();
 			member.setEmailReceive(memberEmailReceive.equals("Y"));
 		}
 
