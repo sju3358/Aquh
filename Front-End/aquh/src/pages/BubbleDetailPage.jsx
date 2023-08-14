@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { singleBubble } from "../utils/api/api.bubble_service";
+import { Link } from 'react-router-dom';
 
 export default function BubbleDetailPage() {
 
@@ -32,7 +33,9 @@ export default function BubbleDetailPage() {
       <div>썸네일 : bubbleThumbnail </div>
         <div>제목 : {bubbleTitle}</div>
         <div>내용 : {bubbleContent}</div>
-        <button>화상채팅 join하기</button>
+        <button>화상채팅 join하기
+        <Link to='/video/' style={{ textDecoration : "none" }}>참여하기</Link>
+        </button>
     </div>
   );
 }
