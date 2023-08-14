@@ -15,11 +15,12 @@ export default function BubbleCard({
   host = '호스트번호',
   openDate = '2023-08-12T18:33:56.36681',
   closeDate = '2023-08-12T18:33:56.34344',
+  bubbleId,
   onJoin = () => {}
 }) 
 
 {
-  // So just a few minor changes here
+  const id = bubbleId;
   return (
     <div className={classes.card}>
       {thumbnail && (
@@ -36,7 +37,8 @@ export default function BubbleCard({
       <Button onClick={onJoin} variant='regular' className='card-button'>
         {/* 참여하기 */}
         {/* 0807 김재원 수정 */}
-        <Link to='/video/' style={{ textDecoration : "none" }}>참여하기</Link>
+        {/* <Link to='/video/' style={{ textDecoration : "none" }}>참여하기</Link> */}
+        <Link to={`/bubble/${id}`}> 디테일페이지로 </Link>
       </Button>
     </div>
   );
