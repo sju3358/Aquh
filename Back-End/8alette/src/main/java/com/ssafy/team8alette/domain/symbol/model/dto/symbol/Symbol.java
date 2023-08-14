@@ -1,7 +1,5 @@
 package com.ssafy.team8alette.domain.symbol.model.dto.symbol;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +17,8 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Table(name = "symbol")
 @ToString
-public class Symbol {
+public class
+Symbol {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
