@@ -153,4 +153,17 @@ public class SymbolGrantService {
 			}
 		}
 	}
+
+	public void putSymbolIsActiveConverse(Long memberNumber, Long symbolNumber) {
+		Grant grant = symbolGrantRepository.findByGrantIDGrantedMemberNumberAndGrantIDSymbolNumber(memberNumber,
+			symbolNumber);
+		
+		if (grant != null) {
+			boolean currentStatus = grant.isActiveStatus();
+			grant.setActiveStatus(!currentStatus); // 뒤집기
+			symbolGrantRepository.save(grant);
+		}
+
+	}
+
 }
