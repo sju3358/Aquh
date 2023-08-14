@@ -23,6 +23,7 @@ export default function BubbleList({
   const bubbleCards = filteredBubbles?.map((bubble) => (
       <BubbleCard
           key={bubble.bubbleNumber}
+          bubbleId={bubble.bubbleNumber}
           title={bubble.bubbleTitle}
           content={bubble.bubbleContent}
           thumbnail={bubble.bubbleThumbnail}
