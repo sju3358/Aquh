@@ -3,16 +3,16 @@ import createBubble from '../../utils/api/api.bubble_service'
 import { useRecoilValue } from 'recoil'
 import { memberNumberState } from '../../store/loginUserState';
 
-export default function BubbleForm({onSubmit}){
+export default function BubbleForm({ onSubmit }){
   const memberNumber = useRecoilValue(memberNumberState);
   const [bubbleForm, setBubbleForm] = useState({
     hostMemberNumber: '0',
-    categoryNumber: '0',
+    categoryNumber: '1',
     bubbleTitle: '',
     bubbleContent: '',
     bubbleThumbnail : '',
-    planOpenDate: '',
-    planCloseDate: '',
+    // planOpenDate: '',
+    // planCloseDate: '',
   })
 
   const handleSubmit = (e) => {
