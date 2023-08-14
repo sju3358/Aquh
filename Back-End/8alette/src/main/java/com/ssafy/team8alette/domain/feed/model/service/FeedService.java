@@ -150,9 +150,12 @@ public class FeedService {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
 
-		List<FeedResponseDTO> responseDTOList = list.stream()
-			.map(this::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> responseDTOList = new ArrayList<>();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).isFeedActive() == true)
+				responseDTOList.add(convertToDTO(list.get(i)));
+		}
 
 		return responseDTOList;
 	}
