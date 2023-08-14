@@ -47,10 +47,7 @@ public class FeedService {
 		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
-		String[] fileNames = new String[2];
-
-		if (file != null && file.getOriginalFilename().equals("empty") != true)
-			fileNames = s3FileManager.saveFeedImage(file);
+		String[] fileNames = s3FileManager.saveFeedImage(file);
 
 		FeedEntity feedEntity = FeedEntity.builder()
 			.member(member)
@@ -64,7 +61,8 @@ public class FeedService {
 		feedRepository.save(feedEntity);
 
 		// 이미지 파일 있을때 없을때
-		int exp = fileNames[0].equals("") || fileNames[0].equals("empty") ? 20 : 50;
+		boolean isFileExist = fileNames[0] != null && !fileNames[0].equals("") && !fileNames[0].equals("empty");
+		int exp = isFileExist ? 50 : 20;
 
 		memberRecordService.updateMemberExp(member.getMemberNumber(), exp);
 		memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
@@ -132,14 +130,9 @@ public class FeedService {
 		existingFeedEntity.setTitle(feedDto.getTitle());
 		existingFeedEntity.setContent(feedDto.getContent());
 
-		if (file != null && file.getOriginalFilename().equals("empty") != true) {
-			String[] fileNames = s3FileManager.saveFeedImage(file);
-			existingFeedEntity.setFeedImgOrigin(fileNames[0]);
-			existingFeedEntity.setFeedImgTrans(fileNames[1]);
-		} else {
-			existingFeedEntity.setFeedImgOrigin(null);
-			existingFeedEntity.setFeedImgTrans(null);
-		}
+		String[] fileNames = s3FileManager.saveFeedImage(file);
+		existingFeedEntity.setFeedImgOrigin(fileNames[0]);
+		existingFeedEntity.setFeedImgTrans(fileNames[1]);
 
 		return feedRepository.save(existingFeedEntity);
 

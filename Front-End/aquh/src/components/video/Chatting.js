@@ -1,6 +1,7 @@
 import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
+import https from "../../utils/https"
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
 import UserVideoComponent from "./UserVideoComponent";
@@ -31,6 +32,7 @@ export default class Chatting extends Component {
       subscribers: [],
     };
 
+    this.createSession = this.createSession.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
@@ -83,6 +85,77 @@ export default class Chatting extends Component {
     }
   }
 
+  createSession() {
+    this.OV = new OpenVidu();
+    this.setState(
+      {
+        session: this.OV.initSession(),
+      },
+      () => {
+        var mySession = this.state.session;
+
+        mySession.on("streamCreated", (event) => {
+          var subscriber = mySession.subscribe(event.stream, undefined);
+          var subscribers = this.state.subscribers;
+          subscribers.push(subscriber);
+
+          this.setState({
+            subscribers: subscribers,
+          });
+        });
+
+        mySession.on("streamDestroyed", (event) => {
+          this.deleteSubscriber(event.stream.streamManager);
+        });
+
+        mySession.on("exception", (exception) => {
+          console.warn(exception);
+        });
+
+        this.postSession(this.state.mySessionId).then((token) => {
+          mySession
+            .connect(token, { clientData: this.state.myUserName })
+            .then(async () => {
+              let publisher = await this.OV.initPublisherAsync(undefined, {
+                audioSource: undefined, // The source of audio. If undefined default microphone
+                videoSource: undefined, // The source of video. If undefined default webcam
+                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                resolution: "640x480", // The resolution of your video
+                frameRate: 30, // The frame rate of your video
+                insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+                mirror: false, // Whether to mirror your local video or not
+              });
+              mySession.publish(publisher);
+              var devices = await this.OV.getDevices();
+              var videoDevices = devices.filter(
+                (device) => device.kind === "videoinput"
+              );
+              var currentVideoDeviceId = publisher.stream
+                .getMediaStream()
+                .getVideoTracks()[0]
+                .getSettings().deviceId;
+              var currentVideoDevice = videoDevices.find(
+                (device) => device.deviceId === currentVideoDeviceId
+              );
+              this.setState({
+                currentVideoDevice: currentVideoDevice,
+                mainStreamManager: publisher,
+                publisher: publisher,
+              });
+            })
+            .catch((error) => {
+              console.log(
+                "There was an error connecting to the session:",
+                error.code,
+                error.message
+              );
+            });
+        });
+      }
+    );
+  }
+
   joinSession() {
     // --- 1) Get an OpenVidu object ---
 
@@ -128,7 +201,7 @@ export default class Chatting extends Component {
 
         // Get a token from the OpenVidu deployment
         // this.enterSession(this.state.mySessionId).then((token) => {
-        this.getToken().then((token) => {
+        this.putSession(this.state.mySessionId).then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -251,7 +324,43 @@ export default class Chatting extends Component {
     return (
       <div className={classes.container}>
         {this.state.session === undefined ? (
-          <div id='join'>
+          <div id='Input'>
+            <div id='Create-dialog' className={classes.jumbotronVerticalCenter}>
+              <h1> Create a video session </h1>
+              <form className={classes.formGroup} onSubmit={this.createSession}>
+                <p>
+                  <label>Participant: </label>
+                  <input
+                    className={classes.formControl}
+                    type='text'
+                    id='userName'
+                    value={myUserName}
+                    onChange={this.handleChangeUserName}
+                    required
+                  />
+                </p>
+                <p>
+                  <label> Session: </label>
+                  <input
+                    className={classes.formControl}
+                    type='text'
+                    id='sessionId'
+                    value={mySessionId}
+                    onChange={this.handleChangeSessionId}
+                    required
+                  />
+                </p>
+                <p className={classes.textCenter}>
+                  <input
+                    className={classes.controlBtn}
+                    name='commit'
+                    type='submit'
+                    value='Create'
+                  />
+                </p>
+              </form>
+            </div>
+            {/* -------------------------------------------------------------- */}
             <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Join a video session </h1>
               <form className={classes.formGroup} onSubmit={this.joinSession}>
@@ -282,7 +391,7 @@ export default class Chatting extends Component {
                     className={classes.controlBtn}
                     name='commit'
                     type='submit'
-                    value='JOIN'
+                    value='Join'
                   />
                 </p>
               </form>
@@ -351,48 +460,60 @@ export default class Chatting extends Component {
    * Visit https://docs.openvidu.io/en/stable/application-server to learn
    * more about the integration of OpenVidu in your application server.
    */
-  async enterSession(bubble_number) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "api/v1/bubble-session/" + bubble_number,
+  
+  async postSession(bubbleNumber) {
+    const response = await https.post("api/v1/bubble-session/" + bubbleNumber,
       {},
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log(response.data.token);
+    console.log("post: "+response.data.token);
 
-    return response.data.token; // The token
+    return await response.data.token; // The token
   }
 
-  async getToken() {
-    const sessionId = await this.createSession(this.state.mySessionId);
-    console.log("this is your sessionID: " + sessionId);
-    return await this.createToken(sessionId);
-  }
-
-  async createSession(sessionId) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "apiv2/sessions",
-      { customSessionId: sessionId },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    console.log("this is your createSession: " + response.data);
-    return response.data; // The sessionId
-  }
-
-  async createToken(sessionId) {
-    const response = await axios.post(
-      APPLICATION_SERVER_URL + "apiv2/sessions/" + sessionId + "/connections",
+  async putSession(bubbleNumber) {
+    const response = await https.put("api/v1/bubble-session/" + bubbleNumber,
       {},
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("this is your createToken: " + response.data);
-    console.log(response.data);
+    console.log("put: "+response.data.token);
 
-    return response.data; // The token
+    return await response.data.token; // The token
   }
+
+  // async getToken() {
+  //   const sessionId = await this.createSession(this.state.mySessionId);
+  //   console.log("this is your sessionID: " + sessionId);
+  //   return await this.createToken(sessionId);
+  // }
+
+  // async createSession(sessionId) {
+  //   const response = await axios.post(
+  //     APPLICATION_SERVER_URL + "apiv2/sessions",
+  //     { customSessionId: sessionId },
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   console.log("this is your createSession: " + response.data);
+  //   return response.data; // The sessionId
+  // }
+
+  // async createToken(sessionId) {
+  //   const response = await axios.post(
+  //     APPLICATION_SERVER_URL + "apiv2/sessions/" + sessionId + "/connections",
+  //     {},
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   console.log("this is your createToken: " + response.data);
+  //   console.log(response.data);
+
+  //   return response.data; // The token
+  // }
 }
