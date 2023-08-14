@@ -36,33 +36,40 @@ export default function BubbleForm({ onSubmit }) {
       <label htmlFor="imgUrl" className={classes.label}>
         이미지
       </label>
-      <input
-        type="text"
-        name="bubbleThumbnail"
-        value={bubbleThumbnail}
-        onChange={handleChange}
-        className={classes.input}
-      />
+      <div className={classes.inputbox}>
+        <input
+          type="text"
+          name="bubbleThumbnail"
+          value={bubbleThumbnail}
+          onChange={handleChange}
+          className={classes.input}
+        />
+      </div>
+
       <label htmlFor="title" className={classes.label}>
         제목
       </label>
-      <input
-        type="text"
-        name="bubbleTitle"
-        value={bubbleTitle}
-        onChange={handleChange}
-        className={classes.input}
-      />
+      <div className={classes.inputbox}>
+        <input
+          type="text"
+          name="bubbleTitle"
+          value={bubbleTitle}
+          onChange={handleChange}
+          className={classes.input}
+        />
+      </div>
       <label htmlFor="description" className={classes.label}>
         내용
       </label>
-      <textarea
-        type="text"
-        name="bubbleContent"
-        value={bubbleContent}
-        onChange={handleChange}
-        className={`${classes.input} ${classes.textarea}`}
-      />
+      <div className={classes.room}>
+        <textarea
+          type="text"
+          name="bubbleContent"
+          value={bubbleContent}
+          onChange={handleChange}
+          className={`${classes.input} ${classes.textarea}`}
+        />
+      </div>
       {/* <label htmlFor="headcount">인원</label>
     <select size="8" name="headcount" value={} onChange={handleChange}>
       <option value="1">1</option>
@@ -74,7 +81,9 @@ export default function BubbleForm({ onSubmit }) {
       <option value="7">7</option>
       <option value="8">8</option>
     </select> */}
-      <button>제출하기</button>
+      <div className={classes.buttonContainer}>
+        <button className={classes.button}>제출하기</button>
+      </div>
     </form>
   );
 }
