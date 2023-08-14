@@ -28,7 +28,13 @@ export default function SymbolPortrait({
   };
   return (
     <section className={classes.symbolCard}>
-      <div className={classes.imgBackground}>
+      <div
+        className={`${
+          isActive
+            ? classes.imgBackground_active
+            : classes.imgBackground_unactive
+        }`}
+      >
         {/* TODO: isActive를 획득여부로 교체해야함. */}
         <img
           src={symbolImgName}
