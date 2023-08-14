@@ -10,6 +10,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
 import { bubbleNumberState } from "../../store/bubbleState";
 
+import https from "../../utils/https"
+
 export default function ChattingSection() {
     // TODO : atom에서 방넘버 받기
     // TODO : atom에서 멤버넘거 가져오기
@@ -91,15 +93,16 @@ export default function ChattingSection() {
         };
         console.log("전송직전", chat);
 
-        let data = {
-            method: "post",
-            body: JSON.stringify(chat),
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        }
+        // let data = {
+        //     method: "post",
+        //     body: JSON.stringify(chat),
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8",
+        //     },
+        // }
 
-        fetch("https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat", data)
+        https
+        .post("/api/v1/bubble/chat", chat)
         .then((result) => console.log(result));
         console.log("전송끝", chat);
 
