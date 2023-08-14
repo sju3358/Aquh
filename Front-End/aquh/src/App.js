@@ -8,7 +8,8 @@ import NotFound from "./components/ui/NotFound";
 import AuthPage from "./pages/AuthPage";
 import SignUpForm from "./components/users/SignUpForm";
 import BubblePage from "./pages/BubblePage";
-import RedirectPage from "./pages/RedirectPage";
+import RedirectPage_Naver from "./pages/RedirectPage_Naver";
+import RedirectPage_Google from "./pages/RedirectPage_Google";
 import LoginPage from "./pages/LoginPage";
 import FeedPage from "./pages/FeedPage";
 import VideoPage from "./pages/VideoPage";
@@ -44,8 +45,13 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/redirect",
-    element: <RedirectPage />,
+    path: "/redirectG",
+    element: <RedirectPage_Google />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/redirectN",
+    element: <RedirectPage_Naver />,
     errorElement: <NotFound />,
   },
   // { path: "/test", element: <Test /> },
