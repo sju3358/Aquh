@@ -67,12 +67,12 @@ public class BubbleSessionService {
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
 			.type(ConnectionType.WEBRTC)
 			.data(serverData)
-			.role(OpenViduRole.SUBSCRIBER)
+			.role(OpenViduRole.PUBLISHER)
 			.build();
 
 		String token = bubbleSession.getSession().createConnection(connectionProperties).getToken();
 
-		bubbleSession.getBubblers().put(token, OpenViduRole.SUBSCRIBER);
+		bubbleSession.getBubblers().put(token, OpenViduRole.PUBLISHER);
 
 		return token;
 	}

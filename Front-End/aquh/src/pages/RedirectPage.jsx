@@ -48,14 +48,20 @@ export default function RedirectPage() {
           setMemberNumber(res.data.data.member_number);
           setIsSocialLogin(res.data.data.isSocialLogin);
 
+          let memberState = -1;
           https.get(`/api/v1/member`).then((res) => {
             setMemberNickname(res.data.data.member_nickname);
             setMemberType(res.data.data.member_type);
             setMemberIntro(res.data.data.member_intro);
             setMemberEmail(res.data.data.member_email);
+            memberState = res.data.data.member_state;
+            if(memberState === 0)
+              navigate("/nickname")
+            else if(memberState === 1)
+              navigate("/");
+            
           });
-
-          navigate("/");
+         
         } else {
           alert("다시 시도해주세요!");
           navigate("/login");

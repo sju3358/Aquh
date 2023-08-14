@@ -9,6 +9,7 @@ import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 import ChattingSection from "./ChattingSection"
 
+
 // import { useRecoilValue } from "recoil";
 // import { memberNicknameState } from "../../store/loginUserInfoState";
 
@@ -227,7 +228,7 @@ export default class Chatting extends Component {
 
               // --- 6) Publish your stream ---
 
-              mySession.subscribe(publisher);
+              mySession.publish(publisher);
 
               // Obtain the current video device in use
               var devices = await this.OV.getDevices();
@@ -441,7 +442,7 @@ export default class Chatting extends Component {
                     value='카메라끄기'
                   />
                 </div>
-                <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
+                <div className={classes.sessionChat}>bbbbbb<ChattingSection/></div>
               </div>
             </div>
           </div>

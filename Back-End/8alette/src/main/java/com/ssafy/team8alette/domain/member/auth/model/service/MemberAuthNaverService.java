@@ -2,7 +2,6 @@ package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,7 +91,7 @@ public class MemberAuthNaverService {
 		newMember.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
 		newMember.setMemberNickname("N_" + memberNickname);
 		newMember.setMemberName(memberName);
-		newMember.setMemberState(1);
+		newMember.setMemberState(0);
 		newMember.setMemberType(MemberType.NA.toString());
 		newMember.setEmailVerified(true);
 		newMember.setEmailReceive(true);
