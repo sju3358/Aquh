@@ -16,7 +16,6 @@ function FeedPage() {
 
   // 각 필터에 맞는 feedList get
   const [newList, setNewList] = useState([]);
-  const [isNewFeed, setIsNewFeed] = useState(false);
   const [popularList, setPopularList] = useState([]);
   const [isPopularFeed, setIsPopularFeed] = useState(false);
 
@@ -26,12 +25,6 @@ function FeedPage() {
     getList("recent");
   }, []);
 
-  useEffect(() => {
-    if (isNewFeed) {
-      console.log(isNewFeed);
-      getList("recent");
-    }
-  }, [isNewFeed]);
 
   async function getList(filter) {
     await https
@@ -43,7 +36,6 @@ function FeedPage() {
       .then((res) => {
         setNewList(res.data);
       })
-      .then(setIsNewFeed(false))
       .catch((err) => {
         console.log("에러", err);
         return;
@@ -127,7 +119,7 @@ function FeedPage() {
   return (
     <div className={classes.feedPage}>
       <div className={classes.feedWriteSection}>
-        <FeedWrite setIsNewFeed={setIsNewFeed} />
+        <FeedWrite/>
       </div>
       <div className={classes.feedListSection}>
         <div className={classes.feedCategories}>

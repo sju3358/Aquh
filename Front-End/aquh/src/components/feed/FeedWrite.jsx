@@ -6,7 +6,7 @@ import classes from "./FeedWrite.module.css";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
 
-function FeedWrite({ setIsNewFeed }) {
+function FeedWrite() {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState(null); //진짜 사진 파일 변경해주는 부분
@@ -68,9 +68,9 @@ function FeedWrite({ setIsNewFeed }) {
       https
         .post("/api/v1/feed", formData, {})
         .then((response) => {
-          console.log("Response:", response.data);
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
         })
-        .then(setIsNewFeed(true))
         .catch((error) => {
           console.error(":", error);
         });
