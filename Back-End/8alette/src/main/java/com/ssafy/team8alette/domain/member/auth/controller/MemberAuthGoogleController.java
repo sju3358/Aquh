@@ -98,7 +98,7 @@ public class MemberAuthGoogleController {
 		params.add("client_id", googleClientId);
 		params.add("client_secret", googleClientSecret);
 		params.add("code", code);
-		params.add("redirect_uri", "http://localhost:8080");
+		params.add("redirect_uri", "https://i9b108.p.ssafy.io/redirectG");
 		return new HttpEntity<>(params, headers);
 	}
 
