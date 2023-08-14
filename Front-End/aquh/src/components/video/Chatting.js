@@ -111,6 +111,7 @@ export default class Chatting extends Component {
         mySession.on("exception", (exception) => {
           console.warn(exception);
         });
+        alert("asdf");
 
         this.postSession().then((token) => {
           mySession
@@ -462,9 +463,9 @@ export default class Chatting extends Component {
    */
   
   async postSession() {
-    const sessionId = await this.createSession(this.state.mySessionId);
-    console.log("this is your sessionID: " + sessionId);
-    const response = await https.post("api/v1/bubble-session/" + sessionId,
+    // const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https.post("api/v1/bubble-session/" + this.state.mySessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -476,9 +477,8 @@ export default class Chatting extends Component {
   }
 
   async putSession() {
-    const sessionId = await this.createSession(this.state.mySessionId);
-    console.log("this is your sessionID: " + sessionId);
-    const response = await https.put("api/v1/bubble-session/" + sessionId,
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -495,15 +495,16 @@ export default class Chatting extends Component {
   //   return await this.createToken(sessionId);
   // }
 
-  async createSession(sessionId) {
-    const response = await https.post("api/v1/bubble-session/" + sessionId,
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    console.log("this is your createSession sessionId: " + response.data);
-    return response.data; // The sessionId
-  }
+  // async getSessionId(sessionId) {
+  //   const response = await https.post("api/v1/bubble-session/" + sessionId,
+  //   {},
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   console.log("this is your createSession sessionId: " + response.data.token);
+  //   return response.data.token; // The sessionId
+  // }
 
   // async createToken(sessionId) {
   //   const response = await axios.post(
