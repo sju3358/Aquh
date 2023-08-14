@@ -30,7 +30,9 @@ public class BubbleSessionService {
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
-		System.out.println("세션 생성 sesson ID : " + sessionId.trim() + "memberNumber : " + memberNumber);
+		sessionId = sessionId.trim();
+
+		System.out.println("세션 생성 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
 		String serverData = "{\"serverData\": \"" + memberNumber + "\"}";
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
 			.type(ConnectionType.WEBRTC)
@@ -59,7 +61,9 @@ public class BubbleSessionService {
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
-		System.out.println("세션 참여 sesson ID : " + sessionId.trim() + "memberNumber : " + memberNumber);
+		sessionId = sessionId.trim();
+		
+		System.out.println("세션 참여 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
 
