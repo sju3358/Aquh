@@ -107,19 +107,21 @@ function FeedPage() {
   const [clickFeedData, setClickFeedData] = useState();
 
   useEffect(() => {
-    async function axiosFeedData() {
-      try {
-        const responseData = await https.get(
-          `/api/v1/feed/${localStorage.getItem("feedNumber")}`
-        );
+    if(modalOpen === true){
+      async function axiosFeedData() {
+        try {
+          const responseData = await https.get(
+            `/api/v1/feed/${localStorage.getItem("feedNumber")}`
+          );
 
-        console.log(responseData.data.data);
-        setClickFeedData(responseData.data.data);
-      } catch {
-        console.log("error");
+          console.log("asdfasdfasdfasdfasdf");
+          setClickFeedData(responseData.data.data);
+        } catch {
+          console.log("error");
+        }
       }
-    }
-    axiosFeedData();
+      axiosFeedData();
+  }
   }, [modalOpen]);
 
   return (
