@@ -16,7 +16,7 @@ export default function SymbolPortrait({
     if (memberActiveSymbols >= 5 && isActive === false) {
       alert("심볼은 최대 5개까지만 장착 가능합니다.");
     } else {
-      https.put(`/api/v1/symbol/${symbolNumber}`).then(() => {
+      https.put(`/api/v1/symbol/grant/${symbolNumber}`).then(() => {
         /* eslint no-restricted-globals: ["off"] */
         location.reload();
       });

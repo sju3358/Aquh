@@ -9,33 +9,55 @@ export default function Nav() {
   // console.log("memberNumberrrrrrr", memberNumber)
   return (
     <nav className={classes.navBar}>
-      <Link to={memberNumber !== -1 ? '/' : '/login'}>
+      <Link to={memberNumber !== -1 ? "/" : "/login"}>
         {" "}
         <img
-          src='../../aquh-logo.png'
-          alt='aquh-logo'
+          src="../../aquh-logo.png"
+          alt="aquh-logo"
           className={classes.logoPng}
         />
       </Link>
       <div className={classes.navItemContainer}>
         <div className={classes.menuItems}>
-          <Link to={memberNumber !== -1 ? '/feed' : '/login'} style={{ textDecoration: "none" }}>
+          <Link
+            to={memberNumber !== -1 ? "/feed" : "/login"}
+            style={{ textDecoration: "none" }}
+          >
             <span className={classes.navItem}>피드</span>
           </Link>
-          <Link to={memberNumber !== -1 ? '/bubble' : '/login'} style={{ textDecoration: "none" }}>
+          <Link
+            to={memberNumber !== -1 ? "/bubble" : "/login"}
+            style={{ textDecoration: "none" }}
+          >
             <span className={classes.navItem}>버블</span>
           </Link>
-          <Link
-            to={memberNumber !== -1 ? `/auth/${memberNumber}` : "/login"}
-            style={{ textDecoration: "none" }}>
-            <span className={classes.navItem}>My</span>
-          </Link>
+
+          {memberNumber !== -1 ? (
+            <Link
+              to={`/auth/${memberNumber}`}
+              style={{ textDecoration: "none" }}
+            >
+              <span className={classes.navItem}>My</span>
+            </Link>
+          ) : null}
+
+          {memberNumber !== -1 ? (
+            <Link to="/logout" style={{ textDecoration: "none" }}>
+              <span className={classes.navItem}>Logout</span>
+            </Link>
+          ) : null}
+
+          {memberNumber === -1 ? (
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <span className={classes.navItem}>Login</span>
+            </Link>
+          ) : null}
         </div>
         <div className={classes.searchContainer}>
           <SearchInput />
           <img
-            src='../../avatar-image-circle.png'
-            alt='search'
+            src="../../avatar-image-circle.png"
+            alt="search"
             className={classes.avatarPng}
           />
         </div>
