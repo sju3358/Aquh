@@ -92,7 +92,7 @@ public class FeedService {
 	}
 
 	// 피드 상세글 불러오기
-	public FeedEntity getFeedById(Long feedNumber) {
+	public FeedResponseDTO getFeedById(Long feedNumber) {
 		if (!feedRepository.existsByFeedNumberAndFeedActive(feedNumber, true)) {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
@@ -102,7 +102,7 @@ public class FeedService {
 
 		/* 기록 테이블 경험치 추가 */
 		memberRecordService.updateMemberExp(existFeedEntity.getMember().getMemberNumber(), 20);
-		return existFeedEntity;
+		return convertToDTO(existFeedEntity);
 	}
 
 	// 피드 삭제
@@ -150,9 +150,12 @@ public class FeedService {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
 
-		List<FeedResponseDTO> responseDTOList = list.stream()
-			.map(this::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> responseDTOList = new ArrayList<>();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).isFeedActive() == true)
+				responseDTOList.add(convertToDTO(list.get(i)));
+		}
 
 		return responseDTOList;
 	}
@@ -174,6 +177,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
+		dto.setCreateDate(feedEntity.getCreateDate().toLocalDate());
 		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgOrigin().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());

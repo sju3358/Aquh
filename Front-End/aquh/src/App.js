@@ -15,6 +15,7 @@ import VideoPage from "./pages/VideoPage";
 import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
 import BubbleDetailPage from "./pages/BubbleDetailPage";
+import ChattingSection from "./components/video/ChattingSection";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
@@ -36,8 +37,9 @@ const router = createBrowserRouter([
       { path: "/bubble", element: <BubblePage /> },
       { path: "/bubble/:id", element: <BubbleDetailPage />},
       // 0807 김재원 수정
-      { path: "/video", element: <VideoPage /> },
+      { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
+      { path: "/chatting", element: <ChattingSection /> },
   
     ],
   },

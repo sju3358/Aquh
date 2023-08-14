@@ -6,23 +6,29 @@ import classes from "./ChattingSection.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
-import { useRecoilState } from "recoil";
-import { memberNicknameState } from "../store/loginUserInfoState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberNumberState } from "../../store/loginUserState";
+import { bubbleNumberState } from "../../store/bubbleState";
+
+import https from "../../utils/https"
 
 export default function ChattingSection() {
     // TODO : atom에서 방넘버 받기
     // TODO : atom에서 멤버넘거 가져오기
     const memberNumber = useRecoilValue(memberNumberState);
-
-    const bubbleNum = useRecoilValue(bubbleNumState);
+    const bubbleNum = useRecoilValue(bubbleNumberState)
     // const [bubbleNum, setBubbleNum]=useState()
 
     // SSE 연결하기
     const eventSource = new EventSource(
-        `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
+        // `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
+        `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/1`
     );
+
     eventSource.onmessage = (event) => {
+
         const data = JSON.parse(event.data);
+        // console.log(data);
 
         // 로그인 유저가 보낸 메세지
         if (data.sender === memberNumber) {
@@ -37,12 +43,21 @@ export default function ChattingSection() {
     // 파란 박스 초기화/동기화
     function initMyMessage(data) {
         let chatBox = document.querySelector("#chat-box");
+        let md = data.createdAt.substring(5, 10);
+        let tm = data.createdAt.substring(11, 16);
+        let convertTime = tm + " | " + md;
 
-        let sendBox = document.createElement("div");
-        sendBox.className = "outgoing_msg";
+        let sendBox = `
+            <div className=${classes.outgoingMsg}>
+                <div className=${classes.sendMsg}>
+                    <p className=${classes.sendMsgData}>${data.msg}</p>
+                    <span className=${classes.timeDate}> ${convertTime} / <b>${data.sender}</b> </span>
+                </div>
+            </div>`;
 
-        sendBox.innerHTML = getSendMsgBox(data);
-        chatBox.append(sendBox);
+        // chatBox.append(sendBox);
+        chatBox.innerHTML += sendBox;
+
 
         document.documentElement.scrollTop = document.body.scrollHeight;
     }
@@ -50,44 +65,22 @@ export default function ChattingSection() {
     // 회색 박스 초기화/동기화
     function initYourMessage(data) {
         let chatBox = document.querySelector("#chat-box");
+        let md = data.createdAt.substring(5, 10);
+        let tm = data.createdAt.substring(11, 16);
+        let convertTime = tm + " | " + md;
 
-        let receivedBox = document.createElement("div");
-        receivedBox.className = "received_msg";
+        let receivedBox = `
+            <div className=${classes.receivedMsg}>
+                <div className=${classes.receivedWithdMsg}>
+                    <p className=${classes.receivedWithdMsgData}>${data.msg}</p>
+                    <span className=${classes.timeDate}> ${convertTime} / <b>${data.sender}</b> </span>
+                </div>
+            </div>`;
 
-        receivedBox.innerHTML = getReceiveMsgBox(data);
-        chatBox.append(receivedBox);
+        // console.log(receivedBox);
+        chatBox.innerHTML += receivedBox;
 
         document.documentElement.scrollTop = document.body.scrollHeight;
-    }
-
-    // 파란 박스 만들기
-    function getSendMsgBox(data) {
-        let md = data.createdAt.substring(5, 10);
-        let tm = data.createdAt.substring(11, 16);
-        convertTime = tm + " | " + md;
-
-        return (
-            // 파란박스 하나
-            <div class="sent_msg">
-                <p>${data.msg}</p>
-                <span class="time_date"> ${convertTime} / <b>${data.sender}</b> </span>
-            </div>
-        );
-    }
-
-    // 회색 박스 만들기
-    function getReceiveMsgBox(data) {
-        let md = data.createdAt.substring(5, 10);
-        let tm = data.createdAt.substring(11, 16);
-        convertTime = tm + " | " + md;
-
-        return (
-            // 회색박스 하나
-            <div class="received_withd_msg">
-                <p>${data.msg}</p>
-                <span class="time_date"> ${convertTime} / <b>${data.sender}</b> </span>
-            </div>
-        );
     }
 
     // DB에 새 채팅 보내기 : AJAX 채팅 메시지 전송
@@ -95,68 +88,70 @@ export default function ChattingSection() {
         let msgInput = document.querySelector("#chat-outgoing-msg");
 
         let chat = {
-            bubbleNum: bubbleNum,
+            bubbleNumber: 1,
             msg: msgInput.value,
         };
+        console.log("전송직전", chat);
 
-        fetch("https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat", {
-            method: "post",
-            body: JSON.stringify(chat),
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        });
+        // let data = {
+        //     method: "post",
+        //     body: JSON.stringify(chat),
+        //     headers: {
+        //         "Content-Type": "application/json; charset=utf-8",
+        //     },
+        // }
+
+        https
+        .post("/api/v1/bubble/chat", chat)
+        .then((result) => console.log(result));
+        console.log("전송끝", chat);
 
         msgInput.value = "";
     }
 
     // 버튼 클릭시 메시지 전송
-    document.querySelector("#chat-send").addEventListener("click", () => {
+    // document.querySelector("#chat-send").addEventListener("click", () => {
+    //     addMessage();
+    // });
+    const enterMsg = () => {
         addMessage();
-    });
+    }
 
     // 엔터를 치면 메시지 전송
-    document.querySelector("#chat-outgoing-msg").addEventListener("keydown", (e) => {
+    const sendMsg = (e) => {
         if (e.keyCode === 13) {
+            console.log("잘되나", e);
             addMessage();
         }
-    });
+    }
+    // document.querySelector("#chat-outgoing-msg").addEventListener("keydown", (e) => {
+    //     if (e.keyCode === 13) {classes.
+    //         addMessage();
+    //     }
+    // });
 
-    function ChatComponent() {
-        return (
-            <div className={containerFluid}>
+    return (
+        <div className={classes.containerFluid}>
 
-                <div className={row}>
+            <div className={classes.containerFluidrow}>
 
-                    <div className={col - sm - 12}>
+                <div>
 
-                        <div id="user_chat_data" className={userChatData}>
+                    <div id="user_chat_data" className={classes.userChatData}>
 
-                            <div className={containerFluidChatSection} id="chat-box"></div>
+                        <div className={classes.containerFluidChatSection} id="chat-box"></div>
 
-                            <div className={typeMsg}>
-                                <div className={inputMsgWrite}>
-                                    <input id="chat-outgoing-msg" type="text" className={writeMsg} placeholder="Type a message" />
-                                    <button id="chat-send" className={msgSendNtn} type="button"><i className={FaFaPaperPlane} aria-hidden="true"></i></button>
-                                </div>
+                        <div className={classes.typeMsg}>
+                            <div className={classes.inputMsgWrite}>
+                                <input onKeyDown={(e) => sendMsg(e)} id="chat-outgoing-msg" type="text" className={classes.writeMsg} placeholder="Type a message" />
+                                <button id="chat-send" onClick={enterMsg} className={classes.msgSendBtn} type="button"><i className={classes.FaFaPaperPlane} aria-hidden="true"></i></button>
                             </div>
-
                         </div>
+
                     </div>
                 </div>
             </div>
-            //   <script src="js/chat.js"></script>
+        </div>
+    )
 
-            //   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            //   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            //     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            //     crossorigin="anonymous"></script>
-            //   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            //     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            //     crossorigin="anonymous"></script>
-            //   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-            //     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            //     crossorigin="anonymous"></script>
-        )
-    }
 }

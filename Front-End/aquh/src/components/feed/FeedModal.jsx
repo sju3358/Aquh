@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import https from "../../utils/https_nonHeader";
 import React, { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import classes from "./FeedModal.module.css";
 import Modal from "react-modal";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
+
 
 export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const [isModify, setIsModify] = useState();
@@ -32,7 +33,7 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
     } else {
       setFileName("사진이 없습니다");
     }
-    console.log("여기 파일임", currentFile);
+    console.log("ASDFASDF 여기 파일임", currentFile);
   };
   // 수정이 다 끝난 후 내용 변경 axios 전송
   // TODO : 수정할 때 파일이 없어도 가능하도록 (현재 사진 안넣으면 500에러 뜸)
@@ -65,10 +66,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       https
         .put("/api/v1/feed", formData, {})
         .then((response) => {
-          console.log("Response:", response.data);
+          
           closeModal(false);
-          alert("피드가 수정되었습니다. 아직은 새로고침 해야 적용됩니다 :<");
-          // TODO : 모달창 닫히고 작성완료된거 알리기 or 자동새로고침
+           /* eslint no-restricted-globals: ["off"] */
+           location.reload();
         })
 
         .catch((error) => {
@@ -112,6 +113,18 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
     setIsModify(true);
   };
 
+  const onClickDelete = () => {
+     if(confirm("정말 삭제 하시겠습니까?")){
+        https.put(`/api/v1/feed/${clickFeedData.feedNumber}`)
+        .then((res) => {
+          alert("피드가 삭제되었습니다.");
+          
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
+        })
+     }
+  }
+
   const modalStyle = {
     //모달창 바깥부분 관련 스타일링
     overlay: {
@@ -143,6 +156,8 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const userNumber = useRecoilValue(memberNumberState);
   //   모달 오픈창이 false면 모달이 닫힘(처음엔 true로 넘어온 상태)
   const closeModal = () => {
+  
+    setIsModify(false);
     setModalOpen(false);
   };
 
@@ -179,14 +194,14 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
               placeholder='첨부파일'
               readOnly={true}
             />
-            <label for='file' className={classes.feedFileLabel}>
+            <label for='newFile' className={classes.feedFileLabel}>
               파일찾기
             </label>
             <input
               className={classes.feedImgRealBtn}
               onChange={onChangeFeedFile}
               accept='image/*'
-              id='file'
+              id='newFile'
               type='file'
             />
           </div>
@@ -220,7 +235,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
               ) : null // <button>수정하기</button>
             }
             {userNumber === clickFeedData?.feedCreatorNumber ? (
-              <button className={classes.buttonDelete}>삭제하기</button>
+              <button 
+                className={classes.buttonDelete}
+                onClick={onClickDelete}>
+                  삭제하기</button>
             ) : null}
           </div>
         </div>
