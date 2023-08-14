@@ -326,16 +326,16 @@ export default class Chatting extends Component {
     return (
       <div className={classes.container}>
         {this.state.session === undefined ? (
-          <div id="Input">
-            <div id="Create-dialog" className={classes.jumbotronVerticalCenter}>
+          <div id='Input'>
+            <div id='Create-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Create a video session </h1>
               <form className={classes.formGroup} onSubmit={this.createSession}>
                 <p>
                   <label>Participant: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="userName"
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -345,8 +345,8 @@ export default class Chatting extends Component {
                   <label> Session: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="sessionId"
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
@@ -355,23 +355,23 @@ export default class Chatting extends Component {
                 <p className={classes.textCenter}>
                   <input
                     className={classes.controlBtn}
-                    name="commit"
-                    type="submit"
-                    value="Create"
+                    name='commit'
+                    type='submit'
+                    value='Create'
                   />
                 </p>
               </form>
             </div>
             {/* -------------------------------------------------------------- */}
-            <div id="join-dialog" className={classes.jumbotronVerticalCenter}>
+            <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Join a video session </h1>
               <form className={classes.formGroup} onSubmit={this.joinSession}>
                 <p>
                   <label>Participant: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="userName"
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -381,8 +381,8 @@ export default class Chatting extends Component {
                   <label> Session: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="sessionId"
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
@@ -391,9 +391,9 @@ export default class Chatting extends Component {
                 <p className={classes.textCenter}>
                   <input
                     className={classes.controlBtn}
-                    name="commit"
-                    type="submit"
-                    value="Join"
+                    name='commit'
+                    type='submit'
+                    value='Join'
                   />
                 </p>
               </form>
@@ -429,19 +429,18 @@ export default class Chatting extends Component {
                 <div className={classes.sessionNav}>
                   <input
                     className={classes.controlBtn}
-                    type="button"
+                    type='button'
                     onClick={this.leaveSession}
-                    value="화면 종료하기"
+                    value='화면 종료하기'
                   />
                   <input
                     className={classes.switchCameraBtn}
-                    type="button"
+                    type='button'
                     onClick={this.switchCamera}
-                    value="카메라끄기"
+                    value='카메라끄기'
                   />
                 </div>
                 <div className={classes.sessionChat}>
-                  bbbbbb
                   <ChattingSection />
                 </div>
               </div>
