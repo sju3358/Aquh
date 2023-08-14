@@ -20,18 +20,11 @@ import ChattingSection from "./components/video/ChattingSection";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
-  // { path: '/login',
-  //   element : <LoginPage />,
-  //   errorElement : <NotFound />,
-  // },
-
   {
     path: "/",
     element: <Root />,
     errorElement: <NotFound />,
     children: [
-      { index: "true", element: <MainPage /> },
-      { path: "/login", element: <LoginPage /> },
       { path: "/auth/:userId", element: <AuthPage /> },
       // TODO : SignupForm을 SignUpPage로 바꾸기.
       { path: "/feed", element: <FeedPage /> },
@@ -44,6 +37,16 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/main",
+    element: <MainPage />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/redirectG",
     element: <RedirectPage_Google />,
     errorElement: <NotFound />,
@@ -53,7 +56,6 @@ const router = createBrowserRouter([
     element: <RedirectPage_Naver />,
     errorElement: <NotFound />,
   },
-  // { path: "/test", element: <Test /> },
 ]);
 
 export default function App() {

@@ -9,7 +9,7 @@ export default function Nav() {
   // console.log("memberNumberrrrrrr", memberNumber)
   return (
     <nav className={classes.navBar}>
-      <Link to={memberNumber !== -1 ? "/" : "/login"}>
+      <Link to="/main">
         {" "}
         <img
           src="../../aquh-logo.png"
