@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SymbolGrantRequestDTO {
+public class
+SymbolGrantRequestDTO {
 	Long MemberNumber;
 	Long selectNumberOne;
 	Long selectNumberTwo;

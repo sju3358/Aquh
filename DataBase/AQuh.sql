@@ -25,7 +25,7 @@ CREATE TABLE "member" (
 	"member_email"	VARCHAR(50)		NOT NULL,
 	"member_password"	VARCHAR(64)		NOT NULL,
 	"member_nickname"	VARCHAR(20)		NOT NULL,
-	"member_name"	VARCHAR(5)		NOT NULL,
+	"member_name"	VARCHAR(20)		NOT NULL,
 	"member_intro"	VARCHAR(250)		NULL,
 	"member_type"	CHAR(2)		NOT NULL,
 	"member_state"	SMALLINT	DEFAULT 0	NOT NULL,

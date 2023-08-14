@@ -22,6 +22,20 @@ export default function UserFeedList() {
       });
   }, []);
 
+  useEffect(() => {
+    if (modalOpen === true) {
+      https
+        .get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`)
+        .then((responseData) => {
+          console.log(responseData);
+          setClickFeedData(responseData.data.data);
+        })
+        .then((error) => {
+          console.log(error);
+        });
+    }
+  }, [modalOpen]);
+
   return (
     <div className={classes.feedPage}>
       <div className={classes.feedListSection}>
@@ -66,11 +80,6 @@ export default function UserFeedList() {
               </div>
             ) : null}
           </div>
-          <FeedModal
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-            clickFeedData={clickFeedData}
-          />
         </div>
       </div>
     </div>

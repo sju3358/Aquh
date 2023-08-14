@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import https from "../../utils/https_nonHeader";
 import React, { useEffect, useState } from "react";
@@ -32,7 +31,7 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
     } else {
       setFileName("사진이 없습니다");
     }
-    console.log("여기 파일임", currentFile);
+    console.log("ASDFASDF 여기 파일임", currentFile);
   };
   // 수정이 다 끝난 후 내용 변경 axios 전송
   // TODO : 수정할 때 파일이 없어도 가능하도록 (현재 사진 안넣으면 500에러 뜸)
@@ -60,15 +59,12 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       } else {
         formData.append("file", new Blob(), "empty");
       }
-      // axios
-      //   .put("https://i9b108.p.ssafy.io/api/v1/feed", formData, {
       https
         .put("/api/v1/feed", formData, {})
         .then((response) => {
-          console.log("Response:", response.data);
           closeModal(false);
-          alert("피드가 수정되었습니다. 아직은 새로고침 해야 적용됩니다 :<");
-          // TODO : 모달창 닫히고 작성완료된거 알리기 or 자동새로고침
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
         })
 
         .catch((error) => {
@@ -81,35 +77,22 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
     }
   };
 
-  //     axios
-  //       .put("https://localhost:8080/api/v1/feed", formData, {
-  //         headers: {
-  //           "AUTH-TOKEN": localStorage.getItem("access_token"),
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log("Response:", response.data);
-  //         closeModal(false);
-  //         alert("피드가 수정되었습니다. 아직은 새로고침 해야 적용됩니다 :<");
-  //         // TODO : 모달창 닫히고 작성완료된거 알리기 or 자동새로고침
-  //       })
-
-  //       .catch((error) => {
-  //         console.error(":", error);
-  //       });
-  //   } else if (!feedTitle) {
-  //     alert("글 제목을 작성해주세요");
-  //   } else if (!feedContent) {
-  //     alert("글 내용을 작성해주세요");
-  //   }
-  // };
-
-  // <수정하기> 버튼 누르면 수정 가능한 창으로 변경
   const onClickModify = () => {
     setFeedTitle(clickFeedData.title);
     setFeedConTent(clickFeedData.content);
     setFile(clickFeedData.img_url);
     setIsModify(true);
+  };
+
+  const onClickDelete = () => {
+    if (confirm("정말 삭제 하시겠습니까?")) {
+      https.put(`/api/v1/feed/${clickFeedData.feedNumber}`).then((res) => {
+        alert("피드가 삭제되었습니다.");
+
+        /* eslint no-restricted-globals: ["off"] */
+        location.reload();
+      });
+    }
   };
 
   const modalStyle = {
@@ -143,6 +126,7 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const userNumber = useRecoilValue(memberNumberState);
   //   모달 오픈창이 false면 모달이 닫힘(처음엔 true로 넘어온 상태)
   const closeModal = () => {
+    setIsModify(false);
     setModalOpen(false);
   };
 
@@ -151,43 +135,45 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       // className={classes.modalCard}
       style={modalStyle}
       isOpen={modalOpen}
-      onRequestClose={() => closeModal()}>
+      onRequestClose={() => closeModal()}
+    >
       {isModify ? (
         <div className={classes.feedWriteCard}>
           <div className={classes.feedTitle}>
             <input
-              type='text'
+              type="text"
               value={feedTitle}
               className={classes.feedTitle}
               onChange={onChangeFeedTitle}
-              placeholder='제목을 입력하세요'
+              placeholder="제목을 입력하세요"
             />
           </div>
 
           <textarea
-            cols='80'
-            rows='22'
+            cols="80"
+            rows="22"
             value={feedContent}
             className={classes.feedContent}
             onChange={onChangeFeedContent}
-            placeholder='내용을 입력하세요'></textarea>
+            placeholder="내용을 입력하세요"
+          ></textarea>
 
           <div className={classes.feedFile}>
             <input
               className={classes.uploadFeedName}
               Value={fileName}
-              placeholder='첨부파일'
+              placeholder="첨부파일"
               readOnly={true}
             />
-            <label for='file' className={classes.feedFileLabel}>
+            <label for="newFile" className={classes.feedFileLabel}>
               파일찾기
             </label>
             <input
               className={classes.feedImgRealBtn}
               onChange={onChangeFeedFile}
-              accept='image/*'
-              id='file'
-              type='file'
+              accept="image/*"
+              id="newFile"
+              type="file"
             />
           </div>
           <button className={classes.buttonRewrite} onClick={onClinkModifyBtn}>
@@ -206,7 +192,7 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
           </div>
           <div className={classes.content}>{clickFeedData?.content}</div>
           {clickFeedData?.img_url && (
-            <img src={`${clickFeedData?.img_url}`} alt='피드 이미지' />
+            <img src={`${clickFeedData?.img_url}`} alt="피드 이미지" />
           )}
           {/* 작성자랑 유저가 같을때만 수정/삭제 가능 */}
           <div className={classes.buttonContainer}>
@@ -214,13 +200,16 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
               userNumber === clickFeedData?.feedCreatorNumber ? (
                 <button
                   className={classes.buttonRewrite}
-                  onClick={onClickModify}>
+                  onClick={onClickModify}
+                >
                   수정하기
                 </button>
               ) : null // <button>수정하기</button>
             }
             {userNumber === clickFeedData?.feedCreatorNumber ? (
-              <button className={classes.buttonDelete}>삭제하기</button>
+              <button className={classes.buttonDelete} onClick={onClickDelete}>
+                삭제하기
+              </button>
             ) : null}
           </div>
         </div>

@@ -87,7 +87,7 @@ public class MemberRecordService {
 		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
 			.orElseThrow(() -> new MemberNotExistException());
 		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(memberNumber);
-		List<Grant> grantMember = symbolGrantRepository.findByGrantIDGrantedMemberNumber(memberNumber);
+		List<Grant> grantMember = symbolGrantRepository.findByGrantIDGrantedMemberNumberOrderBySymbolAsc(memberNumber);
 		List<Symbol> symbolsWithSymbolNumberFive = new ArrayList<>();
 
 		for (Grant grant : grantMember) {
