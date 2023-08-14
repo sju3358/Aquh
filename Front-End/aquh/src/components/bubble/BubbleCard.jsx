@@ -40,7 +40,7 @@ export default function BubbleCard({
         <Link
           to={`/bubble/${id}`}
           style={{ color: "white" }}
-          className="detail-link"
+          className={classes.detailLink}
         >
           {" "}
           참여하기{" "}
