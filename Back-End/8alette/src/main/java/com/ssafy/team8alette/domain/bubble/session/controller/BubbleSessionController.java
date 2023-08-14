@@ -32,7 +32,7 @@ public class BubbleSessionController {
 	private final BubbleService bubbleService;
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping("/{bubbleNumber}")
+	@PostMapping("/{sessionId}")
 	public ResponseEntity createBubbleSessionRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable String sessionId) throws
