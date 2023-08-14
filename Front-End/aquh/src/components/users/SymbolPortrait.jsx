@@ -13,13 +13,17 @@ export default function SymbolPortrait({
   const memberActiveSymbols = useRecoilValue(memberActiveSymbolState);
 
   const handleClick = () => {
-    if (memberActiveSymbols >= 5 && isActive === false) {
-      alert("심볼은 최대 5개까지만 장착 가능합니다.");
-    } else {
-      https.put(`/api/v1/symbol/${symbolNumber}`).then(() => {
-        /* eslint no-restricted-globals: ["off"] */
-        location.reload();
-      });
+    if (isAcquired === true) {
+      console.log("유저심볼 : ", memberActiveSymbols.length);
+
+      if (memberActiveSymbols.length >= 5 && isActive === false) {
+        alert("심볼은 최대 5개까지만 장착 가능합니다.");
+      } else {
+        https.put(`/api/v1/symbol/grant/${symbolNumber}`).then(() => {
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
+        });
+      }
     }
   };
   return (
