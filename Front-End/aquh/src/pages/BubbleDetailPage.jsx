@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 export default function BubbleDetailPage() {
 
   const [bubble, setBubble] = useState({});
-  let bubbleNumber = useParams();
+  const roomNumber = useParams().id;
   // TODO: put 'bubbleNumber' into the api
   
 
   useEffect(() => { 
     const fetchSingleBubble = async () => {
       try {
-        const response = await singleBubble(bubbleNumber.id);
+        const response = await singleBubble(roomNumber);
         const res = response.data.data
         console.log(res)
         setBubble(res)
@@ -33,8 +33,8 @@ export default function BubbleDetailPage() {
       <div>썸네일 : bubbleThumbnail </div>
         <div>제목 : {bubbleTitle}</div>
         <div>내용 : {bubbleContent}</div>
-        <button>화상채팅 join하기
-        <Link to='/video/' style={{ textDecoration : "none" }}>참여하기</Link>
+        <button>
+        <Link to={`/video/${roomNumber}`} style={{ textDecoration : "none" }}>참여하기</Link>
         </button>
     </div>
   );

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import https from "../utils/https";
 import { useNavigate } from "react-router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNicknameState } from "../store/loginUserInfoState";
+
+import { memberNumberState } from "../store/loginUserState";
+
 
 function NicknamePage() {
   const [nickName, setNickname] = useRecoilState(memberNicknameState);
@@ -15,6 +18,8 @@ function NicknamePage() {
   const [vaildNickName, setValidNickName] = useState(false);
 
   const navigate = useNavigate();
+
+  const memberNumber = useRecoilValue(memberNumberState);
 
   // 닉네임 유효성검사
   const onChangeNickName = (e) => {
@@ -62,8 +67,17 @@ function NicknamePage() {
         //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
       })
       .then((res) => {
-        // console.log("닉네임변경 :", res);
-        navigate("/");
+        
+        https.get(`/api/v1/member/url/state-certification/${memberNumber}`)
+        .then(() => {
+          alert("환영합니다");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      }).catch((error) => {
+        console.log(error);
       });
   };
   return (

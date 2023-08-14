@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       { path: "/bubble", element: <BubblePage /> },
       { path: "/bubble/:id", element: <BubbleDetailPage />},
       // 0807 김재원 수정
-      { path: "/video", element: <VideoPage /> },
+      { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
       { path: "/chatting", element: <ChattingSection /> },
   
