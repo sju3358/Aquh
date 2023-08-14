@@ -54,9 +54,9 @@ export default function Nav() {
           ) : null}
         </div>
         <div className={classes.searchContainer}>
-          <SearchInput />
+          {/* <SearchInput /> */}
           <img
-            src="../../avatar-image-circle.png"
+            src="../../alert.png"
             alt="search"
             className={classes.avatarPng}
           />
