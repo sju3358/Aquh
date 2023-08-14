@@ -64,7 +64,7 @@
 .feedWriteUnder {
   display: flex;
   width: 1140px;
-  justify-content: end;
+  justify-content: flex-end;
   margin-right: 32%;
   margin-top: 10px;
 }
