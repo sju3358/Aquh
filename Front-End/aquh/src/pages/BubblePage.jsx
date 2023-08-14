@@ -6,7 +6,6 @@ import BubbleList from "../components/bubble/BubbleList";
 import Modal from "../components/ui/Modal";
 import BubbleForm from "../components/bubble/BubbleForm";
 import https from "../utils/https";
-import BubbleDetail from "../components/bubble/BubbleDetail";
 
 
 
