@@ -53,11 +53,11 @@ export default function MainPage() {
         <section className={classes.bubbleBox}>
           {/* <PopulatedBubbleList /> */}
         </section>
-        <img
+        {/* <img
           src="../../feed-main.png"
           alt="bubblingTalk"
           className={classes.feedMainImg}
-        />
+        /> */}
         <section className={classes.feedBox}>{testFeed}</section>
       </main>
     </div>

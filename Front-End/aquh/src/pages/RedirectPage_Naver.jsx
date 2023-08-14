@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import https from "../utils/https";
+import classes from "./RedirectPage_Naver.module.css";
 
 import {
   memberEmailState,
@@ -72,5 +73,7 @@ export default function RedirectPage_Naver() {
       });
   });
 
-  return <div>로그인중입니다...어쩌구</div>;
+  return (
+    <></>
+  );
 }
