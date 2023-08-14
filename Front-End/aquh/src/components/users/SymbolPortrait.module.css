@@ -1,44 +1,57 @@
-*{
+* {
   margin: 0;
   box-sizing: border-box;
 }
 
-.imgBackground{
+.imgBackground {
   width: 4rem;
   height: 4rem;
-  background-color: #E9EEFF;
+  background-color: #e9eeff;
   border-radius: 50%;
-  display: flex;  
+  display: flex;
   justify-content: center;
   align-items: center;
   margin: 1.5rem;
   cursor: pointer;
 }
 
-.symbolImage{
+.symbolImage {
   width: 2.5rem;
   height: 2.5rem;
 }
 
-.symbolImageInvalid{
+.symbolImageInvalid {
   width: 2.5rem;
   height: 2.5rem;
-  filter: grayscale(100%)
-} 
+  filter: grayscale(100%);
+}
 /* 
 .symbolCard{
   width: 1rem;
 } */
 
-.imgBackground{
+.imgBackground_active {
   width: 4rem;
   height: 4rem;
-  background-color: #E9EEFF;
+  background-color: #e9eeff;
   border-radius: 50%;
-  display: flex;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem;
+  cursor: pointer;
+  border: 2px solid #ff000085;
+  padding: 0px;
+}
+
+.imgBackground_unactive {
+  width: 4rem;
+  height: 4rem;
+  background-color: #e9eeff;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
   align-items: center;
   margin: 1.5rem;
   cursor: pointer;
 }
-
