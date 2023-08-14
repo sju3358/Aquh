@@ -2,7 +2,7 @@ import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
-import classes from "./ChattingSection.module.css";
+import "./ChattingSection.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
@@ -48,16 +48,16 @@ export default function ChattingSection() {
         let convertTime = tm + " | " + md;
 
         let sendBox = `
-            <div className=${classes.outgoingMsg}>
-                <div className=${classes.sendMsg}>
-                    <p className=${classes.sendMsgData}>${data.msg}</p>
-                    <span className=${classes.timeDate}> ${convertTime} / <b>${data.sender}</b> </span>
+            <div class="outgoingMsg">
+                <div class="sendMsg">
+                    <p class="sendMsgData">${data.msg}</p>
+                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
                 </div>
-            </div>`;
+            </div>
+            `;
 
         // chatBox.append(sendBox);
         chatBox.innerHTML += sendBox;
-
 
         document.documentElement.scrollTop = document.body.scrollHeight;
     }
@@ -69,11 +69,15 @@ export default function ChattingSection() {
         let tm = data.createdAt.substring(11, 16);
         let convertTime = tm + " | " + md;
 
+        // let element = React.createElement("div");
+        // element.class=`"receivedMsg}`;
+        // element.textContext = data;
+
         let receivedBox = `
-            <div className=${classes.receivedMsg}>
-                <div className=${classes.receivedWithdMsg}>
-                    <p className=${classes.receivedWithdMsgData}>${data.msg}</p>
-                    <span className=${classes.timeDate}> ${convertTime} / <b>${data.sender}</b> </span>
+            <div class="receivedMsg">
+                <div class="receivedWithdMsg">
+                    <p class="receivedWithdMsgData">${data.msg}</p>
+                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
                 </div>
             </div>`;
 
@@ -102,8 +106,8 @@ export default function ChattingSection() {
         // }
 
         https
-        .post("/api/v1/bubble/chat", chat)
-        .then((result) => console.log(result));
+            .post("/api/v1/bubble/chat", chat)
+            .then((result) => console.log(result));
         console.log("전송끝", chat);
 
         msgInput.value = "";
@@ -125,26 +129,27 @@ export default function ChattingSection() {
         }
     }
     // document.querySelector("#chat-outgoing-msg").addEventListener("keydown", (e) => {
-    //     if (e.keyCode === 13) {classes.
+    //     if (e.keyCode === 13) "
     //         addMessage();
     //     }
     // });
 
     return (
-        <div className={classes.containerFluid}>
+        <div class="containerFluid">
 
-            <div className={classes.containerFluidrow}>
+            <div class="containerFluidrow">
 
                 <div>
 
-                    <div id="user_chat_data" className={classes.userChatData}>
+                    <div id="user_chat_data" class="userChatData">
 
-                        <div className={classes.containerFluidChatSection} id="chat-box"></div>
+                        <div class="containerFluidChatSection" id="chat-box"></div>
 
-                        <div className={classes.typeMsg}>
-                            <div className={classes.inputMsgWrite}>
-                                <input onKeyDown={(e) => sendMsg(e)} id="chat-outgoing-msg" type="text" className={classes.writeMsg} placeholder="Type a message" />
-                                <button id="chat-send" onClick={enterMsg} className={classes.msgSendBtn} type="button"><i className={classes.FaFaPaperPlane} aria-hidden="true"></i></button>
+                        <div class="typeMsg">
+                            <div class="inputMsgWrite">
+
+                                <input onKeyDown={(e) => sendMsg(e)} id="chat-outgoing-msg" type="text" class="writeMsg" placeholder="Type a message" />
+                                <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button"><i class="FaFaPaperPlane" aria-hidden="true"></i></button>
                             </div>
                         </div>
 
