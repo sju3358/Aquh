@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.team8alette.domain.feed.model.dto.FeedDto;
-import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
@@ -88,33 +87,33 @@ public class FeedController {
 	public ResponseEntity<Map<String, Object>> detailFeed(@PathVariable Long feed_number) {
 		Map<String, Object> responseData = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
-		FeedEntity feedEntity = feedService.getFeedById(feed_number);
-		Member member = memberService.getMemberInfo(feedEntity.getMember().getMemberNumber());
+		FeedResponseDTO feedDto = feedService.getFeedById(feed_number);
+		Member member = memberService.getMemberInfo(feedDto.getFeedCreatorNumber());
 		//만약 저장했던 피드의 이미지가 존재한다면
-		if (feedEntity.getFeedImgTrans() != null) {
-			data.put("img_name", feedEntity.getFeedImgOrigin());
+		if (feedDto.getFeedImgTrans() != null) {
+			data.put("img_name", feedDto.getFeedImgOrigin());
 			data.put("img_url",
-				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
+				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedDto.getFeedImgTrans());
 		}
-		data.put("feedNumber", feedEntity.getFeedNumber());
-		data.put("feedCreatorNumber", feedEntity.getMember().getMemberNumber());
+		data.put("feedNumber", feedDto.getFeedNumber());
+		data.put("feedCreatorNumber", feedDto.getFeedCreatorNumber());
 		data.put("memberNickName", member.getMemberNickname());
-		data.put("title", feedEntity.getTitle());
-		data.put("content", feedEntity.getContent());
-		data.put("feedLikeCnt", feedEntity.getFeedLikeCnt());
-		data.put("viewCnt", feedEntity.getViewCnt());
-		data.put("feedActive", feedEntity.isFeedActive());
-		data.put("feedImgOrigin", feedEntity.getFeedImgOrigin());
-		data.put("feedImgTrans", feedEntity.getFeedImgTrans());
-		data.put("createDate", feedEntity.getCreateDate());
-		data.put("deleteDate", feedEntity.getDeleteDate());
+		data.put("title", feedDto.getTitle());
+		data.put("content", feedDto.getContent());
+		data.put("feedLikeCnt", feedDto.getFeedLikeCnt());
+		data.put("viewCnt", feedDto.getViewCnt());
+		data.put("feedActive", feedDto.isFeedActive());
+		data.put("feedImgOrigin", feedDto.getFeedImgOrigin());
+		data.put("feedImgTrans", feedDto.getFeedImgTrans());
+		data.put("createDate", feedDto.getCreateDate());
+		data.put("deleteDate", feedDto.getDeleteDate());
 
 		//아직 심볼부여는 빼고
-		List<GrantResponseDTO> list = symbolGrantService.getGrantList(feedEntity.getMember().getMemberNumber());
+		List<GrantResponseDTO> list = symbolGrantService.getGrantList(feedDto.getFeedCreatorNumber());
 		data.put("symbolNumber", list);
-		int exp = followRepository.countByFollowingMemberNumber(feedEntity.getMember());
+		int exp = followRepository.countByFollowingMemberNumber(member);
 		data.put("level", convertExpToLevel(exp));
-		data.put("followingCnt", followRepository.countByFollowingMemberNumber(feedEntity.getMember()));
+		data.put("followingCnt", followRepository.countByFollowingMemberNumber(member));
 		responseData.put("message", "success");
 		responseData.put("data", data);
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
