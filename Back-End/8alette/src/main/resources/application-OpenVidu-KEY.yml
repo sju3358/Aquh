@@ -1,0 +1,3 @@
+server:
+  ssl:
+    key-store-password: 123456
