@@ -11,7 +11,7 @@ export default function NaverLoginButton({}) {
   return (
     <button onClick={handleNaverLogin} className={classes.login}>
       <img
-        src='../../naver-login-white.png'
+        src='../../네이버로그인버튼.png'
         alt='naver-login'
         className={classes.naverLogin}
       />
