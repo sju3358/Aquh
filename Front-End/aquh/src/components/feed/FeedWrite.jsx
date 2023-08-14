@@ -17,12 +17,12 @@ function FeedWrite() {
   const onChangeFeedTitle = (e) => {
     const currentFeedTitle = e.target.value;
     setFeedTitle(currentFeedTitle);
-    console.log(currentFeedTitle);
+    
   };
   const onChangeFeedContent = (e) => {
     const currentFeedContent = e.target.value;
     setFeedConTent(currentFeedContent);
-    console.log(currentFeedContent);
+    
   };
   // const onChangeFeedFile = (e) => {
   //   const currentFile = e.target.files[0];

@@ -32,7 +32,7 @@ function FeedCard({
       {/* {charImg()} */}
       <h3 className={classes.feedTitle}>{feedTitle}</h3>
       <p className={classes.creator_nickname}>{userNickName} </p>
-      <p className={classes.feedCreateDate}>작성 시간 : {feedCreateDate}</p>
+      <p className={classes.feedCreateDate}>작성 날짜 : {feedCreateDate}</p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <p className={classes.feedContent}> {feedContent}</p>
       {/* TODO : 내용 일부만(3줄) 보이게 수정->css */}
