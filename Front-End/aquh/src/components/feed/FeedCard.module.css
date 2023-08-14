@@ -1,33 +1,33 @@
-.FeedCard {
+  .FeedCard {
   background-color: rgb(255, 255, 255);
-  /* position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px; */
-  height: 250px;
+  width: 950px;
+
   border-radius: 10px;
   margin: 20px;
-  border: 2px solid rgb(71, 138, 197);
-  padding: 8px 12px;
+
+  padding: 30px 40px;
+  &:hover {
+    background-color: rgba(229, 229, 233, 0.707);
+    color: black;
+  }
 }
 
-.feedCardImg {
-  width: 80px;
-  height: 80px;
-}
+/* .feedCardImg {
+  width: 500px;
+  height: 500px;
+} */
 .feedTitle {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 .feedContent {
-  font-size: 1.5rem;
-  font-weight: 500;
-  /* margin-left: 0.5rem; */
+  font-size: 17px;
+  margin-bottom: 15px;
 }
-.userInfo {
-  display: flex;
+.feedCreateDate {
+  margin-bottom: 15px;
 }
-.userName {
-  font-size: 1.5rem;
-  font-weight: 500;
+.creator_nickname {
+  font-size: 15px;
+  margin-bottom: 15px;
 }

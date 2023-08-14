@@ -1,5 +1,4 @@
 import axios from "axios";
-import { errorSelector } from "recoil";
 
 let instance = axios.create({
   baseURL: "https://i9b108.p.ssafy.io",

@@ -1,38 +1,110 @@
 .feedWriteCard {
+  width: 1140px;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 }
 
-.feedTitle {
-  /* margin-bottom: 5px; */
-  padding: 10px;
-  border-radius: 15px;
-  width: 860px;
-  border: #999999;
+.feedWriteMent {
+  align-items: flex-start;
+  /* width: 90%; */
+  color: white;
+  font-weight: 70;
+  font-family: Pretendard;
+  /* align-self: start; */
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 20px 60px;
 }
-
+.feedWriteSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.feedTitleInput {
+  width: 70%;
+  margin: 10px 0px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  padding: 13px;
+  border-radius: 10px;
+}
 .feedContent {
-  padding: 10px;
-  resize: none; /* 사용자 임의 변경 불가 */
-  border-radius: 15px;
-  margin-bottom: 10px;
-  width: 860px;
-  height: 70%;
-  border: #999999;
-}
-
-.latestChat {
-  width: 100rem;
+  resize: none;
+  width: 70%;
+  margin: 10px 0px;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  padding: 13px;
+  border-radius: 10px;
 }
 .droplet {
   width: 2.5rem;
   height: 4rem;
 }
-.latestMent {
-  color: white;
+.feedWritButton {
+  border-radius: 10px;
+  background: #2442a1aa;
+
+  cursor: pointer;
   font-weight: 700;
-  font-family: Pretendard;
-  align-self: start;
-  font-size: 3rem;
-  font-weight: 700;
-  margin-left: 6rem;
-  margin-top: 5rem;
+  padding: 13px;
+  border: none;
+  &:hover,
+  &:active {
+    background-color: #3f5cbd;
+    color: #eaf1f7;
+  }
+}
+.feedWriteUnder {
+  display: flex;
+  width: 1140px;
+  justify-content: flex-end;
+  margin-right: 32%;
+  margin-top: 10px;
+}
+.uploadFeedName {
+  display: inline-block;
+  height: 45px;
+  padding: 14px;
+  border-radius: 1rem;
+  color: #6c6767;
+  background-color: #e0e0e0af;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+.feedImgRealBtn {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+.feedFileLabel {
+  display: inline-block;
+  border-radius: 1rem;
+  padding: 10px;
+  color: #020202;
+  background-color: #ffffffac;
+  cursor: pointer;
+  height: 45px;
+  font-size: 14px;
+  padding: 14px;
+  margin-left: 15px;
+  &:hover,
+  &:active {
+    background-color: #acacaccc;
+    color: #262626;
+  }
+}
+.feedFileInput {
+  margin-right: 40px;
 }

@@ -26,10 +26,14 @@ public class BubbleSessionService {
 	private final BubbleSessionRepository bubbleSessionRepository;
 	private final OpenVidu openVidu;
 
-	public String createHostBubbleSession(Long bubbleNumber) throws OpenViduJavaClientException, OpenViduHttpException {
+	public String createHostBubbleSession(String sessionId, Long memberNumber) throws
+		OpenViduJavaClientException,
+		OpenViduHttpException {
 
-		String sessionId = Long.toString(bubbleNumber);
-		String serverData = "{\"serverData\": \"" + sessionId + "\"}";
+		sessionId = sessionId.trim();
+
+		System.out.println("세션 생성 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
+		String serverData = "{\"serverData\": \"" + memberNumber + "\"}";
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
 			.type(ConnectionType.WEBRTC)
 			.data(serverData)
@@ -53,25 +57,26 @@ public class BubbleSessionService {
 		return token;
 	}
 
-	public String createSubBubbleSession(Long bubbleNumber) throws
+	public String createSubBubbleSession(String sessionId, Long memberNumber) throws
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
-		String sessionId = Long.toString(bubbleNumber);
-
+		sessionId = sessionId.trim();
+		
+		System.out.println("세션 참여 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
 
-		String serverData = "{\"serverData\": \"" + sessionId + "\"}";
+		String serverData = "{\"serverData\": \"" + memberNumber + "\"}";
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
 			.type(ConnectionType.WEBRTC)
 			.data(serverData)
-			.role(OpenViduRole.SUBSCRIBER)
+			.role(OpenViduRole.PUBLISHER)
 			.build();
 
 		String token = bubbleSession.getSession().createConnection(connectionProperties).getToken();
 
-		bubbleSession.getBubblers().put(token, OpenViduRole.SUBSCRIBER);
+		bubbleSession.getBubblers().put(token, OpenViduRole.PUBLISHER);
 
 		return token;
 	}

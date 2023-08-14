@@ -1,55 +1,22 @@
-import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
-//TODO : 실제 api 받아오면 bubble_mock 지우기
 import classes from "./BubblePage.module.css";
-import { bubbleList } from "../utils/api/api.bubble_service";
+import { bubbleList, joinedBubbleList, bubbleCategory } from "../utils/api/api.bubble_service";
 import { useEffect, useState } from "react";
-import BubbleCard from "../components/bubble/BubbleCard";
-import { bubbleCategory } from "../utils/api/api.bubble_service";
-import BubbleCategory from "../components/bubble/BubbleCategory";
+import ButtonSelector from "../components/ui/ButtonSelector";
 import BubbleList from "../components/bubble/BubbleList";
+import Modal from "../components/ui/Modal";
+import BubbleForm from "../components/bubble/BubbleForm";
+import https from "../utils/https";
+
+
 
 export default function BubblePage() {
 
   const [bubbles, setBubbles] = useState([]);
-  const [category, setCategory] = useState([]);
-  // selectedCategory
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-
-  // fetch BubbleList 
-  useEffect(() => {
-    const fetchBubbleList = async () => {
-      try {
-        const response = await bubbleList();
-        const res = response.data.data;
-        console.log("BubbleListtttttt", res)
-        setBubbles(res)
-      }
-      catch(error){
-        console.log(`Oh nonono BubblePage! ${error}`);
-      }
-    }
-    fetchBubbleList();
-  }, [])
-  
-  // give props to BubbleCard
-  const bubbleCards = bubbles?.map((bubble) => {
-    return (
-      <BubbleCard
-        key={bubble.bubbleNumber}
-        title={bubble.bubbleTitle}
-        content={bubble.bubbleContent}
-        thumbnail={bubble.bubbleThumbnail}
-        type={bubble.bubbleType}
-        category={bubble.categoryName}
-        host={bubble.hostMemberNumber}
-        openDate={bubble.planOpenDate}
-        closeDate={bubble.planCloseDate}
-        onJoin={() => { }}
-        selectedCategory={selectedCategory}
-      />
-    )
-  })
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
+  const [joinedBubbles, setJoinedBubbles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   // fetch CategoryList
@@ -58,32 +25,104 @@ export default function BubblePage() {
       try {
         const response = await bubbleCategory();
         const res = response.data.category;
-        setCategory(res);
+        setCategories(res);
       }
       catch(error){
         console.log(`Oh nonono BubblePage! ${error}`);
       } 
     }
     fetchBubbleCategory();
-  })
+  }, [])
 
-  
-  // give props to BubbleCategory 
-  const categories = category?.map((category) => {
-    return (
-      <BubbleCategory 
-        key={category.categoryNumber}
-        name={category.categoryName}
-        onSelect={setSelectedCategory}
-        selectedCategory={selectedCategory}
-      />
+  // fetch BubbleList 
+  useEffect(() => {
+    const fetchBubbleList = async () => {
+      try {
+        const response = await bubbleList();
+        const res = response.data.data;
+        setBubbles(res)
+      }
+      catch(error){
+        console.log(`Oh nonono BubblePage! ${error}`);
+      }
+    }
+    fetchBubbleList();
+  }, [])
+
+  //fetch JoinedBubbleList
+  useEffect(() => {
+    const fetchJoinedBubbleList = async () => {
+      try {
+        const response = await joinedBubbleList();
+        const res = response.data.data;
+        setJoinedBubbles(res)
+      }
+      catch(error){
+        console.log(error)
+      }
+      }
+      fetchJoinedBubbleList();
+    }, [])
+
+  const categoryNames = categories
+    .map(category => category.categoryName)
+
+  // related Modal
+  const showModal = () => {
+    setIsModalOpen(prev => !prev)
+  }
+
+
+
+//   const handleFormSubmit = () => {
+//   const createSingleBubble = async (bubbleForm) => {
+//     try {
+//       const response = await createBubble(JSON.stringify(bubbleForm));
+//       const res = response
+//       console.log("BubbleForm", res)
+//     }
+//     catch(error){
+//       console.log(error)
+//     }
+//   } 
+//   createSingleBubble();
+// }
+
+// post 버블 생성
+const handleFormSubmit = (form) => {
+  https.post('api/v1/bubble', form)
+    .then(
+      (response) => {
+        console.log(response)
+      }
+    ).then(
+      https.post(`/api/v1/bubble-session/${form.bubbleNumber}`, form)
+        .then(
+          (response)=> {
+            console.log("방생성 성공", response)
+          }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
     )
-  })
+    .catch(
+      (error) => {
+        console.log(error)
+      }
+  )
+}
+
 
   return (
-   
     <div className={classes.container}>
-      {categories}
+      <ButtonSelector
+        variant="regular"
+        initiallySelected="전체"
+        options={["전체", ...categoryNames]}
+        onSelect={category => setSelectedCategory(category)}/>
+
       <p className={classes.latestMent}>
         <img
           src='../../droplet-white.png'
@@ -93,7 +132,10 @@ export default function BubblePage() {
         현재 참여중인 버블이예요
       </p>
       <div className={classes.latestChat}>
-        
+        <BubbleList 
+        bubbles={joinedBubbles}
+  
+        />
       </div>
       <p className={classes.latestMent}>
         <img
@@ -103,16 +145,27 @@ export default function BubblePage() {
         />
         Aquh에서 새로운 버블들을 찾아보세요
       </p>
-
-      <div className={classes.categories}>
-        <div className={classes.category}  >전체</div>
-        <div className={classes.category}  >버블링</div>
-        <div className={classes.category}  >버블톡</div>
+      <div className={classes.buttonContainer}>
+      <ButtonSelector
+        variant="alternate"
+        initiallySelected="전체"
+        options={["전체", "버블링", "버블톡"]}
+        onSelect={type => setSelectedType(type)} />
+      <button onClick={showModal} className={classes.createRoom}>+</button>
       </div>
+      <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}> 
+        <BubbleForm onSubmit={handleFormSubmit} />
+      </Modal>
 
       <div className={classes.oldChat}>
-      <PopulatedBubbleList selectedCategory={selectedCategory} />
+         <BubbleList
+          bubbles={bubbles}
+          selectedCategory={selectedCategory}
+          selectedType={selectedType} 
+          /> 
+         
       </div>
     </div>
   );
 }
+    

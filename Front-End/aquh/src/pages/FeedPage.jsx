@@ -16,7 +16,6 @@ function FeedPage() {
 
   // 각 필터에 맞는 feedList get
   const [newList, setNewList] = useState([]);
-  const [isNewFeed, setIsNewFeed] = useState(false);
   const [popularList, setPopularList] = useState([]);
   const [isPopularFeed, setIsPopularFeed] = useState(false);
 
@@ -26,12 +25,6 @@ function FeedPage() {
     getList("recent");
   }, []);
 
-  useEffect(() => {
-    if (isNewFeed) {
-      console.log(isNewFeed);
-      getList("recent");
-    }
-  }, [isNewFeed]);
 
   async function getList(filter) {
     await https
@@ -43,7 +36,6 @@ function FeedPage() {
       .then((res) => {
         setNewList(res.data);
       })
-      .then(setIsNewFeed(false))
       .catch((err) => {
         console.log("에러", err);
         return;
@@ -107,33 +99,21 @@ function FeedPage() {
   const [clickFeedData, setClickFeedData] = useState();
 
   useEffect(() => {
-    async function axiosFeedData() {
-      try {
-        const responseData = await https.get(
-          `/api/v1/feed/${localStorage.getItem("feedNumber")}`
-        );
-
-        console.log(responseData.data.data);
-        setClickFeedData(responseData.data.data);
-      } catch {
-        console.log("error");
+    if(modalOpen === true){
+     
+          https.get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`).then((responseData) => {
+            console.log(responseData);
+            setClickFeedData(responseData.data.data);
+          }).then((error) => {
+            console.log(error);
+          });
       }
-    }
-    axiosFeedData();
-  }, [modalOpen]);
+    }, [modalOpen]);
 
   return (
     <div className={classes.feedPage}>
-      <p className={classes.feedMent}>
-        <img
-          src='../../droplet-white.png'
-          alt='droplet'
-          className={classes.droplet}
-        />
-        나의 이야기를 작성해주세요
-      </p>
       <div className={classes.feedWriteSection}>
-        <FeedWrite setIsNewFeed={setIsNewFeed} />
+        <FeedWrite/>
       </div>
       <div className={classes.feedListSection}>
         <div className={classes.feedCategories}>
@@ -158,7 +138,7 @@ function FeedPage() {
               />
               최신 피드들을 만나보세요 !
             </p>
-            <div>
+            <div className={classes.feedCards}>
               {newList.map((feed) => {
                 // console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
@@ -199,7 +179,7 @@ function FeedPage() {
             </p>
             <div>
               {popularList.map((feed) => {
-                // console.log("map으로 뿌린 피드", feed);
+                console.log("map으로 뿌린 피드", feed);
                 // console.log("map으로 뿌린 피드의 이미지", feed.feedImgTrans);
 
                 return (

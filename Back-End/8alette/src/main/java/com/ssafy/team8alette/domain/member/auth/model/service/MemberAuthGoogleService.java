@@ -2,7 +2,6 @@ package com.ssafy.team8alette.domain.member.auth.model.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +61,7 @@ public class MemberAuthGoogleService {
 
 	public Long register(JSONObject naverMemberInfo) throws NoSuchAlgorithmException {
 
-		String memberId = naverMemberInfo.get("sub").toString();
+		String memberId = naverMemberInfo.get("id").toString();
 		String memberEmail = naverMemberInfo.get("email").toString();
 		String memberNickname = naverMemberInfo.get("name").toString();
 		String memberName = naverMemberInfo.get("name").toString();
@@ -90,7 +89,7 @@ public class MemberAuthGoogleService {
 		newMember.setMemberPassword(passwordUtil.encodePassword(passwordUtil.getRandomPassword()));
 		newMember.setMemberNickname("G_" + memberNickname);
 		newMember.setMemberName(memberName);
-		newMember.setMemberState(1);
+		newMember.setMemberState(0);
 		newMember.setMemberType(MemberType.GO.toString());
 		newMember.setEmailVerified(true);
 		newMember.setEmailReceive(true);

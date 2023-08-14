@@ -46,10 +46,7 @@ public class FeedService {
 		Member member = memberRepository.findById(feedDto.getMember().getMemberNumber())
 			.orElseThrow(() -> new NullValueException("작성자 정보를 찾을 수 없습니다."));
 
-		String[] fileNames = new String[2];
-
-		if (file != null && file.getOriginalFilename().equals("empty") != true)
-			fileNames = s3FileManager.saveFeedImage(file);
+		String[] fileNames = s3FileManager.saveFeedImage(file);
 
 		FeedEntity feedEntity = FeedEntity.builder()
 			.member(member)
@@ -63,7 +60,8 @@ public class FeedService {
 		feedRepository.save(feedEntity);
 
 		// 이미지 파일 있을때 없을때
-		int exp = fileNames[0].equals("") || fileNames[0].equals("empty") ? 20 : 50;
+		boolean isFileExist = fileNames[0] != null && !fileNames[0].equals("") && !fileNames[0].equals("empty");
+		int exp = isFileExist ? 50 : 20;
 
 		memberRecordService.updateMemberExp(member.getMemberNumber(), exp);
 		memberRecordService.updateMemberFeedCnt(member.getMemberNumber(), 1);
@@ -93,7 +91,7 @@ public class FeedService {
 	}
 
 	// 피드 상세글 불러오기
-	public FeedEntity getFeedById(Long feedNumber) {
+	public FeedResponseDTO getFeedById(Long feedNumber) {
 		if (!feedRepository.existsByFeedNumberAndFeedActive(feedNumber, true)) {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
@@ -103,7 +101,7 @@ public class FeedService {
 
 		/* 기록 테이블 경험치 추가 */
 		memberRecordService.updateMemberExp(existFeedEntity.getMember().getMemberNumber(), 20);
-		return existFeedEntity;
+		return convertToDTO(existFeedEntity);
 	}
 
 	// 피드 삭제
@@ -131,14 +129,9 @@ public class FeedService {
 		existingFeedEntity.setTitle(feedDto.getTitle());
 		existingFeedEntity.setContent(feedDto.getContent());
 
-		if (file != null && file.getOriginalFilename().equals("empty") != true) {
-			String[] fileNames = s3FileManager.saveFeedImage(file);
-			existingFeedEntity.setFeedImgOrigin(fileNames[0]);
-			existingFeedEntity.setFeedImgTrans(fileNames[1]);
-		} else {
-			existingFeedEntity.setFeedImgOrigin(null);
-			existingFeedEntity.setFeedImgTrans(null);
-		}
+		String[] fileNames = s3FileManager.saveFeedImage(file);
+		existingFeedEntity.setFeedImgOrigin(fileNames[0]);
+		existingFeedEntity.setFeedImgTrans(fileNames[1]);
 
 		return feedRepository.save(existingFeedEntity);
 
@@ -156,9 +149,12 @@ public class FeedService {
 			throw new NullValueException("피드가 존재하지 않습니다");
 		}
 
-		List<FeedResponseDTO> responseDTOList = list.stream()
-			.map(this::convertToDTO)
-			.collect(Collectors.toList());
+		List<FeedResponseDTO> responseDTOList = new ArrayList<>();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).isFeedActive() == true)
+				responseDTOList.add(convertToDTO(list.get(i)));
+		}
 
 		return responseDTOList;
 	}
@@ -180,6 +176,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
+		dto.setCreateDate(feedEntity.getCreateDate().toLocalDate());
 		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgOrigin().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
