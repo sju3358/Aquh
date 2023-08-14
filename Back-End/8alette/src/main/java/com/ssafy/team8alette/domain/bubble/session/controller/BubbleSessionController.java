@@ -3,10 +3,12 @@ package com.ssafy.team8alette.domain.bubble.session.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,14 +30,17 @@ public class BubbleSessionController {
 	private final BubbleSessionService bubbleSessionService;
 	private final MemberRecordService memberRecordService;
 	private final BubbleService bubbleService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/{bubbleNumber}")
 	public ResponseEntity createBubbleSessionRequest(
-		@PathVariable Long bubbleNumber) throws
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable String sessionId) throws
 		OpenViduJavaClientException,
-		OpenViduHttpException {
+		OpenViduHttpException, ParseException {
 
-		String token = bubbleSessionService.createHostBubbleSession(bubbleNumber);
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		String token = bubbleSessionService.createHostBubbleSession(sessionId, memberNumber);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("token", token);
 
@@ -44,11 +49,13 @@ public class BubbleSessionController {
 			.body(responseData);
 	}
 
-	@PutMapping("/{bubbleNumber}")
+	@PutMapping("/{sessionId}")
 	public ResponseEntity enterBubbleSessionRequest(
-		@PathVariable Long bubbleNumber) throws OpenViduJavaClientException, OpenViduHttpException {
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable String sessionId) throws OpenViduJavaClientException, OpenViduHttpException, ParseException {
 
-		String token = bubbleSessionService.createSubBubbleSession(bubbleNumber);
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		String token = bubbleSessionService.createSubBubbleSession(sessionId, memberNumber);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("token", token);
 
