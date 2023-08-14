@@ -52,7 +52,7 @@ public class SymbolGrantService {
 
 	public void putActiveTrue(SymbolGrantRequestDTO symbolGrantRequestDTO) {
 		Long memberNumber = symbolGrantRequestDTO.getMemberNumber();
-		//
+
 		List<Grant> list = symbolGrantRepository.findByGrantIDGrantedMemberNumber(memberNumber);
 		if (list != null) {
 			for (Grant setList : list) {
