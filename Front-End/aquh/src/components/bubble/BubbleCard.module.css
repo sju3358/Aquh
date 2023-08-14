@@ -14,6 +14,7 @@
   margin: 30px;
   padding: 1.5rem;
 }
+
 .eventTitle {
   font-size: 2rem;
   font-weight: 700;
@@ -31,6 +32,20 @@ img {
   height: 12rem;
   align-self: center;
   margin: 10px;
+}
+.cardButton {
+  border-radius: 10px;
+  background: #2442a1aa;
+
+  cursor: pointer;
+  font-weight: 700;
+  padding: 13px;
+  border: none;
+  &:hover,
+  &:active {
+    background-color: #3f5cbd;
+    color: #eaf1f7;
+  }
 }
 
 /* button{
