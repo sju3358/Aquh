@@ -1,4 +1,3 @@
-import axios from 'axios';
 import https from '../https'
 
 // const api = axios.create({
@@ -18,3 +17,8 @@ export const bubbleList = () =>
 export const bubbleCategory = () => 
       https.get('api/v1/category')
 
+export const joinedBubbleList = () =>
+      https.get('/api/v1/bubble/bubblings/my')
+
+export const createBubble = (bubble) => 
+      https.post('/api/v1/bubble', { data : {bubble}})
