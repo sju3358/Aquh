@@ -17,6 +17,7 @@ import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
 import BubbleDetailPage from "./pages/BubbleDetailPage";
 import ChattingSection from "./components/video/ChattingSection";
+import LogoutPage from "./pages/LogoutPage";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
@@ -44,6 +45,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/logout",
+    element: <LogoutPage />,
     errorElement: <NotFound />,
   },
   {
