@@ -100,21 +100,15 @@ function FeedPage() {
 
   useEffect(() => {
     if(modalOpen === true){
-      async function axiosFeedData() {
-        try {
-          const responseData = await https.get(
-            `/api/v1/feed/${localStorage.getItem("feedNumber")}`
-          );
-
-          console.log("asdfasdfasdfasdfasdf");
-          setClickFeedData(responseData.data.data);
-        } catch {
-          console.log("error");
-        }
+     
+          https.get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`).then((responseData) => {
+            console.log(responseData);
+            setClickFeedData(responseData.data.data);
+          }).then((error) => {
+            console.log(error);
+          });
       }
-      axiosFeedData();
-  }
-  }, [modalOpen]);
+    }, [modalOpen]);
 
   return (
     <div className={classes.feedPage}>
