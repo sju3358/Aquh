@@ -95,6 +95,17 @@ const handleFormSubmit = (form) => {
       (response) => {
         console.log(response)
       }
+    ).then(
+      https.post(`/api/v1/bubble-session/${form.bubbleNumber}`, form)
+        .then(
+          (response)=> {
+            console.log("방생성 성공", response)
+          }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
     )
     .catch(
       (error) => {
