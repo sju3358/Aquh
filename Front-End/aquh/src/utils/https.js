@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorSelector } from "recoil";
 
 let instance = axios.create({
   baseURL: "https://i9b108.p.ssafy.io",
@@ -18,44 +19,56 @@ instance.interceptors.request.use(
   }
 );
 
-// instance.interceptors.response.use(
-//   (response) => {
-//     const { config } = response;
-//     const originalRequest = config;
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
 
-//     if (response?.data?.code == 401) {
-//       return instance
-//         .post(`/api/v1/member/auth/refresh_token`, {
-//           params: {},
-//           headers: {
-//             "Content-Type": "application/json",
-//             "AUTH-TOKEN": localStorage.getItem("refresh_token"),
-//           },
-//         })
-//         .then((res) => {
-//           if (res.status === 200) {
-           // 여기 뭔가 코드가 있었는데 지워진것 같습니다.
-            
-//               refreshToken: res.data.data.refresh_token,
-//               accessToken: res.data.data.access_token,
-//               memberNumber: res.data.data.member_number,
-//               isSocialLogin: res.data.data.is_social_login,
-//             });
+    const originalRequest = config;
 
-//             originalRequest.headers.Authorization = `${res.data.data.access_token}`;
-//             return axios(originalRequest);
-//           }
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     }
+    try {
+      if (status === 401) {
+        axios
+          .post(
+            "https://i9b108.p.ssafy.io/api/v1/member/auth/refresh_token",
+            {},
+            {
+              headers: {
+                "AUTH-TOKEN": localStorage.getItem("refresh_token"),
+              },
+            }
+          )
+          .then((response) => {
+            const newAccessToken = response.data.data.access_token;
+            const newRefreshToken = response.data.data.refresh_token;
 
-//     return response;
-//   },
-//   (error) => {
-//     throw error;
-//   }
-// );
+            localStorage.setItem("access_token", newAccessToken);
+            localStorage.setItem("refresh_token", newRefreshToken);
+
+            originalRequest.headers = {
+              "Content-Type": "application/json",
+              "AUTH-TOKEN": newAccessToken,
+            };
+            return axios(originalRequest);
+          })
+          .catch((error) => {
+            alert("로그인이 필요합니다.");
+            const SERVER_URL = process.env.REACT_APP_LOGIN_SERVER_URL;
+            // eslint-disable-next-line no-restricted-globals
+            location.href = `${SERVER_URL}/login`;
+            localStorage.clear();
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

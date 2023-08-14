@@ -3,7 +3,7 @@
 import Video from "../components/video/Chatting"
 import classes from "./VideoPage.module.css";
 
-export default function BubblePage() {
+export default function VideoPage() {
 
   return (
     <div className={classes.container}>

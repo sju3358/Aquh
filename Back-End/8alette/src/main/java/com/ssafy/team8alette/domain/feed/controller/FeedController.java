@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.team8alette.domain.feed.model.dto.FeedDto;
 import com.ssafy.team8alette.domain.feed.model.dto.entity.FeedEntity;
 import com.ssafy.team8alette.domain.feed.model.dto.request.LikeRequestDTO;
 import com.ssafy.team8alette.domain.feed.model.dto.response.FeedResponseDTO;
 import com.ssafy.team8alette.domain.feed.model.service.FeedService;
 import com.ssafy.team8alette.domain.feed.model.service.LikeService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
@@ -45,28 +47,30 @@ public class FeedController {
 	private final SymbolGrantService symbolGrantService;
 	private final FollowRepository followRepository;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final AlarmService alarmService;
 
 	@LoginRequired
 	@PostMapping
-	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedEntity feedEntity,
+	public ResponseEntity<?> createFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		if (feedEntity.getTitle() == null) {
-			Map<String, Object> responseData = new HashMap<>();
+		Map<String, Object> responseData = new HashMap<>();
+
+		if (feedDto.getTitle() == null) {
 			responseData.put("message", "제목을 작성해주세요");
 			responseData.put("status", 405);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else if (feedEntity.getContent() == null) {
-			Map<String, Object> responseData = new HashMap<>();
+		}
+		if (feedDto.getContent() == null) {
 			responseData.put("message", "내용을 작성해주세요");
 			responseData.put("status", 406);
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
-		} else {
-			feedService.registFeed(feedEntity, file);
-			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "success");
-			responseData.put("status", 200);
-			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
+		feedService.registFeed(feedDto, file);
+
+		responseData.put("message", "success");
+		responseData.put("status", 200);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+
 	}
 
 	@LoginRequired
@@ -75,6 +79,7 @@ public class FeedController {
 		@RequestParam(required = false, defaultValue = "createDate", value = "filter") String orderCriteria
 	) {
 		List<FeedResponseDTO> dtoList = feedService.getFeeds(orderCriteria);
+
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
@@ -117,14 +122,15 @@ public class FeedController {
 
 	@LoginRequired
 	@PutMapping
-	public ResponseEntity<?> modifyFeed(@RequestPart FeedEntity feedEntity,
+	public ResponseEntity<?> modifyFeed(@RequestPart(value = "feed") FeedDto feedDto,
 		@RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		feedService.modifyFeed(feedEntity, file);
+		feedService.modifyFeed(feedDto, file);
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
+	//
 	// 게시글 삭제
 	@LoginRequired
 	@PutMapping("/{feed_number}")
@@ -141,22 +147,39 @@ public class FeedController {
 	@LoginRequired
 	@PostMapping("/like")
 	public ResponseEntity<?> addLike(@RequestBody LikeRequestDTO likeRequestDTO) {
+
+		Member receivedLikeMember = feedService.getFeedCreatorNumber(likeRequestDTO.getFeedNumber());
+
 		boolean result;
 
-		//수정
 		result = likeService.addLike(likeRequestDTO.getFeedNumber(), likeRequestDTO.getMemberNumber());
+
 		if (result) {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 되었습니다.");
+			responseData.put("message", "피드 좋아요 되었습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 눌렀습니다.",
+					0);
+			}
+
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		} else {
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("message", "좋아요 취소했습니다.");
+			responseData.put("message", "피드 좋아요를 취소했습니다.");
 			responseData.put("status", 200);
+
+			if (likeRequestDTO.getMemberNumber() != receivedLikeMember.getMemberNumber()) {
+				Member requestMember = memberService.getMemberInfo(likeRequestDTO.getMemberNumber());
+				alarmService.requestAlarm(receivedLikeMember, "likes",
+					requestMember.getMemberNickname() + "님이 피드 좋아요를 취소했습니다.",
+					0);
+			}
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
-
 	}
 
 	@LoginRequired

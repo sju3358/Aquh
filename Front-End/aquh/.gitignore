@@ -110,3 +110,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+install-state.gz
+Front-End/aquh/.yarn/install-state.gz

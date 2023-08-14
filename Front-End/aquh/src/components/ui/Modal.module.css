@@ -1,0 +1,39 @@
+.dialog {
+  z-index: 10;
+  border-radius: 1.5rem; 
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 50rem;
+  height: 30rem;
+  padding: 1em;
+  gap: 1em;
+}
+
+.dialog::backdrop {
+  background-color: rgba(0,0,0,0.25);
+}
+
+.close {
+  /* font-size: 8rem;
+  position: absolute; */
+  all: unset;
+  cursor: pointer;
+  --size: 1.5rem;
+  font-size: var(--size);
+  box-sizing: border-box;
+  text-align: center;
+  width: calc(var(--size) * 1.5);
+  height: calc(var(--size) * 1.5);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 100%;
+  align-self: flex-end;
+}
+
+.close:hover{
+  background-color: rgba(0,0,0,0.75);
+}

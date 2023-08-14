@@ -48,7 +48,7 @@ public class BubbleSessionService {
 			.bubblers(bubblers)
 			.build();
 
-		bubbleSessionRepository.save(bubbleSession);
+		bubbleSessionRepository.saveBubbleSession(sessionId, bubbleSession);
 
 		return token;
 	}
@@ -58,7 +58,7 @@ public class BubbleSessionService {
 		OpenViduHttpException {
 
 		String sessionId = Long.toString(bubbleNumber);
-		
+
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
 
@@ -85,7 +85,7 @@ public class BubbleSessionService {
 
 		bubbleSession.getBubblers().remove(token);
 
-		bubbleSessionRepository.save(bubbleSession);
+		bubbleSessionRepository.saveBubbleSession(sessionId, bubbleSession);
 	}
 
 	public void deleteBubbleSession(String sessionId, String token) {
@@ -96,7 +96,7 @@ public class BubbleSessionService {
 		if (bubbleSession.getBubblers().get(token) != OpenViduRole.PUBLISHER)
 			throw new UnAuthorizedException();
 
-		bubbleSessionRepository.delete(bubbleSession);
+		bubbleSessionRepository.saveBubbleSession(sessionId, bubbleSession);
 	}
 
 }

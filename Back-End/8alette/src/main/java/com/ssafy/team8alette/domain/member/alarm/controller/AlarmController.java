@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.team8alette.domain.member.alarm.method.AlarmListMapper;
 import com.ssafy.team8alette.domain.member.alarm.model.dto.Alarm;
+import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmListMapper;
 import com.ssafy.team8alette.domain.member.alarm.model.dto.AlarmListResponseDTO;
 import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;

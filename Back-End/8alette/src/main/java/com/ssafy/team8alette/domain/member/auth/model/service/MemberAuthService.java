@@ -74,7 +74,9 @@ public class MemberAuthService {
 			throw new UnAuthorizedException("로그인이 필요합니다");
 		}
 		memberLoginInfo.setRefreshToken(refreshToken);
+
 		memberLoginInfoRepository.save(memberLoginInfo);
+
 	}
 
 	public void logout(Long memberNumber) {
