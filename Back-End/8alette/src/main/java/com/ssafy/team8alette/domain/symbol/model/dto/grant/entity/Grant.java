@@ -1,7 +1,6 @@
 package com.ssafy.team8alette.domain.symbol.model.dto.grant.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.ssafy.team8alette.domain.member.record.model.dto.entity.MemberRecord;
 import com.ssafy.team8alette.domain.symbol.model.dto.grant.key.GrantID;

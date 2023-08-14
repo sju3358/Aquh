@@ -17,32 +17,40 @@ import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
 import BubbleDetailPage from "./pages/BubbleDetailPage";
 import ChattingSection from "./components/video/ChattingSection";
+import LogoutPage from "./pages/LogoutPage";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
-  // { path: '/login',
-  //   element : <LoginPage />,
-  //   errorElement : <NotFound />,
-  // },
-
   {
     path: "/",
     element: <Root />,
     errorElement: <NotFound />,
     children: [
-      { index: "true", element: <MainPage /> },
-      { path: "/login", element: <LoginPage /> },
       { path: "/auth/:userId", element: <AuthPage /> },
       // TODO : SignupForm을 SignUpPage로 바꾸기.
       { path: "/feed", element: <FeedPage /> },
       { path: "/bubble", element: <BubblePage /> },
-      { path: "/bubble/:id", element: <BubbleDetailPage />},
+      { path: "/bubble/:id", element: <BubbleDetailPage /> },
       // 0807 김재원 수정
       { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
       { path: "/chatting", element: <ChattingSection /> },
-  
     ],
+  },
+  {
+    path: "/main",
+    element: <MainPage />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/logout",
+    element: <LogoutPage />,
+    errorElement: <NotFound />,
   },
   {
     path: "/redirectG",
@@ -54,7 +62,6 @@ const router = createBrowserRouter([
     element: <RedirectPage_Naver />,
     errorElement: <NotFound />,
   },
-  // { path: "/test", element: <Test /> },
 ]);
 
 export default function App() {

@@ -34,8 +34,6 @@ export default function RedirectPage_Google() {
     let code = new URL(window.location.href).searchParams.get("code");
     let state = new URL(window.location.href).searchParams.get("state");
 
-    
-
     const data = {
       code: code,
       state: state,
@@ -59,13 +57,9 @@ export default function RedirectPage_Google() {
             setMemberIntro(res.data.data.member_intro);
             setMemberEmail(res.data.data.member_email);
             memberState = res.data.data.member_state;
-            if(memberState === 0)
-              navigate("/nickname")
-            else if(memberState === 1)
-              navigate("/");
-            
+            if (memberState === 0) navigate("/nickname");
+            else if (memberState === 1) navigate("/main");
           });
-         
         } else {
           alert("다시 시도해주세요!");
           navigate("/login");
