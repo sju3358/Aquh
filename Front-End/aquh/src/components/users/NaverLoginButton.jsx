@@ -9,7 +9,7 @@ export default function NaverLoginButton({}) {
   return (
     <button onClick={handleNaverLogin} className={classes.login}>
       <img
-        src='../../네이버로그인버튼.png'
+        src='../../naver-login.png'
         alt='naver-login'
         className={classes.naverLogin}
       />
