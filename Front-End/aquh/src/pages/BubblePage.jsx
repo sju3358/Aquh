@@ -1,11 +1,14 @@
 import classes from "./BubblePage.module.css";
-import { bubbleList, joinedBubbleList, bubbleCategory, createBubble } from "../utils/api/api.bubble_service";
+import { bubbleList, joinedBubbleList, bubbleCategory } from "../utils/api/api.bubble_service";
 import { useEffect, useState } from "react";
 import ButtonSelector from "../components/ui/ButtonSelector";
 import BubbleList from "../components/bubble/BubbleList";
 import Modal from "../components/ui/Modal";
 import BubbleForm from "../components/bubble/BubbleForm";
 import https from "../utils/https";
+import BubbleDetail from "../components/bubble/BubbleDetail";
+
+
 
 export default function BubblePage() {
 
@@ -15,6 +18,7 @@ export default function BubblePage() {
   const [selectedType, setSelectedType] = useState(null);
   const [joinedBubbles, setJoinedBubbles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   // fetch CategoryList
   useEffect(() => {
@@ -37,7 +41,6 @@ export default function BubblePage() {
       try {
         const response = await bubbleList();
         const res = response.data.data;
-        console.log("BubbleListtttttt", res)
         setBubbles(res)
       }
       catch(error){
@@ -70,6 +73,8 @@ export default function BubblePage() {
     setIsModalOpen(prev => !prev)
   }
 
+
+
 //   const handleFormSubmit = () => {
 //   const createSingleBubble = async (bubbleForm) => {
 //     try {
@@ -84,6 +89,7 @@ export default function BubblePage() {
 //   createSingleBubble();
 // }
 
+// post 버블 생성
 const handleFormSubmit = (form) => {
   https.post('api/v1/bubble', form)
     .then(
@@ -118,6 +124,7 @@ const handleFormSubmit = (form) => {
       <div className={classes.latestChat}>
         <BubbleList 
         bubbles={joinedBubbles}
+  
         />
       </div>
       <p className={classes.latestMent}>
@@ -143,7 +150,8 @@ const handleFormSubmit = (form) => {
         <BubbleList
           bubbles={bubbles}
           selectedCategory={selectedCategory}
-          selectedType={selectedType} />
+          selectedType={selectedType} 
+          />
       </div>
     </div>
   );
