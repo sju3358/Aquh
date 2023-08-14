@@ -9,7 +9,6 @@ import Modal from "react-modal";
 import https from "../../utils/https";
 
 function FeedCard({
-  userLevel,
   feedTitle,
   feedContent,
   feedCreateDate,
@@ -17,32 +16,12 @@ function FeedCard({
   feedNumber,
   setModalOpen,
   userNickName,
-  feedViewCnt,
 }) {
   // TODO : 캐릭터 레벨에 따른 사진 보여주기
 
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
     localStorage.setItem("feedNumber", feedNumber);
-
-    https
-      .get(`/api/v1/feed/${feedNumber}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        // console.log("피드정보", res.data.data);
-        userLevel = res.data.data.level;
-        userNickName = res.data.data.memberNickName;
-
-        feedTitle = res.data.data.title;
-        feedContent = res.data.data.content;
-        feedImage = res.data.data.img_url;
-        feedViewCnt = res.data.data.viewCnt;
-        feedCreateDate = res.data.data.createDate;
-      })
-      .catch((error) => console.log(error));
     setModalOpen(true);
   };
   // =========================================================
