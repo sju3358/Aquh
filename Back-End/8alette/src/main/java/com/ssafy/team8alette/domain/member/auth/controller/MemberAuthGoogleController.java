@@ -56,8 +56,6 @@ public class MemberAuthGoogleController {
 		String googleResponseData = profileData.toString();
 		JSONObject googleMemberData = (JSONObject)parser.parse(googleResponseData);
 
-		String googleMemberId = googleMemberData.get("sub").toString();
-
 		Long memberNumber = memberAuthGoogleService.register(googleMemberData);
 
 		Map tokens = jwtTokenProvider.getTokens(memberNumber);
@@ -98,7 +96,7 @@ public class MemberAuthGoogleController {
 		params.add("client_id", googleClientId);
 		params.add("client_secret", googleClientSecret);
 		params.add("code", code);
-		params.add("redirect_uri", "https://i9b108.p.ssafy.io/redirectG");
+		params.add("redirect_uri", "https://https://i9b108.p.ssafy.io/redirectG");
 		return new HttpEntity<>(params, headers);
 	}
 

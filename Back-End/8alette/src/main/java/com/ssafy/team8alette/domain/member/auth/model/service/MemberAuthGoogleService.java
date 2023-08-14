@@ -61,7 +61,7 @@ public class MemberAuthGoogleService {
 
 	public Long register(JSONObject naverMemberInfo) throws NoSuchAlgorithmException {
 
-		String memberId = naverMemberInfo.get("sub").toString();
+		String memberId = naverMemberInfo.get("id").toString();
 		String memberEmail = naverMemberInfo.get("email").toString();
 		String memberNickname = naverMemberInfo.get("name").toString();
 		String memberName = naverMemberInfo.get("name").toString();
