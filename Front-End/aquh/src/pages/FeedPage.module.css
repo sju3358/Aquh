@@ -1,8 +1,11 @@
 .feedPage {
-  position: absolute;
+  /* position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 900px;
+  width: 900px; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .feedListSection {
@@ -35,7 +38,7 @@
   align-self: flex-start;
   display: flex;
   flex-direction: row;
-  margin: 50px 70px;
+  margin: 20px 70px;
   width: 100rem;
 }
 .feedCategory {
@@ -51,4 +54,9 @@
   font-weight: 700;
   background-color: white;
   border-radius: 1rem;
+}
+.feedCards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

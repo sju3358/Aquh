@@ -6,6 +6,8 @@ import UserSymbolPortrait from './UserSymbolPortrait';
 import classes from './UserSymbolList.module.css';
 
 export default function UserSymbolList() {
+  // 획득한 것 중 활성화된 5개를 보여주는 것 
+
   // TODO:
   // 1. 획득한 심볼인지 확인해야함.
   // 2. 획득한 심볼이면 클릭해서 선택 / 비선택 할 수 있어야 한다.
@@ -21,7 +23,8 @@ export default function UserSymbolList() {
     const fetchSymbolList = async () => {
       try {
         const response = await mySymbolList(id);
-        const res = response.data.data;
+        const res = response.data.symbolList;
+        console.log("UserSymbolList", res)
         setSymbols(res)
       }
       catch(error){
@@ -31,7 +34,7 @@ export default function UserSymbolList() {
     fetchSymbolList();
   }, [id])
 
-  const symbolcards = symbols.map((e) => (
+  const symbolcards = symbols?.map((e) => (
   <UserSymbolPortrait 
     key={e.symbolNumber} 
     symbolImgName={e.symbolImgName} 
@@ -41,8 +44,15 @@ export default function UserSymbolList() {
 
   return (
     <div className={classes.symbolContainer}>
-        {symbolcards}
+       { symbols && symbols.map((e) => (
+  <UserSymbolPortrait 
+    key={e.symbolNumber} 
+    symbolImgName={e.symbolImgName} 
+    symbolName={e.symbolName} 
+  />
+  ))}
     </div>
+    
   );
 }
 

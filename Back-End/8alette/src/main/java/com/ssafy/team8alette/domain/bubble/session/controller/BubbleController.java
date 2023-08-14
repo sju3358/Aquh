@@ -17,8 +17,11 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbl
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 
@@ -33,6 +36,9 @@ public class BubbleController {
 	private final BubbleParticipantService bubbleParticipantService;
 	private final MemberAuthService memberAuthService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberRecordService memberRecordService;
+	private final AlarmService alarmService;
+	private final MemberService memberService;
 
 	@LoginRequired
 	@GetMapping("/{bubbleNumber}")
@@ -68,7 +74,7 @@ public class BubbleController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{bubbleNumber}/enter")
+	@PutMapping("/{bubbleNumber}")
 	public BubbleResponseDto closeBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable Long bubbleNumber) throws ParseException {
@@ -83,7 +89,7 @@ public class BubbleController {
 	}
 
 	@LoginRequired
-	@PutMapping("/{bubbleNumber}")
+	@PutMapping("/{bubbleNumber}/enter")
 	public BubbleResponseDto enterBubbleRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
 		@PathVariable Long bubbleNumber) throws ParseException {
@@ -98,6 +104,7 @@ public class BubbleController {
 
 	}
 
+	//
 	@GetMapping("/bubblings")
 	public BubbleResponseDto getBubblingListRequest() {
 		List<BubbleDto> bubblings = bubbleService.getBubblingList();
@@ -118,6 +125,16 @@ public class BubbleController {
 			.build();
 	}
 
+	@GetMapping
+	public BubbleResponseDto getAllBubbleRoomRequest() {
+		List<BubbleDto> allBubbleRooms = bubbleService.getAllBubbleRoomList();
+
+		return BubbleResponseDto.builder()
+			.data(allBubbleRooms)
+			.message("success")
+			.build();
+	}
+
 	@GetMapping("/bubblings/my")
 	public BubbleResponseDto getMyBubblingListRequest(
 		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
@@ -129,4 +146,5 @@ public class BubbleController {
 			.message("success")
 			.build();
 	}
+
 }

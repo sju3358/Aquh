@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,8 +63,11 @@ public class MemberAuthController {
 	}
 
 	@LoginRequired
-	@DeleteMapping("/{memberNumber}")
-	ResponseEntity<Map<String, Object>> logoutRequest(@PathVariable Long memberNumber) throws SQLException {
+	@DeleteMapping
+	ResponseEntity<Map<String, Object>> logoutRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws SQLException, ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
 		memberAuthService.logout(memberNumber);
 
@@ -83,17 +87,15 @@ public class MemberAuthController {
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
-	@LoginRequired
 	@PostMapping("/refresh_token")
-	public ResponseEntity<Map<String, Object>> refreshTokenRequest(@RequestBody Map<String, String> param) throws
-		SQLException, UnsupportedEncodingException {
+	public ResponseEntity<Map<String, Object>> refreshTokenRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String refreshToken) throws
+		SQLException, UnsupportedEncodingException, ParseException {
 
-		Long memberNumber = Long.parseLong(param.get("member_number"));
-		String refreshToken = param.get("refresh_token");
+		Long memberNumber = jwtTokenProvider.getMemberNumber(refreshToken);
 
 		MemberLoginInfo memberLoginInfo = memberAuthService.getLoginMemberInfo(memberNumber);
 
-		jwtTokenProvider.checkToken(refreshToken);
 		if (memberLoginInfo.getRefreshToken().equals(refreshToken) != true) {
 			throw new InvalidTokenException("리프레쉬 토큰이 일치하지 않습니다");
 		}
@@ -102,17 +104,17 @@ public class MemberAuthController {
 
 		String newAccessToken = tokens.get("accessToken").toString();
 		String newRefreshToken = tokens.get("refreshToken").toString();
-		memberAuthService.refreshToken(memberNumber, refreshToken);
 
-		Map<String, Object> loginData = new HashMap<>();
-		loginData.put("member_number", memberNumber);
-		loginData.put("access_token", newAccessToken);
-		loginData.put("refresh_token", newRefreshToken);
-		loginData.put("isSocialLogin", memberLoginInfo.isSocialLogin());
+		memberAuthService.refreshToken(memberNumber, newRefreshToken);
+
+		Map<String, Object> newTokens = new HashMap<>();
+
+		newTokens.put("access_token", newAccessToken);
+		newTokens.put("refresh_token", newRefreshToken);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("message", "success");
-		responseData.put("data", loginData);
+		responseData.put("data", newTokens);
 
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}

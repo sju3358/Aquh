@@ -2,8 +2,6 @@ package com.ssafy.team8alette.domain.bubble.session.model.dto;
 
 import java.time.LocalDateTime;
 
-import com.ssafy.team8alette.domain.bubble.tools.model.entity.CategoryEntity;
-
 import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +14,7 @@ public class BubbleDto {
 
 	private Long hostMemberNumber;
 
-	private CategoryEntity categoryEntity;
+	private String categoryName;
 
 	private boolean bubbleType;
 
@@ -33,11 +31,5 @@ public class BubbleDto {
 
 	@Nullable
 	private LocalDateTime planCloseDate;
-
-	@Nullable
-	private LocalDateTime createDate;
-
-	@Nullable
-	private LocalDateTime closeDate;
 
 }

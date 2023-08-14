@@ -20,6 +20,7 @@ import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistExceptio
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.global.exception.UnAuthorizedException;
+import com.ssafy.team8alette.global.util.S3FileManager;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,11 +32,14 @@ public class BubbleService {
 	private final BubbleListRepository bubbleListRepository;
 	private final MemberRepository memberRepository;
 	private final CategoryRepository categoryRepository;
+	private final S3FileManager s3FileManager;
 
 	public Long createBubble(CreateBubbleRequestDto createBubbleRequestDto) {
 
 		Long hostMemberNumber = createBubbleRequestDto.getHostMemberNumber();
 		Long categoryNumber = createBubbleRequestDto.getCategoryNumber();
+
+		String[] fileNames = s3FileManager.saveThumbnailImage(createBubbleRequestDto.getBubbleThumbnail());
 
 		Member member = memberRepository.findMemberByMemberNumber(hostMemberNumber)
 			.orElseThrow(() -> new MemberNotExistException());
@@ -43,16 +47,25 @@ public class BubbleService {
 		CategoryEntity category = categoryRepository.findCategoryEntityByCategoryNumber(categoryNumber)
 			.orElseThrow(() -> new CategoryNotFoundException());
 
+		LocalDateTime planOpenDate = LocalDateTime.now();
+		LocalDateTime planCloseDate = LocalDateTime.now();
+
+		if (createBubbleRequestDto.getPlanOpenDate() != null)
+			planOpenDate = LocalDateTime.parse(createBubbleRequestDto.getPlanOpenDate());
+		if (createBubbleRequestDto.getPlanCloseDate() != null)
+			planCloseDate = LocalDateTime.parse(createBubbleRequestDto.getPlanCloseDate());
+
 		BubbleEntity bubble = BubbleEntity.builder()
 			.bubbleTitle(createBubbleRequestDto.getBubbleTitle())
 			.bubbleContent((createBubbleRequestDto.getBubbleContent()))
-			.bubbleThumbnail(createBubbleRequestDto.getBubbleThumbnail())
+			.bubbleThumbnail(fileNames[1])
 			.bubbleType(createBubbleRequestDto.isBubbleType())
 			.bubbleState(true)
 			.categoryEntity(category)
 			.hostMember(member)
-			.planOpenDate(createBubbleRequestDto.getPlanOpenDate())
-			.planCloseDate(createBubbleRequestDto.getPlanCloseDate())
+			.planOpenDate(planOpenDate)
+			.planCloseDate(planCloseDate)
+			.createDate(LocalDateTime.now())
 			.build();
 
 		bubbleRepository.save(bubble);
@@ -69,7 +82,6 @@ public class BubbleService {
 			throw new UnAuthorizedException();
 
 		bubble.setBubbleState(false);
-		bubble.setCloseDate(LocalDateTime.now());
 
 		bubbleRepository.save(bubble);
 	}
@@ -132,4 +144,18 @@ public class BubbleService {
 		return bubblingList;
 	}
 
+	public List<BubbleDto> getAllBubbleRoomList() {
+
+		List<BubbleEntity> allBubbleListEntity = bubbleRepository.findBubbleEntitiesByOrderByCreateDateDesc()
+			.orElse(new ArrayList<>());
+
+		List<BubbleDto> bubblingList = new ArrayList<>();
+
+		for (BubbleEntity bubbleEntity : allBubbleListEntity) {
+			bubblingList.add(bubbleEntity.convertToDto());
+		}
+
+		return bubblingList;
+
+	}
 }
