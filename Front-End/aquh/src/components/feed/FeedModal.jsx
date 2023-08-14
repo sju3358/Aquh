@@ -143,6 +143,8 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const userNumber = useRecoilValue(memberNumberState);
   //   모달 오픈창이 false면 모달이 닫힘(처음엔 true로 넘어온 상태)
   const closeModal = () => {
+  
+    setIsModify(false);
     setModalOpen(false);
   };
 
