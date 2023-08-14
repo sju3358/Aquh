@@ -6,7 +6,6 @@ import BubbleList from "../components/bubble/BubbleList";
 import Modal from "../components/ui/Modal";
 import BubbleForm from "../components/bubble/BubbleForm";
 import https from "../utils/https";
-import BubbleDetail from "../components/bubble/BubbleDetail";
 
 
 
@@ -96,6 +95,17 @@ const handleFormSubmit = (form) => {
       (response) => {
         console.log(response)
       }
+    ).then(
+      https.post(`/api/v1/bubble-session/${form.bubbleNumber}`, form)
+        .then(
+          (response)=> {
+            console.log("방생성 성공", response)
+          }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
     )
     .catch(
       (error) => {
@@ -106,7 +116,7 @@ const handleFormSubmit = (form) => {
 
 
   return (
-    <div className={!isModalOpen ? classes.container : classes.containerInvalid }>
+    <div className={classes.container}>
       <ButtonSelector
         variant="regular"
         initiallySelected="전체"
@@ -135,23 +145,25 @@ const handleFormSubmit = (form) => {
         />
         Aquh에서 새로운 버블들을 찾아보세요
       </p>
-
+      <div className={classes.buttonContainer}>
       <ButtonSelector
         variant="alternate"
         initiallySelected="전체"
         options={["전체", "버블링", "버블톡"]}
         onSelect={type => setSelectedType(type)} />
-      <button onClick={showModal}>방 생성하기</button>
+      <button onClick={showModal} className={classes.createRoom}>+</button>
+      </div>
       <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}> 
         <BubbleForm onSubmit={handleFormSubmit} />
       </Modal>
 
       <div className={classes.oldChat}>
-        <BubbleList
+         <BubbleList
           bubbles={bubbles}
           selectedCategory={selectedCategory}
           selectedType={selectedType} 
-          />
+          /> 
+         
       </div>
     </div>
   );

@@ -69,3 +69,23 @@
   justify-content: center;
   align-items: center;
 }
+
+.buttonContainer{
+  display: flex;
+  gap: 80em; 
+}
+
+.createRoom{
+  --button-color: azure;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100%;
+  border : white solid 2px;
+  cursor : pointer;
+  font-size: 4rem;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  position: sticky;
+}
+

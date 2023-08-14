@@ -1,13 +1,12 @@
 import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
-import https from "../../utils/https";
+import https from "../../utils/https"
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
-// import classes from "./ChattingRow.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
-import ChattingSection from "./ChattingSection";
+import ChattingSection from "./ChattingSection"
 
 // import { useRecoilValue } from "recoil";
 // import { memberNicknameState } from "../../store/loginUserInfoState";
@@ -23,10 +22,10 @@ const APPLICATION_SERVER_URL =
 export default class Chatting extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: this.props.mySessionId,
+      mySessionId: "1234",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -114,7 +113,7 @@ export default class Chatting extends Component {
           console.warn(exception);
         });
 
-        this.postSession().then((token) => {
+        this.postSession(this.state.mySessionId).then((token) => {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
@@ -203,7 +202,7 @@ export default class Chatting extends Component {
 
         // Get a token from the OpenVidu deployment
         // this.enterSession(this.state.mySessionId).then((token) => {
-        this.putSession().then((token) => {
+        this.putSession(this.state.mySessionId).then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -326,16 +325,16 @@ export default class Chatting extends Component {
     return (
       <div className={classes.container}>
         {this.state.session === undefined ? (
-          <div id="Input">
-            <div id="Create-dialog" className={classes.jumbotronVerticalCenter}>
+          <div id='Input'>
+            <div id='Create-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Create a video session </h1>
               <form className={classes.formGroup} onSubmit={this.createSession}>
                 <p>
                   <label>Participant: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="userName"
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -345,8 +344,8 @@ export default class Chatting extends Component {
                   <label> Session: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="sessionId"
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
@@ -355,23 +354,23 @@ export default class Chatting extends Component {
                 <p className={classes.textCenter}>
                   <input
                     className={classes.controlBtn}
-                    name="commit"
-                    type="submit"
-                    value="Create"
+                    name='commit'
+                    type='submit'
+                    value='Create'
                   />
                 </p>
               </form>
             </div>
             {/* -------------------------------------------------------------- */}
-            <div id="join-dialog" className={classes.jumbotronVerticalCenter}>
+            <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
               <h1> Join a video session </h1>
               <form className={classes.formGroup} onSubmit={this.joinSession}>
                 <p>
                   <label>Participant: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="userName"
+                    type='text'
+                    id='userName'
                     value={myUserName}
                     onChange={this.handleChangeUserName}
                     required
@@ -381,8 +380,8 @@ export default class Chatting extends Component {
                   <label> Session: </label>
                   <input
                     className={classes.formControl}
-                    type="text"
-                    id="sessionId"
+                    type='text'
+                    id='sessionId'
                     value={mySessionId}
                     onChange={this.handleChangeSessionId}
                     required
@@ -391,9 +390,9 @@ export default class Chatting extends Component {
                 <p className={classes.textCenter}>
                   <input
                     className={classes.controlBtn}
-                    name="commit"
-                    type="submit"
-                    value="Join"
+                    name='commit'
+                    type='submit'
+                    value='Join'
                   />
                 </p>
               </form>
@@ -405,6 +404,20 @@ export default class Chatting extends Component {
           <div className={classes.container}>
             <h1 className={classes.sessionTitle}>{mySessionId}</h1>
             <div className={classes.videoPage}>
+              <div className={classes.sessionNav}>
+                <input
+                  className={classes.controlBtn}
+                  type='button'
+                  onClick={this.leaveSession}
+                  value='화면 종료하기'
+                />
+                <input
+                  className={classes.switchCameraBtn}
+                  type='button'
+                  onClick={this.switchCamera}
+                  value='카메라끄기'
+                />
+              </div>
               <div className={classes.sessionMain}>
                 {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
                 {/* 나의 화면 =  */}
@@ -425,26 +438,7 @@ export default class Chatting extends Component {
                   ))}
                 </div>
               </div>
-              <div className={classes.sessionRight}>
-                <div className={classes.sessionNav}>
-                  <input
-                    className={classes.controlBtn}
-                    type="button"
-                    onClick={this.leaveSession}
-                    value="화면 종료하기"
-                  />
-                  <input
-                    className={classes.switchCameraBtn}
-                    type="button"
-                    onClick={this.switchCamera}
-                    value="카메라끄기"
-                  />
-                </div>
-                <div className={classes.sessionChat}>
-                  bbbbbb
-                  <ChattingSection />
-                </div>
-              </div>
+              <div className={classes.sessionChat}>asdfasdf<ChattingSection/></div>
             </div>
           </div>
         ) : null}
@@ -452,31 +446,75 @@ export default class Chatting extends Component {
     );
   }
 
-  async postSession() {
-    console.log("this is your sessionID: " + this.state.mySessionId);
-    const response = await https.post(
-      "api/v1/bubble-session/" + this.state.mySessionId,
+  /**
+   * --------------------------------------------
+   * GETTING A TOKEN FROM YOUR APPLICATION SERVER
+   * --------------------------------------------
+   * The methods below request the creation of a Session and a Token to
+   * your application server. This keeps your OpenVidu deployment secure.
+   *
+   * In this sample code, there is no user control at all. Anybody could
+   * access your application server endpoints! In a real production
+   * environment, your application server must identify the user to allow
+   * access to the endpoints.
+   *
+   * Visit https://docs.openvidu.io/en/stable/application-server to learn
+   * more about the integration of OpenVidu in your application server.
+   */
+  
+  async postSession(bubbleNumber) {
+    const response = await https.post("api/v1/bubble-session/" + bubbleNumber,
       {},
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("post: " + response.data.token);
+    console.log("post: "+response.data.token);
 
     return await response.data.token; // The token
   }
 
-  async putSession() {
-    console.log("this is your sessionID: " + this.state.mySessionId);
-    const response = await https.put(
-      "api/v1/bubble-session/" + this.state.mySessionId,
+  async putSession(bubbleNumber) {
+    const response = await https.put("api/v1/bubble-session/" + bubbleNumber,
       {},
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    console.log("put: " + response.data.token);
+    console.log("put: "+response.data.token);
 
     return await response.data.token; // The token
   }
+
+  // async getToken() {
+  //   const sessionId = await this.createSession(this.state.mySessionId);
+  //   console.log("this is your sessionID: " + sessionId);
+  //   return await this.createToken(sessionId);
+  // }
+
+  // async createSession(sessionId) {
+  //   const response = await axios.post(
+  //     APPLICATION_SERVER_URL + "apiv2/sessions",
+  //     { customSessionId: sessionId },
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   console.log("this is your createSession: " + response.data);
+  //   return response.data; // The sessionId
+  // }
+
+  // async createToken(sessionId) {
+  //   const response = await axios.post(
+  //     APPLICATION_SERVER_URL + "apiv2/sessions/" + sessionId + "/connections",
+  //     {},
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  //   console.log("this is your createToken: " + response.data);
+  //   console.log(response.data);
+
+  //   return response.data; // The token
+  // }
 }
