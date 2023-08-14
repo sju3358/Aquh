@@ -495,17 +495,15 @@ export default class Chatting extends Component {
   //   return await this.createToken(sessionId);
   // }
 
-  // async createSession(sessionId) {
-  //   const response = await axios.post(
-  //     APPLICATION_SERVER_URL + "apiv2/sessions",
-  //     { customSessionId: sessionId },
-  //     {
-  //       headers: { "Content-Type": "application/json" },
-  //     }
-  //   );
-  //   console.log("this is your createSession: " + response.data);
-  //   return response.data; // The sessionId
-  // }
+  async createSession(sessionId) {
+    const response = await https.post("api/v1/bubble-session/" + sessionId,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    console.log("this is your createSession sessionId: " + response.data);
+    return response.data; // The sessionId
+  }
 
   // async createToken(sessionId) {
   //   const response = await axios.post(
