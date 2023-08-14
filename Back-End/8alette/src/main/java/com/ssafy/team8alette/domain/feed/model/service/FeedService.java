@@ -174,6 +174,7 @@ public class FeedService {
 		dto.setViewCnt(feedEntity.getViewCnt());
 		dto.setFeedActive(feedEntity.isFeedActive());
 		dto.setFeedImgOrigin(feedEntity.getFeedImgOrigin());
+		dto.setCreateDate(feedEntity.getCreateDate().toLocalDate());
 		if (feedEntity.getFeedImgTrans() != null && !feedEntity.getFeedImgOrigin().equals("")) {
 			dto.setFeedImgTrans(
 				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedEntity.getFeedImgTrans());
