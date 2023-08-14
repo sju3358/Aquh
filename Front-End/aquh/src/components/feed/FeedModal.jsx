@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import https from "../../utils/https_nonHeader";
 import React, { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import classes from "./FeedModal.module.css";
 import Modal from "react-modal";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
+
 
 export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const [isModify, setIsModify] = useState();
@@ -111,6 +112,18 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
     setFile(clickFeedData.img_url);
     setIsModify(true);
   };
+
+  const onClickDelete = () => {
+     if(confirm("정말 삭제 하시겠습니까?")){
+        https.put(`/api/v1/feed/${clickFeedData.feedNumber}`)
+        .then((res) => {
+          alert("피드가 삭제되었습니다.");
+          
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
+        })
+     }
+  }
 
   const modalStyle = {
     //모달창 바깥부분 관련 스타일링
@@ -222,7 +235,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
               ) : null // <button>수정하기</button>
             }
             {userNumber === clickFeedData?.feedCreatorNumber ? (
-              <button className={classes.buttonDelete}>삭제하기</button>
+              <button 
+                className={classes.buttonDelete}
+                onClick={onClickDelete}>
+                  삭제하기</button>
             ) : null}
           </div>
         </div>
