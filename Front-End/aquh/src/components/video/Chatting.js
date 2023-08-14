@@ -227,7 +227,7 @@ export default class Chatting extends Component {
 
               // --- 6) Publish your stream ---
 
-              mySession.subscribe(publisher);
+              mySession.publish(publisher);
 
               // Obtain the current video device in use
               var devices = await this.OV.getDevices();
