@@ -106,7 +106,7 @@ function FeedPage() {
             `/api/v1/feed/${localStorage.getItem("feedNumber")}`
           );
 
-          console.log("asdfasdfasdfasdfasdf");
+          console.log(responseData);
           setClickFeedData(responseData.data.data);
         } catch {
           console.log("error");

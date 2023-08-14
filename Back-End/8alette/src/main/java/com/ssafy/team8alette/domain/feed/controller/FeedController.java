@@ -92,8 +92,7 @@ public class FeedController {
 		//만약 저장했던 피드의 이미지가 존재한다면
 		if (feedDto.getFeedImgTrans() != null) {
 			data.put("img_name", feedDto.getFeedImgOrigin());
-			data.put("img_url",
-				"https://aquh.s3.ap-northeast-2.amazonaws.com/feed_img/" + feedDto.getFeedImgTrans());
+			data.put("img_url", feedDto.getFeedImgTrans());
 		}
 		data.put("feedNumber", feedDto.getFeedNumber());
 		data.put("feedCreatorNumber", feedDto.getFeedCreatorNumber());
