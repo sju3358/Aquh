@@ -6,7 +6,7 @@ import classes from "./FeedWrite.module.css";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
 
-function FeedWrite() {
+function FeedWrite({ setIsNewFeed }) {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState(null); //진짜 사진 파일 변경해주는 부분
@@ -17,12 +17,12 @@ function FeedWrite() {
   const onChangeFeedTitle = (e) => {
     const currentFeedTitle = e.target.value;
     setFeedTitle(currentFeedTitle);
-    
+    console.log(currentFeedTitle);
   };
   const onChangeFeedContent = (e) => {
     const currentFeedContent = e.target.value;
     setFeedConTent(currentFeedContent);
-    
+    console.log(currentFeedContent);
   };
   // const onChangeFeedFile = (e) => {
   //   const currentFile = e.target.files[0];
@@ -68,9 +68,9 @@ function FeedWrite() {
       https
         .post("/api/v1/feed", formData, {})
         .then((response) => {
-          /* eslint no-restricted-globals: ["off"] */
-          location.reload();
+          console.log("Response:", response.data);
         })
+        .then(setIsNewFeed(true))
         .catch((error) => {
           console.error(":", error);
         });
@@ -104,45 +104,46 @@ function FeedWrite() {
     <div className={classes.feedWriteCard}>
       <p className={classes.feedWriteMent}>
         <img
-          src='../../droplet-white.png'
-          alt='droplet'
+          src="../../droplet-white.png"
+          alt="droplet"
           className={classes.droplet}
         />
         나의 이야기를 작성해주세요
       </p>
       <div className={classes.feedWriteSection}>
         <input
-          type='text'
+          type="text"
           value={feedTitle}
           onChange={onChangeFeedTitle}
-          placeholder='제목을 입력하세요'
+          placeholder="제목을 입력하세요"
           className={classes.feedTitleInput}
         />
 
         <textarea
-          cols=''
-          rows='10'
+          cols=""
+          rows="10"
           value={feedContent}
           className={classes.feedContent}
           onChange={onChangeFeedContent}
-          placeholder='내용을 입력하세요'></textarea>
+          placeholder="내용을 입력하세요"
+        ></textarea>
 
         <div className={classes.feedWriteUnder}>
           <div className={classes.feedFileInput}>
             <input
               className={classes.uploadFeedName}
               Value={fileName}
-              placeholder='첨부파일'
+              placeholder="첨부파일"
               readOnly={true}
             />
-            <label htmlFor='file' className={classes.feedFileLabel}>
+            <label htmlFor="file" className={classes.feedFileLabel}>
               파일찾기
             </label>
             <input
-              type='file'
-              id='file'
+              type="file"
+              id="file"
               onChange={onChangeFeedFile}
-              accept='image/*'
+              accept="image/*"
               className={classes.feedImgRealBtn}
             />
           </div>
@@ -154,5 +155,6 @@ function FeedWrite() {
     </div>
   );
 }
+//
 
 export default FeedWrite;

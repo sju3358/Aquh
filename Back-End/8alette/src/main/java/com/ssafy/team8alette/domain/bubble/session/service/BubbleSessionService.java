@@ -30,6 +30,8 @@ public class BubbleSessionService {
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
+		sessionId = sessionId.trim();
+
 		System.out.println("세션 생성 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
 		String serverData = "{\"serverData\": \"" + memberNumber + "\"}";
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder()
@@ -59,6 +61,8 @@ public class BubbleSessionService {
 		OpenViduJavaClientException,
 		OpenViduHttpException {
 
+		sessionId = sessionId.trim();
+		
 		System.out.println("세션 참여 sesson ID : " + sessionId + "memberNumber : " + memberNumber);
 		BubbleSessionEntity bubbleSession = bubbleSessionRepository.findBubbleSessionEntityBySessionId(sessionId)
 			.orElseThrow(() -> new SessionNotFoundException());
