@@ -32,7 +32,7 @@
   width: 100rem;
 }
 
-.categories{
+.types{
   align-self: flex-start;
   display: flex;
   flex-direction: row;
@@ -41,7 +41,7 @@
   width: 100rem;
 }
 
-.category{
+.type{
   margin : 10px;
   font-size: 2rem;
   width: 8rem;
@@ -50,9 +50,42 @@
   line-height: 5rem;
 }
 
-.category:hover{
+.type:hover{
   cursor: pointer;
   font-weight: 700;
   background-color: white;
   border-radius: 1rem;
 }
+
+/* TODO : 모달 띄워질 경우 배경 어둡게 처리하기 */
+.containerInvalid{
+  /* box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  background: rgba(0, 0, 0, 0.5); */
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonContainer{
+  display: flex;
+  gap: 80em; 
+}
+
+.createRoom{
+  --button-color: azure;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100%;
+  border : white solid 2px;
+  cursor : pointer;
+  font-size: 4rem;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  position: sticky;
+}
+

@@ -8,12 +8,15 @@ import NotFound from "./components/ui/NotFound";
 import AuthPage from "./pages/AuthPage";
 import SignUpForm from "./components/users/SignUpForm";
 import BubblePage from "./pages/BubblePage";
-import RedirectPage from "./pages/RedirectPage";
+import RedirectPage_Naver from "./pages/RedirectPage_Naver";
+import RedirectPage_Google from "./pages/RedirectPage_Google";
 import LoginPage from "./pages/LoginPage";
 import FeedPage from "./pages/FeedPage";
 import VideoPage from "./pages/VideoPage";
 import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
+import BubbleDetailPage from "./pages/BubbleDetailPage";
+import ChattingSection from "./components/video/ChattingSection";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
@@ -33,16 +36,22 @@ const router = createBrowserRouter([
       // TODO : SignupForm을 SignUpPage로 바꾸기.
       { path: "/feed", element: <FeedPage /> },
       { path: "/bubble", element: <BubblePage /> },
+      { path: "/bubble/:id", element: <BubbleDetailPage />},
       // 0807 김재원 수정
-      { path: "/video", element: <VideoPage /> },
+      { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
-
-      // test
+      { path: "/chatting", element: <ChattingSection /> },
+  
     ],
   },
   {
-    path: "/redirect",
-    element: <RedirectPage />,
+    path: "/redirectG",
+    element: <RedirectPage_Google />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/redirectN",
+    element: <RedirectPage_Naver />,
     errorElement: <NotFound />,
   },
   // { path: "/test", element: <Test /> },

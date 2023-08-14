@@ -1,0 +1,8 @@
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-alias: spring
+OPENVIDU_URL: https://i9b108.p.ssafy.io:7082/
+OPENVIDU_SECRET: JAEWON
