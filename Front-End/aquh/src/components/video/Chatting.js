@@ -4,6 +4,7 @@ import axios from "axios";
 import https from "../../utils/https"
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
+// import classes from "./ChattingRow.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
@@ -404,20 +405,6 @@ export default class Chatting extends Component {
           <div className={classes.container}>
             <h1 className={classes.sessionTitle}>{mySessionId}</h1>
             <div className={classes.videoPage}>
-              <div className={classes.sessionNav}>
-                <input
-                  className={classes.controlBtn}
-                  type='button'
-                  onClick={this.leaveSession}
-                  value='화면 종료하기'
-                />
-                <input
-                  className={classes.switchCameraBtn}
-                  type='button'
-                  onClick={this.switchCamera}
-                  value='카메라끄기'
-                />
-              </div>
               <div className={classes.sessionMain}>
                 {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
                 {/* 나의 화면 =  */}
@@ -438,7 +425,23 @@ export default class Chatting extends Component {
                   ))}
                 </div>
               </div>
-              <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
+              <div className={classes.sessionRight}>
+                <div className={classes.sessionNav}>
+                  <input
+                    className={classes.controlBtn}
+                    type='button'
+                    onClick={this.leaveSession}
+                    value='화면 종료하기'
+                  />
+                  <input
+                    className={classes.switchCameraBtn}
+                    type='button'
+                    onClick={this.switchCamera}
+                    value='카메라끄기'
+                  />
+                </div>
+                <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
+              </div>
             </div>
           </div>
         ) : null}
