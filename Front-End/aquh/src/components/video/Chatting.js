@@ -4,6 +4,7 @@ import axios from "axios";
 import https from "../../utils/https"
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
+// import classes from "./ChattingRow.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import { json } from "react-router-dom";
 
@@ -111,8 +112,9 @@ export default class Chatting extends Component {
         mySession.on("exception", (exception) => {
           console.warn(exception);
         });
+        alert("asdf");
 
-        this.postSession(this.state.mySessionId).then((token) => {
+        this.postSession().then((token) => {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
@@ -201,7 +203,7 @@ export default class Chatting extends Component {
 
         // Get a token from the OpenVidu deployment
         // this.enterSession(this.state.mySessionId).then((token) => {
-        this.putSession(this.state.mySessionId).then((token) => {
+        this.putSession().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
           // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
           mySession
@@ -403,20 +405,6 @@ export default class Chatting extends Component {
           <div className={classes.container}>
             <h1 className={classes.sessionTitle}>{mySessionId}</h1>
             <div className={classes.videoPage}>
-              <div className={classes.sessionNav}>
-                <input
-                  className={classes.controlBtn}
-                  type='button'
-                  onClick={this.leaveSession}
-                  value='화면 종료하기'
-                />
-                <input
-                  className={classes.switchCameraBtn}
-                  type='button'
-                  onClick={this.switchCamera}
-                  value='카메라끄기'
-                />
-              </div>
               <div className={classes.sessionMain}>
                 {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
                 {/* 나의 화면 =  */}
@@ -437,7 +425,23 @@ export default class Chatting extends Component {
                   ))}
                 </div>
               </div>
-              <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
+              <div className={classes.sessionRight}>
+                <div className={classes.sessionNav}>
+                  <input
+                    className={classes.controlBtn}
+                    type='button'
+                    onClick={this.leaveSession}
+                    value='화면 종료하기'
+                  />
+                  <input
+                    className={classes.switchCameraBtn}
+                    type='button'
+                    onClick={this.switchCamera}
+                    value='카메라끄기'
+                  />
+                </div>
+                <div className={classes.sessionChat}>여기는 채팅 나오는 곳</div>
+              </div>
             </div>
           </div>
         ) : null}
@@ -461,8 +465,10 @@ export default class Chatting extends Component {
    * more about the integration of OpenVidu in your application server.
    */
   
-  async postSession(bubbleNumber) {
-    const response = await https.post("api/v1/bubble-session/" + bubbleNumber,
+  async postSession() {
+    // const sessionId = await this.createSession(this.state.mySessionId);
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https.post("api/v1/bubble-session/" + this.state.mySessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -473,8 +479,9 @@ export default class Chatting extends Component {
     return await response.data.token; // The token
   }
 
-  async putSession(bubbleNumber) {
-    const response = await https.put("api/v1/bubble-session/" + bubbleNumber,
+  async putSession() {
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -491,16 +498,15 @@ export default class Chatting extends Component {
   //   return await this.createToken(sessionId);
   // }
 
-  // async createSession(sessionId) {
-  //   const response = await axios.post(
-  //     APPLICATION_SERVER_URL + "apiv2/sessions",
-  //     { customSessionId: sessionId },
+  // async getSessionId(sessionId) {
+  //   const response = await https.post("api/v1/bubble-session/" + sessionId,
+  //   {},
   //     {
   //       headers: { "Content-Type": "application/json" },
   //     }
   //   );
-  //   console.log("this is your createSession: " + response.data);
-  //   return response.data; // The sessionId
+  //   console.log("this is your createSession sessionId: " + response.data.token);
+  //   return response.data.token; // The sessionId
   // }
 
   // async createToken(sessionId) {

@@ -22,3 +22,6 @@ export const joinedBubbleList = () =>
 
 export const createBubble = (bubble) => 
       https.post('/api/v1/bubble', { data : {bubble}})
+
+export const singleBubble = (bubbleNumber) => 
+      https.get(`api/v1/bubble/${bubbleNumber}`)
