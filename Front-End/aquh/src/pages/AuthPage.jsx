@@ -65,11 +65,11 @@ export default function AuthPage() {
         presentExp={user.presentExp}
       />
       <p className={classes.profileNickname}>{memberNickname}</p>
-      {memberIntro ? (
+      {/* {memberIntro ? (
         <div className={classes.memberIntro}>{memberIntro}</div>
       ) : (
         <div className={classes.memberIntro}>작성된 자기소개가 없습니다.</div>
-      )}
+      )} */}
       <UserSymbolList />
       {/* <button> 심볼 목록 보기 </button> */}
       {/* <p>심볼 목록</p> */}
