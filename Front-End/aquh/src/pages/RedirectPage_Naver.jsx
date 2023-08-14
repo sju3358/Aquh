@@ -59,10 +59,10 @@ export default function RedirectPage_Naver() {
             setMemberIntro(res.data.data.member_intro);
             setMemberEmail(res.data.data.member_email);
             memberState = res.data.data.member_state;
-            // if(memberState === 0)
-            //   navigate("/nickname")
-            // else if(memberState === 1)
-            //   navigate("/");
+            if(memberState === 0)
+              navigate("/nickname")
+            else if(memberState === 1)
+              navigate("/");
             
           });
          
