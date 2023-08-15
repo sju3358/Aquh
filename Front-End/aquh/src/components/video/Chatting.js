@@ -368,12 +368,13 @@ export default class Chatting extends Component {
                 onClick={this.leaveSession}
                 value="화면 종료하기"
               />
+              {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
               <input
                 className={classes.switchCameraBtn}
                 type="button"
                 onClick={this.switchCamera}
                 value="카메라끄기"
-              />
+              />{/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
             <div className={classes.sessionChat}>
               <ChattingSection bubbleNum={this.state.mySessionId} />
