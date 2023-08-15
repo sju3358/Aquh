@@ -39,7 +39,6 @@ public class ChatController {
     @GetMapping(value = "/{bubble_number}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Chat> getAllChatLog(
             @PathVariable Long bubble_number) {
-
         return chatService.getChatLog(bubble_number);
     }
 
