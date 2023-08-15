@@ -311,7 +311,7 @@ export default class Chatting extends Component {
     const planOpenDate = this.props.planOpenDate;
     const planCloseDate = this.props.planCloseDate;
     return (
-      <div>
+      <div className={classes.chatroomContainer}>
         <div>썸네일 : {bubbleThumbnail} </div>
         <div>제목 : {bubbleTitle}</div>
         <div>내용 : {bubbleContent}</div>
