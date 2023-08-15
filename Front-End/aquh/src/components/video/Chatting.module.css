@@ -1,3 +1,6 @@
+.container {
+  border: none;
+}
 /* 1.가장 큰 페이지 */
 .videoPage {
   display: flex;
@@ -6,9 +9,9 @@
 .sessionNav {
   display: flex;
   /* flex-direction: column; */
-  align-content: center;
-  margin: 10px;
-  flex: 1;
+
+  flex: 0.2;
+  justify-content: space-evenly;
 }
 /* 그룹방 제목 */
 .sessionTitle {
@@ -16,7 +19,7 @@
 }
 /* 메인 화면 */
 .sessionMain {
-  flex: 6;
+  flex: 7;
   margin: 10px;
   background-color: white;
   border-radius: 10px;
@@ -25,39 +28,46 @@
   flex-wrap: wrap;
 }
 .sessionRight {
-  flex: 4;
+  flex: 3;
   display: flex;
   flex-direction: column;
+  height: 80%;
 }
 .sessionChat {
   background-color: white;
   margin: 10px;
   font-size: large;
   border-radius: 10px;
-  flex: 9;
+  flex: 9.8;
+  overflow: auto;
+  height: 20%;
 }
 /* 2-1-1. 버튼 */
 .controlBtn,
 .switchCameraBtn {
   /* float: right; */
-  margin-top: 20px;
+  height: 60px;
+  margin: 10px;
+  width: 47%;
+  background-color: white;
   border-radius: 10px;
+  border: none;
 }
 
 /* 3. 사용자 화면들 모아놓은 section */
 .videoContainer {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+
   flex-wrap: wrap;
 }
 /* 3-1. 참가자들 화면 하나 */
 .streamContainer {
   padding: 20px;
-  width: 45%;
-  height: 33%;
+  width: 33%;
+  height: 48%;
   border-radius: 10px;
 }
-
 .vertical-center {
   position: absolute;
   top: 56%;
@@ -149,7 +159,7 @@ a:hover .demo-logo {
   position: relative;
   float: left;
   width: 50%;
-  cursor: pointer;
+  /* cursor: pointer; */
   object-fit: cover;
   height: 180px;
 }
