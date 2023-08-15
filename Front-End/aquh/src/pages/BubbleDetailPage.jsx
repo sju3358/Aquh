@@ -41,7 +41,6 @@ export default function BubbleDetailPage() {
   } = bubble;
   return (
     <div>
-      <button>
         <OpenViduChatting
           mySessionId={roomNumber}
           userNickname={memberNickname}
@@ -57,7 +56,6 @@ export default function BubbleDetailPage() {
         {/* <Link to={`/video/${roomNumber}`} style={{ textDecoration: "none" }}>
           참여하기
         </Link> */}
-      </button>
     </div>
   );
 }
