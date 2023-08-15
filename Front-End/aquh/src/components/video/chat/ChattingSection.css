@@ -57,25 +57,35 @@
   color: #2e2c2c;
   font-size: 13px;
 
-  padding: 5px 10px 5px 12px;
-  width: 100%;
+  padding: 15px;
+  width: 95%;
 }
 .sendMsgData {
   background: #4249b3 scroll;
   border-radius: 6px;
   font-size: 13px;
-
+  /* margin-right: auto; */
   color: #fff;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
+  padding: 15px;
+  width: 95%;
+}
+.chatting-info{
+  display: flex;
+  /* flex-direction: column; */
 }
 /* 작성시간 */
 .timeDate {
-  color: #0d0d0d;
-  display: block;
-  font-size: 10px;
-  margin: 8px 0 0;
+  color: #7b7a7a;
+  /* display: flex; */
+  font-size: 5px;
+  width: 60%;
   background-color: white;
+}
+.writername{
+  align-self: self-end;
+  color: #7b7a7a;
+  font-size: 5px;
+  width: 40%;
 }
 /* 말풍선가로길이 */
 .receivedWithdMsg {
@@ -105,13 +115,17 @@
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 100%;
+  width: 86%;
   padding: 10px;
 }
 /* 메시지 작성부분 */
 #typeMsg {
   border-top: 2px solid #c4c4c4;
   position: relative;
+  border-top: solid 1px rgb(184, 184, 184);
+  :focus {
+    outline: none;
+  }
 }
 /* 메시지 전송버튼 */
 #chat-send {
@@ -120,12 +134,16 @@
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   width: 40px;
   height: 40px;
   position: absolute;
   right: 10px;
   top: 4px;
+}
+
+#chat-send-icon {
+  margin-top: 4px;
 }
 
 .messaging {
