@@ -14,7 +14,7 @@ export default class UserVideoComponent extends Component {
       <div>
         {this.props.streamManager !== undefined ? (
           // TODO : 이걸 수정해서 스타일 주면 됨!
-          <div className='streamcomponent'>
+          <div className="streamcomponent">
             <OpenViduVideoComponent streamManager={this.props.streamManager} />
             {/* <div><p>{this.getNicknameTag()}</p></div> */}
           </div>
