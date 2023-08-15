@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+CMD yarn intatll
+
 EXPOSE 3000
 
 CMD yarn start
