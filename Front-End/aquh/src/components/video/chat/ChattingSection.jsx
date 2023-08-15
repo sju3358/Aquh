@@ -3,26 +3,27 @@ import { OpenVidu } from "openvidu-browser";
 import axios from "axios";
 import React, { Component, useState, useEffect } from "react";
 import "./ChattingSection.css";
-import UserVideoComponent from "./UserVideoComponent";
+import UserVideoComponent from "../UserVideoComponent";
 import { json } from "react-router-dom";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { memberNumberState } from "../../store/loginUserState";
-import { bubbleNumberState } from "../../store/bubbleState";
+import { memberNumberState } from "../../../store/loginUserState";
+import { memberNicknameState } from "../../../store/loginUserInfoState";
+import { BsSendFill } from "react-icons/bs";
+import https from "../../../utils/https"
 
-import https from "../../utils/https"
+export default function ChattingSection({
+    bubbleNum = 0,
+}) {
 
-export default function ChattingSection() {
     // TODO : atom에서 방넘버 받기
     // TODO : atom에서 멤버넘거 가져오기
     const memberNumber = useRecoilValue(memberNumberState);
-    const bubbleNum = useRecoilValue(bubbleNumberState)
-    // const [bubbleNum, setBubbleNum]=useState()
+    const memberNickName = useRecoilValue(memberNicknameState);
 
     // SSE 연결하기
     const eventSource = new EventSource(
-        // `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
-        `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/1`
+        `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
     );
 
     eventSource.onmessage = (event) => {
@@ -51,7 +52,10 @@ export default function ChattingSection() {
             <div class="outgoingMsg">
                 <div class="sendMsg">
                     <p class="sendMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
+                    <div class="chatting-info">
+                    <span class="timeDate"> ${convertTime}   </span>
+                    <b  class="writername">${data.nickName}</b>
+                    </div>
                 </div>
             </div>
             `;
@@ -77,7 +81,7 @@ export default function ChattingSection() {
             <div class="receivedMsg">
                 <div class="receivedWithdMsg">
                     <p class="receivedWithdMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
+                    <span class="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
                 </div>
             </div>`;
 
@@ -92,23 +96,14 @@ export default function ChattingSection() {
         let msgInput = document.querySelector("#chat-outgoing-msg");
 
         let chat = {
-            bubbleNumber: 1,
+            bubbleNumber: bubbleNum,
             msg: msgInput.value,
+            nickName: memberNickName,
         };
-        console.log("전송직전", chat);
-
-        // let data = {
-        //     method: "post",
-        //     body: JSON.stringify(chat),
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8",
-        //     },
-        // }
 
         https
             .post("/api/v1/bubble/chat", chat)
-            .then((result) => console.log(result));
-        console.log("전송끝", chat);
+            .catch((result) => console.log(result));
 
         msgInput.value = "";
     }
@@ -124,7 +119,6 @@ export default function ChattingSection() {
     // 엔터를 치면 메시지 전송
     const sendMsg = (e) => {
         if (e.keyCode === 13) {
-            console.log("잘되나", e);
             addMessage();
         }
     }
@@ -149,7 +143,7 @@ export default function ChattingSection() {
                             <div class="inputMsgWrite">
 
                                 <input onKeyDown={(e) => sendMsg(e)} id="chat-outgoing-msg" type="text" class="writeMsg" placeholder="Type a message" />
-                                <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button"><i class="FaFaPaperPlane" aria-hidden="true"></i></button>
+                                <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button"><BsSendFill/></button>
                             </div>
                         </div>
 

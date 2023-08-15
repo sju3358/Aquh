@@ -9,7 +9,7 @@ export default function GoogleLoginButton({}) {
   return (
     <button onClick={handleGoogleLogin} className={classes.login}>
       <img
-        src='../../google-login.png'
+        src='../../구글로그인버튼.png'
         alt='google-login'
         className={classes.naverLogin}
       />

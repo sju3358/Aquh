@@ -10,9 +10,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Chat {
     @Id
     private String id;
-    private String msg;
-    private Long sender; // 보내는 사람
-    private Long receiver; // 받는 사람 (귓속말)
+//    private Long receiver; // 받는 사람 (귓속말)
+    
+    private Long sender; // 보내는 사람 회원 번호
+    
+    private String nickName; // 보내는 사람 닉네임
+    
+    private String msg; // 메세지
+    
     private Long bubbleNumber; // 방 번호
     
     private LocalDateTime createdAt;

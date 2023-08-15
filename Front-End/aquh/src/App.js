@@ -16,7 +16,6 @@ import VideoPage from "./pages/VideoPage";
 import NicknamePage from "./pages/NicknamePage";
 import Modal from "react-modal";
 import BubbleDetailPage from "./pages/BubbleDetailPage";
-import ChattingSection from "./components/video/ChattingSection";
 import LogoutPage from "./pages/LogoutPage";
 import IntroPage from "./pages/IntroPage";
 // import Test from "./Test";
@@ -35,7 +34,6 @@ const router = createBrowserRouter([
 
       { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
-      { path: "/chatting", element: <ChattingSection /> },
     ],
   },
   {
