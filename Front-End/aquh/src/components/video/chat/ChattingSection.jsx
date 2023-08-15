@@ -13,7 +13,7 @@ import { memberNicknameState } from "../../../store/loginUserInfoState";
 import https from "../../../utils/https"
 
 export default function ChattingSection({
-    bubbleNum = 1,
+    bubbleNum = 0,
 }) {
 
     // TODO : atom에서 방넘버 받기
@@ -52,7 +52,7 @@ export default function ChattingSection({
             <div class="outgoingMsg">
                 <div class="sendMsg">
                     <p class="sendMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
+                    <span class="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
                 </div>
             </div>
             `;
@@ -78,7 +78,7 @@ export default function ChattingSection({
             <div class="receivedMsg">
                 <div class="receivedWithdMsg">
                     <p class="receivedWithdMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / <b>${data.sender}</b> </span>
+                    <span class="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
                 </div>
             </div>`;
 
