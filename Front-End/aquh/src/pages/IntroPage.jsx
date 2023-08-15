@@ -4,7 +4,7 @@ import FeedCard from "../components/feed/FeedCard";
 // import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
 import classes from "./MainPage.module.css";
 import Nav from "../components/ui/Nav";
-export default function MainPage() {
+export default function IntroPage() {
   const testList = [
     {
       imgPath: 1,
@@ -35,6 +35,7 @@ export default function MainPage() {
 
   return (
     <div>
+      <Nav />
       <main className={classes.container}>
         <img
           src="../../bubbling-main.png"
