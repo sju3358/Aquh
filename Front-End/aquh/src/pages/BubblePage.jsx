@@ -40,7 +40,7 @@ export default function BubblePage() {
       try {
         const response = await bubbleList();
         const res = response.data.data;
-        console.log(res)
+        console.log("bubbleList", res)
         setBubbles(res)
       }
       catch(error){
@@ -56,6 +56,7 @@ export default function BubblePage() {
       try {
         const response = await joinedBubbleList();
         const res = response.data.data;
+        console.log("joinedBubbleList", res)
         setJoinedBubbles(res)
       }
       catch(error){
@@ -121,7 +122,8 @@ const handleFormSubmit = (form) => {
       <div className={classes.latestChat}>
         <BubbleList 
         bubbles={joinedBubbles}
-  
+        selectedCategory={selectedCategory}
+        selectedType={selectedType}
         />
       </div>
       <p className={classes.latestMent}>
