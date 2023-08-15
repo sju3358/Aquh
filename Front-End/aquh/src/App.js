@@ -18,6 +18,7 @@ import Modal from "react-modal";
 import BubbleDetailPage from "./pages/BubbleDetailPage";
 import ChattingSection from "./components/video/ChattingSection";
 import LogoutPage from "./pages/LogoutPage";
+import IntroPage from "./pages/IntroPage";
 // import Test from "./Test";
 
 const router = createBrowserRouter([
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <NotFound />,
     children: [
+      { path: "/main", element: <MainPage /> },
       { path: "/auth/:userId", element: <AuthPage /> },
       // TODO : SignupForm을 SignUpPage로 바꾸기.
       { path: "/feed", element: <FeedPage /> },
@@ -38,8 +40,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/main",
-    element: <MainPage />,
+    path: "/intro",
+    element: <IntroPage />,
     errorElement: <NotFound />,
   },
   {
