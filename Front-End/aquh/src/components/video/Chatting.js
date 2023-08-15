@@ -1,33 +1,24 @@
 import { OpenVidu } from "openvidu-browser";
 
-import axios from "axios";
 import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
-// import classes from "./ChattingRow.module.css";
 import UserVideoComponent from "./UserVideoComponent";
-import { json } from "react-router-dom";
 import ChattingSection from "./ChattingSection";
-
-// import { useRecoilValue } from "recoil";
-// import { memberNicknameState } from "../../store/loginUserInfoState";
+import Button from "../ui/Button";
 
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
-
-// function GetMemberNickname(){
-//   const memberNickname = useRecoilValue(memberNicknameState);
-//   return memberNickname;
-// }
 
 export default class Chatting extends Component {
   constructor(props) {
     super(props);
     console.log(this.props);
+
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
       mySessionId: this.props.mySessionId,
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      myUserName: this.props.userNickname,
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
@@ -38,8 +29,6 @@ export default class Chatting extends Component {
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
-    this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
-    this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
@@ -54,18 +43,6 @@ export default class Chatting extends Component {
 
   onbeforeunload(event) {
     this.leaveSession();
-  }
-
-  handleChangeSessionId(e) {
-    this.setState({
-      mySessionId: e.target.value,
-    });
-  }
-
-  handleChangeUserName(e) {
-    this.setState({
-      myUserName: e.target.value,
-    });
   }
 
   handleMainVideoStream(stream) {
@@ -319,134 +296,95 @@ export default class Chatting extends Component {
     }
   }
 
-  render() {
-    const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
+  // { (memberNumber === hostMemberNumber) ?
+  //       (<Button onClick={this.createSession}> 채팅방 생성하기 </Button>) :
+  //       (<Button onClick={this.joinSession  }> 채팅방 입장하기 </Button>)
+  // }
+
+  bubbleDetail() {
+    const hostNumber = this.props.hostNumber;
+    const memberNumber = this.props.memberNumber;
+    const bubbleThumbnail = this.props.bubbleThumbnail;
+    const bubbleContent = this.props.bubbleContent;
+    const bubbleTitle = this.props.bubbleTitle;
+    const bubbleType = this.props.bubbleType;
+    const planOpenDate = this.props.planOpenDate;
+    const planCloseDate = this.props.planCloseDate;
+    return (
+      <div>
+        <div>썸네일 : {bubbleThumbnail} </div>
+        <div>제목 : {bubbleTitle}</div>
+        <div>내용 : {bubbleContent}</div>
+        <div>버블톡 : {bubbleType}</div>
+        <div>오픈 예정 일자 : {planOpenDate}</div>
+        <div>클로즈 예정 일자 : {planCloseDate}</div>
+
+        {memberNumber === hostNumber ? (
+          <Button onClick={this.createSession}> 채팅방 생성하기 </Button>
+        ) : (
+          <Button onClick={this.joinSession}> 채팅방 입장하기 </Button>
+        )}
+      </div>
+    );
+  }
+
+  bubbleChatting() {
+    const memberNickname = this.state.myUserName;
+    const bubbleTitle = this.props.bubbleTitle;
 
     return (
       <div className={classes.container}>
-        {this.state.session === undefined ? (
-          <div id='Input'>
-            <div id='Create-dialog' className={classes.jumbotronVerticalCenter}>
-              <h1> Create a video session </h1>
-              <form className={classes.formGroup} onSubmit={this.createSession}>
-                <p>
-                  <label>Participant: </label>
-                  <input
-                    className={classes.formControl}
-                    type='text'
-                    id='userName'
-                    value={myUserName}
-                    onChange={this.handleChangeUserName}
-                    required
-                  />
-                </p>
-                <p>
-                  <label> Session: </label>
-                  <input
-                    className={classes.formControl}
-                    type='text'
-                    id='sessionId'
-                    value={mySessionId}
-                    onChange={this.handleChangeSessionId}
-                    required
-                  />
-                </p>
-                <p className={classes.textCenter}>
-                  <input
-                    className={classes.controlBtn}
-                    name='commit'
-                    type='submit'
-                    value='Create'
-                  />
-                </p>
-              </form>
-            </div>
-            {/* -------------------------------------------------------------- */}
-            <div id='join-dialog' className={classes.jumbotronVerticalCenter}>
-              <h1> Join a video session </h1>
-              <form className={classes.formGroup} onSubmit={this.joinSession}>
-                <p>
-                  <label>Participant: </label>
-                  <input
-                    className={classes.formControl}
-                    type='text'
-                    id='userName'
-                    value={myUserName}
-                    onChange={this.handleChangeUserName}
-                    required
-                  />
-                </p>
-                <p>
-                  <label> Session: </label>
-                  <input
-                    className={classes.formControl}
-                    type='text'
-                    id='sessionId'
-                    value={mySessionId}
-                    onChange={this.handleChangeSessionId}
-                    required
-                  />
-                </p>
-                <p className={classes.textCenter}>
-                  <input
-                    className={classes.controlBtn}
-                    name='commit'
-                    type='submit'
-                    value='Join'
-                  />
-                </p>
-              </form>
+        <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
+        <div className={classes.videoPage}>
+          <div className={classes.sessionMain}>
+            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
+            {/* 나의 화면 =  */}
+            <div className={classes.videoContainer}>
+              {this.state.publisher !== undefined ? (
+                <div className={classes.streamContainer}>
+                  <UserVideoComponent streamManager={this.state.publisher} />
+                </div>
+              ) : null}
+              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
+              {this.state.subscribers.map((sub, i) => (
+                <div key={sub.id} className={classes.streamContainer}>
+                  {/* <span>{sub.id}</span> */}
+                  <UserVideoComponent streamManager={sub} />
+                </div>
+              ))}
             </div>
           </div>
-        ) : null}
+          <div className={classes.sessionRight}>
+            <div className={classes.sessionNav}>
+              <input
+                className={classes.controlBtn}
+                type="button"
+                onClick={this.leaveSession}
+                value="화면 종료하기"
+              />
+              <input
+                className={classes.switchCameraBtn}
+                type="button"
+                onClick={this.switchCamera}
+                value="카메라끄기"
+              />
+            </div>
+            <div className={classes.sessionChat}>
+              bbbbbb
+              <ChattingSection />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-        {this.state.session !== undefined ? (
-          <div className={classes.container}>
-            <h1 className={classes.sessionTitle}>{mySessionId}</h1>
-            <div className={classes.videoPage}>
-              <div className={classes.sessionMain}>
-                {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
-                {/* 나의 화면 =  */}
-                <div className={classes.videoContainer}>
-                  {this.state.publisher !== undefined ? (
-                    <div className={classes.streamContainer}>
-                      <UserVideoComponent
-                        streamManager={this.state.publisher}
-                      />
-                    </div>
-                  ) : null}
-                  {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
-                  {this.state.subscribers.map((sub, i) => (
-                    <div key={sub.id} className={classes.streamContainer}>
-                      {/* <span>{sub.id}</span> */}
-                      <UserVideoComponent streamManager={sub} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className={classes.sessionRight}>
-                <div className={classes.sessionNav}>
-                  <input
-                    className={classes.controlBtn}
-                    type='button'
-                    onClick={this.leaveSession}
-                    value='화면 종료하기'
-                  />
-                  <input
-                    className={classes.switchCameraBtn}
-                    type='button'
-                    onClick={this.switchCamera}
-                    value='카메라끄기'
-                  />
-                </div>
-                <div className={classes.sessionChat}>
-                  <ChattingSection />
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
+  render() {
+    return (
+      <div>
+        {this.state.session === undefined
+          ? this.bubbleDetail()
+          : this.bubbleChatting()}
       </div>
     );
   }
