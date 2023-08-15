@@ -12,7 +12,7 @@
   height: 30rem;
   border-radius: 1rem;
   background-color: white;
-  margin: 30px;
+  margin: 20px;
   padding: 1.5rem;
 }
 
@@ -32,11 +32,10 @@ img {
   width: 23rem;
   height: 12rem;
   align-self: center;
-  margin: 10px;
 }
 .cardButton {
   border-radius: 10px;
-  background: #2442a1aa;
+  background: #0b2475aa;
 
   cursor: pointer;
   font-weight: 700;
@@ -44,7 +43,7 @@ img {
   border: none;
   &:hover,
   &:active {
-    background-color: #3f5cbd;
+    background-color: #4f68ba;
     color: #eaf1f7;
   }
 }
@@ -61,13 +60,19 @@ img {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: rgb(72, 182, 226);
+  background: linear-gradient(
+    43deg,
+    rgba(250, 198, 221, 1) 1%,
+    rgba(221, 234, 248, 1) 48%,
+    rgba(148, 187, 233, 1) 100%
+  );
+
   width: 10rem;
   height: 2.3rem;
   border-radius: 1rem;
   text-align: center;
   font-size: 1.4rem;
-  color: white;
+  color: #05074f;
   /* font-weight: 700; */
   line-height: 2.3rem;
   z-index: 10;
