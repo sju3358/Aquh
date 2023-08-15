@@ -1,49 +1,10 @@
-/* body {
-  height: 100%;
-} */
-
-.bubblechatuser {
-  border-bottom: 1px solid #716d6d;
-  padding: 10px;
-  width: 95%;
-}
-
-.userData {
-  background-color: #f8f9fa !important;
-  border-top: 5px solid #716d6d;
-  max-height: calc(100vh);
-}
-
-.profileName {
-  background-color: #f8f9fa !important;
-  width: 100%;
-  padding: 10px;
-  border-bottom: 5px solid #716d6d;
-}
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
 #chat-box {
   overflow: auto;
   height: 700px;
 }
-.user a:hover {
-  text-decoration: none;
-  color: #212529;
-}
 
-.user a {
-  color: #212529;
-}
-
-.chatSection {
-  padding-top: 15px;
-}
-
-.incomingMsgImg {
-  display: inline-block;
-  width: 6%;
-}
-
-.receivedMsg {
+#receivedMsg {
   display: inline-block;
   padding: 0 0 0 10px;
   vertical-align: top;
@@ -51,60 +12,54 @@
 }
 
 /* 말풍선 하나 */
-.receivedWithdMsgData {
+#receivedWithdMsgData {
   background: #ebebeb scroll;
   border-radius: 6px;
   color: #2e2c2c;
-  font-size: 13px;
-
+  font-size: 15px;
   padding: 15px;
   width: 95%;
 }
-.sendMsgData {
+#sendMsgData {
   background: #4249b3 scroll;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 15px;
   /* margin-right: auto; */
   color: #fff;
   padding: 15px;
   width: 95%;
 }
-.chatting-info{
+#chatting-info{
   display: flex;
   /* flex-direction: column; */
 }
 /* 작성시간 */
-.timeDate {
+#timeDate {
   color: #7b7a7a;
   /* display: flex; */
   font-size: 5px;
   width: 60%;
   background-color: white;
 }
-.writername{
+
+#writername{
   align-self: self-end;
   color: #7b7a7a;
   font-size: 5px;
   width: 40%;
 }
 /* 말풍선가로길이 */
-.receivedWithdMsg {
+#receivedWithdMsg {
   width: 65%;
   margin-bottom: 16px;
 }
 
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  width: 60%;
-}
-
-.outgoingMsg {
+#outgoingMsg {
   overflow: hidden;
   margin: 26px 0 26px;
 }
 
-.sendMsg {
+#sendMsg {
   float: right;
   width: 60%;
 }
@@ -144,13 +99,4 @@
 
 #chat-send-icon {
   margin-top: 4px;
-}
-
-.messaging {
-  padding: 0 0 50px 0;
-}
-
-.msgHistory {
-  height: 516px;
-  overflow-y: auto;
 }
