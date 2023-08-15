@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-CMD yarn intatll
+RUN yarn install
 
 EXPOSE 3000
 
