@@ -1,5 +1,12 @@
 import { OpenVidu } from "openvidu-browser";
 
+import { formatDateTime } from "./DateUtils";
+import { FaRegCalendarCheck } from "react-icons/fa";
+import { FaRegCalendarTimes } from "react-icons/fa";
+import { FaSignInAlt } from "react-icons/fa";
+
+
+
 import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
@@ -317,21 +324,29 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <div>썸네일 : {bubbleThumbnail} </div>
-          <div>제목 : {bubbleTitle}</div>
-          <div>내용 : {bubbleContent}</div>
-          <div>버블톡 : {bubbleType}</div>
-          <div>오픈 예정 일자 : {planOpenDate}</div>
-          <div>클로즈 예정 일자 : {planCloseDate}</div>
+          <div>여기 썸네일 이미지 태그 부여해야함 css는 적용되어있음 썸네일 받는거 수정하고 img태그로 변환 ㄱ : {bubbleThumbnail} </div>
+           <div className={classes.titleContainer}>
+            <p className={classes.chatingTitle}> {bubbleTitle}</p>
+            <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
+           </div>
+          <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
+          <FaRegCalendarCheck/> {formatDateTime(planOpenDate)}</p>
+          <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
+          <FaRegCalendarTimes/> {formatDateTime(planCloseDate)}</p>
+          <p className={classes.chattingContent}>내용</p>
+          <div className={classes.chattingContentBox}>{bubbleContent} </div>
 
+          <div className={classes.entranceButtonContainer}>
           {memberNumber === hostNumber ? (
-            <Button onClick={buttonActive ? this.createSession : null}> 채팅방 생성하기 </Button>
+            <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt/>&nbsp; 채팅방 생성 </button>
           ) : (
-            <Button onClick={buttonActive ? this.joinSession : null}> 채팅방 입장하기 </Button>
+            <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt/>&nbsp; 채팅방 입장 </button>
           )}
+          </div>
         </div>
       </div>
     );
+
   }
 
   bubbleChatting() {

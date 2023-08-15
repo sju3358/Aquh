@@ -173,3 +173,112 @@ a:hover .demo-logo {
 		top: 57%;
 	}
 } */
+.chatroomContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #d8e7ff;
+  box-shadow: 0 0 30px rgba(58, 99, 160, 0.795);
+}
+
+@media (max-width: 768px) {
+  .chatroomContainer {
+    padding: 10px; /* 예시: 작은 화면일 때는 padding을 줄입니다. */
+    font-size: 14px; /* 예시: 작은 화면일 때는 글자 크기를 줄입니다. */
+  }
+}
+
+
+img {
+  border-radius: 1rem;
+  width: 23rem;
+  height: 12rem;
+  align-self: center;
+  margin: 10px;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: space-between;
+}
+.chatingTitle{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+.bubbleType{
+  position: relative;
+  top: 0;
+  right: 0;
+  background-image: linear-gradient(-20deg, #6e45e2 0%, #88d3ce 100%);
+
+  width: 10rem;
+  height: 2.3rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  color: #05074f;
+  /* font-weight: 700; */
+  line-height: 2.3rem;
+  z-index: 10;
+  margin: 20px;
+}
+
+
+.openDate{
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+.closeDate{
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.chattingContent{
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+  margin-top: 10px;
+}
+
+.chattingContentBox{
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.entranceButtonContainer{
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.entranceButton {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  background-color: #d8e7ff;
+  border: 1px solid #000000;
+  border-radius: 999px; /* 큰 값을 주어 둥근 모양 생성 */
+  padding: 10px 20px;
+  color: black;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.entranceButton:hover {
+  background-color: #acc6f1; /* 마우스 오버 시 더 진한 색상으로 변경 */
+}
