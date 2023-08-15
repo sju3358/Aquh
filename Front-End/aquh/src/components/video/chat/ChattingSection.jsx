@@ -11,6 +11,7 @@ import { memberNumberState } from "../../../store/loginUserState";
 import { memberNicknameState } from "../../../store/loginUserInfoState";
 
 import https from "../../../utils/https";
+import { BsSendFill } from "react-icons/bs";
 
 export default function ChattingSection({ bubbleNum = 0 }) {
   // TODO : atom에서 방넘버 받기
@@ -48,7 +49,10 @@ export default function ChattingSection({ bubbleNum = 0 }) {
             <div class="outgoingMsg">
                 <div class="sendMsg">
                     <p class="sendMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / ${data.nickName} </span>
+                    <div class="chatting-info">
+                    <span class="timeDate"> ${convertTime}   </span>
+                    <b  class="writername">${data.nickName}</b>
+                    </div>
                 </div>
             </div>
             `;
@@ -130,8 +134,10 @@ export default function ChattingSection({ bubbleNum = 0 }) {
           type="text"
           placeholder="메세지를 입력하세요"
         />
-        <button id="chat-send" onClick={enterMsg} type="button">
-          >
+        <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button">
+          <div id="chat-send-icon">
+            <BsSendFill />
+          </div>
         </button>
       </div>
     </div>
