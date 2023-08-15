@@ -6,7 +6,7 @@ import classes from "./Chatting.module.css";
 import UserVideoComponent from "./UserVideoComponent";
 import ChattingSection from "./ChattingSection";
 import Button from "../ui/Button";
-
+import Nav from "../ui/Nav";
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
 
@@ -311,19 +311,22 @@ export default class Chatting extends Component {
     const planOpenDate = this.props.planOpenDate;
     const planCloseDate = this.props.planCloseDate;
     return (
-      <div className={classes.chatroomContainer}>
-        <div>썸네일 : {bubbleThumbnail} </div>
-        <div>제목 : {bubbleTitle}</div>
-        <div>내용 : {bubbleContent}</div>
-        <div>버블톡 : {bubbleType}</div>
-        <div>오픈 예정 일자 : {planOpenDate}</div>
-        <div>클로즈 예정 일자 : {planCloseDate}</div>
+      <div>
+        <Nav />
+        <div className={classes.chatroomContainer}>
+          <div>썸네일 : {bubbleThumbnail} </div>
+          <div>제목 : {bubbleTitle}</div>
+          <div>내용 : {bubbleContent}</div>
+          <div>버블톡 : {bubbleType}</div>
+          <div>오픈 예정 일자 : {planOpenDate}</div>
+          <div>클로즈 예정 일자 : {planCloseDate}</div>
 
-        {memberNumber === hostNumber ? (
-          <Button onClick={this.createSession}> 채팅방 생성하기 </Button>
-        ) : (
-          <Button onClick={this.joinSession}> 채팅방 입장하기 </Button>
-        )}
+          {memberNumber === hostNumber ? (
+            <Button onClick={this.createSession}> 채팅방 생성하기 </Button>
+          ) : (
+            <Button onClick={this.joinSession}> 채팅방 입장하기 </Button>
+          )}
+        </div>
       </div>
     );
   }
