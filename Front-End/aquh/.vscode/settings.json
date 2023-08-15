@@ -1,0 +1,8 @@
+{
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "vscode.emmet"
+  },
+  "eslint.format.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+}
