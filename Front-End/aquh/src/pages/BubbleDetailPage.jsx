@@ -7,21 +7,13 @@ import OpenViduChatting from "../components/video/Chatting";
 import { useRecoilValue } from "recoil";
 import { memberNicknameState } from "../store/loginUserInfoState";
 import { memberNumberState } from "../store/loginUserState";
-import { useNavigate } from "react-router-dom";
+
 export default function BubbleDetailPage() {
   const [bubble, setBubble] = useState({});
   const roomNumber = useParams().id;
   // TODO: put 'bubbleNumber' into the api
   const memberNickname = useRecoilValue(memberNicknameState);
   const memberNumber = useRecoilValue(memberNumberState);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (memberNumber === -1) {
-      alert("로그인이 필요합니다");
-      navigate("/intro");
-    }
-  }, []);
 
   useEffect(() => {
     const fetchSingleBubble = async () => {
@@ -49,19 +41,19 @@ export default function BubbleDetailPage() {
   } = bubble;
   return (
     <div>
-      <OpenViduChatting
-        mySessionId={roomNumber}
-        userNickname={memberNickname}
-        hostNumber={hostMemberNumber}
-        memberNumber={memberNumber}
-        bubbleTitle={bubbleTitle}
-        bubbleThumbnail={bubbleThumbnail}
-        bubbleContent={bubbleContent}
-        bubbleType={bubbleType}
-        planOpenDate={planOpenDate}
-        planCloseDate={planCloseDate}
-      />
-      {/* <Link to={`/video/${roomNumber}`} style={{ textDecoration: "none" }}>
+        <OpenViduChatting
+          mySessionId={roomNumber}
+          userNickname={memberNickname}
+          hostNumber={hostMemberNumber}
+          memberNumber={memberNumber}
+          bubbleTitle={bubbleTitle}
+          bubbleThumbnail={bubbleThumbnail}
+          bubbleContent={bubbleContent}
+          bubbleType={bubbleType}
+          planOpenDate={planOpenDate}
+          planCloseDate={planCloseDate}
+        />
+        {/* <Link to={`/video/${roomNumber}`} style={{ textDecoration: "none" }}>
           참여하기
         </Link> */}
     </div>
