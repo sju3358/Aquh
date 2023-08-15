@@ -1,10 +1,10 @@
-  .FeedCard {
+.FeedCard {
   background-color: rgb(255, 255, 255);
   width: 950px;
 
   border-radius: 10px;
   margin: 20px;
-
+  cursor: pointer;
   padding: 30px 40px;
   &:hover {
     background-color: rgba(229, 229, 233, 0.707);

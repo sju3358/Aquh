@@ -1,27 +1,58 @@
-.container{
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   align-items: center;
 }
-
+/* 
 .bubbleBox{
   width: 100rem;
   padding: 100px;
-}
+} */
 
-.bubbleMainImg{
+.bubbleMainImg {
   width: 100%;
   height: 53%;
-  margin: 50px;
-
+  margin-bottom: 50px;
 }
 
-
-.feedMainImg{
+.feedMainImg {
   width: 100%;
   height: 344px;
   margin: 50px;
+}
 
+.dynamicEmojies {
+  width: 30rem;
+  height: 30rem;
+}
+
+.figureBox {
+  display: flex;
+  color: aliceblue;
+  width: 100%;
+  justify-content: center;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.6138830532212884) 0%,
+    rgba(149, 198, 255, 0.47102591036414565) 100%
+  );
+}
+
+.introMessage {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 50px;
+}
+
+.feedBox {
+  width: 100%;
 }

@@ -1,53 +1,57 @@
 .container {
-    display: flex;
-    gap: 3em;
+  display: flex;
+  gap: 3em;
 }
 
 .baseButton {
-    /* Base button styles */
-    all: unset;
-    --button-color: aquamarine;
-    border: 1px solid var(--button-color);
+  /* Base button styles */
+  all: unset;
+  --button-color: aquamarine;
+  border: 1px solid var(--button-color);
 }
 
 .regular {
-    composes: baseButton;
-    --button-color: azure;
-    width: 12rem;
-    height: 4rem;
-    border-radius: 2rem;
-    border : white solid 2px;
-    color: white;
-    cursor : pointer;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: 700;
-    /* TODO: apply styles specific to regular */
+  composes: baseButton;
+  --button-color: azure;
+  width: 12rem;
+  height: 4rem;
+  border-radius: 2rem;
+  border: white solid 2px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+  /* TODO: apply styles specific to regular */
 }
 
-.regular:hover{
-    background-color: var(--button-color);
-    color: black;
+.regular:hover {
+  background-color: var(--button-color);
+  color: black;
 }
 
 .alternate {
-    composes: baseButton;
-    --button-color: azure;
-    width: 14rem;
-    height: 5rem;
-    border-radius: 2rem;
-    border : white solid 2px;
-    color: white;
-    cursor : pointer;
-    font-size: 2rem;
-    text-align: center;
-    font-weight: 700;
-    margin-top: 50px;
-    margin-bottom: 50px;
+  composes: baseButton;
+  --button-color: azure;
+  width: 14rem;
+  height: 5rem;
+  border-radius: 2rem;
+  border: white solid 2px;
+  color: white;
+  cursor: pointer;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 700;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
 
+.alternate:hover {
+  background-color: azure;
+  color: black;
 }
 
 .selected {
-    background-color: var(--button-color);
-    color: black;
+  background-color: var(--button-color);
+  color: black;
 }
