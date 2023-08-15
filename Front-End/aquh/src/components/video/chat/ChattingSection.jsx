@@ -9,7 +9,7 @@ import { json } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNumberState } from "../../../store/loginUserState";
 import { memberNicknameState } from "../../../store/loginUserInfoState";
-
+import { BsSendFill } from "react-icons/bs";
 import https from "../../../utils/https"
 
 export default function ChattingSection({
@@ -52,7 +52,10 @@ export default function ChattingSection({
             <div class="outgoingMsg">
                 <div class="sendMsg">
                     <p class="sendMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
+                    <div class="chatting-info">
+                    <span class="timeDate"> ${convertTime}   </span>
+                    <b  class="writername">${data.nickName}</b>
+                    </div>
                 </div>
             </div>
             `;
@@ -140,7 +143,7 @@ export default function ChattingSection({
                             <div class="inputMsgWrite">
 
                                 <input onKeyDown={(e) => sendMsg(e)} id="chat-outgoing-msg" type="text" class="writeMsg" placeholder="Type a message" />
-                                <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button"><i class="FaFaPaperPlane" aria-hidden="true"></i></button>
+                                <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button"><BsSendFill/></button>
                             </div>
                         </div>
 
