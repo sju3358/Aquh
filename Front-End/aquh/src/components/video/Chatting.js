@@ -310,6 +310,15 @@ export default class Chatting extends Component {
     const bubbleType = this.props.bubbleType;
     const planOpenDate = this.props.planOpenDate;
     const planCloseDate = this.props.planCloseDate;
+
+    let buttonActive = false;
+
+    if (bubbleType === true) buttonActive = true;
+    else {
+      if (Date.parse(planCloseDate) <= Date.now()) buttonActive = true;
+      else buttonActive = false;
+    }
+
     return (
       <div>
         <Nav />
@@ -322,9 +331,15 @@ export default class Chatting extends Component {
           <div>클로즈 예정 일자 : {planCloseDate}</div>
 
           {memberNumber === hostNumber ? (
-            <Button onClick={this.createSession}> 채팅방 생성하기 </Button>
+            <Button onClick={buttonActive ? this.createSession : null}>
+              {" "}
+              채팅방 생성하기{" "}
+            </Button>
           ) : (
-            <Button onClick={this.joinSession}> 채팅방 입장하기 </Button>
+            <Button onClick={buttonActive ? this.joinSession : null}>
+              {" "}
+              채팅방 입장하기{" "}
+            </Button>
           )}
         </div>
       </div>
