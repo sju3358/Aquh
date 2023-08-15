@@ -16,6 +16,7 @@
 .droplet {
   width: 2.5rem;
   height: 4rem;
+  margin-right: 10px;
 }
 .latestMent {
   color: white;
