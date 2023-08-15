@@ -21,16 +21,14 @@ export default function BubbleCard({
   const id = bubbleId;
   return (
     <div className={classes.card}>
-      {thumbnail && (
-        <img className={classes.cardImgTop} src={thumbnail} alt="Event" />
-      )}
+      <img className={classes.cardImgTop} src={thumbnail} alt="Event" />
+      
       {/* TODO: roomType */}
-      {/* <Capsule /> */}
+      <div className={classes.eventCategory}>{category}</div>
       <p className={classes.eventTitle}>{title}</p>
       <p className={classes.eventDate}>
         {" "}
-        <FaRegCalendarCheck /> {openDate?.slice(0, 10)} ~{" "}
-        {closeDate?.slice(0, 10)}
+        <FaRegCalendarCheck /> {openDate?.slice(0, 10)}
       </p>
       <div>{type}</div>
       <button onClick={onJoin} className={classes.cardButton}>
