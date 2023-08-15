@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import axios from "axios";
 import { memberNumberState } from "../../store/loginUserState";
 import classes from "./BubbleForm.module.css";
+import BubbleImage from "./BubbleImage";
 
 
 export default function BubbleForm({ onSubmit }) {
@@ -41,14 +43,42 @@ export default function BubbleForm({ onSubmit }) {
     });
   };
 
-
-
+  const handleThumbnailSubmit = async (form) => {
+    await axios.post('https://api.kakaobrain.com/v2/inference/karlo/t2i',
+      {
+        body: {
+          "prompt" : `${form.bubbleImagePrompt}`,
+        }
+      },
+      {
+        headers: {
+          "Authorization" : "KakaoAK 5e3cba8892bdddabf18a9f685ea9fead",
+          "Content-Type" : "application/json",
+        },
+      }
+    ).then(
+      (response) => {
+        setBubbleForm({
+          ...bubbleForm,
+          bubbleThumbnail: response.data,
+        });
+        console.log("썸네일 생성 성공", response)
+        console.log(response)
+      }
+    ).catch(
+      (error) => {
+        console.log("썸네일 생성 실패", error)
+      }
+    )
+    
+  }
 
   console.log("selected", selectedValue)
 
   const { bubbleTitle, bubbleContent, bubbleThumbnail } = bubbleForm;
   return (
     <form onSubmit={handleSubmit} className={classes.formContainer}>
+      <BubbleImage onSubmit={handleThumbnailSubmit} />
       <label htmlFor="imgUrl" className={classes.label}>
         이미지
       </label>
