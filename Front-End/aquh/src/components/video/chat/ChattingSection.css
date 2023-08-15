@@ -23,7 +23,7 @@
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
 .containerFluidChatSection {
   overflow: auto;
-  height: 450px;
+  height: 550px;
 }
 .user a:hover {
   text-decoration: none;
@@ -57,25 +57,35 @@
   color: #2e2c2c;
   font-size: 13px;
 
-  padding: 5px 10px 5px 12px;
-  width: 100%;
+  padding: 15px;
+  width: 95%;
 }
 .sendMsgData {
   background: #4249b3 none repeat scroll 0 0;
   border-radius: 6px;
   font-size: 13px;
-
+  /* margin-right: auto; */
   color: #fff;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
+  padding: 15px;
+  width: 95%;
+}
+.chatting-info{
+  display: flex;
+  /* flex-direction: column; */
 }
 /* 작성시간 */
 .timeDate {
-  color: #0d0d0d;
-  display: block;
-  font-size: 10px;
-  margin: 8px 0 0;
+  color: #7b7a7a;
+  /* display: flex; */
+  font-size: 5px;
+  width: 60%;
   background-color: white;
+}
+.writername{
+  align-self: self-end;
+  color: #7b7a7a;
+  font-size: 5px;
+  width: 40%;
 }
 /* 말풍선가로길이 */
 .receivedWithdMsg {
@@ -110,21 +120,24 @@
 }
 /* 메시지 작성부분 */
 .typeMsg {
-  border-top: 1px solid #c4c4c4;
   position: relative;
+  border-top: solid 1px rgb(184, 184, 184);
+  :focus {
+    outline: none;
+  }
 }
 /* 메시지 전송버튼 */
 .msgSendBtn {
-  background: #05728f none repeat scroll 0 0;
-  border: medium none;
+  background: #424ab3ef none repeat scroll 0 0;
+  border:none;
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
-  font-size: 17px;
-  height: 33px;
+  font-size: 20px;
+  height: 30px;
   position: absolute;
   right: 0;
-  top: 11px;
+  top: 10px;
   width: 33px;
 }
 
