@@ -40,6 +40,7 @@ export default function BubblePage() {
       try {
         const response = await bubbleList();
         const res = response.data.data;
+        console.log(res)
         setBubbles(res)
       }
       catch(error){
@@ -74,42 +75,28 @@ export default function BubblePage() {
 
 
 
-//   const handleFormSubmit = () => {
-//   const createSingleBubble = async (bubbleForm) => {
-//     try {
-//       const response = await createBubble(JSON.stringify(bubbleForm));
-//       const res = response
-//       console.log("BubbleForm", res)
-//     }
-//     catch(error){
-//       console.log(error)
-//     }
-//   } 
-//   createSingleBubble();
-// }
-
 // post 버블 생성
 const handleFormSubmit = (form) => {
   https.post('api/v1/bubble', form)
     .then(
       (response) => {
-        console.log(response)
+        console.log("방생성 성공", response)
       }
     ).then(
       https.post(`/api/v1/bubble-session/${form.bubbleNumber}`, form)
         .then(
           (response)=> {
-            console.log("방생성 성공", response)
+            console.log("화상생성 성공", response)
           }
       ).catch(
         (error) => {
-          console.log(error)
+          console.log("화상생성 실패", error)
         }
       )
     )
     .catch(
       (error) => {
-        console.log(error)
+        console.log("방생성 실패", error)
       }
   )
 }

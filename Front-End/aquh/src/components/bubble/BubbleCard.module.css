@@ -3,6 +3,7 @@
 }
 
 .card {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -48,17 +49,27 @@ img {
   }
 }
 
-/* button{
-  width: 7rem;
-  height: 1.5rem;
-  border-radius: 1rem;
-  margin: 10px;
-  padding-bottom: 15px;
-  border : solid black 1px;
-  font-size: 0.5rem;
-  align-self: last baseline;
+.detailLink {
+  text-decoration: none;
+  color: black;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
 }
 
-button:hover{
-  background-color: white;
-} */
+.eventCategory {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgb(72, 182, 226);
+  width: 10rem;
+  height: 2.3rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  color: white;
+  /* font-weight: 700; */
+  line-height: 2.3rem;
+  z-index: 10;
+  margin: 20px;
+}
