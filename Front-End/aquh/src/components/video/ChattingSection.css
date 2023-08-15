@@ -1,8 +1,8 @@
-body {
+/* body {
   height: 100%;
-}
+} */
 
-.user {
+.bubblechatuser {
   border-bottom: 1px solid #716d6d;
   padding: 10px;
   width: 95%;
@@ -12,7 +12,6 @@ body {
   background-color: #f8f9fa !important;
   border-top: 5px solid #716d6d;
   max-height: calc(100vh);
-
 }
 
 .profileName {
@@ -21,7 +20,11 @@ body {
   padding: 10px;
   border-bottom: 5px solid #716d6d;
 }
-
+/*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
+.containerFluidChatSection {
+  overflow: auto;
+  height: 450px;
+}
 .user a:hover {
   text-decoration: none;
   color: #212529;
@@ -47,25 +50,36 @@ body {
   width: 92%;
 }
 
+/* 말풍선 하나 */
 .receivedWithdMsgData {
   background: #ebebeb none repeat scroll 0 0;
   border-radius: 6px;
-  color: #646464;
-  font-size: 20px;
-  margin: 0;
+  color: #2e2c2c;
+  font-size: 13px;
+
   padding: 5px 10px 5px 12px;
   width: 100%;
 }
+.sendMsgData {
+  background: #4249b3 none repeat scroll 0 0;
+  border-radius: 6px;
+  font-size: 13px;
 
+  color: #fff;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+/* 작성시간 */
 .timeDate {
-  color: #747474;
+  color: #0d0d0d;
   display: block;
   font-size: 10px;
   margin: 8px 0 0;
+  background-color: white;
 }
-
+/* 말풍선가로길이 */
 .receivedWithdMsg {
-  width: 57%;
+  width: 65%;
   margin-bottom: 16px;
 }
 
@@ -73,16 +87,6 @@ body {
   float: left;
   padding: 30px 15px 0 25px;
   width: 60%;
-}
-
-.sendMsgData {
-  background: #050f8f none repeat scroll 0 0;
-  border-radius: 6px;
-  font-size: 20px;
-  margin: 0;
-  color: #fff;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
 }
 
 .outgoingMsg {
@@ -104,12 +108,12 @@ body {
   width: 100%;
   padding: 10px;
 }
-
+/* 메시지 작성부분 */
 .typeMsg {
   border-top: 1px solid #c4c4c4;
   position: relative;
 }
-
+/* 메시지 전송버튼 */
 .msgSendBtn {
   background: #05728f none repeat scroll 0 0;
   border: medium none;
