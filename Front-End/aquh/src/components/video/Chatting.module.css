@@ -173,8 +173,3 @@ a:hover .demo-logo {
 		top: 57%;
 	}
 } */
-
-button {
-  appearance: none;
-  all: unset;
-}
