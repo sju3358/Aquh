@@ -40,8 +40,7 @@ export default function BubbleCard({
           style={{ color: "white" }}
           className={classes.detailLink}
         >
-          {" "}
-          참여하기{" "}
+          참여하기
         </Link>
       </button>
     </div>
