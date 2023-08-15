@@ -32,17 +32,20 @@ const router = createBrowserRouter([
       // TODO : SignupForm을 SignUpPage로 바꾸기.
       { path: "/feed", element: <FeedPage /> },
       { path: "/bubble", element: <BubblePage /> },
-      { path: "/bubble/:id", element: <BubbleDetailPage /> },
-      // 0807 김재원 수정
+
       { path: "/video/:id", element: <VideoPage /> },
       { path: "/nickname", element: <NicknamePage /> },
       { path: "/chatting", element: <ChattingSection /> },
     ],
   },
   {
+    path: "/bubble/:id",
+    element: <BubbleDetailPage />,
+    errorElement: <NotFound />,
+  },
+  {
     path: "/intro",
     element: <IntroPage />,
-    errorElement: <NotFound />,
   },
   {
     path: "/login",
