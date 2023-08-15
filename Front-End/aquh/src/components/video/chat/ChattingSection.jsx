@@ -1,7 +1,7 @@
 import { OpenVidu } from "openvidu-browser";
 
 import axios from "axios";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import "./ChattingSection.css";
 import UserVideoComponent from "../UserVideoComponent";
 import { json } from "react-router-dom";
@@ -18,6 +18,9 @@ export default function ChattingSection({ bubbleNum = 0 }) {
   // TODO : atom에서 멤버넘거 가져오기
   const memberNumber = useRecoilValue(memberNumberState);
   const memberNickName = useRecoilValue(memberNicknameState);
+
+  // 스크롤 용
+  let ref = useRef(0);
 
   // SSE 연결하기
   const eventSource = new EventSource(
@@ -46,12 +49,11 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     let convertTime = tm + " | " + md;
 
     let sendBox = `
-            <div class="outgoingMsg">
-                <div class="sendMsg">
-                    <p class="sendMsgData">${data.msg}</p>
-                    <div class="chatting-info">
-                    <span class="timeDate"> ${convertTime}   </span>
-                    <b  class="writername">${data.nickName}</b>
+            <div id="outgoingMsg">
+                <div id="sendMsg">
+                    <p id="sendMsgData">${data.msg}</p>
+                    <div id="chatting-info">
+                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
                     </div>
                 </div>
             </div>
@@ -60,7 +62,8 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     // chatBox.append(sendBox);
     chatBox.innerHTML += sendBox;
 
-    document.documentElement.scrollTop = document.body.scrollHeight;
+    // document.documentElement.scrollTop = document.body.scrollHeight;
+    ref.current.scrollIntoView();
   }
 
   // 회색 박스 초기화/동기화
@@ -75,10 +78,10 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     // element.textContext = data;
 
     let receivedBox = `
-            <div class="receivedMsg">
-                <div class="receivedWithdMsg">
-                    <p class="receivedWithdMsgData">${data.msg}</p>
-                    <span class="timeDate"> ${convertTime} / ${data.nickName} </span>
+            <div id="receivedMsg">
+                <div id="receivedWithdMsg">
+                    <p id="receivedWithdMsgData">${data.msg}</p>
+                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
                 </div>
             </div>`;
 
@@ -117,14 +120,9 @@ export default function ChattingSection({ bubbleNum = 0 }) {
       addMessage();
     }
   };
-  // document.querySelector("#chat-outgoing-msg").addEventListener("keydown", (e) => {
-  //     if (e.keyCode === 13) "
-  //         addMessage();
-  //     }
-  // });
 
   return (
-    <div id="user_chat_data">
+    <div id="user_chat_data" ref={ref}>
       <div id="chat-box"></div>
 
       <div id="typeMsg">
@@ -134,7 +132,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
           type="text"
           placeholder="메세지를 입력하세요"
         />
-        <button id="chat-send" onClick={enterMsg} class="msgSendBtn" type="button">
+        <button id="chat-send" onClick={enterMsg} type="button">
           <div id="chat-send-icon">
             <BsSendFill />
           </div>
