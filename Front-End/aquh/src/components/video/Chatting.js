@@ -4,7 +4,7 @@ import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
 import UserVideoComponent from "./UserVideoComponent";
-import ChattingSection from "./ChattingSection";
+import ChattingSection from "./chat/ChattingSection";
 import Button from "../ui/Button";
 import Nav from "../ui/Nav";
 const APPLICATION_SERVER_URL =
@@ -107,9 +107,7 @@ export default class Chatting extends Component {
               });
               mySession.publish(publisher);
               var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
-                (device) => device.kind === "videoinput"
-              );
+              var videoDevices = devices.filter((device) => device.kind === "videoinput");
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -207,9 +205,7 @@ export default class Chatting extends Component {
 
               // Obtain the current video device in use
               var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
-                (device) => device.kind === "videoinput"
-              );
+              var videoDevices = devices.filter((device) => device.kind === "videoinput");
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -261,9 +257,7 @@ export default class Chatting extends Component {
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
+      var videoDevices = devices.filter((device) => device.kind === "videoinput");
 
       if (videoDevices && videoDevices.length > 1) {
         var newVideoDevice = videoDevices.filter(
@@ -331,15 +325,9 @@ export default class Chatting extends Component {
           <div>클로즈 예정 일자 : {planCloseDate}</div>
 
           {memberNumber === hostNumber ? (
-            <Button onClick={buttonActive ? this.createSession : null}>
-              {" "}
-              채팅방 생성하기{" "}
-            </Button>
+            <Button onClick={buttonActive ? this.createSession : null}> 채팅방 생성하기 </Button>
           ) : (
-            <Button onClick={buttonActive ? this.joinSession : null}>
-              {" "}
-              채팅방 입장하기{" "}
-            </Button>
+            <Button onClick={buttonActive ? this.joinSession : null}> 채팅방 입장하기 </Button>
           )}
         </div>
       </div>
@@ -388,8 +376,7 @@ export default class Chatting extends Component {
               />
             </div>
             <div className={classes.sessionChat}>
-              bbbbbb
-              <ChattingSection />
+              <ChattingSection bubbleNum={this.state.mySessionId} />
             </div>
           </div>
         </div>
@@ -399,11 +386,7 @@ export default class Chatting extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.session === undefined
-          ? this.bubbleDetail()
-          : this.bubbleChatting()}
-      </div>
+      <div>{this.state.session === undefined ? this.bubbleDetail() : this.bubbleChatting()}</div>
     );
   }
 
