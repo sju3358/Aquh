@@ -1,49 +1,10 @@
-/* body {
-  height: 100%;
-} */
-
-.bubblechatuser {
-  border-bottom: 1px solid #716d6d;
-  padding: 10px;
-  width: 95%;
-}
-
-.userData {
-  background-color: #f8f9fa !important;
-  border-top: 5px solid #716d6d;
-  max-height: calc(100vh);
-}
-
-.profileName {
-  background-color: #f8f9fa !important;
-  width: 100%;
-  padding: 10px;
-  border-bottom: 5px solid #716d6d;
-}
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
-.containerFluidChatSection {
+#chat-box {
   overflow: auto;
-  height: 550px;
-}
-.user a:hover {
-  text-decoration: none;
-  color: #212529;
+  height: 700px;
 }
 
-.user a {
-  color: #212529;
-}
-
-.chatSection {
-  padding-top: 15px;
-}
-
-.incomingMsgImg {
-  display: inline-block;
-  width: 6%;
-}
-
-.receivedMsg {
+#receivedMsg {
   display: inline-block;
   padding: 0 0 0 10px;
   vertical-align: top;
@@ -51,75 +12,70 @@
 }
 
 /* 말풍선 하나 */
-.receivedWithdMsgData {
-  background: #ebebeb none repeat scroll 0 0;
+#receivedWithdMsgData {
+  background: #ebebeb scroll;
   border-radius: 6px;
   color: #2e2c2c;
-  font-size: 13px;
-
+  font-size: 15px;
   padding: 15px;
   width: 95%;
 }
-.sendMsgData {
-  background: #4249b3 none repeat scroll 0 0;
+#sendMsgData {
+  background: #4249b3 scroll;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 15px;
   /* margin-right: auto; */
   color: #fff;
   padding: 15px;
   width: 95%;
 }
-.chatting-info{
+#chatting-info{
   display: flex;
   /* flex-direction: column; */
 }
 /* 작성시간 */
-.timeDate {
+#timeDate {
   color: #7b7a7a;
   /* display: flex; */
   font-size: 5px;
   width: 60%;
   background-color: white;
 }
-.writername{
+
+#writername{
   align-self: self-end;
   color: #7b7a7a;
   font-size: 5px;
   width: 40%;
 }
 /* 말풍선가로길이 */
-.receivedWithdMsg {
+#receivedWithdMsg {
   width: 65%;
   margin-bottom: 16px;
 }
 
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  width: 60%;
-}
-
-.outgoingMsg {
+#outgoingMsg {
   overflow: hidden;
   margin: 26px 0 26px;
 }
 
-.sendMsg {
+#sendMsg {
   float: right;
   width: 60%;
 }
 
-.inputMsgWrite input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+#chat-outgoing-msg {
+  background: none;
   border: medium none;
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 100%;
+  width: 86%;
   padding: 10px;
 }
 /* 메시지 작성부분 */
-.typeMsg {
+#typeMsg {
+  border-top: 2px solid #c4c4c4;
   position: relative;
   border-top: solid 1px rgb(184, 184, 184);
   :focus {
@@ -127,25 +83,20 @@
   }
 }
 /* 메시지 전송버튼 */
-.msgSendBtn {
-  background: #424ab3ef none repeat scroll 0 0;
-  border:none;
+#chat-send {
+  background: #4249b3;
+  border: medium none;
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
   font-size: 20px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   position: absolute;
-  right: 0;
-  top: 10px;
-  width: 33px;
+  right: 10px;
+  top: 4px;
 }
 
-.messaging {
-  padding: 0 0 50px 0;
-}
-
-.msgHistory {
-  height: 516px;
-  overflow-y: auto;
+#chat-send-icon {
+  margin-top: 4px;
 }
