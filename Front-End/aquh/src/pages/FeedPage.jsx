@@ -118,15 +118,30 @@ function FeedPage() {
       </div>
       <div className={classes.feedListSection}>
         <div className={classes.feedCategories}>
-          <p onClick={clickNew} className={classes.feedCategory}>
+          <p
+            onClick={clickNew}
+            className={`${classes.feedCategory} ${
+              isNew && classes.selectedButton
+            }`}
+          >
             최신순
           </p>
-          <p onClick={clickPopular} className={classes.feedCategory}>
+          <p
+            onClick={clickPopular}
+            className={`${classes.feedCategory} ${
+              isPopular && classes.selectedButton
+            }`}
+          >
             인기순
           </p>
-          <p onClick={clickFollow} className={classes.feedCategory}>
+          {/* <p
+            onClick={clickFollow}
+            className={`${classes.feedCategory} ${
+              isFollow && classes.selectedButton
+            }`}
+          >
             팔로잉
-          </p>
+          </p> */}
         </div>
 
         {isNew ? (
@@ -137,7 +152,7 @@ function FeedPage() {
                 alt="droplet"
                 className={classes.droplet}
               />
-              최신 피드들을 만나보세요 !
+              &nbsp;최신 피드들을 만나보세요 !
             </p>
             <div className={classes.feedCards}>
               {newList.map((feed) => {
@@ -155,7 +170,6 @@ function FeedPage() {
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
                       feedLevel={feed.level}
-                      // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
                 );
@@ -177,7 +191,7 @@ function FeedPage() {
                 alt="droplet"
                 className={classes.droplet}
               />
-              금주의 인기 피드들을 만나보세요 !
+              &nbsp;금주의 인기 피드들을 만나보세요 !
             </p>
             <div>
               {popularList.map((feed) => {

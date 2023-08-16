@@ -8,16 +8,6 @@
   flex-direction: column;
 }
 
-.feedListSection {
-  /* flex: 6; */
-  /* display: flex;
-  align-items: center; */
-}
-.feedWriteSection {
-  /* flex: 4; */
-  /* display: flex;
-  align-items: center; */
-}
 .latestChat {
   width: 100rem;
 }
@@ -40,21 +30,35 @@
   flex-direction: row;
   margin: 20px 70px;
   width: 100rem;
+  font-weight: 700;
+  
 }
 .feedCategory {
   margin: 10px;
   font-size: 2rem;
-  width: 8rem;
+  font-weight: 2rem;
+  width: 10rem;
   height: 5rem;
   text-align: center;
   line-height: 5rem;
-}
-.feedCategory:hover {
+  color:white;
+  border: white solid 2px;
   cursor: pointer;
-  font-weight: 700;
-  background-color: white;
-  border-radius: 1rem;
+  border-radius: 2rem;
 }
+
+.feedCategory:hover {
+  background-color: azure;
+  color: black;
+}
+
+.selectedButton {
+  background-color: azure;
+  color: black;
+}
+
+
+
 .feedCards {
   display: flex;
   flex-direction: column;
