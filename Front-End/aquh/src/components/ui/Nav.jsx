@@ -9,15 +9,17 @@ export default function Nav() {
   // console.log("memberNumberrrrrrr", memberNumber)
   return (
     <nav className={classes.navBar}>
-      <Link to="/main">
-        {" "}
-        <img
-          src="../../aquh-logo.png"
-          alt="aquh-logo"
-          className={classes.logoPng}
-        />
-      </Link>
       <div className={classes.navItemContainer}>
+        <div className={classes.mainImg}>
+          <Link to="/main">
+            {" "}
+            <img
+              src="../../aquh-logo.png"
+              alt="aquh-logo"
+              className={classes.logoPng}
+            />
+          </Link>
+        </div>
         <div className={classes.menuItems}>
           <Link
             to={memberNumber !== -1 ? "/feed" : "/login"}
