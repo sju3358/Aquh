@@ -46,6 +46,7 @@ export default class Chatting extends Component {
 
     this.cameraToggle = this.cameraToggle.bind(this);
     this.audioToggle = this.audioToggle.bind(this);
+    // this.backgroundBlur = this.backgroundBlur.bind(this);
   }
 
   componentDidMount() {
@@ -399,6 +400,13 @@ export default class Chatting extends Component {
       this.state.publisher.publishAudio(true);
     }
   }
+
+  // // 배경 블러처리
+  // async backgroundBlur() {
+  //   console.log("블러처리는 유료계정에서 가능")
+  //   // await publisher.stream.removeFilter();
+  //   let virtualBackground = await this.state.publisher.stream.applyFilter("VB:blur");
+  // }
 
   bubbleChatting() {
     const memberNickname = this.state.myUserName;
