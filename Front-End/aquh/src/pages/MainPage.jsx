@@ -42,35 +42,50 @@ export default function MainPage() {
           className={classes.bubbleMainImg}
         />
         <div className={classes.figureBox}>
-        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Artist.png" 
-        alt="Artist" 
-        width="25" 
-        height="25" 
-        className={classes.dynamicEmojies} />
-        <p className={classes.introMessage}>"제가 항상 그림을 잘 그리는지 못그리는지 궁금했는데 <br/> 사람들에게 보여주고 얘기를 들어볼 수 있어서 너무 좋아요!"</p>
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Artist.png"
+            alt="Artist"
+            width="25"
+            height="25"
+            className={classes.dynamicEmojies}
+          />
+          <p className={classes.introMessage}>
+            "제가 항상 그림을 잘 그리는지 못그리는지 궁금했는데 <br />{" "}
+            사람들에게 보여주고 얘기를 들어볼 수 있어서 너무 좋아요!"
+          </p>
         </div>
         <div className={classes.figureBox}>
-        <p className={classes.introMessage}>"사진찍는 취미에 대해 말할 수 잇어서 어쩌구저쩌구저쩌구 어쩌구<br/> "</p>
-        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Camera%20with%20Flash.png" 
-        alt="Camera with Flash" 
-        width="25" 
-        height="25"
-        className={classes.dynamicEmojies} />
+          <p className={classes.introMessage}>
+            "사진찍는 취미에 대해 말할 수 잇어서 어쩌구저쩌구저쩌구 어쩌구
+            <br /> "
+          </p>
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Camera%20with%20Flash.png"
+            alt="Camera with Flash"
+            width="25"
+            height="25"
+            className={classes.dynamicEmojies}
+          />
         </div>
         <img
           src="../../bubbletalk-main.png"
           alt="bubblingTalk"
           className={classes.bubbleMainImg}
         />
-        <div className={classes.figureBox}> 
-        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Man%20Lifting%20Weights%20Medium-Dark%20Skin%20Tone.png" 
-        alt="Man Lifting Weights Medium-Dark Skin Tone" 
-        width="25" 
-        height="25" 
-        className={classes.dynamicEmojies} />
-        <p className={classes.introMessage}>"운동을 즐기면서 어쩌구 ㅈ저쩌구 같이할 수 잇는 사람을 찾습니다 어쩌구"<br/> </p>
+        <div className={classes.figureBox}>
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Man%20Lifting%20Weights%20Medium-Dark%20Skin%20Tone.png"
+            alt="Man Lifting Weights Medium-Dark Skin Tone"
+            width="25"
+            height="25"
+            className={classes.dynamicEmojies}
+          />
+          <p className={classes.introMessage}>
+            "운동을 즐기면서 어쩌구 ㅈ저쩌구 같이할 수 잇는 사람을 찾습니다
+            어쩌구"
+            <br />{" "}
+          </p>
         </div>
-       
 
         <section className={classes.feedBox}>{testFeed}</section>
       </main>

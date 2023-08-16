@@ -19,21 +19,26 @@ export default function BubbleCard({
   onJoin = () => {},
 }) {
   const id = bubbleId;
+
   return (
     <div className={classes.card}>
       <img className={classes.cardImgTop} src={thumbnail} alt="Event" />
       
       {/* TODO: roomType */}
-      <div className={classes.eventCategory}>{category}</div>
+      {category === "스포츠-운동" && <div className={classes.eventCategory1}>{category}</div>}
+      {category === "수공예-드로잉" && <div className={classes.eventCategory2} >{category}</div>}
+      {category === "요리-베이킹" && <div className={classes.eventCategory3}>{category}</div>}
+      {category === "문화-예술" && <div className={classes.eventCategory4}>{category}</div>}
+      {category === "미용-뷰티" && <div className={classes.eventCategory5}>{category}</div>}
+      {category === "홈-리빙" && <div className={classes.eventCategory6}>{category}</div>}
+      {category === "자기개발" && <div className={classes.eventCategory7}>{category}</div>}
+      {category === "기타" && <div className={classes.eventCategory8}>{category}</div>}
       <p className={classes.eventTitle}>{title}</p>
       <p className={classes.eventDate}>
         {" "}
         <FaRegCalendarCheck /> {openDate?.slice(0, 10)}
       </p>
       <button onClick={onJoin} className={classes.cardButton}>
-        {/* 참여하기 */}
-        {/* 0807 김재원 수정 */}
-        {/*  */}
         <Link
           to={`/bubble/${id}`}
           style={{ color: "white" }}
