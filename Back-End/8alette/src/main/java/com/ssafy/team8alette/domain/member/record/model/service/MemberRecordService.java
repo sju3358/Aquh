@@ -131,4 +131,22 @@ public class MemberRecordService {
 		return dto;
 	}
 
+	// 레벨 구하는 서비스 메서드
+	public int getMemberLevel(Long memberNumber) {
+		Member member = memberRepository.findMemberByMemberNumber(memberNumber)
+			.orElseThrow(() -> new MemberNotExistException());
+		MemberRecord memberRecord = memberRecordRepository.findMemberRecordByMemberNumber(member.getMemberNumber());
+
+		int exp = memberRecord.getMemberExpCnt();
+
+		if (exp < 1000) {
+			return 1;
+		} else if (exp >= 1000 && exp < 2500) {
+			return 2;
+		} else if (exp >= 2500 && exp < 4500) {
+			return 3;
+		} else if (exp >= 4500 && exp < 7000) {
+			return 4;
+		} else return 6;
+	}
 }
