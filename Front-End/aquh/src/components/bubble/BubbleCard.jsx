@@ -4,8 +4,7 @@ import Capsule from "../ui/Capsule";
 import { bubbleList } from "../../utils/api/api.bubble_service";
 import Button from "../ui/Button";
 import { FaRegCalendarCheck } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+import { Link } from "react-router-dom"; //
 export default function BubbleCard({
   title = "방제목",
   content = "방내용",
