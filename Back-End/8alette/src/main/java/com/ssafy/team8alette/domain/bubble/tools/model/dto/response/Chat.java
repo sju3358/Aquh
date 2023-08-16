@@ -18,6 +18,8 @@ public class Chat {
     
     private String msg; // 메세지
     
+    private int level; // 레벨
+    
     private Long bubbleNumber; // 방 번호
     
     private LocalDateTime createdAt;

@@ -11,7 +11,10 @@ import { memberNumberState } from "../../../store/loginUserState";
 import { memberNicknameState } from "../../../store/loginUserInfoState";
 
 import https from "../../../utils/https";
+
 import { BsSendFill } from "react-icons/bs";
+import ChattingAvatarImg from "../../ui/ChattingAvatarImg";
+
 
 export default function ChattingSection({ bubbleNum = 0 }) {
   const memberNumber = useRecoilValue(memberNumberState);
@@ -50,7 +53,11 @@ export default function ChattingSection({ bubbleNum = 0 }) {
                 <div id="sendMsg">
                     <p id="sendMsgData">${data.msg}</p>
                     <div id="chatting-info">
-                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
+                    <span id="timeDate"> 
+                      ${convertTime}
+                      <b>${data.nickName}</b>
+                      </span>
+                      ${<ChattingAvatarImg level="1"/>}
                     </div>
                 </div>
             </div>

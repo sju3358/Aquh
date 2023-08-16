@@ -1,7 +1,7 @@
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
 #chat-box {
   overflow: auto;
-  height: 700px;
+  height: 70vh;
 }
 
 #receivedMsg {
@@ -16,14 +16,14 @@
   background: #ebebeb scroll;
   border-radius: 6px;
   color: #2e2c2c;
-  font-size: 15px;
+  font-size: 14px;
   padding: 15px;
   width: 95%;
 }
 #sendMsgData {
   background: #4249b3 scroll;
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 14px;
   /* margin-right: auto; */
   color: #fff;
   padding: 15px;
