@@ -14,6 +14,8 @@ import UserVideoComponent from "./UserVideoComponent";
 import ChattingSection from "./chat/ChattingSection";
 import Button from "../ui/Button";
 import Nav from "../ui/Nav";
+import { ImExit } from "react-icons/im";
+
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
 
@@ -377,19 +379,13 @@ export default class Chatting extends Component {
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <input
-                className={classes.controlBtn}
-                type="button"
-                onClick={this.leaveSession}
-                value="화면 종료하기"
-              />
+              <button className={classes.controlBtn}
+                onClick={this.leaveSession}><ImExit/>
+              </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
-              <input
-                className={classes.switchCameraBtn}
-                type="button"
-                onClick={this.switchCamera}
-                value="카메라끄기"
-              />
+              <button className={classes.switchCameraBtn}
+                onClick={this.switchCamera}>카메라끄기
+              </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
             <div className={classes.sessionChat}>
