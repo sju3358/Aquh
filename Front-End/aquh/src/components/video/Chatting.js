@@ -14,6 +14,9 @@ import Button from "../ui/Button";
 import Nav from "../ui/Nav";
 import { ImExit } from "react-icons/im";
 
+import CameraToggle from "./tool/CameraToggle";
+import AudioToggle from "./tool/AudioToggle";
+
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
 
@@ -30,6 +33,8 @@ export default class Chatting extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      cameraState: true,
+      audioState: true,
     };
 
     this.createSession = this.createSession.bind(this);
@@ -38,6 +43,9 @@ export default class Chatting extends Component {
     this.switchCamera = this.switchCamera.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+
+    this.cameraToggle = this.cameraToggle.bind(this);
+    this.audioToggle = this.audioToggle.bind(this);
   }
 
   componentDidMount() {
@@ -114,9 +122,7 @@ export default class Chatting extends Component {
               });
               mySession.publish(publisher);
               var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
-                (device) => device.kind === "videoinput"
-              );
+              var videoDevices = devices.filter((device) => device.kind === "videoinput");
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -214,9 +220,7 @@ export default class Chatting extends Component {
 
                 // Obtain the current video device in use
                 var devices = await this.OV.getDevices();
-                var videoDevices = devices.filter(
-                  (device) => device.kind === "videoinput"
-                );
+                var videoDevices = devices.filter((device) => device.kind === "videoinput");
                 var currentVideoDeviceId = publisher.stream
                   .getMediaStream()
                   .getVideoTracks()[0]
@@ -272,9 +276,7 @@ export default class Chatting extends Component {
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
+      var videoDevices = devices.filter((device) => device.kind === "videoinput");
 
       if (videoDevices && videoDevices.length > 1) {
         var newVideoDevice = videoDevices.filter(
@@ -334,11 +336,7 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <img
-            src={bubbleThumbnail}
-            alt=""
-            className={classes.thumbnailImg}
-          ></img>
+          <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
           <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
@@ -380,6 +378,28 @@ export default class Chatting extends Component {
     );
   }
 
+  // 카메라 온오프 토글
+  cameraToggle() {
+    if (this.state.cameraState) {
+      this.setState({ cameraState: false });
+      this.state.publisher.publishVideo(false);
+    } else {
+      this.setState({ cameraState: true });
+      this.state.publisher.publishVideo(true);
+    }
+  }
+
+  // 마이크 온오프 토글
+  audioToggle() {
+    if (this.state.audioState) {
+      this.setState({ audioState: false });
+      this.state.publisher.publishAudio(false);
+    } else {
+      this.setState({ audioState: true });
+      this.state.publisher.publishAudio(true);
+    }
+  }
+
   bubbleChatting() {
     const memberNickname = this.state.myUserName;
     const bubbleTitle = this.props.bubbleTitle;
@@ -404,20 +424,17 @@ export default class Chatting extends Component {
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <button
-                className={classes.controlBtn}
-                onClick={this.leaveSession}
-              >
+              <button className={classes.switchCameraBtn} onClick={this.cameraToggle}>
+                <CameraToggle cameraState={this.state.cameraState} />
+              </button>
+
+              <button className={classes.switchCameraBtn} onClick={this.audioToggle}>
+                <AudioToggle audioState={this.state.audioState} />
+              </button>
+
+              <button className={classes.controlBtn} onClick={this.leaveSession}>
                 <ImExit />
               </button>
-              {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
-              <button
-                className={classes.switchCameraBtn}
-                onClick={this.switchCamera}
-              >
-                카메라끄기
-              </button>
-              {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
             <div className={classes.sessionChat}>
               <ChattingSection bubbleNum={this.state.mySessionId} />
@@ -430,11 +447,7 @@ export default class Chatting extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.session === undefined
-          ? this.bubbleDetail()
-          : this.bubbleChatting()}
-      </div>
+      <div>{this.state.session === undefined ? this.bubbleDetail() : this.bubbleChatting()}</div>
     );
   }
 
