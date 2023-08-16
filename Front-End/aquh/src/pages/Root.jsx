@@ -12,8 +12,6 @@ export default function Root() {
   useEffect(() => {
     if (memberNumber === -1) {
       alert("로그인이 필요합니다");
-      navigate("/intro");
-    } else {
       navigate("/main");
     }
   }, []);
