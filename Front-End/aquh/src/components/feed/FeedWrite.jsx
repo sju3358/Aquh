@@ -74,14 +74,16 @@ function FeedWrite() {
   };
   return (
     <div className={classes.feedWriteCard}>
-      <p className={classes.feedWriteMent}>
-        <img
-          src="../../droplet-white.png"
-          alt="droplet"
-          className={classes.droplet}
-        />
-        나의 이야기를 작성해주세요
-      </p>
+      <div className={classes.feedStory}>
+        <p className={classes.feedWriteMent}>
+          <img
+            src="../../droplet-white.png"
+            alt="droplet"
+            className={classes.droplet}
+          />
+          나의 이야기를 작성해주세요
+        </p>
+      </div>
       <div className={classes.feedWriteSection}>
         <input
           type="text"
