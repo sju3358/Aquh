@@ -8,10 +8,12 @@ export default function Nav() {
   const memberNumber = useRecoilValue(memberNumberState);
   // console.log("memberNumberrrrrrr", memberNumber)
   return (
+    
     <nav className={classes.navBar}>
+      
       <div className={classes.navItemContainer}>
         <div className={classes.mainImg}>
-          <Link to="/main">
+          <Link to="/main" style={{ textDecoration: "none" }}>
             {" "}
             <img
               src="../../aquh-logo.png"
@@ -42,8 +44,8 @@ export default function Nav() {
               <span className={classes.navItem}>My</span>
             </Link>
           ) : null}
-
-          {memberNumber !== -1 ? (
+          <div className={classes.loginContainer}>
+        {memberNumber !== -1 ? (
             <Link to="/logout" style={{ textDecoration: "none" }}>
               <span className={classes.navItem}>Logout</span>
             </Link>
@@ -54,6 +56,7 @@ export default function Nav() {
               <span className={classes.navItem}>Login</span>
             </Link>
           ) : null}
+      </div>
         </div>
         <div className={classes.searchContainer}>
           <SearchInput />
@@ -65,5 +68,6 @@ export default function Nav() {
         </div>
       </div>
     </nav>
+  
   );
 }
