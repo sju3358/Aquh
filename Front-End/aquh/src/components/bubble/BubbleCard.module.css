@@ -60,19 +60,19 @@ img {
   position: absolute;
   top: 0;
   right: 0;
+  background: rgb(49, 164, 255);
   background: linear-gradient(
-    43deg,
-    rgba(250, 198, 221, 1) 1%,
-    rgba(221, 234, 248, 1) 48%,
-    rgba(148, 187, 233, 1) 100%
+    219deg,
+    rgba(49, 164, 255, 0.5410539215686274) 0%,
+    rgba(142, 217, 203, 0.7035189075630253) 100%
   );
+  color: white;
 
   width: 10rem;
   height: 2.3rem;
   border-radius: 1rem;
   text-align: center;
   font-size: 1.4rem;
-  color: #05074f;
   /* font-weight: 700; */
   line-height: 2.3rem;
   z-index: 10;
