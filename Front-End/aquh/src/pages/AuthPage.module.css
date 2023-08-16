@@ -28,3 +28,34 @@
   margin: 10px;
   border-radius: 1.5rem;
 }
+
+.character{
+  display: flex;
+  align-items: center;
+}
+
+.profileNicknameAndLevel{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.levelSeparator{
+  margin: 0 0.5rem;
+  color: gray;
+}
+
+.level{
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 10px;
+}
+
+.userSymbolList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}

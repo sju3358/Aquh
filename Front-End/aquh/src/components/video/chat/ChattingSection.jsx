@@ -11,84 +11,123 @@ import { memberNumberState } from "../../../store/loginUserState";
 import { memberNicknameState } from "../../../store/loginUserInfoState";
 
 import https from "../../../utils/https";
+
 import { BsSendFill } from "react-icons/bs";
+import ChattingAvatarImg from "../../ui/ChattingAvatarImg";
+import moment from "moment";
 
 export default function ChattingSection({ bubbleNum = 0 }) {
-  // TODO : atom에서 방넘버 받기
-  // TODO : atom에서 멤버넘거 가져오기
   const memberNumber = useRecoilValue(memberNumberState);
   const memberNickName = useRecoilValue(memberNicknameState);
-
-  // 스크롤 용
-  let ref = useRef(0);
+  let beforeSender = 0; 
 
   // SSE 연결하기
-  const eventSource = new EventSource(
-    `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
-  );
-
-  eventSource.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    // console.log(data);
-
-    // 로그인 유저가 보낸 메세지
-    if (data.sender === memberNumber) {
-      // 파란 박스(오른쪽)
-      initMyMessage(data);
-    } else {
-      // 회색 박스 (왼쪽)
-      initYourMessage(data);
-    }
-  };
+  useEffect(()=>{
+    const eventSource = new EventSource(
+      `https://i9b108.p.ssafy.io:8080/api/v1/bubble/chat/${bubbleNum}`
+    );
+    eventSource.onmessage = (event) => {
+      
+      const data = JSON.parse(event.data);
+      // console.log(data);
+  
+      // 로그인 유저가 보낸 메세지
+      if (data.sender === memberNumber) {
+        // 파란 박스(오른쪽)
+        initMyMessage(data);
+      } else {
+        // 회색 박스 (왼쪽)
+        initYourMessage(data);
+      }
+    };
+  },[]);
 
   // 파란 박스 초기화/동기화
   function initMyMessage(data) {
     let chatBox = document.querySelector("#chat-box");
-    let md = data.createdAt.substring(5, 10);
-    let tm = data.createdAt.substring(11, 16);
-    let convertTime = tm + " | " + md;
 
-    let sendBox = `
+    let convertTime = moment(data.createdAt).format("HH:MM | MM-DD");
+
+    let sendBox = '';
+
+    if(beforeSender === memberNumber) {
+      sendBox = `
             <div id="outgoingMsg">
                 <div id="sendMsg">
-                    <p id="sendMsgData">${data.msg}</p>
-                    <div id="chatting-info">
-                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
+                    <div id="sendDataFlex">
+                        <div id="sendMsgData"> ${data.msg} </div>
+                        <div id="chatting-info">
+                            <span id="timeDate"> ${convertTime} </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            `;
+            </div>`;
+    }
+    else {
+      sendBox = `
+      <div id="outgoingMsg">
+          <div id="sendMsg">
+              <div id="sendDataFlex">
+                  <div id="chat-profile">
+                      <div id="nickName"> <b>${data.nickName}</b> </div>
+                      <img id="chat-profile-img" src="../../chat-profile${data.level}.png" alt="AvatarImg"/>
+                  </div>
+                  
+                  <div id="sendMsgData"> ${data.msg} </div>
+                  <span id="timeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
 
-    // chatBox.append(sendBox);
+    beforeSender = memberNumber;
+
     chatBox.innerHTML += sendBox;
-
-    // document.documentElement.scrollTop = document.body.scrollHeight;
-    ref.current.scrollIntoView();
+    chatBox.scrollTop = chatBox.scrollHeight;
   }
 
   // 회색 박스 초기화/동기화
   function initYourMessage(data) {
     let chatBox = document.querySelector("#chat-box");
-    let md = data.createdAt.substring(5, 10);
-    let tm = data.createdAt.substring(11, 16);
-    let convertTime = tm + " | " + md;
 
-    // let element = React.createElement("div");
-    // element.class=`"receivedMsg}`;
-    // element.textContext = data;
+    let convertTime = moment(data.createdAt).format("HH:MM | MM-DD");
 
-    let receivedBox = `
-            <div id="receivedMsg">
-                <div id="receivedWithdMsg">
-                    <p id="receivedWithdMsgData">${data.msg}</p>
-                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
-                </div>
-            </div>`;
+    let receivedBox = '';
 
-    // console.log(receivedBox);
+    if(beforeSender === data.sender) {
+      receivedBox = `
+      <div id="receivedMsg">
+          <div id="receivedWithdMsg">
+              <div id="receivedDataFlex">
+                  <div id="receivedWithdMsgData"> ${data.msg} </div>
+                  <span id="receivedTimeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
+    else {
+      receivedBox = `
+      <div id="receivedMsg">
+          <div id="receivedWithdMsg">
+              <div id="receivedDataFlex">
+                  <div id="receivedChatProfile">
+                      <img id="chat-profile-img" src="../../chat-profile${data.level}.png" alt="AvatarImg"/>
+                      <div id="nickName"> <b>${data.nickName}</b> </div>
+                  </div>
+                  
+                  <div id="receivedWithdMsgData"> ${data.msg} </div>
+                  
+                  <span id="receivedTimeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
+
+    beforeSender = data.sender;
+    
+
     chatBox.innerHTML += receivedBox;
-
-    document.documentElement.scrollTop = document.body.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
   }
 
   // DB에 새 채팅 보내기 : AJAX 채팅 메시지 전송
@@ -106,10 +145,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     msgInput.value = "";
   }
 
-  // 버튼 클릭시 메시지 전송
-  // document.querySelector("#chat-send").addEventListener("click", () => {
-  //     addMessage();
-  // });
+  // 전송 버튼 클릭시 메시지 전송
   const enterMsg = () => {
     addMessage();
   };
@@ -122,7 +158,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
   };
 
   return (
-    <div id="user_chat_data" ref={ref}>
+    <div id="user_chat_data">
       <div id="chat-box"></div>
 
       <div id="typeMsg">
@@ -138,6 +174,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
           </div>
         </button>
       </div>
+      
     </div>
   );
 }
