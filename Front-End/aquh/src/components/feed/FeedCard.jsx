@@ -46,6 +46,7 @@ function FeedCard({
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
       <p className={classes.feedContent}> {feedContent}</p>
+      {/* 버튼 이미지 수정 */}
       <button onClick={toggleLike}>
         {liked ? (
           <img src={fullHeart} alt="full_heart" />
