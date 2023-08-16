@@ -35,15 +35,14 @@
 }
 .cardButton {
   border-radius: 10px;
-  background: #0b2475aa;
-
+  background: #5c95eaaa;
   cursor: pointer;
   font-weight: 700;
   padding: 13px;
   border: none;
   &:hover,
   &:active {
-    background-color: #4f68ba;
+    background-color: #446df3;
     color: #eaf1f7;
   }
 }
