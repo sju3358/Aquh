@@ -19,6 +19,7 @@ import ChattingAvatarImg from "../../ui/ChattingAvatarImg";
 export default function ChattingSection({ bubbleNum = 0 }) {
   const memberNumber = useRecoilValue(memberNumberState);
   const memberNickName = useRecoilValue(memberNicknameState);
+  let beforeSender = 0; 
 
   // SSE 연결하기
   useEffect(()=>{
@@ -48,20 +49,39 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     let tm = data.createdAt.substring(11, 16);
     let convertTime = tm + " | " + md;
 
-    let sendBox = `
+    let sendBox = '';
+
+    if(beforeSender === memberNumber) {
+      sendBox = `
             <div id="outgoingMsg">
                 <div id="sendMsg">
-                    <p id="sendMsgData">${data.msg}</p>
-                    <div id="chatting-info">
-                    <span id="timeDate"> 
-                      ${convertTime}
-                      <b>${data.nickName}</b>
-                      </span>
-                      ${<ChattingAvatarImg level="1"/>}
+                    <div id="sendDataFlex">
+                        <div id="sendMsgData"> ${data.msg} </div>
+                        <div id="chatting-info">
+                            <span id="timeDate"> ${convertTime} </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            `;
+            </div>`;
+    }
+    else {
+      sendBox = `
+      <div id="outgoingMsg">
+          <div id="sendMsg">
+              <div id="sendDataFlex">
+                  <div id="chat-profile">
+                      <div id="nickName"> <b>${data.nickName}</b> </div>
+                      <img id="chat-profile-img" src="../../chat-profile${data.level}.png" alt="AvatarImg"/>
+                  </div>
+                  
+                  <div id="sendMsgData"> ${data.msg} </div>
+                  <span id="timeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
+
+    beforeSender = memberNumber;
 
     chatBox.innerHTML += sendBox;
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -74,13 +94,39 @@ export default function ChattingSection({ bubbleNum = 0 }) {
     let tm = data.createdAt.substring(11, 16);
     let convertTime = tm + " | " + md;
 
-    let receivedBox = `
-            <div id="receivedMsg">
-                <div id="receivedWithdMsg">
-                    <p id="receivedWithdMsgData">${data.msg}</p>
-                    <span id="timeDate"> ${convertTime} / <b>${data.nickName}</b> </span>
-                </div>
-            </div>`;
+    let receivedBox = '';
+
+    if(beforeSender === data.sender) {
+      receivedBox = `
+      <div id="receivedMsg">
+          <div id="receivedWithdMsg">
+              <div id="receivedDataFlex">
+                  <div id="receivedWithdMsgData"> ${data.msg} </div>
+                  <span id="receivedTimeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
+    else {
+      receivedBox = `
+      <div id="receivedMsg">
+          <div id="receivedWithdMsg">
+              <div id="receivedDataFlex">
+                  <div id="receivedChatProfile">
+                      <img id="chat-profile-img" src="../../chat-profile${data.level}.png" alt="AvatarImg"/>
+                      <div id="nickName"> <b>${data.nickName}</b> </div>
+                  </div>
+                  
+                  <div id="receivedWithdMsgData"> ${data.msg} </div>
+                  
+                  <span id="receivedTimeDate"> ${convertTime} </span>
+              </div>
+          </div>
+      </div>`;
+    }
+
+    beforeSender = data.sender;
+    
 
     chatBox.innerHTML += receivedBox;
     chatBox.scrollTop = chatBox.scrollHeight;
