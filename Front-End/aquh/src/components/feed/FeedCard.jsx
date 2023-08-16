@@ -47,12 +47,11 @@ function FeedCard({
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
       <p className={classes.feedContent}> {feedContent}</p>
       {/* 버튼 이미지 수정 */}
-      <button onClick={toggleLike}>
-        {liked ? (
-          <img src={fullHeart} alt="full_heart" />
-        ) : (
-          <img src={emptyHeart} alt="empty_heart" />
-        )}
+      <button className={classes.likeButton} onClick={toggleLike}>
+        <img
+          src={liked ? fullHeart : emptyHeart}
+          alt={liked ? "full_heart" : "empty_heart"}
+        />
       </button>
 
       {/* <FaRegCalendarCheck /> */}
