@@ -17,7 +17,7 @@ export default function BubbleForm({ onSubmit }) {
     // planCloseDate: '',
   });
 
-  const [selectedValue, setSelectedValue] = useState("6");
+  const [selectedValue, setSelectedValue] = useState("0");
 
   const handleSelectedOption = (e) => {
     const newValue = e.target.value;
@@ -63,7 +63,6 @@ export default function BubbleForm({ onSubmit }) {
         }
       )
       .then((response) => {
-        console.log(` ${form.bubbleImagePrompt}`);
         setBubbleForm({
           ...bubbleForm,
           bubbleThumbnail: response.data.images[0].image,
@@ -90,6 +89,7 @@ export default function BubbleForm({ onSubmit }) {
             src={bubbleThumbnail}
             value={bubbleThumbnail}
             onChange={handleChange}
+            className={classes.thumbnailImg}
           ></img>
         </div>
 
@@ -124,6 +124,9 @@ export default function BubbleForm({ onSubmit }) {
           onChange={handleSelectedOption}
           value={selectedValue}
         >
+          <option value="0" disabled>
+            카테고리를 선택하세요
+          </option>
           <option value="1">스포츠-운동</option>
           <option value="2">수공예-드로잉</option>
           <option value="3">요리-베이킹</option>
