@@ -32,7 +32,6 @@ export default function BubbleForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(bubbleForm);
-    console.log(selectedValue, "전달 안되고 난리야")
   };
 
   const handleChange = (e) => {
