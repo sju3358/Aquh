@@ -170,7 +170,6 @@ function FeedPage() {
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
                       feedLevel={feed.level}
-                      // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
                 );
