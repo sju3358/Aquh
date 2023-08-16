@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       { path: "/bubble", element: <BubblePage /> },
 
       { path: "/video/:id", element: <VideoPage /> },
-      { path: "/nickname", element: <NicknamePage /> },
+    
     ],
   },
   {
@@ -61,6 +61,7 @@ const router = createBrowserRouter([
     element: <RedirectPage_Naver />,
     errorElement: <NotFound />,
   },
+  { path: "/nickname", element: <NicknamePage />, errorElement: <NotFound />,}
 ]);
 
 export default function App() {

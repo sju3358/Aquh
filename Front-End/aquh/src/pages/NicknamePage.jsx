@@ -7,15 +7,16 @@ import { memberNicknameState } from "../store/loginUserInfoState";
 
 import { memberNumberState } from "../store/loginUserState";
 
-
 function NicknamePage() {
-  const [nickName, setNickname] = useRecoilState(memberNicknameState);
-  // 유효성검사
-  const [isNickName, setIsNickName] = useState(false);
-  // 유효성검사 메시지 발송
-  const [nickNameMessage, setNickNameMessage] = useState();
-  // 중복체크를 통한 가입 가능 여부
-  const [vaildNickName, setValidNickName] = useState(false);
+  const [currentNickName, setCurrentNickname] =
+    useRecoilState(memberNicknameState);
+  const [inputNickname, setInputNickname] = useState(currentNickName);
+  const [inputNicknameMessage, setInputNicknameMessage] = useState(
+    "닉네임은 특수문자 없이 3~10글자 사이로 입력해주세요!"
+  );
+  const [nickNameRegexCheck, setNickNameRegexCheck] = useState(false);
+  const [nickNameDuplicationCheck, setNickNameDuplicationCheck] =
+    useState(false);
 
   const navigate = useNavigate();
 
@@ -23,17 +24,18 @@ function NicknamePage() {
 
   // 닉네임 유효성검사
   const onChangeNickName = (e) => {
-    const currentUserName = e.target.value;
-    setNickname(currentUserName);
+    const inputNickname = e.target.value;
     const usernameRegExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{3,10}$/;
-    if (!usernameRegExp.test(currentUserName)) {
-      setNickNameMessage(
+    setInputNickname(inputNickname);
+
+    if (usernameRegExp.test(inputNickname)) {
+      setInputNicknameMessage("사용 가능한 닉네임 입니다.");
+      setNickNameRegexCheck(true);
+    } else {
+      setInputNicknameMessage(
         "닉네임은 특수문자 없이 3~10글자 사이로 입력해주세요!"
       );
-      setIsNickName(false);
-    } else {
-      setNickNameMessage("사용가능한 닉네임 입니다.");
-      setIsNickName(true);
+      setNickNameRegexCheck(false);
     }
   };
 
@@ -41,20 +43,19 @@ function NicknamePage() {
   const nickNameCheckAxios = (e) => {
     https
       .post("/api/v1/member/check/nickname", {
-        member_nickname: nickName,
+        member_nickname: inputNickname,
       })
       .then((res) => {
         console.log(res);
-        const isValidNick = res.data.isExistSameNickname; //응답이 제대로 온 경우
 
-        if (!isValidNick) {
-          // 중복체크 통과 로직
-          setValidNickName(isValidNick); //flase=중복된게 없다는 뜻 = 사용가능
+        const isValidNickName = res.data.isExistSameNickname === false;
+
+        if (isValidNickName) {
+          setNickNameDuplicationCheck(true);
           alert("사용 가능한 닉네임 입니다!");
         } else {
-          // 중복된 닉네임인 경우 로직
+          setNickNameDuplicationCheck(false);
           alert("이미 존재하는 닉네임입니다!");
-          setIsNickName("");
         }
       });
   };
@@ -63,62 +64,70 @@ function NicknamePage() {
   const enterMainPage = () => {
     https
       .put("/api/v1/member", {
-        member_nickname: nickName,
+        member_nickname: inputNickname,
         //TODO : recoil atom에 있는 닉넴도 변경해줘야 하지않나?
       })
       .then((res) => {
-        
-        https.get(`/api/v1/member/url/state-certification/${memberNumber}`)
-        .then(() => {
-          alert("환영합니다");
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-      }).catch((error) => {
+        https
+          .get(`/api/v1/member/url/state-certification/${memberNumber}`)
+          .then(() => {
+            alert("환영합니다");
+            setCurrentNickname(inputNickname);
+            navigate("/main");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
         console.log(error);
       });
   };
   return (
     <div className={classes.nicknameCheck}>
       <div className={classes.container}>
-        <img src="../../aquh3.png" alt="" className={classes.nicknameImg} />{" "}
+        <img src='../../aquh3.png' alt='' className={classes.nicknameImg} />{" "}
         <div className={classes.infoText}>
           <h1 className={classes.infoTextDetail}>
             Aquh에 오신것을 환영합니다!
           </h1>
           <p className={classes.infoTextDetailSmall}>
-            입장하기 전, 방울의 이름을 지어 주세요.
+            입장하기 전, 캐릭터의 이름을 지어 주세요.
           </p>
         </div>
         <div className={classes.nicknameSection}>
           <input
             className={classes.nicknameInput}
-            type="text"
-            name="nickName"
-            value={nickName}
-            id="nickName"
-            placeholder="불리고 싶은 이름을 적어주세요"
+            type='text'
+            name='nickName'
+            value={inputNickname}
+            id='nickName'
+            placeholder='불리고 싶은 이름을 적어주세요'
             onChange={onChangeNickName}
           />
           {/* TODO: 유효성검사, 중복확인 로직 필요 */}
-          {isNickName ? (
+          {nickNameRegexCheck === true ? (
             <button
               onClick={nickNameCheckAxios}
-              className={classes.nicknameCheck}
-            >
+              className={classes.nicknameCheckBtn}>
               중복확인
             </button>
           ) : (
-            <button disabled>중복확인</button>
+            <button className={classes.nicknameCheckBtnDisable} disabled>
+              중복확인
+            </button>
           )}
-          <p className="message">{nickNameMessage}</p>
+          <p className='message'>{inputNicknameMessage}</p>
         </div>
-        {/* TODO: 입장하기 클릭-->닉네임 변경 axios.  한번 날리고 (maybe 회원정보 수정?)  성공하면 then (~ 이 안에서 두번째 axios.post->이메일 인증 요청 페이지(로그인 관문 3)-> 성공하면 ㅔㅔ네비게이트 메인페이지 */}
-        <button onClick={enterMainPage} className={classes.enterBtn}>
-          입장하기
-        </button>
+        {nickNameRegexCheck === true && nickNameDuplicationCheck === true ? (
+          <button onClick={enterMainPage} className={classes.enterBtn}>
+            입장하기
+          </button>
+        ) : (
+          <button disabled className={classes.enterBtnDisabled}>
+            입장하기
+          </button>
+        )}
       </div>
     </div>
   );

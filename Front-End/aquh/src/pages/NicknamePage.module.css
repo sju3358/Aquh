@@ -33,15 +33,57 @@
   }
   margin-right: 5px;
 }
-.nicknameCheck {
+.nicknameCheckBtn {
   padding: 10px;
   border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  &:hover{
+    background-color: #676fdd;
+    color: #ecf0f4;
+  }
+}
+
+
+.nicknameCheckBtnDisable{
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  
 }
 .enterBtn {
-  width: 120px;
-  height: 45px;
-  margin: 35px;
+  width: 150px;
+  height: 50px;
+  margin: 30px;
   padding: 10px;
+  color: #4b4c4d;
+  background-color: #ffef8a;
   border-radius: 20px;
   font-size: 17px;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  /* &:hover{
+    background-color: #FFF08A;
+    color: #4b4c4d;
+  } */
+}
+.enterBtnDisabled{
+  width: 150px;
+  height: 50px;
+  margin: 30px;
+  padding: 10px;
+  color: #4b4c4d;
+  background-color: #ffef8ac6;
+  border-radius: 20px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
 }
