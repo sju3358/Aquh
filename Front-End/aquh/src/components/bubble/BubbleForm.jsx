@@ -31,6 +31,7 @@ export default function BubbleForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(bubbleForm);
+    console.log(selectedValue, "전달 안되고 난리야");
   };
 
   const handleChange = (e) => {
@@ -47,11 +48,11 @@ export default function BubbleForm({ onSubmit }) {
       .post(
         "https://api.kakaobrain.com/v2/inference/karlo/t2i",
         {
-          prompt: `Sticker, ${form.bubbleImagePrompt}, line art drawing, ultra-detailed, clean Line art, full body, fine thin Lines, white background,`,
+          prompt: `${form.bubbleImagePrompt}, ultra-detailed, white background, 3D, Object, miniature`,
           negative_prompt:
             "out of frame, people, person, nsfw, close up, cropped, bad proportions, ugly, disfigured, blurry, pixelated, hideous, indistinct, out of frame, text, letters, watermark",
-          num_inference_steps: 17,
-          guidance_scale: 20,
+          prior_num_inference_steps: 23,
+          prior_guidance_scale: 15,
           nsfw_checker: true,
         },
         {
@@ -66,7 +67,7 @@ export default function BubbleForm({ onSubmit }) {
           ...bubbleForm,
           bubbleThumbnail: response.data.images[0].image,
         });
-        console.log("썸네일 생성 성공", response.data);
+        console.log("썸네일 생성 성공", response.data.images[0].image);
       })
       .catch((error) => {
         console.log("썸네일 생성 실패", error);
