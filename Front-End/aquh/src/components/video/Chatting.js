@@ -361,9 +361,7 @@ export default class Chatting extends Component {
         <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
         <div className={classes.videoPage}>
           <div className={classes.sessionMain}>
-            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
-            {/* 나의 화면 =  */}
-            <div className={classes.videoContainer}>
+           
               {this.state.publisher !== undefined ? (
                 <div className={classes.streamContainer}>
                   <UserVideoComponent streamManager={this.state.publisher} />
@@ -376,7 +374,6 @@ export default class Chatting extends Component {
                   <UserVideoComponent streamManager={sub} />
                 </div>
               ))}
-            </div>
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
