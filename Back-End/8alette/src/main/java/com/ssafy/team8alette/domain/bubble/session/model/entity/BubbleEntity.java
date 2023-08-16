@@ -74,7 +74,7 @@ public class BubbleEntity {
 			.hostMemberNumber(this.hostMember.getMemberNumber())
 			.bubbleTitle(this.bubbleTitle)
 			.bubbleContent(this.bubbleContent)
-			.bubbleThumbnail(this.bubbleThumbnail)
+			.bubbleThumbnail("https://aquh.s3.ap-northeast-2.amazonaws.com/thumbnail_img/" + this.bubbleThumbnail)
 			.bubbleType(this.bubbleType)
 			.categoryName(this.categoryEntity.getCategoryName())
 			.planCloseDate(this.planCloseDate)

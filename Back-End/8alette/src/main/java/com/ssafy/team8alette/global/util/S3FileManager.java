@@ -1,13 +1,16 @@
 package com.ssafy.team8alette.global.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +52,8 @@ public class S3FileManager {
 			String fileName = getRandomFileName(file.getName());
 
 			amazonS3Client.putObject(thumbnail_bucket, fileName, file);
+
+			file.delete();
 
 			fileNames[0] = fileNames[1] = fileName;
 
@@ -110,8 +115,41 @@ public class S3FileManager {
 		if (imgUrl == null || imgUrl.isEmpty() == true)
 			throw new NullValueException();
 
-		Resource resource = resourceLoader.getResource(imgUrl);
-		return resource.getFile();
+		URL url = null;
+		InputStream in = null;
+		FileOutputStream fos = null;
+		int data = -1;
+		File file = null;
+
+		StringTokenizer st = new StringTokenizer(imgUrl, "/");
+		String fileName = "";
+		while (st.hasMoreTokens())
+			fileName = st.nextToken();
+		st = new StringTokenizer(fileName, "?");
+		fileName = st.nextToken();
+		try {
+			url = new URL(imgUrl);
+
+			file = new File(fileName);
+
+			in = url.openStream();
+
+			fos = new FileOutputStream(file); //저장경로
+
+			while ((data = in.read()) != -1) {
+				fos.write(data);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			in.close();
+			fos.close();
+			return file;
+		}
 	}
 
 	private String getRandomFileName(String fileName) {
