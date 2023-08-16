@@ -25,6 +25,14 @@ export default function AuthPage() {
   const memberNumber = useRecoilValue(memberNumberState);
   const navigate = useNavigate();
   const userId = useParams();
+  const levels = {
+    1: "아기방울",
+    2: "성인방울",
+    3: "기사방울",
+    4: "부자방울",
+    5: "임금방울",
+  };
+
   const [user, setUser] = useState({
     level: 0,
     maxExp: 0,
@@ -59,16 +67,21 @@ export default function AuthPage() {
   return (
     <main className={classes.symbolSection}>
       {/* <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} /> */}
-      <AvatarImg level={user.level} />
+      <AvatarImg className={classes.character} level={user.level} />
+      <div className={classes.profileNicknameAndLevel}>
+        <p className={classes.profileNickname}>{memberNickname}</p>
+        <p className={classes.levelSeparator}>|</p>
+        <p className={classes.level}> {levels[user.level]}</p>
+      </div>
       <UserLevelCard maxExp={user.maxExp} presentExp={user.presentExp} />
-      <p className={classes.profileNickname}>{memberNickname}</p>
       {/* {memberIntro ? (
         <div className={classes.memberIntro}>{memberIntro}</div>
       ) : (
         <div className={classes.memberIntro}>작성된 자기소개가 없습니다.</div>
       )} */}
-      {/* {user.level === 1 && <p> 아기방울 </p></ㅔ>} */}
-      <UserSymbolList />
+      <div className={classes.userSymbolList}>
+        <UserSymbolList />
+      </div>
       {/* <button> 심볼 목록 보기 </button> */}
       {/* <p>심볼 목록</p> */}
       {/* {어 지금 커밋안된다.} */}
