@@ -60,16 +60,14 @@ export default function AuthPage() {
     <main className={classes.symbolSection}>
       {/* <img src="../../avatar-image-circle.png" alt="" className={classes.profileAvatar} /> */}
       <AvatarImg level={user.level} />
-      <UserLevelCard
-        maxExp={user.maxExp}
-        presentExp={user.presentExp}
-      />
+      <UserLevelCard maxExp={user.maxExp} presentExp={user.presentExp} />
       <p className={classes.profileNickname}>{memberNickname}</p>
       {/* {memberIntro ? (
         <div className={classes.memberIntro}>{memberIntro}</div>
       ) : (
         <div className={classes.memberIntro}>작성된 자기소개가 없습니다.</div>
       )} */}
+      {/* {user.level === 1 && <p> 아기방울 </p></ㅔ>} */}
       <UserSymbolList />
       {/* <button> 심볼 목록 보기 </button> */}
       {/* <p>심볼 목록</p> */}
