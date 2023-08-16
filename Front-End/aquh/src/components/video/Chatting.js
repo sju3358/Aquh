@@ -424,16 +424,16 @@ export default class Chatting extends Component {
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <button className={classes.switchCameraBtn} onClick={this.cameraToggle}>
+              <button className={classes.switchBtn} onClick={this.cameraToggle}>
                 <CameraToggle cameraState={this.state.cameraState} />
               </button>
 
-              <button className={classes.switchCameraBtn} onClick={this.audioToggle}>
+              <button className={classes.switchBtn} onClick={this.audioToggle}>
                 <AudioToggle audioState={this.state.audioState} />
               </button>
 
               <button className={classes.controlBtn} onClick={this.leaveSession}>
-                <ImExit />
+                <ImExit className={classes.icon} />
               </button>
             </div>
             <div className={classes.sessionChat}>
