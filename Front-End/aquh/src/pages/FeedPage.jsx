@@ -25,7 +25,6 @@ function FeedPage() {
     getList("recent");
   }, []);
 
-
   async function getList(filter) {
     await https
       .get("api/v1/feed/list", {
@@ -99,21 +98,23 @@ function FeedPage() {
   const [clickFeedData, setClickFeedData] = useState();
 
   useEffect(() => {
-    if(modalOpen === true){
-     
-          https.get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`).then((responseData) => {
-            console.log(responseData);
-            setClickFeedData(responseData.data.data);
-          }).then((error) => {
-            console.log(error);
-          });
-      }
-    }, [modalOpen]);
+    if (modalOpen === true) {
+      https
+        .get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`)
+        .then((responseData) => {
+          console.log(responseData);
+          setClickFeedData(responseData.data.data);
+        })
+        .then((error) => {
+          console.log(error);
+        });
+    }
+  }, [modalOpen]);
 
   return (
     <div className={classes.feedPage}>
       <div className={classes.feedWriteSection}>
-        <FeedWrite/>
+        <FeedWrite />
       </div>
       <div className={classes.feedListSection}>
         <div className={classes.feedCategories}>
@@ -132,8 +133,8 @@ function FeedPage() {
           <div className={classes.feedListNew}>
             <p className={classes.feedMent}>
               <img
-                src='../../droplet-white.png'
-                alt='droplet'
+                src="../../droplet-white.png"
+                alt="droplet"
                 className={classes.droplet}
               />
               최신 피드들을 만나보세요 !
@@ -153,6 +154,7 @@ function FeedPage() {
                       feedNumber={feed.feedNumber}
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
+                      feedLevel={feed.level}
                       // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
@@ -171,8 +173,8 @@ function FeedPage() {
           <div className={classes.feedListPopular}>
             <p className={classes.feedMent}>
               <img
-                src='../../droplet-white.png'
-                alt='droplet'
+                src="../../droplet-white.png"
+                alt="droplet"
                 className={classes.droplet}
               />
               금주의 인기 피드들을 만나보세요 !
@@ -192,6 +194,7 @@ function FeedPage() {
                       feedNumber={feed.feedNumber}
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
+                      level={feed.level}
                       // setClickedFeedNum={setClickedFeedNum}
                     />
                   </div>
