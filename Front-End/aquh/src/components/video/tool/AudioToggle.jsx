@@ -3,7 +3,7 @@ import { AiFillAudio, AiOutlineAudioMuted } from "react-icons/ai";
 
 export default function AudioToggle({ audioState = true }) {
   if (audioState) {
-    return <AiFillAudio />;
+    return <AiFillAudio className={classes.icon} />;
   }
-  return <AiOutlineAudioMuted />;
+  return <AiOutlineAudioMuted className={classes.icon} />;
 }

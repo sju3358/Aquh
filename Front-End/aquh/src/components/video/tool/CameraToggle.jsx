@@ -3,7 +3,7 @@ import { BsFillCameraVideoFill, BsCameraVideoOff } from "react-icons/bs";
 
 export default function CameraToggle({ cameraState = true }) {
   if (cameraState) {
-    return <BsFillCameraVideoFill />;
+    return <BsFillCameraVideoFill className={classes.icon} />;
   }
-  return <BsCameraVideoOff />;
+  return <BsCameraVideoOff className={classes.icon} />;
 }

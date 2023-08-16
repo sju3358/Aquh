@@ -41,10 +41,11 @@
   flex: 9.8;
   overflow: auto;
   height: 20%;
+  padding: 10px;
 }
 /* 2-1-1. 버튼 */
 .controlBtn,
-.switchCameraBtn {
+.switchBtn {
   /* float: right; */
   height: 60px;
   margin: 10px;
@@ -54,6 +55,11 @@
   border: none;
 }
 
+.icon{
+  height: 30px;
+  width: 30px;
+}
+
 /* 3. 사용자 화면들 모아놓은 section */
 
 /* 3-1. 참가자들 화면 하나 */
@@ -61,7 +67,6 @@
   padding: 20px;
   width: 33%;
   height: 50%;
-  border-radius: 20px;
 }
 .vertical-center {
   position: absolute;
