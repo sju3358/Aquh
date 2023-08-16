@@ -23,9 +23,8 @@
 }
 
 .logoPng {
-  margin-top : 25px;
-  width: 20rem;
-  height: 10rem;
+  width: 100px; /* 원하는 크기로 조절해보세요 */
+  height: auto; /* 자동으로 높이 조절 */
 }
 
 .navItemContainer{
