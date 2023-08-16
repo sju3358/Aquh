@@ -174,14 +174,18 @@ a:hover .demo-logo {
 	}
 } */
 .chatroomContainer {
-  position: absolute;
-  top: 50%;
+  /* position: absolute; */
+  /* top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
   border-radius: 10px;
   background-color: #d8e7ff;
-  box-shadow: 0 0 30px rgba(58, 99, 160, 0.795);
+  box-shadow: 0 0 30px rgba(58, 99, 160, 0.795); */
+  width: 30rem;
+  height: 70rem;
+  margin: auto; 
+  /* overflow: hidden; */
 }
 
 @media (max-width: 768px) {
@@ -213,7 +217,7 @@ a:hover .demo-logo {
 }
 
 .bubbleType{
-  position: relative;
+  /* position: relative; */
   top: 0;
   right: 0;
   background-image: linear-gradient(-20deg, #6e45e2 0%, #88d3ce 100%);
@@ -281,4 +285,9 @@ a:hover .demo-logo {
 
 .entranceButton:hover {
   background-color: #acc6f1; /* 마우스 오버 시 더 진한 색상으로 변경 */
+}
+
+.thumbnailImg{
+  width: 30rem;
+  border-radius: 1.5rem;
 }

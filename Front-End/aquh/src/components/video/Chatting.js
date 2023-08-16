@@ -325,7 +325,7 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <div>여기 썸네일 이미지 태그 부여해야함 css는 적용되어있음 썸네일 받는거 수정하고 img태그로 변환 ㄱ : {bubbleThumbnail} </div>
+          <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
            <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
