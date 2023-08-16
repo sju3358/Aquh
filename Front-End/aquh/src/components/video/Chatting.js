@@ -5,8 +5,6 @@ import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaRegCalendarTimes } from "react-icons/fa";
 import { FaSignInAlt } from "react-icons/fa";
 
-
-
 import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
@@ -116,7 +114,9 @@ export default class Chatting extends Component {
               });
               mySession.publish(publisher);
               var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter((device) => device.kind === "videoinput");
+              var videoDevices = devices.filter(
+                (device) => device.kind === "videoinput"
+              );
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -146,7 +146,7 @@ export default class Chatting extends Component {
     // --- 1) Get an OpenVidu object ---
 
     this.putSession().then((token) => {
-      if(token !== ""){
+      if (token !== "") {
         this.OV = new OpenVidu();
 
         // --- 2) Init a session ---
@@ -189,8 +189,8 @@ export default class Chatting extends Component {
 
             // Get a token from the OpenVidu deployment
             // this.enterSession(this.state.mySessionId).then((token) => {
-            
-              mySession
+
+            mySession
               .connect(token, { clientData: this.state.myUserName })
               .then(async () => {
                 // --- 5) Get your own camera stream ---
@@ -214,7 +214,9 @@ export default class Chatting extends Component {
 
                 // Obtain the current video device in use
                 var devices = await this.OV.getDevices();
-                var videoDevices = devices.filter((device) => device.kind === "videoinput");
+                var videoDevices = devices.filter(
+                  (device) => device.kind === "videoinput"
+                );
                 var currentVideoDeviceId = publisher.stream
                   .getMediaStream()
                   .getVideoTracks()[0]
@@ -237,7 +239,7 @@ export default class Chatting extends Component {
                   error.message
                 );
               });
-            }
+          }
         );
       }
     });
@@ -262,12 +264,17 @@ export default class Chatting extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
     });
+
+    // eslint-disable-next-line no-restricted-globals
+    location.href = "/bubble";
   }
 
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter((device) => device.kind === "videoinput");
+      var videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      );
 
       if (videoDevices && videoDevices.length > 1) {
         var newVideoDevice = videoDevices.filter(
@@ -327,29 +334,50 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
-           <div className={classes.titleContainer}>
+          <img
+            src={bubbleThumbnail}
+            alt=""
+            className={classes.thumbnailImg}
+          ></img>
+          <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
-           </div>
-          <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
-          <FaRegCalendarCheck/> {formatDateTime(planOpenDate)}</p>
-          <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
-          <FaRegCalendarTimes/> {formatDateTime(planCloseDate)}</p>
+          </div>
+          <p className={classes.openDate}>
+            {" "}
+            생성 일자 :&nbsp;&nbsp;
+            <FaRegCalendarCheck /> {formatDateTime(planOpenDate)}
+          </p>
+          <p className={classes.closeDate}>
+            {" "}
+            종료 일자 :&nbsp;&nbsp;
+            <FaRegCalendarTimes /> {formatDateTime(planCloseDate)}
+          </p>
           <p className={classes.chattingContent}>내용</p>
           <div className={classes.chattingContentBox}>{bubbleContent} </div>
 
           <div className={classes.entranceButtonContainer}>
-          {memberNumber === hostNumber ? (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt/>&nbsp; 채팅방 생성 </button>
-          ) : (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt/>&nbsp; 채팅방 입장 </button>
-          )}
+            {memberNumber === hostNumber ? (
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.createSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 생성{" "}
+              </button>
+            ) : (
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.joinSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 입장{" "}
+              </button>
+            )}
           </div>
         </div>
       </div>
     );
-
   }
 
   bubbleChatting() {
@@ -361,28 +389,33 @@ export default class Chatting extends Component {
         <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
         <div className={classes.videoPage}>
           <div className={classes.sessionMain}>
-           
-              {this.state.publisher !== undefined ? (
-                <div className={classes.streamContainer}>
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={sub.id} className={classes.streamContainer}>
-                  {/* <span>{sub.id}</span> */}
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
+            {this.state.publisher !== undefined ? (
+              <div className={classes.streamContainer}>
+                <UserVideoComponent streamManager={this.state.publisher} />
+              </div>
+            ) : null}
+            {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
+            {this.state.subscribers.map((sub, i) => (
+              <div key={sub.id} className={classes.streamContainer}>
+                {/* <span>{sub.id}</span> */}
+                <UserVideoComponent streamManager={sub} />
+              </div>
+            ))}
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <button className={classes.controlBtn}
-                onClick={this.leaveSession}><ImExit/>
+              <button
+                className={classes.controlBtn}
+                onClick={this.leaveSession}
+              >
+                <ImExit />
               </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
-              <button className={classes.switchCameraBtn}
-                onClick={this.switchCamera}>카메라끄기
+              <button
+                className={classes.switchCameraBtn}
+                onClick={this.switchCamera}
+              >
+                카메라끄기
               </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
@@ -397,7 +430,11 @@ export default class Chatting extends Component {
 
   render() {
     return (
-      <div>{this.state.session === undefined ? this.bubbleDetail() : this.bubbleChatting()}</div>
+      <div>
+        {this.state.session === undefined
+          ? this.bubbleDetail()
+          : this.bubbleChatting()}
+      </div>
     );
   }
 
@@ -416,22 +453,21 @@ export default class Chatting extends Component {
   }
 
   async putSession() {
-      console.log("this is your sessionID: " + this.state.mySessionId);
-      const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https
+      .put(
+        "api/v1/bubble-session/" + this.state.mySessionId,
         {},
         {
           headers: { "Content-Type": "application/json" },
         }
-      ).catch((error) =>{
+      )
+      .catch((error) => {
         alert("아직 채팅방이 생성되지 않았습니다");
         console.log(error);
       });
-      
-      
-      if(response != undefined)
-        return await response.data.token; // The token  
-      else
-        return "";
+
+    if (response != undefined) return await response.data.token; // The token
+    else return "";
   }
-  
 }
