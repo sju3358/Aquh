@@ -143,52 +143,53 @@ export default class Chatting extends Component {
   joinSession() {
     // --- 1) Get an OpenVidu object ---
 
-    this.OV = new OpenVidu();
+    const token = this.putSession();
+    console.log("token : ",token);
+    if(token !== ""){
+      this.OV = new OpenVidu();
 
-    // --- 2) Init a session ---
+      // --- 2) Init a session ---
 
-    this.setState(
-      {
-        session: this.OV.initSession(),
-      },
-      () => {
-        var mySession = this.state.session;
+      this.setState(
+        {
+          session: this.OV.initSession(),
+        },
+        () => {
+          var mySession = this.state.session;
 
-        // --- 3) Specify the actions when events take place in the session ---
+          // --- 3) Specify the actions when events take place in the session ---
 
-        // On every new Stream received...
-        mySession.on("streamCreated", (event) => {
-          // Subscribe to the Stream to receive it. Second parameter is undefined
-          // so OpenVidu doesn't create an HTML video by its own
-          var subscriber = mySession.subscribe(event.stream, undefined);
-          var subscribers = this.state.subscribers;
-          subscribers.push(subscriber);
+          // On every new Stream received...
+          mySession.on("streamCreated", (event) => {
+            // Subscribe to the Stream to receive it. Second parameter is undefined
+            // so OpenVidu doesn't create an HTML video by its own
+            var subscriber = mySession.subscribe(event.stream, undefined);
+            var subscribers = this.state.subscribers;
+            subscribers.push(subscriber);
 
-          // Update the state with the new subscribers
-          this.setState({
-            subscribers: subscribers,
+            // Update the state with the new subscribers
+            this.setState({
+              subscribers: subscribers,
+            });
           });
-        });
 
-        // On every Stream destroyed...
-        mySession.on("streamDestroyed", (event) => {
-          // Remove the stream from 'subscribers' array
-          this.deleteSubscriber(event.stream.streamManager);
-        });
+          // On every Stream destroyed...
+          mySession.on("streamDestroyed", (event) => {
+            // Remove the stream from 'subscribers' array
+            this.deleteSubscriber(event.stream.streamManager);
+          });
 
-        // On every asynchronous exception...
-        mySession.on("exception", (exception) => {
-          console.warn(exception);
-        });
+          // On every asynchronous exception...
+          mySession.on("exception", (exception) => {
+            console.warn(exception);
+          });
 
-        // --- 4) Connect to the session with a valid user token ---
+          // --- 4) Connect to the session with a valid user token ---
 
-        // Get a token from the OpenVidu deployment
-        // this.enterSession(this.state.mySessionId).then((token) => {
-        this.putSession().then((token) => {
-          // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
-          // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
-          mySession
+          // Get a token from the OpenVidu deployment
+          // this.enterSession(this.state.mySessionId).then((token) => {
+          
+            mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
               // --- 5) Get your own camera stream ---
@@ -235,9 +236,9 @@ export default class Chatting extends Component {
                 error.message
               );
             });
-        });
-      }
-    );
+          }
+      );
+    }
   }
 
   leaveSession() {
@@ -324,7 +325,7 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <div>여기 썸네일 이미지 태그 부여해야함 css는 적용되어있음 썸네일 받는거 수정하고 img태그로 변환 ㄱ : {bubbleThumbnail} </div>
+          <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
            <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
@@ -421,17 +422,24 @@ export default class Chatting extends Component {
     return await response.data.token; // The token
   }
 
-  async putSession() {
+  putSession() {
     console.log("this is your sessionID: " + this.state.mySessionId);
-    const response = await https.put(
+    let token = "";
+
+    https.put(
       "api/v1/bubble-session/" + this.state.mySessionId,
       {},
       {
         headers: { "Content-Type": "application/json" },
       }
-    );
-    console.log("put: " + response.data.token);
-
-    return await response.data.token; // The token
+    ).then((res) =>{
+      token =  res.data.token;
+    }).catch((error) =>{
+      // console.log(error)
+      if(error.response.status === 400){
+        alert("아직 채팅방이 생성되지 않았습니다.")
+      }
+    })
+    return token;
   }
 }
