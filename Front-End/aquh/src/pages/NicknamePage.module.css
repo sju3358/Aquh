@@ -60,6 +60,7 @@
   margin: 30px;
   padding: 10px;
   color: #4b4c4d;
+  background-color: #ffef8a;
   border-radius: 20px;
   font-size: 17px;
   cursor: pointer;
@@ -68,17 +69,18 @@
   &:focus {
     outline: none;
   }
-  &:hover{
-    background-color: #3b40ae;
-    color: #e8eaeb;
-  }
+  /* &:hover{
+    background-color: #FFF08A;
+    color: #4b4c4d;
+  } */
 }
 .enterBtnDisabled{
   width: 150px;
   height: 50px;
   margin: 30px;
   padding: 10px;
- 
+  color: #4b4c4d;
+  background-color: #ffef8ac6;
   border-radius: 20px;
   font-size: 17px;
   cursor: pointer;
