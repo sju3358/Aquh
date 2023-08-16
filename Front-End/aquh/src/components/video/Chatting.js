@@ -5,8 +5,6 @@ import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaRegCalendarTimes } from "react-icons/fa";
 import { FaSignInAlt } from "react-icons/fa";
 
-
-
 import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
@@ -14,6 +12,8 @@ import UserVideoComponent from "./UserVideoComponent";
 import ChattingSection from "./chat/ChattingSection";
 import Button from "../ui/Button";
 import Nav from "../ui/Nav";
+import { ImExit } from "react-icons/im";
+
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
 
@@ -114,7 +114,9 @@ export default class Chatting extends Component {
               });
               mySession.publish(publisher);
               var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter((device) => device.kind === "videoinput");
+              var videoDevices = devices.filter(
+                (device) => device.kind === "videoinput"
+              );
               var currentVideoDeviceId = publisher.stream
                 .getMediaStream()
                 .getVideoTracks()[0]
@@ -143,102 +145,104 @@ export default class Chatting extends Component {
   joinSession() {
     // --- 1) Get an OpenVidu object ---
 
-    const token = this.putSession();
-    console.log("token : ",token);
-    if(token !== ""){
-      this.OV = new OpenVidu();
+    this.putSession().then((token) => {
+      if (token !== "") {
+        this.OV = new OpenVidu();
 
-      // --- 2) Init a session ---
+        // --- 2) Init a session ---
 
-      this.setState(
-        {
-          session: this.OV.initSession(),
-        },
-        () => {
-          var mySession = this.state.session;
+        this.setState(
+          {
+            session: this.OV.initSession(),
+          },
+          () => {
+            var mySession = this.state.session;
 
-          // --- 3) Specify the actions when events take place in the session ---
+            // --- 3) Specify the actions when events take place in the session ---
 
-          // On every new Stream received...
-          mySession.on("streamCreated", (event) => {
-            // Subscribe to the Stream to receive it. Second parameter is undefined
-            // so OpenVidu doesn't create an HTML video by its own
-            var subscriber = mySession.subscribe(event.stream, undefined);
-            var subscribers = this.state.subscribers;
-            subscribers.push(subscriber);
+            // On every new Stream received...
+            mySession.on("streamCreated", (event) => {
+              // Subscribe to the Stream to receive it. Second parameter is undefined
+              // so OpenVidu doesn't create an HTML video by its own
+              var subscriber = mySession.subscribe(event.stream, undefined);
+              var subscribers = this.state.subscribers;
+              subscribers.push(subscriber);
 
-            // Update the state with the new subscribers
-            this.setState({
-              subscribers: subscribers,
-            });
-          });
-
-          // On every Stream destroyed...
-          mySession.on("streamDestroyed", (event) => {
-            // Remove the stream from 'subscribers' array
-            this.deleteSubscriber(event.stream.streamManager);
-          });
-
-          // On every asynchronous exception...
-          mySession.on("exception", (exception) => {
-            console.warn(exception);
-          });
-
-          // --- 4) Connect to the session with a valid user token ---
-
-          // Get a token from the OpenVidu deployment
-          // this.enterSession(this.state.mySessionId).then((token) => {
-          
-            mySession
-            .connect(token, { clientData: this.state.myUserName })
-            .then(async () => {
-              // --- 5) Get your own camera stream ---
-
-              // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-              // element: we will manage it on our own) and with the desired properties
-              let publisher = await this.OV.initPublisherAsync(undefined, {
-                audioSource: undefined, // The source of audio. If undefined default microphone
-                videoSource: undefined, // The source of video. If undefined default webcam
-                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                resolution: "640x480", // The resolution of your video
-                frameRate: 30, // The frame rate of your video
-                insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-                mirror: false, // Whether to mirror your local video or not
-              });
-
-              // --- 6) Publish your stream ---
-
-              mySession.publish(publisher);
-
-              // Obtain the current video device in use
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter((device) => device.kind === "videoinput");
-              var currentVideoDeviceId = publisher.stream
-                .getMediaStream()
-                .getVideoTracks()[0]
-                .getSettings().deviceId;
-              var currentVideoDevice = videoDevices.find(
-                (device) => device.deviceId === currentVideoDeviceId
-              );
-
-              // Set the main video in the page to display our webcam and store our Publisher
+              // Update the state with the new subscribers
               this.setState({
-                currentVideoDevice: currentVideoDevice,
-                mainStreamManager: publisher,
-                publisher: publisher,
+                subscribers: subscribers,
               });
-            })
-            .catch((error) => {
-              console.log(
-                "There was an error connecting to the session:",
-                error.code,
-                error.message
-              );
             });
+
+            // On every Stream destroyed...
+            mySession.on("streamDestroyed", (event) => {
+              // Remove the stream from 'subscribers' array
+              this.deleteSubscriber(event.stream.streamManager);
+            });
+
+            // On every asynchronous exception...
+            mySession.on("exception", (exception) => {
+              console.warn(exception);
+            });
+
+            // --- 4) Connect to the session with a valid user token ---
+
+            // Get a token from the OpenVidu deployment
+            // this.enterSession(this.state.mySessionId).then((token) => {
+
+            mySession
+              .connect(token, { clientData: this.state.myUserName })
+              .then(async () => {
+                // --- 5) Get your own camera stream ---
+
+                // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
+                // element: we will manage it on our own) and with the desired properties
+                let publisher = await this.OV.initPublisherAsync(undefined, {
+                  audioSource: undefined, // The source of audio. If undefined default microphone
+                  videoSource: undefined, // The source of video. If undefined default webcam
+                  publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+                  publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                  resolution: "640x480", // The resolution of your video
+                  frameRate: 30, // The frame rate of your video
+                  insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+                  mirror: false, // Whether to mirror your local video or not
+                });
+
+                // --- 6) Publish your stream ---
+
+                mySession.publish(publisher);
+
+                // Obtain the current video device in use
+                var devices = await this.OV.getDevices();
+                var videoDevices = devices.filter(
+                  (device) => device.kind === "videoinput"
+                );
+                var currentVideoDeviceId = publisher.stream
+                  .getMediaStream()
+                  .getVideoTracks()[0]
+                  .getSettings().deviceId;
+                var currentVideoDevice = videoDevices.find(
+                  (device) => device.deviceId === currentVideoDeviceId
+                );
+
+                // Set the main video in the page to display our webcam and store our Publisher
+                this.setState({
+                  currentVideoDevice: currentVideoDevice,
+                  mainStreamManager: publisher,
+                  publisher: publisher,
+                });
+              })
+              .catch((error) => {
+                console.log(
+                  "There was an error connecting to the session:",
+                  error.code,
+                  error.message
+                );
+              });
           }
-      );
-    }
+        );
+      }
+    });
   }
 
   leaveSession() {
@@ -260,12 +264,17 @@ export default class Chatting extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
     });
+
+    // eslint-disable-next-line no-restricted-globals
+    location.href = "/bubble";
   }
 
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter((device) => device.kind === "videoinput");
+      var videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      );
 
       if (videoDevices && videoDevices.length > 1) {
         var newVideoDevice = videoDevices.filter(
@@ -325,29 +334,50 @@ export default class Chatting extends Component {
       <div>
         <Nav />
         <div className={classes.chatroomContainer}>
-          <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
-           <div className={classes.titleContainer}>
+          <img
+            src={bubbleThumbnail}
+            alt=""
+            className={classes.thumbnailImg}
+          ></img>
+          <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
-           </div>
-          <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
-          <FaRegCalendarCheck/> {formatDateTime(planOpenDate)}</p>
-          <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
-          <FaRegCalendarTimes/> {formatDateTime(planCloseDate)}</p>
+          </div>
+          <p className={classes.openDate}>
+            {" "}
+            생성 일자 :&nbsp;&nbsp;
+            <FaRegCalendarCheck /> {formatDateTime(planOpenDate)}
+          </p>
+          <p className={classes.closeDate}>
+            {" "}
+            종료 일자 :&nbsp;&nbsp;
+            <FaRegCalendarTimes /> {formatDateTime(planCloseDate)}
+          </p>
           <p className={classes.chattingContent}>내용</p>
           <div className={classes.chattingContentBox}>{bubbleContent} </div>
 
           <div className={classes.entranceButtonContainer}>
-          {memberNumber === hostNumber ? (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt/>&nbsp; 채팅방 생성 </button>
-          ) : (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt/>&nbsp; 채팅방 입장 </button>
-          )}
+            {memberNumber === hostNumber ? (
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.createSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 생성{" "}
+              </button>
+            ) : (
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.joinSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 입장{" "}
+              </button>
+            )}
           </div>
         </div>
       </div>
     );
-
   }
 
   bubbleChatting() {
@@ -359,38 +389,34 @@ export default class Chatting extends Component {
         <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
         <div className={classes.videoPage}>
           <div className={classes.sessionMain}>
-            {/* TODO : 카메라 스위치 했을 때 내 캐릭터 보이기 -> 본인은 무조건 좌측 상단*/}
-            {/* 나의 화면 =  */}
-            <div className={classes.videoContainer}>
-              {this.state.publisher !== undefined ? (
-                <div className={classes.streamContainer}>
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={sub.id} className={classes.streamContainer}>
-                  {/* <span>{sub.id}</span> */}
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
-            </div>
+            {this.state.publisher !== undefined ? (
+              <div className={classes.streamContainer}>
+                <UserVideoComponent streamManager={this.state.publisher} />
+              </div>
+            ) : null}
+            {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
+            {this.state.subscribers.map((sub, i) => (
+              <div key={sub.id} className={classes.streamContainer}>
+                {/* <span>{sub.id}</span> */}
+                <UserVideoComponent streamManager={sub} />
+              </div>
+            ))}
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <input
+              <button
                 className={classes.controlBtn}
-                type="button"
                 onClick={this.leaveSession}
-                value="화면 종료하기"
-              />
+              >
+                <ImExit />
+              </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
-              <input
+              <button
                 className={classes.switchCameraBtn}
-                type="button"
                 onClick={this.switchCamera}
-                value="카메라끄기"
-              />
+              >
+                카메라끄기
+              </button>
               {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
             <div className={classes.sessionChat}>
@@ -404,7 +430,11 @@ export default class Chatting extends Component {
 
   render() {
     return (
-      <div>{this.state.session === undefined ? this.bubbleDetail() : this.bubbleChatting()}</div>
+      <div>
+        {this.state.session === undefined
+          ? this.bubbleDetail()
+          : this.bubbleChatting()}
+      </div>
     );
   }
 
@@ -422,24 +452,22 @@ export default class Chatting extends Component {
     return await response.data.token; // The token
   }
 
-  putSession() {
+  async putSession() {
     console.log("this is your sessionID: " + this.state.mySessionId);
-    let token = "";
+    const response = await https
+      .put(
+        "api/v1/bubble-session/" + this.state.mySessionId,
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .catch((error) => {
+        alert("아직 채팅방이 생성되지 않았습니다");
+        console.log(error);
+      });
 
-    https.put(
-      "api/v1/bubble-session/" + this.state.mySessionId,
-      {},
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then((res) =>{
-      token =  res.data.token;
-    }).catch((error) =>{
-      // console.log(error)
-      if(error.response.status === 400){
-        alert("아직 채팅방이 생성되지 않았습니다.")
-      }
-    })
-    return token;
+    if (response != undefined) return await response.data.token; // The token
+    else return "";
   }
 }

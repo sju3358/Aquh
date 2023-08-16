@@ -15,7 +15,7 @@ export default function UserFeedList() {
       .get("api/v1/feed")
       .then((res) => {
         setFeedList(res.data.feedList);
-        console.log(feedList);
+        console.log("sss", res.data.feedList);
       })
       .catch((error) => {
         console.log(error);
@@ -36,6 +36,8 @@ export default function UserFeedList() {
     }
   }, [modalOpen]);
 
+  console.log("feedListttttttttttttttttt", feedList);
+
   return (
     <div className={classes.feedPage}>
       <div className={classes.feedListSection}>
@@ -49,7 +51,7 @@ export default function UserFeedList() {
                     alt="droplet"
                     className={classes.droplet}
                   />
-                  대충 내가 뿌린 피드라는 뜻
+                  &nbsp; 내가 쓴 피드
                 </p>
                 <div>
                   {feedList.map((feed) => {
@@ -66,6 +68,7 @@ export default function UserFeedList() {
                           feedNumber={feed.feedNumber}
                           userNickName={feed.nickName}
                           setModalOpen={setModalOpen}
+                          feedLevel={feed.level}
                           // setClickedFeedNum={setClickedFeedNum}
                         />
                       </div>
