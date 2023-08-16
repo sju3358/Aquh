@@ -71,6 +71,7 @@ export default function AuthPage() {
       <UserSymbolList />
       {/* <button> 심볼 목록 보기 </button> */}
       {/* <p>심볼 목록</p> */}
+      {/* {어 지금 커밋안된다.} */}
       <div className={classes.symbolContainer}>
         <SymbolList />
       </div>
