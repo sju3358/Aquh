@@ -21,10 +21,11 @@ export default function BubbleForm({ onSubmit }) {
   const [selectedValue, setSelectedValue] = useState("6");
 
   const handleSelectedOption = (e) => {
-    setSelectedValue(e.target.value);
+    const newValue = e.target.value;
+    setSelectedValue(newValue);
     setBubbleForm({
       ...bubbleForm,
-      categoryNumber: String(selectedValue),
+      categoryNumber: newValue,
     });
   }
 

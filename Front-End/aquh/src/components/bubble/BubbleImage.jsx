@@ -23,6 +23,7 @@ export default function BubbleImage({ onSubmit }) {
 
 
   const { bubbleImagePrompt } = bubbleImage;
+  
   return (
     <form onSubmit={handleSubmit} className={classes.formContainer}>
       <label htmlFor="title" className={classes.label}>
