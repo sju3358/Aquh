@@ -4,6 +4,7 @@ import FeedCard from "../components/feed/FeedCard";
 // import PopulatedBubbleList from "../components/bubble/PopulatedBubbleList";
 import classes from "./MainPage.module.css";
 import Nav from "../components/ui/Nav";
+import Footer from "../components/ui/Footer";
 export default function MainPage() {
   const testList = [
     {
@@ -87,8 +88,9 @@ export default function MainPage() {
           </p>
         </div>
 
-        <section className={classes.feedBox}>{testFeed}</section>
+        {/* <section className={classes.feedBox}>{testFeed}</section> */}
       </main>
+      <Footer />
     </div>
   );
 }
