@@ -14,7 +14,7 @@ import https from "../../../utils/https";
 
 import { BsSendFill } from "react-icons/bs";
 import ChattingAvatarImg from "../../ui/ChattingAvatarImg";
-
+import moment from "moment";
 
 export default function ChattingSection({ bubbleNum = 0 }) {
   const memberNumber = useRecoilValue(memberNumberState);
@@ -45,9 +45,8 @@ export default function ChattingSection({ bubbleNum = 0 }) {
   // 파란 박스 초기화/동기화
   function initMyMessage(data) {
     let chatBox = document.querySelector("#chat-box");
-    let md = data.createdAt.substring(5, 10);
-    let tm = data.createdAt.substring(11, 16);
-    let convertTime = tm + " | " + md;
+
+    let convertTime = moment(data.createdAt).format("HH:MM | MM-DD");
 
     let sendBox = '';
 
@@ -90,9 +89,8 @@ export default function ChattingSection({ bubbleNum = 0 }) {
   // 회색 박스 초기화/동기화
   function initYourMessage(data) {
     let chatBox = document.querySelector("#chat-box");
-    let md = data.createdAt.substring(5, 10);
-    let tm = data.createdAt.substring(11, 16);
-    let convertTime = tm + " | " + md;
+
+    let convertTime = moment(data.createdAt).format("HH:MM | MM-DD");
 
     let receivedBox = '';
 
@@ -176,6 +174,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
           </div>
         </button>
       </div>
+      
     </div>
   );
 }

@@ -59,6 +59,7 @@
   float: right;
   max-width: 60%;
   min-width: 20%;
+  word-break: break-all;
 }
 
 /* flex : 하위 3개 */
@@ -125,6 +126,7 @@
   float: left;
   max-width: 60%;
   min-width: 20%;
+  word-break: break-all;
 }
 
 /* flex : 하위 3개 */
