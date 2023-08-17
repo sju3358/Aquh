@@ -38,3 +38,18 @@
 .profileImg{
   width: 3rem;
 }
+
+.likeButton{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+
+.likeButton img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
