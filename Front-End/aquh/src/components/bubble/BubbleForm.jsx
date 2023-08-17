@@ -5,7 +5,7 @@ import { memberNumberState } from "../../store/loginUserState";
 import classes from "./BubbleForm.module.css";
 import BubbleImage from "./BubbleImage";
 
-export default function BubbleForm({ onSubmit }) {
+export default function BubbleForm({ onSubmit, onClose }) {
   const memberNumber = useRecoilValue(memberNumberState);
   const [bubbleForm, setBubbleForm] = useState({
     hostMemberNumber: "0",
@@ -31,7 +31,8 @@ export default function BubbleForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(bubbleForm);
-    console.log(selectedValue, "전달 안되고 난리야");
+    // onClose() 말고 button에 type을 submit으로 지정해도 된다고 하는데 아직 안해봄, 해볼 것. 
+    onClose();
   };
 
   const handleChange = (e) => {
@@ -78,12 +79,10 @@ export default function BubbleForm({ onSubmit }) {
 
   const { bubbleTitle, bubbleContent, bubbleThumbnail } = bubbleForm;
   return (
-    <div>
+    <div className={classes.container}>
+      <img src="../../aquh2.png"  alt="" className={classes.bubbleIntro} />
       <BubbleImage onSubmit={handleThumbnailSubmit} />
       <form onSubmit={handleSubmit} className={classes.formContainer}>
-        <label htmlFor="imgUrl" className={classes.label}>
-          이미지
-        </label>
         <div className={classes.inputbox}>
           <img
             src={bubbleThumbnail}
@@ -117,14 +116,15 @@ export default function BubbleForm({ onSubmit }) {
             className={`${classes.input} ${classes.textarea}`}
           />
         </div>
-        <label htmlFor="category">카테고리</label>
+        <label htmlFor="category" className={classes.label}>카테고리</label>
         <select
           size="1"
           id="category"
           onChange={handleSelectedOption}
           value={selectedValue}
+          className={classes.select}
         >
-          <option value="0" disabled>
+          <option value="0" disabled className={classes.options}>
             카테고리를 선택하세요
           </option>
           <option value="1">스포츠-운동</option>

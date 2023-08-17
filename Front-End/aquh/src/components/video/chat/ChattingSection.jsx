@@ -56,9 +56,7 @@ export default function ChattingSection({ bubbleNum = 0 }) {
                 <div id="sendMsg">
                     <div id="sendDataFlex">
                         <div id="sendMsgData"> ${data.msg} </div>
-                        <div id="chatting-info">
-                            <span id="timeDate"> ${convertTime} </span>
-                        </div>
+                        <span id="timeDate"> ${convertTime} </span>
                     </div>
                 </div>
             </div>`;

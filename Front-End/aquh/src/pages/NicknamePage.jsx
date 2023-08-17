@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import https from "../utils/https";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNicknameState } from "../store/loginUserInfoState";
 
@@ -18,7 +18,7 @@ function NicknamePage() {
   const [nickNameDuplicationCheck, setNickNameDuplicationCheck] =
     useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const memberNumber = useRecoilValue(memberNumberState);
 
@@ -73,7 +73,7 @@ function NicknamePage() {
           .then(() => {
             alert("환영합니다");
             setCurrentNickname(inputNickname);
-            navigate("/main");
+            // navigate("/main");
           })
           .catch((error) => {
             console.log(error);
@@ -88,12 +88,13 @@ function NicknamePage() {
       <div className={classes.container}>
         <img src='../../aquh3.png' alt='' className={classes.nicknameImg} />{" "}
         <div className={classes.infoText}>
-          <h1 className={classes.infoTextDetail}>
-            Aquh에 오신것을 환영합니다!
+        <h1 className={classes.infoTextDetail}>
+            Welcome to Aquh!
           </h1>
-          <p className={classes.infoTextDetailSmall}>
-            입장하기 전, 캐릭터의 이름을 지어 주세요.
-          </p>
+          {/* <p className={classes.infoTextDetailSmall}>
+            Aquh에서 활동할 닉네임을 입력해주세요
+          </p> */}
+          
         </div>
         <div className={classes.nicknameSection}>
           <input
@@ -102,7 +103,7 @@ function NicknamePage() {
             name='nickName'
             value={inputNickname}
             id='nickName'
-            placeholder='불리고 싶은 이름을 적어주세요'
+            placeholder='닉네임'
             onChange={onChangeNickName}
           />
           {/* TODO: 유효성검사, 중복확인 로직 필요 */}
@@ -117,7 +118,10 @@ function NicknamePage() {
               중복확인
             </button>
           )}
-          <p className='message'>{inputNicknameMessage}</p>
+          <div className={classes.info}>
+          <p>닉네임은 한번 설정하면 다신 바꿀 수 없으니 신중하게 입력하세요!</p>
+          <p className={classes.message}>{inputNicknameMessage}</p>
+          </div>
         </div>
         {nickNameRegexCheck === true && nickNameDuplicationCheck === true ? (
           <button onClick={enterMainPage} className={classes.enterBtn}>
