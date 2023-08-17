@@ -1,3 +1,6 @@
+* {
+  font-family: Pretendard;
+}
 .container {
   display: flex;
   align-items: center;
@@ -11,16 +14,15 @@
   margin: 10px;
 }
 .nicknameImg {
-  width: 400px;
-  height: 400px;
+  width: 30rem;
 }
 .infoTextDetail {
   padding: 10px;
-  font-size: 55px;
+  font-size: 10rem;
 }
 .infoTextDetailSmall {
   padding: 10px;
-  font-size: 30px;
+  font-size: 2rem;
 }
 
 .nicknameInput {
@@ -86,4 +88,13 @@
   cursor: pointer;
   font-weight: bold;
   border: none;
+}
+
+.info{
+  margin: 10px;
+}
+
+.message{
+  color: rgb(248, 27, 27);
+  margin-top: 5px;
 }

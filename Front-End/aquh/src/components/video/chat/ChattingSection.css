@@ -1,7 +1,7 @@
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
 #chat-box {
   overflow: auto;
-  height: 70vh;
+  height: 65vh;
 }
 
 /* 메시지 입력란 전체 */

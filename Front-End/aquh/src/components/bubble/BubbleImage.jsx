@@ -27,7 +27,7 @@ export default function BubbleImage({ onSubmit }) {
   return (
     <form onSubmit={handleSubmit} className={classes.formContainer}>
       <label htmlFor="title" className={classes.label}>
-        프롬프트
+       이미지 키워드
       </label>
       <div className={classes.inputbox}>
         <input

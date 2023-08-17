@@ -118,13 +118,9 @@ public class MemberRecordService {
 		} else if (memberRecord.getMemberExpCnt() >= 4500 && memberRecord.getMemberExpCnt() < 7000) {
 			dto.setRemainingExp(7000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(7000);
-		} else if (memberRecord.getMemberExpCnt() >= 7000 && memberRecord.getMemberExpCnt() < 10000) {
+		} else {
 			dto.setRemainingExp(10000 - memberRecord.getMemberExpCnt());
 			dto.setMaxExp(10000);
-		} else if (memberRecord.getMemberExpCnt() >= 10000) {
-			dto.setRemainingExp(100000 - memberRecord.getMemberExpCnt());
-			dto.setLevel(6L);
-			dto.setMaxExp(100000);
 		}
 		dto.setPresentExp(memberRecord.getMemberExpCnt());
 
@@ -147,6 +143,6 @@ public class MemberRecordService {
 			return 3;
 		} else if (exp >= 4500 && exp < 7000) {
 			return 4;
-		} else return 6;
+		} else return 5;
 	}
 }
