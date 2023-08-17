@@ -39,9 +39,19 @@ function FeedCard({
       {/* {charImg()} */}
       <p className={classes.feedHeader}>
         <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
-        <span className={classes.creator_nickname}>
-          &nbsp;&nbsp;&nbsp;{userNickName}
-        </span>
+        <p className={classes.creator_nickname}>
+          &nbsp;&nbsp;&nbsp;{userNickName}&nbsp;&nbsp;&nbsp;
+        </p>
+        {feedSymbolList != undefined
+          ? feedSymbolList.map((symbol) => {
+              return (
+                <span>
+                  <img src={`${symbol}`} className={classes.symbolImg} />
+                  &nbsp; &nbsp;
+                </span>
+              );
+            })
+          : null}
       </p>
       <h3 className={classes.feedTitle}>{feedTitle}</h3>
       <p className={classes.feedInfo}>
@@ -51,16 +61,6 @@ function FeedCard({
         <span className={classes.feedLike}>좋아요 수 : {feedLikeCount}</span>
       </p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
-      <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
-      {feedSymbolList != undefined
-        ? feedSymbolList.map((symbol) => {
-            return (
-              <div>
-                <img src={`${symbol}`} className={classes.profileImg} />
-              </div>
-            );
-          })
-        : null}
       <p className={classes.feedContent}> {feedContent}</p>
       {feedImage && (
         <img

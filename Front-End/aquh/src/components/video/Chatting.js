@@ -38,6 +38,7 @@ export default class Chatting extends Component {
       subscribers: [],
       cameraState: true,
       audioState: true,
+      memberLevel: this.props.memberLevel,
     };
 
     this.createSession = this.createSession.bind(this);
@@ -112,7 +113,7 @@ export default class Chatting extends Component {
 
         this.postSession().then((token) => {
           mySession
-            .connect(token, { clientData: this.state.myUserName })
+            .connect(token, { clientData: this.state.myUserName, memberLevel: this.state.memberLevel })
             .then(async () => {
               let publisher = await this.OV.initPublisherAsync(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
@@ -201,7 +202,7 @@ export default class Chatting extends Component {
             // this.enterSession(this.state.mySessionId).then((token) => {
 
             mySession
-              .connect(token, { clientData: this.state.myUserName })
+              .connect(token, { clientData: this.state.myUserName, memberLevel: this.state.memberLevel })
               .then(async () => {
                 // --- 5) Get your own camera stream ---
 

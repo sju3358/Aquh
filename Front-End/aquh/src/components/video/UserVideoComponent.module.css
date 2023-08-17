@@ -13,14 +13,26 @@ video {
     font-weight: bold;
     border-bottom-right-radius: 4px;
 } */
-.videoProfile{
+
+.videoProfileImg{
+    padding-left: 20px;
+    width: 60px;    
+}
+
+.videoProfileNickName{
+    display: inline-block;
     margin: 0px;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
 }
 
+.videoProfile {
+    /* display: block; */
+    max-height: 100%;
+}
+
 .videoBox {
     border-radius: 15px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }

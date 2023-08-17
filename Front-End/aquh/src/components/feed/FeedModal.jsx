@@ -6,6 +6,8 @@ import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
 import emptyHeart from "../../assets/emptyHeart.png";
 import fullHeart from "../../assets/fullHeart.png";
+import { GoArrowUpRight } from "react-icons/go";
+import { FiFilePlus } from "react-icons/fi";
 
 export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const modalStyle = {
@@ -21,18 +23,21 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
     },
     // 모달창 내부 관련 스타일링
     content: {
+      // width: "80rem",
       display: "flex",
+      justifyContent: "center",
       flexDirextion: "column",
-      backgroundColor: "rgba(255,255,255,0.95)",
+      backgroundColor: "#ffffff",
       overflow: "auto",
       zIndex: 10,
       // top,left,right,bottom ==> 모달창의 사이즈가 아니고 여백에서부터
       // 얼마나 떨어지게 할지 입니다.
-      top: "150px",
-      left: "300px",
-      right: "300px",
-      bottom: "150px",
+      top: "100px",
+      left: "420px",
+      right: "420px",
+      bottom: "100px",
       // border: "2px solid black",
+
       borderRadius: "20px",
     },
   };
