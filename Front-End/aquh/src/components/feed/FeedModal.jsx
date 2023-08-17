@@ -32,10 +32,10 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
       zIndex: 10,
       // top,left,right,bottom ==> 모달창의 사이즈가 아니고 여백에서부터
       // 얼마나 떨어지게 할지 입니다.
-      top: "100px",
-      left: "420px",
-      right: "420px",
-      bottom: "100px",
+      top: "40px",
+      left: "200px",
+      right: "200px",
+      bottom: "40px",
       // border: "2px solid black",
 
       borderRadius: "20px",
@@ -238,37 +238,54 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const feedDetailComponent = () => {
     return (
       <div className={classes.modalReadContainer}>
-        <h3 className={classes.title}> {feedTitle}</h3>
-        <div className={classes.nickname}>{feedMemberNickname}</div>
-        <img
-          src={`../../pfp${feedUserLevel}.png`}
-          className={classes.profileImg}
-        />
-        {feedSymbolList != undefined
-          ? feedSymbolList.map((symbol) => {
-              return (
-                <div>
-                  <img
-                    src={`${symbol.symbolImgName}`}
-                    className={classes.profileImg}
-                  />
-                </div>
-              );
-            })
-          : null}
-        <div className={classes.createTime}>작성시간 : {feedCreateTime}</div>
+        <div className={classes.FeedDetailCard}>
+          <div className={classes.feedHeader}>
+            <p className={classes.feedHeaderProfile}>
+              <img
+                src={`../../pfp${feedUserLevel}.png`}
+                className={classes.profileImg}
+              />
+              <p className={classes.creator_nickname}>
+                &nbsp;&nbsp;&nbsp;{feedMemberNickname}&nbsp;&nbsp;&nbsp;
+              </p>
+              {feedSymbolList != undefined
+                ? feedSymbolList.map((symbol) => {
+                    return (
+                      <span>
+                        <img
+                          src={`${symbol.symbolImgName}`}
+                          className={classes.symbolImg}
+                        />
+                        &nbsp; &nbsp;
+                      </span>
+                    );
+                  })
+                : null}
+            </p>
+            <button className={classes.likeButton} onClick={onClickLikeBtn}>
+              <img
+                src={feedIsClickLikeBtn ? fullHeart : emptyHeart}
+                alt={feedIsClickLikeBtn ? "full_heart" : "empty_heart"}
+              />
+            </button>
+          </div>
 
-        <button className={classes.likeButton} onClick={onClickLikeBtn}>
-          <img
-            src={feedIsClickLikeBtn ? fullHeart : emptyHeart}
-            alt={feedIsClickLikeBtn ? "full_heart" : "empty_heart"}
-          />
-        </button>
-
-        <div className={classes.content}>{feedContent}</div>
-        {feedImageUrl !== undefined && (
-          <img src={`${feedImageUrl}`} alt="피드 이미지" />
-        )}
+          <h3 className={classes.feedDetailTitle}>{feedTitle}</h3>
+          <p className={classes.feedInfo}>
+            <span className={classes.feedCreateDate}>
+              작성 날짜 : {feedCreateTime}
+            </span>
+          </p>
+          {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
+          <p className={classes.feedDetailContent}> {feedContent}</p>
+          {feedImageUrl && (
+            <img
+              className={classes.feedCardImg}
+              src={`${feedImageUrl}`}
+              alt="img_null"
+            />
+          )}
+        </div>
 
         {
           loginMemberNumber === feedCreatorNumber ? (

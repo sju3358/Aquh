@@ -98,7 +98,7 @@ export default function BubblePage() {
           alt="droplet"
           className={classes.droplet}
         />
-        현재 참여중인 버블이예요
+        회원님이 생성한 버블이예요!
       </p>
       <div className={classes.latestChat}>
         <BubbleList
