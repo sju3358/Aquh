@@ -35,8 +35,8 @@
   cursor: pointer;
   font-weight: 700;
   padding: 1.5rem;
+  margin: 2rem;
   border-radius:3rem;
-  appearance: none;
   border: none;
   width: 10rem;
   &:hover,
@@ -44,6 +44,23 @@
     background-color: rgb(86, 142, 255);
     color: #eaf1f7;
   } 
+}
+.buttonDelete {
+  border-radius: 10px;
+  background: #f45555c3;
+  color: #131111;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 1.5rem;
+  margin: 2rem;
+  border-radius:3rem;
+  border: none;
+  width: 10rem;
+  &:hover,
+  &:active {
+    background-color: #dc3131;
+    color: #eaf1f7;
+  }
 }
 
 .findFeedFile{
@@ -69,21 +86,7 @@
 
 
 
-.buttonDelete {
-  border-radius: 10px;
-  background: #f45555c3;
-  color: #131111;
-  cursor: pointer;
-  font-weight: 700;
-  padding: 13px;
-  margin: 20px;
-  border: none;
-  &:hover,
-  &:active {
-    background-color: #dc3131;
-    color: #eaf1f7;
-  }
-}
+
 
 /* modal 내 수정페이지 */
 .feedWriteCard{
