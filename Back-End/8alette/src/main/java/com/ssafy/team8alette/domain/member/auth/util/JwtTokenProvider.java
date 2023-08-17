@@ -22,9 +22,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenProvider {
 
 	private static final String SALT = "team8alleteKangSeolChoiJoKimWillWonPrizeAt9thCommonProject";
-	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
+	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 30; // 분단위
 	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
-	
+
 	private <T> String createAccessToken(String key, T data) throws UnsupportedEncodingException {
 		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
 	}
