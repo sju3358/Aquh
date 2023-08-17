@@ -25,9 +25,6 @@ function FeedCard({
   feedLikeCount,
   feedSymbolList,
 }) {
-  useEffect(() => {
-    console.log(feedLevel, feedLikeCount, feedSymbolList);
-  });
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
     setclickedFeedNumber(feedNumber);
