@@ -17,8 +17,9 @@ function FeedCard({
   feedContent,
   feedCreateDate,
   feedImage,
-  feedNumber,
   setModalOpen,
+  feedNumber,
+  setclickedFeedNumber,
   userNickName,
   feedLevel,
 }) {
@@ -29,7 +30,7 @@ function FeedCard({
 
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
-    localStorage.setItem("feedNumber", feedNumber);
+    setclickedFeedNumber(feedNumber);
     setModalOpen(true);
   };
 

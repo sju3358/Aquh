@@ -7,99 +7,7 @@ import { memberNumberState } from "../../store/loginUserState";
 import emptyHeart from "../../assets/emptyHeart.png";
 import fullHeart from "../../assets/fullHeart.png";
 
-export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
-  const [isModify, setIsModify] = useState();
-  const [feedTitle, setFeedTitle] = useState("");
-  const [feedContent, setFeedConTent] = useState("");
-  const [file, setFile] = useState();
-  const [fileName, setFileName] = useState(null);
-  const [liked, setLiked] = useState(false);
-  const toggleLike = () => {
-    setLiked(!liked);
-  };
-
-  const onChangeFeedTitle = (e) => {
-    const currentFeedTitle = e.target.value;
-    setFeedTitle(currentFeedTitle);
-    console.log(currentFeedTitle);
-  };
-  const onChangeFeedContent = (e) => {
-    const currentFeedContent = e.target.value;
-    setFeedConTent(currentFeedContent);
-    console.log(currentFeedContent);
-  };
-  const onChangeFeedFile = (e) => {
-    const currentFile = e.target.files[0];
-    if (currentFile) {
-      setFile(currentFile);
-      setFileName(currentFile.name);
-    } else {
-      setFileName("사진이 없습니다");
-    }
-    console.log("ASDFASDF 여기 파일임", currentFile);
-  };
-  // 수정이 다 끝난 후 내용 변경 axios 전송
-  // TODO : 수정할 때 파일이 없어도 가능하도록 (현재 사진 안넣으면 500에러 뜸)
-  const onClinkModifyBtn = () => {
-    console.log(clickFeedData.feedCreatorNumber);
-    if (feedTitle && feedContent) {
-      const formData = new FormData();
-      const jsonData = {
-        member: {
-          memberNumber: clickFeedData.feedCreatorNumber,
-        },
-        title: feedTitle,
-        content: feedContent,
-        feedNumber: clickFeedData.feedNumber,
-      };
-
-      // Append the JSON data under a different key
-      formData.append(
-        "feed",
-        new Blob([JSON.stringify(jsonData)], { type: "application/json" })
-      );
-
-      if (file) {
-        formData.append("file", file);
-      } else {
-        formData.append("file", new Blob(), "empty");
-      }
-      https
-        .put("/api/v1/feed", formData, {})
-        .then((response) => {
-          closeModal(false);
-          /* eslint no-restricted-globals: ["off"] */
-          location.reload();
-        })
-
-        .catch((error) => {
-          console.error(":", error);
-        });
-    } else if (!feedTitle) {
-      alert("글 제목을 작성해주세요");
-    } else if (!feedContent) {
-      alert("글 내용을 작성해주세요");
-    }
-  };
-
-  const onClickModify = () => {
-    setFeedTitle(clickFeedData.title);
-    setFeedConTent(clickFeedData.content);
-    setFile(clickFeedData.img_url);
-    setIsModify(true);
-  };
-
-  const onClickDelete = () => {
-    if (confirm("정말 삭제 하시겠습니까?")) {
-      https.put(`/api/v1/feed/${clickFeedData.feedNumber}`).then((res) => {
-        alert("피드가 삭제되었습니다.");
-
-        /* eslint no-restricted-globals: ["off"] */
-        location.reload();
-      });
-    }
-  };
-
+export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const modalStyle = {
     //모달창 바깥부분 관련 스타일링
     overlay: {
@@ -128,11 +36,230 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       borderRadius: "20px",
     },
   };
-  const userNumber = useRecoilValue(memberNumberState);
-  //   모달 오픈창이 false면 모달이 닫힘(처음엔 true로 넘어온 상태)
+
+  //피드 info state
+  const [feedTitle, setFeedTitle] = useState("");
+  const [feedContent, setFeedConTent] = useState("");
+  const [feedIsClickLikeBtn, setFeedIsClickLikeBtn] = useState();
+  const [feedMemberNickname, setFeedMemberNickname] = useState("");
+  const [feedCreatorNumber, setFeedCreatorNumber] = useState(-1);
+  const [feedCreateTime, setFeedCreateTime] = useState("");
+  const [feedImageUrl, setFeedImageUrl] = useState("");
+
+  //수정 관련 state
+  const [inputFile, setInputFile] = useState();
+  const [inputFileName, setInputFileName] = useState(null);
+  const [isModify, setIsModify] = useState();
+  const [feedInputTitle, setInputFeedTitle] = useState("");
+  const [feedInputContent, setInputFeedConTent] = useState("");
+
+  const loginMemberNumber = useRecoilValue(memberNumberState);
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      https
+        .get(`/api/v1/feed/${feedNumber}`)
+        .then((responseData) => {
+          setFeedTitle(responseData.data.data.title);
+          setFeedConTent(responseData.data.data.content);
+          setFeedMemberNickname(responseData.data.data.memberNickName);
+          setFeedCreatorNumber(responseData.data.data.feedCreatorNumber);
+          setFeedCreateTime(responseData.data.data.createDate);
+          setFeedImageUrl(responseData.data.data.img_url);
+
+          https
+            .get(`/api/v1/feed/like/${feedNumber}`)
+            .then((res) => {
+              setFeedIsClickLikeBtn(res.data.isClick);
+              console.log("asdfasdf", res);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .then((error) => {
+          console.log(error);
+        });
+    }
+  }, [modalOpen]);
+
+  const onClickLikeBtn = () => {
+    setFeedIsClickLikeBtn(!feedIsClickLikeBtn);
+    const memberNumber = loginMemberNumber;
+    https
+      .post("/api/v1/feed/like", { feedNumber, memberNumber })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onChangeFeedTitle = (e) => {
+    const inputFeedTitleData = e.target.value;
+    setInputFeedTitle(inputFeedTitleData);
+  };
+  const onChangeFeedContent = (e) => {
+    const inputFeedContentData = e.target.value;
+    setInputFeedConTent(inputFeedContentData);
+  };
+  const onChangeFeedFile = (e) => {
+    const inputFileData = e.target.files[0];
+    if (inputFileData) {
+      setInputFile(inputFileData);
+      setInputFileName(inputFileData.name);
+    } else {
+      setInputFileName("사진이 없습니다");
+    }
+    console.log("ASDFASDF 여기 파일임", inputFileData);
+  };
+
+  const onClinkModifyBtn = () => {
+    if (feedTitle && feedContent) {
+      const formData = new FormData();
+      const jsonData = {
+        member: {
+          memberNumber: feedCreatorNumber,
+        },
+        title: feedTitle,
+        content: feedContent,
+        feedNumber: feedNumber,
+      };
+
+      // Append the JSON data under a different key
+      formData.append(
+        "feed",
+        new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+      );
+
+      if (inputFile) {
+        formData.append("file", inputFile);
+      } else {
+        formData.append("file", new Blob(), "empty");
+      }
+
+      https
+        .put("/api/v1/feed", formData, {})
+        .then((response) => {
+          closeModal(false);
+          /* eslint no-restricted-globals: ["off"] */
+          location.reload();
+        })
+
+        .catch((error) => {
+          console.error(":", error);
+        });
+    } else if (!feedInputTitle) {
+      alert("글 제목을 작성해주세요");
+    } else if (!feedContent) {
+      alert("글 내용을 작성해주세요");
+    }
+  };
+
+  const onClickModify = () => {
+    setInputFeedTitle(feedTitle);
+    setInputFeedConTent(feedContent);
+    setInputFile(feedImageUrl);
+    setIsModify(true);
+  };
+
+  const onClickDelete = () => {
+    if (confirm("정말 삭제 하시겠습니까?")) {
+      https.put(`/api/v1/feed/${feedNumber}`).then((res) => {
+        alert("피드가 삭제되었습니다.");
+
+        /* eslint no-restricted-globals: ["off"] */
+        location.reload();
+      });
+    }
+  };
+
   const closeModal = () => {
     setIsModify(false);
     setModalOpen(false);
+  };
+
+  const modifyComponent = () => {
+    return (
+      <div className={classes.feedWriteCard}>
+        <div className={classes.feedTitle}>
+          <input
+            type="text"
+            value={feedInputTitle}
+            className={classes.feedTitle}
+            onChange={onChangeFeedTitle}
+            placeholder="제목을 입력하세요"
+          />
+        </div>
+
+        <textarea
+          cols="80"
+          rows="22"
+          value={feedInputContent}
+          className={classes.feedContent}
+          onChange={onChangeFeedContent}
+          placeholder="내용을 입력하세요"
+        ></textarea>
+
+        <div className={classes.feedFile}>
+          <input
+            className={classes.uploadFeedName}
+            Value={inputFileName}
+            placeholder="첨부파일"
+            readOnly={true}
+          />
+          <label for="newFile" className={classes.feedFileLabel}>
+            파일찾기
+          </label>
+          <input
+            className={classes.feedImgRealBtn}
+            onChange={onChangeFeedFile}
+            accept="image/*"
+            id="newFile"
+            type="file"
+          />
+        </div>
+        <button className={classes.buttonRewrite} onClick={onClinkModifyBtn}>
+          수정하기
+        </button>
+      </div>
+    );
+  };
+
+  const feedDetailComponent = () => {
+    return (
+      <div className={classes.modalReadContainer}>
+        <h3 className={classes.title}> {feedTitle}</h3>
+        <div className={classes.nickname}>{feedMemberNickname}</div>
+        <div className={classes.createTime}>작성시간 : {feedCreateTime}</div>
+
+        <button className={classes.likeButton} onClick={onClickLikeBtn}>
+          <img
+            src={feedIsClickLikeBtn ? fullHeart : emptyHeart}
+            alt={feedIsClickLikeBtn ? "full_heart" : "empty_heart"}
+          />
+        </button>
+
+        <div className={classes.content}>{feedContent}</div>
+        {feedImageUrl !== undefined && (
+          <img src={`${feedImageUrl}`} alt="피드 이미지" />
+        )}
+
+        {
+          loginMemberNumber === feedCreatorNumber ? (
+            <div className={classes.buttonContainer}>
+              <button className={classes.buttonRewrite} onClick={onClickModify}>
+                수정하기
+              </button>
+              <button className={classes.buttonDelete} onClick={onClickDelete}>
+                삭제하기
+              </button>
+            </div>
+          ) : null // <button>수정하기</button>
+        }
+      </div>
+    );
   };
 
   return (
@@ -142,91 +269,7 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
       isOpen={modalOpen}
       onRequestClose={() => closeModal()}
     >
-      {isModify ? (
-        <div className={classes.feedWriteCard}>
-          <div className={classes.feedTitle}>
-            <input
-              type="text"
-              value={feedTitle}
-              className={classes.feedTitle}
-              onChange={onChangeFeedTitle}
-              placeholder="제목을 입력하세요"
-            />
-          </div>
-
-          <textarea
-            cols="80"
-            rows="22"
-            value={feedContent}
-            className={classes.feedContent}
-            onChange={onChangeFeedContent}
-            placeholder="내용을 입력하세요"
-          ></textarea>
-
-          <div className={classes.feedFile}>
-            <input
-              className={classes.uploadFeedName}
-              Value={fileName}
-              placeholder="첨부파일"
-              readOnly={true}
-            />
-            <label for="newFile" className={classes.feedFileLabel}>
-              파일찾기
-            </label>
-            <input
-              className={classes.feedImgRealBtn}
-              onChange={onChangeFeedFile}
-              accept="image/*"
-              id="newFile"
-              type="file"
-            />
-          </div>
-          <button className={classes.buttonRewrite} onClick={onClinkModifyBtn}>
-            수정하기
-          </button>
-        </div>
-      ) : (
-        // 모달 처음 클릭했을 때 Read 페이지
-        <div className={classes.modalReadContainer}>
-          <h3 className={classes.title}> {clickFeedData?.title}</h3>
-          <div className={classes.nickname}>
-            {clickFeedData?.memberNickName}
-          </div>
-          <div className={classes.createTime}>
-            작성시간 : {clickFeedData?.createDate}
-          </div>
-
-          <button className={classes.likeButton} onClick={toggleLike}>
-            <img
-              src={liked ? fullHeart : emptyHeart}
-              alt={liked ? "full_heart" : "empty_heart"}
-            />
-          </button>
-
-          <div className={classes.content}>{clickFeedData?.content}</div>
-          {clickFeedData?.img_url && (
-            <img src={`${clickFeedData?.img_url}`} alt="피드 이미지" />
-          )}
-          {/* 작성자랑 유저가 같을때만 수정/삭제 가능 */}
-          <div className={classes.buttonContainer}>
-            {
-              userNumber === clickFeedData?.feedCreatorNumber ? (
-                <button
-                  className={classes.buttonRewrite}
-                  onClick={onClickModify}
-                >
-                  수정하기
-                </button>
-              ) : null // <button>수정하기</button>
-            }
-            {userNumber === clickFeedData?.feedCreatorNumber ? (
-              <button className={classes.buttonDelete} onClick={onClickDelete}>
-                삭제하기
-              </button>
-            ) : null}
-          </div>
-        </div>
-      )}
+      {isModify ? modifyComponent() : feedDetailComponent()}
     </Modal>
   );
 }
