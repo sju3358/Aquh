@@ -8,6 +8,10 @@ import FeedModal from "./FeedModal";
 import Modal from "react-modal";
 import https from "../../utils/https";
 
+import React, { useState } from "react";
+import emptyHeart from "../../assets/emptyHeart.png";
+import fullHeart from "../../assets/fullHeart.png";
+
 function FeedCard({
   feedTitle,
   feedContent,
@@ -18,7 +22,10 @@ function FeedCard({
   userNickName,
   feedLevel,
 }) {
-  // TODO : 캐릭터 레벨에 따른 사진 보여주기
+  const [liked, setLiked] = useState(false);
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
 
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
@@ -39,6 +46,14 @@ function FeedCard({
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
       <p className={classes.feedContent}> {feedContent}</p>
+      <button className={classes.likeButton} onClick={toggleLike}>
+        <img
+          src={liked ? fullHeart : emptyHeart}
+          alt={liked ? "full_heart" : "empty_heart"}
+        />
+      </button>
+
+      {/* <FaRegCalendarCheck /> */}
       {/* TODO : 내용 일부만(3줄) 보이게 수정->css */}
 
       {feedImage && (

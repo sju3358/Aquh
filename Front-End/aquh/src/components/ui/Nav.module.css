@@ -1,52 +1,52 @@
-*{
-  appearance : none;
+* {
+  appearance: none;
   text-decoration: none;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-
-
-
-
-.navBar{
-    display: flex;
-    align-items: center;
-    height: 60px;
-    padding: 0 20px;
-    color: white;
-    font-size: 20px;
-    font-weight: 500;
-    margin-top: 20px;
-    margin-bottom: 90px;
+.navBar {
+  display: flex;
+  justify-content: column;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 
 .logoPng {
-  width: 100px; /* 원하는 크기로 조절해보세요 */
+  width: 20rem; /* 원하는 크기로 조절해보세요 */
   height: auto; /* 자동으로 높이 조절 */
+  cursor: pointer;
+  align-self: baseline;
 }
 
-.navItemContainer{
-    display: flex;
-    /* justify-content: space-between; */
-    align-items: center;
-    width: 100%;
+.navItemContainer {
+  display: flex;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  width: 100%;
 }
 
-.navItem{
+.navItem {
   color: white;
   text-decoration: none;
   background-color: transparent;
+  margin-top: 3rem;
 }
 
-.avatarPng{
+.avatarPng {
   width: 5rem;
   height: 5rem;
   /* margin-top: 25px; */
 }
 
-.searchContainer{
+.searchContainer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -54,7 +54,7 @@
   margin-top: 20px;
 }
 
-.menuItems{
+.menuItems {
   display: flex;
   justify-content: row;
 }

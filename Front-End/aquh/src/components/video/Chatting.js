@@ -5,8 +5,6 @@ import { FaRegCalendarCheck } from "react-icons/fa";
 import { FaRegCalendarTimes } from "react-icons/fa";
 import { FaSignInAlt } from "react-icons/fa";
 
-
-
 import https from "../../utils/https";
 import React, { Component, useState, useEffect } from "react";
 import classes from "./Chatting.module.css";
@@ -15,6 +13,9 @@ import ChattingSection from "./chat/ChattingSection";
 import Button from "../ui/Button";
 import Nav from "../ui/Nav";
 import { ImExit } from "react-icons/im";
+
+import CameraToggle from "./tool/CameraToggle";
+import AudioToggle from "./tool/AudioToggle";
 
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
@@ -33,6 +34,7 @@ export default class Chatting extends Component {
       publisher: undefined,
       subscribers: [],
       cameraState: true,
+      audioState: true,
     };
 
     this.createSession = this.createSession.bind(this);
@@ -41,6 +43,10 @@ export default class Chatting extends Component {
     this.switchCamera = this.switchCamera.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+
+    this.cameraToggle = this.cameraToggle.bind(this);
+    this.audioToggle = this.audioToggle.bind(this);
+    // this.backgroundBlur = this.backgroundBlur.bind(this);
   }
 
   componentDidMount() {
@@ -263,6 +269,9 @@ export default class Chatting extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
     });
+
+    // eslint-disable-next-line no-restricted-globals
+    location.href = "/bubble";
   }
 
   async switchCamera() {
@@ -352,16 +361,56 @@ export default class Chatting extends Component {
 
           <div className={classes.entranceButtonContainer}>
             {memberNumber === hostNumber ? (
-              <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt />&nbsp; 채팅방 생성 </button>
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.createSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 생성{" "}
+              </button>
             ) : (
-              <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt />&nbsp; 채팅방 입장 </button>
+              <button
+                className={classes.entranceButton}
+                onClick={buttonActive ? this.joinSession : null}
+              >
+                <FaSignInAlt />
+                &nbsp; 채팅방 입장{" "}
+              </button>
             )}
           </div>
         </div>
       </div>
     );
-
   }
+
+  // 카메라 온오프 토글
+  cameraToggle() {
+    if (this.state.cameraState) {
+      this.setState({ cameraState: false });
+      this.state.publisher.publishVideo(false);
+    } else {
+      this.setState({ cameraState: true });
+      this.state.publisher.publishVideo(true);
+    }
+  }
+
+  // 마이크 온오프 토글
+  audioToggle() {
+    if (this.state.audioState) {
+      this.setState({ audioState: false });
+      this.state.publisher.publishAudio(false);
+    } else {
+      this.setState({ audioState: true });
+      this.state.publisher.publishAudio(true);
+    }
+  }
+
+  // // 배경 블러처리
+  // async backgroundBlur() {
+  //   console.log("블러처리는 유료계정에서 가능")
+  //   // await publisher.stream.removeFilter();
+  //   let virtualBackground = await this.state.publisher.stream.applyFilter("VB:blur");
+  // }
 
   bubbleChatting() {
     const memberNickname = this.state.myUserName;
@@ -388,19 +437,24 @@ export default class Chatting extends Component {
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
-              <button className={classes.controlBtn}
-                onClick={this.leaveSession}><ImExit />
+              <button className={classes.switchBtn} onClick={this.cameraToggle}>
+                <CameraToggle cameraState={this.state.cameraState} />
               </button>
-              <button className={classes.switchCameraBtn}
-                onClick={this.switchCamera}>카메라끄기
+
+              <button className={classes.switchBtn} onClick={this.audioToggle}>
+                <AudioToggle audioState={this.state.audioState} />
+              </button>
+
+              <button className={classes.controlBtn} onClick={this.leaveSession}>
+                <ImExit className={classes.icon} />
               </button>
             </div>
             <div className={classes.sessionChat}>
               <ChattingSection bubbleNum={this.state.mySessionId} />
             </div>
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
     );
   }
 
@@ -426,41 +480,20 @@ export default class Chatting extends Component {
 
   async putSession() {
     console.log("this is your sessionID: " + this.state.mySessionId);
-    const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
-      {},
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    ).catch((error) => {
-      alert("아직 채팅방이 생성되지 않았습니다");
-      console.log(error);
-    });
+    const response = await https
+      .put(
+        "api/v1/bubble-session/" + this.state.mySessionId,
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .catch((error) => {
+        alert("아직 채팅방이 생성되지 않았습니다");
+        console.log(error);
+      });
 
-
-    if (response != undefined)
-      return await response.data.token; // The token  
-    else
-      return "";
-  }
-  cameraToggle() {
-    if (this.state.cameraState) {
-      this.state.publisher.publishVideo(false);
-      this.state.cameraState = false;
-    }
-    else {
-      this.state.publisher.publishVideo(true);
-      this.state.cameraState = true;
-    }
-  }
-
-  audioToggle() {
-    if (this.state.audioState) {
-      this.state.publisher.publishAudio(false);
-      this.state.audioState = false;
-    }
-    else {
-      this.state.publisher.publishAudio(false);
-      this.state.audioState = true;
-    }
+    if (response != undefined) return await response.data.token; // The token
+    else return "";
   }
 }
