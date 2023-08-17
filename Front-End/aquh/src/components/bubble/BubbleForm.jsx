@@ -5,7 +5,7 @@ import { memberNumberState } from "../../store/loginUserState";
 import classes from "./BubbleForm.module.css";
 import BubbleImage from "./BubbleImage";
 
-export default function BubbleForm({ onSubmit }) {
+export default function BubbleForm({ onSubmit, onClose }) {
   const memberNumber = useRecoilValue(memberNumberState);
   const [bubbleForm, setBubbleForm] = useState({
     hostMemberNumber: "0",
@@ -31,7 +31,8 @@ export default function BubbleForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(bubbleForm);
-    console.log(selectedValue, "전달 안되고 난리야");
+    // onClose() 말고 button에 type을 submit으로 지정해도 된다고 하는데 아직 안해봄, 해볼 것. 
+    onClose();
   };
 
   const handleChange = (e) => {
