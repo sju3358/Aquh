@@ -118,7 +118,7 @@ export default function BubblePage() {
         <ButtonSelector
           variant="alternate"
           initiallySelected="전체"
-          options={["전체", "버블링", "버블톡"]}
+          options={["전체", "버블톡", "버블링"]}
           onSelect={(type) => setSelectedType(type)}
         />
         <button onClick={showModal} className={classes.createRoom}>
