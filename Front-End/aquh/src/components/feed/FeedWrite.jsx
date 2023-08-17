@@ -10,7 +10,7 @@ function FeedWrite() {
   const [feedTitle, setFeedTitle] = useState("");
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState(null); //진짜 사진 파일 변경해주는 부분
-  const [fileName, setFileName] = useState(null); //사진변경에 따른 파일명 보이는 부분
+  const [fileName, setFileName] = useState(""); //사진변경에 따른 파일명 보이는 부분
 
   const memberNumber = useRecoilValue(memberNumberState);
 
@@ -29,6 +29,7 @@ function FeedWrite() {
       setFile(currentFile);
       setFileName(currentFile.name);
     } else {
+      setFile(null);
       setFileName("사진이 없습니다");
     }
     console.log("여기 파일임", currentFile);
@@ -106,7 +107,7 @@ function FeedWrite() {
           <div className={classes.feedFileInput}>
             <input
               className={classes.uploadFeedName}
-              Value={fileName}
+              value={fileName}
               placeholder="첨부파일"
               readOnly={true}
             />
