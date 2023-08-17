@@ -188,7 +188,7 @@ public class FeedController {
 
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
-		boolean isFeedLike = likeService.findTrueOrFalse(memberNumber, feedNumber);
+		boolean isFeedLike = likeService.findTrueOrFalse(feedNumber, memberNumber);
 
 		Map<String, Object> responseData = new HashMap<>();
 		responseData.put("isClick", isFeedLike);
