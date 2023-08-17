@@ -1,4 +1,11 @@
-
+.userLevel{
+  margin-top: 2px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  background-color: rgb(216, 247, 255);
+  padding: 5px;
+  border-radius: 5px;
+}
 
 
 .symbolSection{
@@ -10,7 +17,7 @@
 }
 
 .profileNickname{
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin: 10px;
 }
@@ -48,7 +55,7 @@
 }
 
 .level{
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 500;
   margin: 10px;
 }
