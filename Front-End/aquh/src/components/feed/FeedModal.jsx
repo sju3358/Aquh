@@ -71,7 +71,6 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
             .get(`/api/v1/feed/like/${feedNumber}`)
             .then((res) => {
               setFeedIsClickLikeBtn(res.data.isClick);
-              console.log("asdfasdf", res);
             })
             .catch((error) => {
               console.log(error);
