@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import https from "../utils/https";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNicknameState } from "../store/loginUserInfoState";
 
@@ -18,7 +18,7 @@ function NicknamePage() {
   const [nickNameDuplicationCheck, setNickNameDuplicationCheck] =
     useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const memberNumber = useRecoilValue(memberNumberState);
 
