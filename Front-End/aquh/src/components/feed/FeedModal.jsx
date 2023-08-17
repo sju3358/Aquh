@@ -191,15 +191,13 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const modifyComponent = () => {
     return (
       <div className={classes.feedWriteCard}>
-        <div className={classes.feedTitle}>
-          <input
-            type="text"
-            value={feedInputTitle}
-            className={classes.feedTitle}
-            onChange={onChangeFeedTitle}
-            placeholder="제목을 입력하세요"
-          />
-        </div>
+        <input
+          type="text"
+          value={feedInputTitle}
+          className={classes.feedTitle}
+          onChange={onChangeFeedTitle}
+          placeholder="제목을 입력하세요"
+        />
 
         <textarea
           cols="80"
@@ -227,10 +225,11 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
             id="newFile"
             type="file"
           />
+
+          <button className={classes.buttonRewrite} onClick={onClinkModifyBtn}>
+            수정하기
+          </button>
         </div>
-        <button className={classes.buttonRewrite} onClick={onClinkModifyBtn}>
-          수정하기
-        </button>
       </div>
     );
   };
