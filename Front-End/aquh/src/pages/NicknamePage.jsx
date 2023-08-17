@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./NicknamePage.module.css";
 import https from "../utils/https";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberNicknameState } from "../store/loginUserInfoState";
 
@@ -18,7 +18,7 @@ function NicknamePage() {
   const [nickNameDuplicationCheck, setNickNameDuplicationCheck] =
     useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const memberNumber = useRecoilValue(memberNumberState);
 
@@ -73,7 +73,7 @@ function NicknamePage() {
           .then(() => {
             alert("환영합니다");
             setCurrentNickname(inputNickname);
-            // navigate("/main");
+            navigate("/main");
           })
           .catch((error) => {
             console.log(error);
@@ -86,31 +86,29 @@ function NicknamePage() {
   return (
     <div className={classes.nicknameCheck}>
       <div className={classes.container}>
-        <img src='../../aquh3.png' alt='' className={classes.nicknameImg} />{" "}
+        <img src="../../aquh3.png" alt="" className={classes.nicknameImg} />{" "}
         <div className={classes.infoText}>
-        <h1 className={classes.infoTextDetail}>
-            Welcome to Aquh!
-          </h1>
+          <h1 className={classes.infoTextDetail}>Welcome to Aquh!</h1>
           {/* <p className={classes.infoTextDetailSmall}>
             Aquh에서 활동할 닉네임을 입력해주세요
           </p> */}
-          
         </div>
         <div className={classes.nicknameSection}>
           <input
             className={classes.nicknameInput}
-            type='text'
-            name='nickName'
+            type="text"
+            name="nickName"
             value={inputNickname}
-            id='nickName'
-            placeholder='닉네임'
+            id="nickName"
+            placeholder="닉네임"
             onChange={onChangeNickName}
           />
           {/* TODO: 유효성검사, 중복확인 로직 필요 */}
           {nickNameRegexCheck === true ? (
             <button
               onClick={nickNameCheckAxios}
-              className={classes.nicknameCheckBtn}>
+              className={classes.nicknameCheckBtn}
+            >
               중복확인
             </button>
           ) : (
@@ -119,8 +117,10 @@ function NicknamePage() {
             </button>
           )}
           <div className={classes.info}>
-          <p>닉네임은 한번 설정하면 다신 바꿀 수 없으니 신중하게 입력하세요!</p>
-          <p className={classes.message}>{inputNicknameMessage}</p>
+            <p>
+              닉네임은 한번 설정하면 다신 바꿀 수 없으니 신중하게 입력하세요!
+            </p>
+            <p className={classes.message}>{inputNicknameMessage}</p>
           </div>
         </div>
         {nickNameRegexCheck === true && nickNameDuplicationCheck === true ? (
