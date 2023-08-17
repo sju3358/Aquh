@@ -51,17 +51,17 @@ export default function MainPage() {
             className={classes.dynamicEmojies}
           />
           <p className={classes.introMessage}>
-          집에서 혼자서만 그리던 그림들을 <span className={classes.emphasize}>다른 사람들과 공유</span>하니<br/> 내 방속에 갤러리를 오픈 한 것 같은 기분이에요
+          "집에서 혼자서만 그리던 그림들을 <span className={classes.emphasize}>다른 사람들과 공유</span>하니<br/> 내 방속에 갤러리를 오픈 한 것 같은 기분이에요"
           </p>
         </div>
-        <div>
+        {/* <div className={classes.handclap}>
         <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
         <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
         <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
-        </div>
+        </div> */}
         <div className={classes.figureBox}>
           <p className={classes.introMessage}>
-          요리를 어렵게만 생각했는데 <br/> <span className={classes.emphasize}>실시간으로 다같이 하니까</span> 근사한 만찬이 되었어요 !
+          "요리를 어렵게만 생각했는데 <br/> <span className={classes.emphasize}>실시간으로 다같이 하니까</span> 근사한 만찬이 되었어요!""
           </p>
           
           <img
@@ -87,7 +87,7 @@ export default function MainPage() {
             className={classes.dynamicEmojies}
           />
           <p className={classes.introMessage}>
-          아쿠아에서 <span className={classes.emphasize}>다른 사람들과 명상하는 모임</span>을 시작한 뒤<br/> 더 생산적으로 하루를 시작하게 되었어요
+         "아쿠아에서 <span className={classes.emphasize}>다른 사람들과 명상하는 모임</span>을 시작한 뒤<br/> 더 생산적으로 하루를 시작하게 되었어요"
             <br />{" "}
           </p>
         </div>

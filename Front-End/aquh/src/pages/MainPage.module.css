@@ -50,7 +50,7 @@
 
 .introMessage {
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 50px;
   margin-top: 100px;
   color: rgb(255, 255, 255);
@@ -61,13 +61,17 @@
 }
 
 .emphasize{
-  font-size: 3.3rem;
-  color : #0b5bda;
+  font-size: 4rem;
+  color : #354cff;
   font-weight: 900;
 }
 
 .line{
-  width: 8rem;
-  height: 8rem;
-  margin: 10px;
+  width: 10rem;
+  height: 10rem;
+  margin: 20px;
 }
+
+/* .handclap{
+  background-color: white;
+} */
