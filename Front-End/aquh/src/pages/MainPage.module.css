@@ -40,20 +40,38 @@
   width: 100%;
   padding: 40px;
   justify-content: center;
-  background: rgb(255, 255, 255);
+  /* background: rgb(255, 255, 255);
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0.6138830532212884) 0%,
     rgba(149, 198, 255, 0.47102591036414565) 100%
-  );
+  ); */
 }
 
 .introMessage {
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 50px;
+  margin-top: 100px;
+  color: rgb(255, 255, 255);
 }
 
 .feedBox {
   width: 100%;
 }
+
+.emphasize{
+  font-size: 4rem;
+  color : #354cff;
+  font-weight: 900;
+}
+
+.line{
+  width: 10rem;
+  height: 10rem;
+  margin: 20px;
+}
+
+/* .handclap{
+  background-color: white;
+} */
