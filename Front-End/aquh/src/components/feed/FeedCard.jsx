@@ -37,9 +37,19 @@ function FeedCard({
       {/* TODO : 카드를 클릭하면 모달창으로 상세페이지 설정 */}
 
       {/* {charImg()} */}
-      <p className={classes.creator_nickname}>{userNickName} </p>
+      <p className={classes.feedHeader}>
+        <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
+        <span className={classes.creator_nickname}>
+          &nbsp;&nbsp;&nbsp;{userNickName}
+        </span>
+      </p>
       <h3 className={classes.feedTitle}>{feedTitle}</h3>
-      <p className={classes.feedCreateDate}>작성 날짜 : {feedCreateDate}</p>
+      <p className={classes.feedInfo}>
+        <span className={classes.feedCreateDate}>
+          작성 날짜 : {feedCreateDate}
+        </span>
+        <span className={classes.feedLike}>좋아요 수 : {feedLikeCount}</span>
+      </p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
       {feedSymbolList != undefined
@@ -59,8 +69,6 @@ function FeedCard({
           alt="img_null"
         />
       )}
-
-      <p>좋아요 수 : {feedLikeCount}</p>
     </div>
   );
 }
