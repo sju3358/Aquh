@@ -25,6 +25,9 @@ function FeedCard({
   feedLikeCount,
   feedSymbolList,
 }) {
+  useEffect(() => {
+    console.log(feedLevel, feedLikeCount, feedSymbolList);
+  });
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
     setclickedFeedNumber(feedNumber);
@@ -42,6 +45,15 @@ function FeedCard({
       <p className={classes.feedCreateDate}>작성 날짜 : {feedCreateDate}</p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
+      {feedSymbolList != undefined
+        ? feedSymbolList.map((symbol) => {
+            return (
+              <div>
+                <img src={`${symbol}`} className={classes.profileImg} />
+              </div>
+            );
+          })
+        : null}
       <p className={classes.feedContent}> {feedContent}</p>
       {feedImage && (
         <img
