@@ -36,6 +36,8 @@ export default function BubbleList({
       closeDate={bubble.planCloseDate}
       onJoin={() => {}}
       selectedCategory={selectedCategory}
+      nickname={bubble.nickName}
+      level={bubble.level}
     />
   ));
 

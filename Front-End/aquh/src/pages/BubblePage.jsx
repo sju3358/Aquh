@@ -42,7 +42,7 @@ export default function BubblePage() {
         console.log("bubbleList", res);
         setBubbles(res);
       } catch (error) {
-        console.log(`Oh nonono BubblePage! ${error}`);
+        console.log(`Oh nonono BubbleList! ${error}`);
       }
     };
     fetchBubbleList();
