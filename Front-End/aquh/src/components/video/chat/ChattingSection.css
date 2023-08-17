@@ -28,7 +28,7 @@
 
 /* 메시지 전송버튼 */
 #chat-send {
-  background: #4249b3;
+  background: #7077ee;
   border: medium none;
   border-radius: 50%;
   color: #fff;
@@ -91,7 +91,7 @@
 
 /* flex 하위 - 보낸 메세지 */
 #sendMsgData {
-  background: #4249b3;
+  background: #7077ee;
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
