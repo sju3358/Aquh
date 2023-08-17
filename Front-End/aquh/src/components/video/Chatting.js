@@ -12,10 +12,13 @@ import UserVideoComponent from "./UserVideoComponent";
 import ChattingSection from "./chat/ChattingSection";
 import Button from "../ui/Button";
 import Nav from "../ui/Nav";
+
 import { ImExit } from "react-icons/im";
+import { IoWaterSharp } from "react-icons/io5";
 
 import CameraToggle from "./tool/CameraToggle";
 import AudioToggle from "./tool/AudioToggle";
+
 
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://i9b108.p.ssafy.io/";
@@ -418,7 +421,7 @@ export default class Chatting extends Component {
 
     return (
       <div className={classes.container}>
-        <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
+        <h1 className={classes.sessionTitle}><IoWaterSharp className={classes.titleIcon} /> " {bubbleTitle} "</h1>
         <div className={classes.videoPage}>
           <div className={classes.sessionMain}>
 
