@@ -49,36 +49,20 @@ a {
 
 dialog::-webkit-scrollbar {
   width: 8px;  /* 스크롤바의 너비 */
- 
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
 }
 
 dialog::-webkit-scrollbar-thumb {
   height: 20%; /* 스크롤바의 길이 */
   background: #217af4; /* 스크롤바의 색상 */
-  border-radius: 2rem;
   overflow: scroll;
+  background-clip: padding-box;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-radius: 2rem;
 }
 
 dialog::-webkit-scrollbar-track {
   background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
-}
-
-dialog::-webkit-scrollbar-thumb:hover {
-  background: black;
-}
-
-.sidebar.close > .copy-sub > .sub-menu::-webkit-scrollbar-button:vertical:start:decrement,
-.sidebar.close > .copy-sub > .sub-menu::-webkit-scrollbar-button:vertical:start:increment {
-    display: block;
-    height: 25px;
-}
-
-/* 만일 스크롤바 트랙 아래쪽도 여백 공간을 주고 싶다면 ... */
-.sidebar.close > .copy-sub > .sub-menu::-webkit-scrollbar-button:vertical:end:decrement {
-    display: block;
-    width: 25px;
-}
-
-dialog::-webkit-scrollbar-corner {
-	background: transparent;
 }
