@@ -16,6 +16,8 @@ export default function BubbleCard({
   closeDate = "2023-08-12T18:33:56.34344",
   bubbleId,
   onJoin = () => {},
+  nickname,
+  level,
 }) {
   const id = bubbleId;
 
@@ -49,10 +51,13 @@ export default function BubbleCard({
         <div className={classes.eventCategory8}>{category}</div>
       )}
       <p className={classes.eventTitle}>{title}</p>
+      <div className={classes.pfpContainer}>
+      <img src={`../../pfp${level}.png`} alt="" className={classes.levelpfp}/>
       <p className={classes.eventDate}>
-        {" "}
-        <FaRegCalendarCheck /> {openDate?.slice(0, 10)}
+       {nickname}
       </p>
+      </div>
+      
       <button onClick={onJoin} className={classes.cardButton}>
         <Link
           to={`/bubble/${id}`}

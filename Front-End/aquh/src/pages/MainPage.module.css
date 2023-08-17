@@ -40,12 +40,12 @@
   width: 100%;
   padding: 40px;
   justify-content: center;
-  /* background: rgb(255, 255, 255);
+  background: rgb(255, 255, 255);
   background: linear-gradient(
     0deg,
     rgba(255, 255, 255, 0.6138830532212884) 0%,
     rgba(149, 198, 255, 0.47102591036414565) 100%
-  ); */
+  );
 }
 
 .introMessage {
@@ -53,7 +53,7 @@
   font-weight: 500;
   margin: 50px;
   margin-top: 100px;
-  color: rgb(255, 255, 255);
+  color: black;
 }
 
 .feedBox {
@@ -62,7 +62,7 @@
 
 .emphasize{
   font-size: 4rem;
-  color : #354cff;
+  color : #ff5b8c;
   font-weight: 900;
 }
 
