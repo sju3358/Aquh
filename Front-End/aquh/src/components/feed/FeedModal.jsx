@@ -1,10 +1,11 @@
-import axios from "axios";
 import https from "../../utils/https_nonHeader";
 import React, { useEffect, useState } from "react";
 import classes from "./FeedModal.module.css";
 import Modal from "react-modal";
 import { useRecoilValue } from "recoil";
 import { memberNumberState } from "../../store/loginUserState";
+import emptyHeart from "../../assets/emptyHeart.png";
+import fullHeart from "../../assets/fullHeart.png";
 
 export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const [isModify, setIsModify] = useState();
@@ -12,6 +13,10 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
   const [feedContent, setFeedConTent] = useState("");
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState(null);
+  const [liked, setLiked] = useState(false);
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
 
   const onChangeFeedTitle = (e) => {
     const currentFeedTitle = e.target.value;
@@ -190,6 +195,14 @@ export default function FeedModal({ setModalOpen, modalOpen, clickFeedData }) {
           <div className={classes.createTime}>
             작성시간 : {clickFeedData?.createDate}
           </div>
+
+          <button className={classes.likeButton} onClick={toggleLike}>
+            <img
+              src={liked ? fullHeart : emptyHeart}
+              alt={liked ? "full_heart" : "empty_heart"}
+            />
+          </button>
+
           <div className={classes.content}>{clickFeedData?.content}</div>
           {clickFeedData?.img_url && (
             <img src={`${clickFeedData?.img_url}`} alt="피드 이미지" />
