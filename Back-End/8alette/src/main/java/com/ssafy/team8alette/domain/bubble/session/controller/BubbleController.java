@@ -1,5 +1,6 @@
 package com.ssafy.team8alette.domain.bubble.session.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleListDto;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequestDto;
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
 import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
@@ -127,10 +130,33 @@ public class BubbleController {
 
 	@GetMapping
 	public BubbleResponseDto getAllBubbleRoomRequest() {
+
+		List<BubbleListDto> bubbleList = new ArrayList<>();
 		List<BubbleDto> allBubbleRooms = bubbleService.getAllBubbleRoomList();
 
+		for (BubbleDto bubbleDto : allBubbleRooms) {
+
+			Member member = memberService.getMemberInfo(bubbleDto.getBubbleNumber());
+			String nickName = member.getMemberNickname();
+			int level = memberRecordService.getMemberLevel(member.getMemberNumber());
+
+			bubbleList.add(BubbleListDto.builder()
+				.bubbleNumber(bubbleDto.getBubbleNumber())
+				.hostMemberNumber(bubbleDto.getHostMemberNumber())
+				.categoryName(bubbleDto.getCategoryName())
+				.bubbleType(bubbleDto.isBubbleType())
+				.bubbleTitle(bubbleDto.getBubbleTitle())
+				.bubbleContent(bubbleDto.getBubbleContent())
+				.bubbleThumbnail(bubbleDto.getBubbleThumbnail())
+				.bubbleState(bubbleDto.isBubbleState())
+				.nickName(nickName)
+				.level(level)
+				.build());
+
+		}
+
 		return BubbleResponseDto.builder()
-			.data(allBubbleRooms)
+			.data(bubbleList)
 			.message("success")
 			.build();
 	}
