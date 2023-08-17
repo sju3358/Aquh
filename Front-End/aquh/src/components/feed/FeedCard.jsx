@@ -33,7 +33,6 @@ function FeedCard({
     setModalOpen(true);
   };
 
-  console.log(feedLevel);
   // =========================================================
   return (
     <div className={classes.FeedCard} onClick={openModal}>
