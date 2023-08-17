@@ -274,8 +274,15 @@ export default class Chatting extends Component {
       publisher: undefined,
     });
 
-    // eslint-disable-next-line no-restricted-globals
-    location.href = "/bubble";
+    console.log(this.state.mySessionId);
+    https.put(`/api/v1/bubble/${this.state.mySessionId}`)
+      .then(() => {
+        // eslint-disable-next-line no-restricted-globals
+        location.href = "/bubble";
+      }).catch((error) => {
+        console.log(error);
+      });
+
   }
 
   async switchCamera() {
