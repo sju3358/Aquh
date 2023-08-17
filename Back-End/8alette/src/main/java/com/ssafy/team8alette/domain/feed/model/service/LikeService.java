@@ -65,7 +65,13 @@ public class LikeService {
 		memberRecordService.updateMemberLikeGiveCnt(member.getMemberNumber(), -1);
 		memberRecordService.updateMemberReceiveCnt(feedEntity.getMember().getMemberNumber(), -1);
 		return false;
-		
+
+	}
+
+	public boolean findTrueOrFalse(Long feedNumber, Long memberNumber) {
+		boolean trueOrFalse = likeRepository.existsByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(feedNumber,
+			memberNumber);
+		return trueOrFalse;
 	}
 
 }
