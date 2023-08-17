@@ -7,6 +7,7 @@ import {
   memberIntroState,
   memberNicknameState,
   memberTypeState,
+  memberLevelState,
 } from "../store/loginUserInfoState";
 
 import {
@@ -29,6 +30,7 @@ export default function RedirectPage_Google() {
 
   const setMemberNumber = useSetRecoilState(memberNumberState);
   const setIsSocialLogin = useSetRecoilState(isSocialLoginState);
+  const setMemberLevel= useSetRecoilState(memberLevelState);
 
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
@@ -56,6 +58,7 @@ export default function RedirectPage_Google() {
             setMemberType(res.data.data.member_type);
             setMemberIntro(res.data.data.member_intro);
             setMemberEmail(res.data.data.member_email);
+            setMemberLevel(res.data.data.member_level);
             memberState = res.data.data.member_state;
             if (memberState === 0) navigate("/nickname");
             else if (memberState === 1) navigate("/main");

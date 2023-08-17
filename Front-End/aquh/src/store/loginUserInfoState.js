@@ -35,9 +35,16 @@ export const memberActiveSymbolState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const memberLevelState = atom({
+  key: "member_level",
+  default: -1,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export default {
   memberTypeState,
   memberNicknameState,
   memberIntroState,
   memberEmailState,
+  memberLevelState,
 };
