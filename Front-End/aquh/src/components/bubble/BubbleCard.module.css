@@ -21,11 +21,7 @@
   font-weight: 700;
   margin-left: 0.5rem;
 }
-.eventDate {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-left: 0.5rem;
-}
+
 
 .bubbleImgTop {
   border-radius: 1rem;
@@ -201,4 +197,25 @@ background: linear-gradient(229deg, rgba(236,240,67,0.8128501400560224) 0%, rgba
   line-height: 2.3rem;
   z-index: 10;
   margin: 20px;
+}
+
+.levelpfp{
+  width: 3rem;
+  margin-right: 2px;
+}
+
+.eventDate {
+  font-size: 1.4rem;
+  margin-left: 0.5rem;
+  font-weight: 500;
+  color : white;
+  margin-top: 7px;
+}
+
+.pfpContainer{
+  display: flex;
+  background-color: rgb(197, 197, 197);
+  width: 60%;
+  padding: 10px;
+  border-radius: 1rem;
 }
