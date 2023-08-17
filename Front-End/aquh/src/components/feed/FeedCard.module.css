@@ -14,10 +14,11 @@
 /*  */
 
 .feedHeader{
-  width: 200px;
+  width: 40%;
   height: 36px;
   background-color: #95C6FF;
   border-radius: 2rem;
+  display: flex;
 }
 
 .feedCardImg {
@@ -41,14 +42,14 @@
 }
 .creator_nickname {
   font-size: 18px;
-  position: absolute;
-  transform: translate(0, 29%);
+  align-self: center;
 }
 
 .profileImg{
   margin-top: 3px;
   margin-left: 3px;
-  width: 3rem;
+  width: 30px;
+  height: 30px;
 }
 
 .feedInfo{
@@ -58,4 +59,10 @@
 
 .feedLike{
   font-size: 14px;
+}
+
+.symbolImg{
+  margin-top: 4px;
+  width: 28px;
+  height: 28px;
 }
