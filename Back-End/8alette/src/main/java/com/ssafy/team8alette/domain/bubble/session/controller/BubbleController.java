@@ -173,8 +173,29 @@ public class BubbleController {
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 		List<BubbleDto> bubblings = bubbleService.getBubblingList(memberNumber);
 
+		List<BubbleListDto> bubbleList = new ArrayList<>();
+
+		for (BubbleDto bubbleDto : bubblings) {
+			String nickName = memberService.getMemberInfo(memberNumber).getMemberNickname();
+			int level = memberRecordService.getMemberLevel(memberNumber);
+
+			bubbleList.add(BubbleListDto.builder()
+				.bubbleNumber(bubbleDto.getBubbleNumber())
+				.hostMemberNumber(bubbleDto.getHostMemberNumber())
+				.categoryName(bubbleDto.getCategoryName())
+				.bubbleType(bubbleDto.isBubbleType())
+				.bubbleTitle(bubbleDto.getBubbleTitle())
+				.bubbleContent(bubbleDto.getBubbleContent())
+				.bubbleThumbnail(bubbleDto.getBubbleThumbnail())
+				.bubbleState(bubbleDto.isBubbleState())
+				.nickName(nickName)
+				.level(level)
+				.build());
+
+		}
+
 		return BubbleResponseDto.builder()
-			.data(bubblings)
+			.data(bubbleList)
 			.message("success")
 			.build();
 	}
