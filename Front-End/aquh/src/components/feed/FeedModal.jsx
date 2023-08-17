@@ -60,7 +60,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const [feedSymbolList, setFeedSymbolList] = useState([]);
   const [feedUserLevel, setFeedUserLevel] = useState(-1);
   const loginMemberNumber = useRecoilValue(memberNumberState);
-
+  // 재업로드
   useEffect(() => {
     if (modalOpen === true) {
       https
