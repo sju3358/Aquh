@@ -37,22 +37,22 @@ function FeedCard({
       {/* TODO : 카드를 클릭하면 모달창으로 상세페이지 설정 */}
 
       {/* {charImg()} */}
-      <p className={classes.feedHeader}>
+      <div className={classes.feedHeader}>
         <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
         <p className={classes.creator_nickname}>
           &nbsp;&nbsp;&nbsp;{userNickName}&nbsp;&nbsp;&nbsp;
         </p>
         {feedSymbolList != undefined
-          ? feedSymbolList.map((symbol) => {
+          ? feedSymbolList.map((symbol, index) => {
               return (
-                <span>
+                <span key={index}>
                   <img src={`${symbol}`} className={classes.symbolImg} />
                   &nbsp; &nbsp;
                 </span>
               );
             })
           : null}
-      </p>
+      </div>
       <h3 className={classes.feedTitle}>{feedTitle}</h3>
       <p className={classes.feedInfo}>
         <span className={classes.feedCreateDate}>
