@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import classes from "./UserLevelCard.module.css";
 
 //here are the docs: https://www.framer.com/motion/transition/
-export default function UserLevelCard({ maxExp, presentExp }) {
+export default function UserLevelCard({ maxExp, presentExp, remainingExp }) {
   // NaN 에러 해결 Math.round 추가
   const fillPercent = Math.round((presentExp / maxExp) * 100);
 
@@ -18,13 +18,19 @@ export default function UserLevelCard({ maxExp, presentExp }) {
   };
 
   return (
+    <>
+    <div className={classes.textContainer}>
+    <p className={classes.presentText}><span className={classes.dropLevel}>{presentExp}</span> 방울 획득!</p>
+    <p className={classes.maxText}><span className={classes.dropLevel}>{maxExp}</span> 방울</p>
+    </div>
     <div className={classes.track}>
-      <motion.div
+      <motion.div 
         className={classes.inner}
         animate={{ width: `${fillPercent}%` }}
         transition={transition}
       ></motion.div>
     </div>
+    </>
   );
 }
 
