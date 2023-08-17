@@ -78,12 +78,10 @@ export default function BubbleForm({ onSubmit }) {
 
   const { bubbleTitle, bubbleContent, bubbleThumbnail } = bubbleForm;
   return (
-    <div>
+    <div className={classes.container}>
+      <img src="../../aquh2.png"  alt="" className={classes.bubbleIntro} />
       <BubbleImage onSubmit={handleThumbnailSubmit} />
       <form onSubmit={handleSubmit} className={classes.formContainer}>
-        <label htmlFor="imgUrl" className={classes.label}>
-          이미지
-        </label>
         <div className={classes.inputbox}>
           <img
             src={bubbleThumbnail}
@@ -117,14 +115,15 @@ export default function BubbleForm({ onSubmit }) {
             className={`${classes.input} ${classes.textarea}`}
           />
         </div>
-        <label htmlFor="category">카테고리</label>
+        <label htmlFor="category" className={classes.label}>카테고리</label>
         <select
           size="1"
           id="category"
           onChange={handleSelectedOption}
           value={selectedValue}
+          className={classes.select}
         >
-          <option value="0" disabled>
+          <option value="0" disabled className={classes.options}>
             카테고리를 선택하세요
           </option>
           <option value="1">스포츠-운동</option>
