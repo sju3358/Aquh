@@ -27,13 +27,13 @@ export default function Nav() {
             to={memberNumber !== -1 ? "/feed" : "/login"}
             style={{ textDecoration: "none" }}
           >
-            <span className={classes.navItem}>피드</span>
+            <div className={classes.navItem}>피드</div>
           </Link>
           <Link
             to={memberNumber !== -1 ? "/bubble" : "/login"}
             style={{ textDecoration: "none" }}
           >
-            <span className={classes.navItem}>버블</span>
+            <div className={classes.navItem}>버블</div>
           </Link>
 
           {memberNumber !== -1 ? (
@@ -41,19 +41,19 @@ export default function Nav() {
               to={`/auth/${memberNumber}`}
               style={{ textDecoration: "none" }}
             >
-              <span className={classes.navItem}>My</span>
+              <div className={classes.navItem}>My</div>
             </Link>
           ) : null}
           <div className={classes.loginContainer}>
         {memberNumber !== -1 ? (
             <Link to="/logout" style={{ textDecoration: "none" }}>
-              <span className={classes.navItem}>Logout</span>
+              <div className={classes.navItem}>Logout</div>
             </Link>
           ) : null}
 
           {memberNumber === -1 ? (
             <Link to="/login" style={{ textDecoration: "none" }}>
-              <span className={classes.navItem}>Login</span>
+              <div className={classes.navItem}>Login</div>
             </Link>
           ) : null}
       </div>
