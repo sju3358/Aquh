@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import classes from "./UserLevelCard.module.css";
 
 //here are the docs: https://www.framer.com/motion/transition/
-export default function UserLevelCard({ maxExp, presentExp }) {
+export default function UserLevelCard({ maxExp, presentExp, remainingExp }) {
   // NaN 에러 해결 Math.round 추가
   const fillPercent = Math.round((presentExp / maxExp) * 100);
 
