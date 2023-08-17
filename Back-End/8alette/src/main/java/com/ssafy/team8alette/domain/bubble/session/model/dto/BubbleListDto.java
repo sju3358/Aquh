@@ -10,7 +10,7 @@ import lombok.Getter;
 @Data
 @Getter
 @Builder
-public class BubbleDto {
+public class BubbleListDto {
 
 	private Long bubbleNumber;
 
@@ -28,10 +28,13 @@ public class BubbleDto {
 
 	private boolean bubbleState;
 
+	private String nickName;
+
+	private int level;
+
 	@Nullable
 	private LocalDateTime planOpenDate;
 
 	@Nullable
 	private LocalDateTime planCloseDate;
-
 }
