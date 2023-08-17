@@ -107,7 +107,7 @@ function NicknamePage() {
             onChange={onChangeNickName}
           />
           {/* TODO: 유효성검사, 중복확인 로직 필요 */}
-          {nickNameRegexCheck === true ? (
+          {/* {nickNameRegexCheck === true ? (
             <button
               onClick={nickNameCheckAxios}
               className={classes.nicknameCheckBtn}>
@@ -117,7 +117,7 @@ function NicknamePage() {
             <button className={classes.nicknameCheckBtnDisable} disabled>
               중복확인
             </button>
-          )}
+          )} */}
           <div className={classes.info}>
           <p>닉네임은 한번 설정하면 다신 바꿀 수 없으니 신중하게 입력하세요!</p>
           <p className={classes.message}>{inputNicknameMessage}</p>
