@@ -90,7 +90,7 @@
 
 /* flex 하위 - 보낸 메세지 */
 #sendMsgData {
-  background: #4249b3 scroll;
+  background: #4249b3;
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
@@ -156,7 +156,7 @@
 
 /* flex 하위 - 보낸 메세지 */
 #receivedWithdMsgData {
-  background: #ebebeb scroll;
+  background: #ebebeb;
   border-radius: 6px;
   color: #2e2c2c;
   font-size: 14px;
