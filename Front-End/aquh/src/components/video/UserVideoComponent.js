@@ -8,6 +8,10 @@ export default class UserVideoComponent extends Component {
     return JSON.parse(data.split("%")[0]).clientData;
   }
 
+  getUserLevel(data) {
+    console.log(data);
+    return JSON.parse(data.split("%")[0]).memberLevel;
+  }
 
   render() {
     return (
@@ -16,7 +20,10 @@ export default class UserVideoComponent extends Component {
           <div className={classes.streamcomponent}>
             <OpenViduVideoComponent streamManager={this.props.streamManager} />
             <div className={classes.videoProfile}>
-              {this.getUserNickname(this.props.streamManager.stream.connection.data)}
+              <img className={classes.videoProfileImg} src={`../../chat-profile${this.getUserLevel(this.props.streamManager.stream.connection.data)}.png`} alt="AvatarImg" />
+              <div className={classes.videoProfileNickName}>
+                {this.getUserNickname(this.props.streamManager.stream.connection.data)}
+              </div>
             </div>
           </div>
         ) : null}

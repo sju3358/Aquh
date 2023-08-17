@@ -2,6 +2,7 @@
 #chat-box {
   overflow: auto;
   height: 65vh;
+  padding-right: 10px;
 }
 
 /* 메시지 입력란 전체 */
@@ -21,7 +22,7 @@
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
-  width: 86%;
+  width: 90%;
   padding: 12px;
 }
 
