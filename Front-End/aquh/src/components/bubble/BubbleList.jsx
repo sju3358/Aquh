@@ -18,7 +18,7 @@ export default function BubbleList({
   if (selectedType && selectedType !== "전체") {
     filteredBubbles = filteredBubbles.filter(
       (bubble) =>
-        bubble.bubbleType === (selectedType === "버블톡" ? true : false)
+        bubble.bubbleType === (selectedType === "버블톡" ? false : true)
     );
   }
 
