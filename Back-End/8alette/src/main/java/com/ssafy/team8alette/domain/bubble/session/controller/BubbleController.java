@@ -17,6 +17,7 @@ import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbl
 import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
 import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleSessionService;
 import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
@@ -39,6 +40,7 @@ public class BubbleController {
 	private final MemberRecordService memberRecordService;
 	private final AlarmService alarmService;
 	private final MemberService memberService;
+	private final BubbleSessionService bubbleSessionService;
 
 	@LoginRequired
 	@GetMapping("/{bubbleNumber}")
@@ -81,8 +83,12 @@ public class BubbleController {
 
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
-		bubbleService.closeBubble(bubbleNumber, memberNumber);
+		bubbleParticipantService.removeBubbleList(memberNumber, bubbleNumber);
 
+		bubbleSessionService.deleteBubbleSession(memberNumber, bubbleNumber);
+
+		bubbleService.closeBubble(bubbleNumber, memberNumber);
+		
 		return BubbleResponseDto.builder()
 			.message("success")
 			.build();

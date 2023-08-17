@@ -19,7 +19,6 @@ import com.ssafy.team8alette.domain.bubble.tools.repository.CategoryRepository;
 import com.ssafy.team8alette.domain.member.auth.exception.MemberNotExistException;
 import com.ssafy.team8alette.domain.member.auth.model.dao.MemberRepository;
 import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
-import com.ssafy.team8alette.global.exception.UnAuthorizedException;
 import com.ssafy.team8alette.global.util.S3FileManager;
 
 import lombok.RequiredArgsConstructor;
@@ -78,12 +77,12 @@ public class BubbleService {
 		BubbleEntity bubble = bubbleRepository.findBubbleEntityByBubbleNumber(bubbleNumber)
 			.orElseThrow(() -> new BubbleNotFoundException());
 
-		if (bubble.getHostMember().getMemberNumber() != hostMemberNumber)
-			throw new UnAuthorizedException();
+		if (bubble.getHostMember().getMemberNumber() == hostMemberNumber) {
 
-		bubble.setBubbleState(false);
+			bubble.setBubbleState(false);
 
-		bubbleRepository.save(bubble);
+			bubbleRepository.save(bubble);
+		}
 	}
 
 	public BubbleDto getBubbleInfo(Long bubbleNumber) {

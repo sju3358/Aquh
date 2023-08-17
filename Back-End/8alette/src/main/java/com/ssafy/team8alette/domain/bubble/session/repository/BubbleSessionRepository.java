@@ -12,4 +12,6 @@ public interface BubbleSessionRepository {
 	void saveBubbleSession(String sessionId, BubbleSessionEntity bubbleSession);
 
 	Optional<BubbleSessionEntity> findBubbleSessionEntityBySessionId(String sessionId);
+
+	void deleteBubbleSession(String sessionId);
 }
