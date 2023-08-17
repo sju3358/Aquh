@@ -61,7 +61,7 @@ export default function MainPage() {
         </div> */}
         <div className={classes.figureBox}>
           <p className={classes.introMessage}>
-          "요리를 어렵게만 생각했는데 <br/> <span className={classes.emphasize}>실시간으로 다같이 하니까</span> 근사한 만찬이 되었어요!""
+          "요리를 어렵게만 생각했는데 <br/> <span className={classes.emphasize}>실시간으로 다같이 하니까</span> 근사한 만찬이 되었어요!"
           </p>
           
           <img
