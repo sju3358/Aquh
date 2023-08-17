@@ -92,6 +92,9 @@ public class BubbleController {
 
 		bubbleService.closeBubble(bubbleNumber, memberNumber);
 
+		memberRecordService.updateMemberExp(memberNumber, 100);
+		memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+		
 		return BubbleResponseDto.builder()
 			.message("success")
 			.build();
