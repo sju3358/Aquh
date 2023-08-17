@@ -91,7 +91,7 @@ public class BubbleController {
 		bubbleSessionService.deleteBubbleSession(memberNumber, bubbleNumber);
 
 		bubbleService.closeBubble(bubbleNumber, memberNumber);
-		
+
 		return BubbleResponseDto.builder()
 			.message("success")
 			.build();
@@ -145,7 +145,7 @@ public class BubbleController {
 			Member member = memberService.getMemberInfo(bubbleDto.getHostMemberNumber());
 			String nickName = member.getMemberNickname();
 			int level = memberRecordService.getMemberLevel(member.getMemberNumber());
-
+			//
 			bubbleList.add(BubbleListDto.builder()
 				.bubbleNumber(bubbleDto.getBubbleNumber())
 				.hostMemberNumber(bubbleDto.getHostMemberNumber())
