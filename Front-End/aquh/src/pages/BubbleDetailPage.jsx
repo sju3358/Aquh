@@ -5,7 +5,7 @@ import { singleBubble } from "../utils/api/api.bubble_service";
 import { Link } from "react-router-dom";
 import OpenViduChatting from "../components/video/Chatting";
 import { useRecoilValue } from "recoil";
-import { memberNicknameState } from "../store/loginUserInfoState";
+import { memberNicknameState, memberLevelState } from "../store/loginUserInfoState";
 import { memberNumberState } from "../store/loginUserState";
 import { useNavigate } from "react-router-dom";
 export default function BubbleDetailPage() {
@@ -14,6 +14,7 @@ export default function BubbleDetailPage() {
   // TODO: put 'bubbleNumber' into the api
   const memberNickname = useRecoilValue(memberNicknameState);
   const memberNumber = useRecoilValue(memberNumberState);
+  const memberLevel = useRecoilValue(memberLevelState);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function BubbleDetailPage() {
         bubbleType={bubbleType}
         planOpenDate={planOpenDate}
         planCloseDate={planCloseDate}
+        memberLevel={memberLevel}
       />
       {/* <Link to={`/video/${roomNumber}`} style={{ textDecoration: "none" }}>
           참여하기

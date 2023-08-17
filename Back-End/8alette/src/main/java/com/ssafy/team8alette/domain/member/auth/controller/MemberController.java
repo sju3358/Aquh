@@ -22,6 +22,7 @@ import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
 import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
 import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
 import com.ssafy.team8alette.domain.member.auth.util.MailSenderUtil;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
 import com.ssafy.team8alette.global.annotation.LoginRequired;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class MemberController {
 	private final MemberAuthService memberAuthService;
 	private final MailSenderUtil mailSenderUtil;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberRecordService memberRecordService;
 
 	@LoginRequired
 	@GetMapping
@@ -46,7 +48,9 @@ public class MemberController {
 		@RequestParam Optional<String> intro,
 		@RequestParam Optional<String> state,
 		@RequestParam Optional<String> type,
-		@RequestParam Optional<String> emailReceive) throws ParseException {
+		@RequestParam Optional<String> emailReceive,
+		@RequestParam Optional<String> level
+	) throws ParseException {
 
 		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
 
@@ -65,6 +69,7 @@ public class MemberController {
 			data.put("member_name", member.getMemberName());
 			data.put("member_type", member.getMemberType());
 			data.put("member_emailReceive", member.isEmailReceive());
+			data.put("member_level", memberRecordService.getMemberLevel(memberNumber));
 
 		} else {
 
@@ -89,7 +94,9 @@ public class MemberController {
 			if (emailReceive.orElse("N").equals("Y")) {
 				data.put("member_emailReceive", member.isEmailReceive());
 			}
-
+			if (level.orElse("N").equals("Y")) {
+				data.put("member_level", memberRecordService.getMemberLevel(memberNumber));
+			}
 		}
 
 		responseData.put("message", "success");
