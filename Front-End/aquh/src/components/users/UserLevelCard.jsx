@@ -18,13 +18,19 @@ export default function UserLevelCard({ maxExp, presentExp, remainingExp }) {
   };
 
   return (
+    <>
+    <div className={classes.textContainer}>
+    <p className={classes.presentText}><span className={classes.dropLevel}>{presentExp}</span> 방울 획득!</p>
+    <p className={classes.maxText}><span className={classes.dropLevel}>{maxExp}</span> 방울</p>
+    </div>
     <div className={classes.track}>
-      <motion.div
+      <motion.div 
         className={classes.inner}
         animate={{ width: `${fillPercent}%` }}
         transition={transition}
       ></motion.div>
     </div>
+    </>
   );
 }
 
