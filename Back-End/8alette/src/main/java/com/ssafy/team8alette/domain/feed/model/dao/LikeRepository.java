@@ -13,4 +13,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, LikeID> {
 
 	List<LikeEntity> findByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(Long feedNumber, Long memberNumber);
 
+	boolean existsByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(Long feedNumber, Long memberNumber);
+
 }

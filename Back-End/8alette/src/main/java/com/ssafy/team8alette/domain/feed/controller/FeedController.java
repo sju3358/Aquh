@@ -1,5 +1,6 @@
 package com.ssafy.team8alette.domain.feed.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,6 +179,22 @@ public class FeedController {
 			}
 			return new ResponseEntity<>(responseData, HttpStatus.OK);
 		}
+	}
+
+	@LoginRequired
+	@GetMapping("/like/{feedNumber}")
+	public ResponseEntity<?> addLike(@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable Long feedNumber) throws SQLException, ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		boolean isFeedLike = likeService.findTrueOrFalse(memberNumber, feedNumber);
+
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("isClick", isFeedLike);
+		responseData.put("status", 200);
+		return new ResponseEntity<>(responseData, HttpStatus.OK);
+
 	}
 
 	@LoginRequired
