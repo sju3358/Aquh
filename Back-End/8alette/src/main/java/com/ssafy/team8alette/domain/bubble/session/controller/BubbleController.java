@@ -136,7 +136,7 @@ public class BubbleController {
 
 		for (BubbleDto bubbleDto : allBubbleRooms) {
 
-			Member member = memberService.getMemberInfo(bubbleDto.getBubbleNumber());
+			Member member = memberService.getMemberInfo(bubbleDto.getHostMemberNumber());
 			String nickName = member.getMemberNickname();
 			int level = memberRecordService.getMemberLevel(member.getMemberNumber());
 
