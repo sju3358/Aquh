@@ -25,7 +25,7 @@ function NicknamePage() {
   // 닉네임 유효성검사
   const onChangeNickName = (e) => {
     const inputNickname = e.target.value;
-    const usernameRegExp = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{3,10}$/;
+    const usernameRegExp = /^[0-9a-zA-Z가-힣\\d_]{3,10}$/;
     setInputNickname(inputNickname);
 
     if (usernameRegExp.test(inputNickname)) {

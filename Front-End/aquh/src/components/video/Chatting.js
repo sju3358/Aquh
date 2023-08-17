@@ -32,6 +32,7 @@ export default class Chatting extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      cameraState: true,
     };
 
     this.createSession = this.createSession.bind(this);
@@ -146,7 +147,7 @@ export default class Chatting extends Component {
     // --- 1) Get an OpenVidu object ---
 
     this.putSession().then((token) => {
-      if(token !== ""){
+      if (token !== "") {
         this.OV = new OpenVidu();
 
         // --- 2) Init a session ---
@@ -189,8 +190,8 @@ export default class Chatting extends Component {
 
             // Get a token from the OpenVidu deployment
             // this.enterSession(this.state.mySessionId).then((token) => {
-            
-              mySession
+
+            mySession
               .connect(token, { clientData: this.state.myUserName })
               .then(async () => {
                 // --- 5) Get your own camera stream ---
@@ -237,7 +238,7 @@ export default class Chatting extends Component {
                   error.message
                 );
               });
-            }
+          }
         );
       }
     });
@@ -265,39 +266,49 @@ export default class Chatting extends Component {
   }
 
   async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter((device) => device.kind === "videoinput");
-
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
-
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
+    if (this.state.cameraState) {
+      this.state.publisher.publishVideo(false);
+      this.state.publisher.publishAudio(false);
+      this.state.cameraState = false;
     }
+    else {
+      this.state.publisher.publishVideo(true);
+      this.state.publisher.publishAudio(false);
+      this.state.cameraState = true;
+    }
+    // try {
+    //   const devices = await this.OV.getDevices();
+    //   var videoDevices = devices.filter((device) => device.kind === "videoinput");
+
+    //   if (videoDevices && videoDevices.length > 1) {
+    //     var newVideoDevice = videoDevices.filter(
+    //       (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
+    //     );
+
+    //     if (newVideoDevice.length > 0) {
+    //       // Creating a new publisher with specific videoSource
+    //       // In mobile devices the default and first camera is the front one
+    //       var newPublisher = this.OV.initPublisher(undefined, {
+    //         videoSource: newVideoDevice[0].deviceId,
+    //         publishAudio: true,
+    //         publishVideo: true,
+    //         mirror: true,
+    //       });
+
+    //       //newPublisher.once("accessAllowed", () => {
+    //       await this.state.session.unpublish(this.state.mainStreamManager);
+
+    //       await this.state.session.publish(newPublisher);
+    //       this.setState({
+    //         currentVideoDevice: newVideoDevice[0],
+    //         mainStreamManager: newPublisher,
+    //         publisher: newPublisher,
+    //       });
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 
   // { (memberNumber === hostMemberNumber) ?
@@ -328,23 +339,23 @@ export default class Chatting extends Component {
         <Nav />
         <div className={classes.chatroomContainer}>
           <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
-           <div className={classes.titleContainer}>
+          <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
             <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
-           </div>
+          </div>
           <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
-          <FaRegCalendarCheck/> {formatDateTime(planOpenDate)}</p>
+            <FaRegCalendarCheck /> {formatDateTime(planOpenDate)}</p>
           <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
-          <FaRegCalendarTimes/> {formatDateTime(planCloseDate)}</p>
+            <FaRegCalendarTimes /> {formatDateTime(planCloseDate)}</p>
           <p className={classes.chattingContent}>내용</p>
           <div className={classes.chattingContentBox}>{bubbleContent} </div>
 
           <div className={classes.entranceButtonContainer}>
-          {memberNumber === hostNumber ? (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt/>&nbsp; 채팅방 생성 </button>
-          ) : (
-            <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt/>&nbsp; 채팅방 입장 </button>
-          )}
+            {memberNumber === hostNumber ? (
+              <button className={classes.entranceButton} onClick={buttonActive ? this.createSession : null}><FaSignInAlt />&nbsp; 채팅방 생성 </button>
+            ) : (
+              <button className={classes.entranceButton} onClick={buttonActive ? this.joinSession : null}><FaSignInAlt />&nbsp; 채팅방 입장 </button>
+            )}
           </div>
         </div>
       </div>
@@ -361,30 +372,28 @@ export default class Chatting extends Component {
         <h1 className={classes.sessionTitle}>{bubbleTitle}</h1>
         <div className={classes.videoPage}>
           <div className={classes.sessionMain}>
-           
-              {this.state.publisher !== undefined ? (
-                <div className={classes.streamContainer}>
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={sub.id} className={classes.streamContainer}>
-                  {/* <span>{sub.id}</span> */}
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
+
+            {this.state.publisher !== undefined ? (
+              <div className={classes.streamContainer}>
+                <UserVideoComponent streamManager={this.state.publisher} />
+              </div>
+            ) : null}
+            {/* 나 제외 들어온 사람들 보이는 화면 -> 5개로 만들기 */}
+            {this.state.subscribers.map((sub, i) => (
+              <div key={sub.id} className={classes.streamContainer}>
+                {/* <span>{sub.id}</span> */}
+                <UserVideoComponent streamManager={sub} />
+              </div>
+            ))}
           </div>
           <div className={classes.sessionRight}>
             <div className={classes.sessionNav}>
               <button className={classes.controlBtn}
-                onClick={this.leaveSession}><ImExit/>
+                onClick={this.leaveSession}><ImExit />
               </button>
-              {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
               <button className={classes.switchCameraBtn}
                 onClick={this.switchCamera}>카메라끄기
               </button>
-              {/* TODO : 이부분 버튼형식으로 못바꾸나? */}
             </div>
             <div className={classes.sessionChat}>
               <ChattingSection bubbleNum={this.state.mySessionId} />
@@ -416,22 +425,42 @@ export default class Chatting extends Component {
   }
 
   async putSession() {
-      console.log("this is your sessionID: " + this.state.mySessionId);
-      const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
-        {},
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      ).catch((error) =>{
-        alert("아직 채팅방이 생성되지 않았습니다");
-        console.log(error);
-      });
-      
-      
-      if(response != undefined)
-        return await response.data.token; // The token  
-      else
-        return "";
+    console.log("this is your sessionID: " + this.state.mySessionId);
+    const response = await https.put("api/v1/bubble-session/" + this.state.mySessionId,
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    ).catch((error) => {
+      alert("아직 채팅방이 생성되지 않았습니다");
+      console.log(error);
+    });
+
+
+    if (response != undefined)
+      return await response.data.token; // The token  
+    else
+      return "";
   }
-  
+  cameraToggle() {
+    if (this.state.cameraState) {
+      this.state.publisher.publishVideo(false);
+      this.state.cameraState = false;
+    }
+    else {
+      this.state.publisher.publishVideo(true);
+      this.state.cameraState = true;
+    }
+  }
+
+  audioToggle() {
+    if (this.state.audioState) {
+      this.state.publisher.publishAudio(false);
+      this.state.audioState = false;
+    }
+    else {
+      this.state.publisher.publishAudio(false);
+      this.state.audioState = true;
+    }
+  }
 }
