@@ -59,7 +59,7 @@ export default function BubbleCard({
           style={{ color: "white" }}
           className={classes.detailLink}
         >
-          참여하기
+          자세히 보기
         </Link>
       </button>
     </div>
