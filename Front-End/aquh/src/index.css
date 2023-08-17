@@ -23,6 +23,7 @@ body {
 
 body::-webkit-scrollbar {
   width: 8px;  /* 스크롤바의 너비 */
+  height: 8px;
 }
 
 body::-webkit-scrollbar-thumb {
