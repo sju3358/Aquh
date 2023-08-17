@@ -23,4 +23,8 @@ public class BubbleSessionRepositoryMap implements BubbleSessionRepository {
 		return Optional.ofNullable(bubbleSessions.get(sessionId));
 	}
 
+	public void deleteBubbleSession(String sessionId) {
+		bubbleSessions.remove(sessionId);
+	}
+
 }
