@@ -69,6 +69,8 @@ export default function UserFeedList() {
                           userNickName={feed.nickName}
                           setModalOpen={setModalOpen}
                           feedLevel={feed.level}
+                          feedLikeCount={feed.feedLikeCnt}
+                          feedSymbolList={feed.symbolLink}
                           // setClickedFeedNum={setClickedFeedNum}
                         />
                       </div>
