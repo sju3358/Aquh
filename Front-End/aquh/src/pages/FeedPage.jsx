@@ -143,9 +143,9 @@ function FeedPage() {
                       feedCreateDate={feed.createDate}
                       feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
-                      feedLikeCount={feed.feedLikeCount}
-                      feedSymbolList={feed.symbolLink}
                       userNickName={feed.nickName}
+                      feedLikeCount={feed.feedLikeCnt}
+                      feedSymbolList={feed.symbolLink}
                       setModalOpen={setModalOpen}
                       setclickedFeedNumber={setclickedFeedNumber}
                       feedLevel={feed.level}
