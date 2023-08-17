@@ -51,6 +51,16 @@ function FeedCard({
         <span className={classes.feedLike}>좋아요 수 : {feedLikeCount}</span>
       </p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
+      <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
+      {feedSymbolList != undefined
+        ? feedSymbolList.map((symbol) => {
+            return (
+              <div>
+                <img src={`${symbol}`} className={classes.profileImg} />
+              </div>
+            );
+          })
+        : null}
       <p className={classes.feedContent}> {feedContent}</p>
       {feedImage && (
         <img
