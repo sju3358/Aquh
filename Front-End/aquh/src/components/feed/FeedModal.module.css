@@ -5,8 +5,6 @@
 .modalReadContainer {
   display: flex;
   flex-direction: column;
-  /* padding: 30px; */
-  padding: 50px;
 
 }
 .title {
@@ -142,9 +140,6 @@
 }
 
 
-
-
-
 .uploadFeedName {
   padding: 1.5rem;
   border-radius: 1rem;
@@ -201,3 +196,89 @@
   height: 24px;
   margin-right: 8px;
 }
+
+.FeedCard {
+  background-color: rgb(255, 255, 255);
+  width: 950px;
+  max-height: 600px;
+  border-radius: 10px;
+  margin: 20px;
+  cursor: pointer;
+  padding: 30px 40px;
+  &:hover {
+    background-color: rgba(229, 229, 233, 0.707);
+    color: black;
+  }
+}
+.FeedDetailCard {
+  background-color: rgb(255, 255, 255);
+  width: 950px;
+  max-height: 600px;
+  border-radius: 10px;
+  margin: 20px;
+  cursor: pointer;
+  padding: 30px 40px;
+}
+
+/*  */
+
+.feedHeader{
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedHeaderProfile{
+  width: 40%;
+  height: 36px;
+  background-color: #95C6FF;
+  border-radius: 2rem;
+  display: flex;
+}
+
+.feedCardImg {
+  max-height: 400px;
+  max-width: 400px;
+  /* height: 70%; */
+}
+
+.feedDetailTitle {
+  font-size: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.feedDetailContent {
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+.feedCreateDate {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.creator_nickname {
+  font-size: 18px;
+  align-self: center;
+}
+
+.profileImg{
+  margin-top: 3px;
+  margin-left: 3px;
+  width: 30px;
+  height: 30px;
+}
+
+.feedInfo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedLike{
+  font-size: 14px;
+}
+
+.symbolImg{
+  margin-top: 4px;
+  width: 28px;
+  height: 28px;
+}
+
+
