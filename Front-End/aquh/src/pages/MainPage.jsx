@@ -51,23 +51,28 @@ export default function MainPage() {
             className={classes.dynamicEmojies}
           />
           <p className={classes.introMessage}>
-            "제가 항상 그림을 잘 그리는지 못그리는지 궁금했는데 <br />{" "}
-            사람들에게 보여주고 얘기를 들어볼 수 있어서 너무 좋아요!"
+          "집에서 혼자서만 그리던 그림들을 <span className={classes.emphasize}>다른 사람들과 공유</span>하니<br/> 내 방속에 갤러리를 오픈 한 것 같은 기분이에요"
           </p>
         </div>
+        {/* <div className={classes.handclap}>
+        <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
+        <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
+        <img className={classes.line} src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands%20Light%20Skin%20Tone.png" alt="Clapping Hands Light Skin Tone" width="25" height="25" />
+        </div> */}
         <div className={classes.figureBox}>
           <p className={classes.introMessage}>
-            "사진찍는 취미에 대해 말할 수 잇어서 어쩌구저쩌구저쩌구 어쩌구
-            <br /> "
+          "요리를 어렵게만 생각했는데 <br/> <span className={classes.emphasize}>실시간으로 다같이 하니까</span> 근사한 만찬이 되었어요!""
           </p>
+          
           <img
-            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Camera%20with%20Flash.png"
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20Cook%20Light%20Skin%20Tone.png"
             alt="Camera with Flash"
             width="25"
             height="25"
             className={classes.dynamicEmojies}
           />
         </div>
+        
         <img
           src="../../bubbletalk-main.png"
           alt="bubblingTalk"
@@ -75,15 +80,14 @@ export default function MainPage() {
         />
         <div className={classes.figureBox}>
           <img
-            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Man%20Lifting%20Weights%20Medium-Dark%20Skin%20Tone.png"
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Woman%20in%20Lotus%20Position%20Medium%20Skin%20Tone.png"
             alt="Man Lifting Weights Medium-Dark Skin Tone"
             width="25"
             height="25"
             className={classes.dynamicEmojies}
           />
           <p className={classes.introMessage}>
-            "운동을 즐기면서 어쩌구 ㅈ저쩌구 같이할 수 잇는 사람을 찾습니다
-            어쩌구"
+         "아쿠아에서 <span className={classes.emphasize}>다른 사람들과 명상하는 모임</span>을 시작한 뒤<br/> 더 생산적으로 하루를 시작하게 되었어요"
             <br />{" "}
           </p>
         </div>
