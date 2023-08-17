@@ -38,6 +38,7 @@ export default function BubbleForm({ onSubmit, onClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBubbleForm({
+      
       ...bubbleForm,
       hostMemberNumber: memberNumber,
       [name]: value,
