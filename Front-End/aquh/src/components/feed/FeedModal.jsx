@@ -52,7 +52,8 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
   const [isModify, setIsModify] = useState();
   const [feedInputTitle, setInputFeedTitle] = useState("");
   const [feedInputContent, setInputFeedConTent] = useState("");
-
+  const [feedSymbolList, setFeedSymbolList] = useState([]);
+  const [feedUserLevel, setFeedUserLevel] = useState(-1);
   const loginMemberNumber = useRecoilValue(memberNumberState);
 
   useEffect(() => {
@@ -66,6 +67,9 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
           setFeedCreatorNumber(responseData.data.data.feedCreatorNumber);
           setFeedCreateTime(responseData.data.data.createDate);
           setFeedImageUrl(responseData.data.data.img_url);
+          setFeedSymbolList(responseData.data.data.symbolNumber);
+          setFeedUserLevel(responseData.data.data.level);
+          console.log(responseData.data);
 
           https
             .get(`/api/v1/feed/like/${feedNumber}`)
@@ -231,6 +235,22 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
       <div className={classes.modalReadContainer}>
         <h3 className={classes.title}> {feedTitle}</h3>
         <div className={classes.nickname}>{feedMemberNickname}</div>
+        <img
+          src={`../../pfp${feedUserLevel}.png`}
+          className={classes.profileImg}
+        />
+        {feedSymbolList != undefined
+          ? feedSymbolList.map((symbol) => {
+              return (
+                <div>
+                  <img
+                    src={`${symbol.symbolImgName}`}
+                    className={classes.profileImg}
+                  />
+                </div>
+              );
+            })
+          : null}
         <div className={classes.createTime}>작성시간 : {feedCreateTime}</div>
 
         <button className={classes.likeButton} onClick={onClickLikeBtn}>
