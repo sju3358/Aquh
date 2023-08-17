@@ -32,6 +32,7 @@ function FeedPage() {
       })
       .then((res) => {
         setNewList(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log("에러", err);
@@ -102,6 +103,8 @@ function FeedPage() {
                       feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
                       userNickName={feed.nickName}
+                      feedLikeCount={feed.feedLikeCnt}
+                      feedSymbolList={feed.symbolNumber}
                       setModalOpen={setModalOpen}
                       setclickedFeedNumber={setclickedFeedNumber}
                       feedLevel={feed.level}
@@ -141,6 +144,8 @@ function FeedPage() {
                       feedCreateDate={feed.createDate}
                       feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
+                      feedLikeCount={feed.feedLikeCount}
+                      feedSymbolList={feed.symbolNumber}
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
                       setclickedFeedNumber={setclickedFeedNumber}
