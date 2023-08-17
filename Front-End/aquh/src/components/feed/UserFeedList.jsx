@@ -7,7 +7,7 @@ import FeedModal from "./FeedModal";
 
 export default function UserFeedList() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [clickFeedData, setClickFeedData] = useState();
+  const [clickedFeedNumber, setClickedFeedNumber] = useState(-1);
   const [feedList, setFeedList] = useState([]);
 
   useEffect(() => {
@@ -21,22 +21,6 @@ export default function UserFeedList() {
         console.log(error);
       });
   }, []);
-
-  useEffect(() => {
-    if (modalOpen === true) {
-      https
-        .get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`)
-        .then((responseData) => {
-          console.log(responseData);
-          setClickFeedData(responseData.data.data);
-        })
-        .then((error) => {
-          console.log(error);
-        });
-    }
-  }, [modalOpen]);
-
-  console.log("feedListttttttttttttttttt", feedList);
 
   return (
     <div className={classes.feedPage}>
@@ -71,7 +55,7 @@ export default function UserFeedList() {
                           feedLevel={feed.level}
                           feedLikeCount={feed.feedLikeCnt}
                           feedSymbolList={feed.symbolLink}
-                          // setClickedFeedNum={setClickedFeedNum}
+                          setclickedFeedNumber={setClickedFeedNumber}
                         />
                       </div>
                     );
@@ -80,7 +64,7 @@ export default function UserFeedList() {
                 <FeedModal
                   modalOpen={modalOpen}
                   setModalOpen={setModalOpen}
-                  clickFeedData={clickFeedData}
+                  feedNumber={clickedFeedNumber}
                 />
               </div>
             ) : null}
