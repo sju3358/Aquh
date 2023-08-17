@@ -74,7 +74,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
           setFeedImageUrl(responseData.data.data.img_url);
           setFeedSymbolList(responseData.data.data.symbolNumber);
           setFeedUserLevel(responseData.data.data.level);
-          console.log(responseData.data);
+          // console.log(responseData.data);
 
           https
             .get(`/api/v1/feed/like/${feedNumber}`)
@@ -86,7 +86,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
             });
         })
         .then((error) => {
-          console.log(error);
+          // console.log(error);
         });
     }
   }, [modalOpen]);
@@ -97,7 +97,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
     https
       .post("/api/v1/feed/like", { feedNumber, memberNumber })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((error) => {
         console.log(error);
@@ -120,7 +120,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
     } else {
       setInputFileName("사진이 없습니다");
     }
-    console.log("ASDFASDF 여기 파일임", inputFileData);
+    // console.log("ASDFASDF 여기 파일임", inputFileData);
   };
 
   const onClinkModifyBtn = () => {
@@ -213,7 +213,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
         <div className={classes.feedFile}>
           <input
             className={classes.uploadFeedName}
-            Value={inputFileName}
+            value={inputFileName}
             placeholder="첨부파일"
             readOnly={true}
           />
@@ -240,7 +240,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
       <div className={classes.modalReadContainer}>
         <div className={classes.FeedDetailCard}>
           <div className={classes.feedHeader}>
-            <p className={classes.feedHeaderProfile}>
+            <div className={classes.feedHeaderProfile}>
               <img
                 src={`../../pfp${feedUserLevel}.png`}
                 className={classes.profileImg}
@@ -249,9 +249,9 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
                 &nbsp;&nbsp;&nbsp;{feedMemberNickname}&nbsp;&nbsp;&nbsp;
               </p>
               {feedSymbolList != undefined
-                ? feedSymbolList.map((symbol) => {
+                ? feedSymbolList.map((symbol, index) => {
                     return (
-                      <span>
+                      <span key={index}>
                         <img
                           src={`${symbol.symbolImgName}`}
                           className={classes.symbolImg}
@@ -261,7 +261,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
                     );
                   })
                 : null}
-            </p>
+            </div>
             <button className={classes.likeButton} onClick={onClickLikeBtn}>
               <img
                 src={feedIsClickLikeBtn ? fullHeart : emptyHeart}
