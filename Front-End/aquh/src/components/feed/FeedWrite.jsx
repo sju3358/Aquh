@@ -32,7 +32,7 @@ function FeedWrite() {
       setFile(null);
       setFileName("사진이 없습니다");
     }
-    console.log("여기 파일임", currentFile);
+    // console.log("여기 파일임", currentFile);
   };
 
   const onClinkWriteBtn = () => {
