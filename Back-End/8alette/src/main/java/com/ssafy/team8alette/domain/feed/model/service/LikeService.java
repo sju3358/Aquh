@@ -29,7 +29,7 @@ public class LikeService {
 		FeedEntity feedEntity = feedRepository.findFeedByFeedNumber(feedNumber);
 		Member member = memberRepository.findById(memberNumber).orElse(null);
 
-		if (likeRepository.findByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(feedNumber, memberNumber).isEmpty()) {
+		if (likeRepository.findByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(feedNumber, memberNumber) == null) {
 			LikeID likeID = new LikeID(feedNumber, memberNumber);
 			LikeEntity likeEntityDTO = new LikeEntity();
 			likeEntityDTO.setLikeID(likeID);
@@ -65,7 +65,15 @@ public class LikeService {
 		memberRecordService.updateMemberLikeGiveCnt(member.getMemberNumber(), -1);
 		memberRecordService.updateMemberReceiveCnt(feedEntity.getMember().getMemberNumber(), -1);
 		return false;
-		
+
+	}
+
+	public boolean findTrueOrFalse(Long feedNumber, Long memberNumber) {
+
+		boolean trueOrFalse = likeRepository.findByLikeIDLikeFeedNumberAndLikeIDLikeMemberNumber(feedNumber,
+			memberNumber) != null;
+
+		return trueOrFalse;
 	}
 
 }
