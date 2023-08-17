@@ -26,7 +26,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
       // width: "80rem",
       display: "flex",
       justifyContent: "center",
-      flexDirextion: "column",
+      // flexDirection: "column",
       backgroundColor: "#ffffff",
       overflow: "auto",
       zIndex: 10,
@@ -53,7 +53,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
 
   //수정 관련 state
   const [inputFile, setInputFile] = useState();
-  const [inputFileName, setInputFileName] = useState(null);
+  const [inputFileName, setInputFileName] = useState("");
   const [isModify, setIsModify] = useState();
   const [feedInputTitle, setInputFeedTitle] = useState("");
   const [feedInputContent, setInputFeedConTent] = useState("");
@@ -217,7 +217,7 @@ export default function FeedModal({ setModalOpen, modalOpen, feedNumber }) {
             placeholder="첨부파일"
             readOnly={true}
           />
-          <label for="newFile" className={classes.feedFileLabel}>
+          <label htmlFor="newFile" className={classes.feedFileLabel}>
             파일찾기
           </label>
           <input
