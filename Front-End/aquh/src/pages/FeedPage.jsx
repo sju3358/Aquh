@@ -32,7 +32,6 @@ function FeedPage() {
       })
       .then((res) => {
         setNewList(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("에러", err);
