@@ -18,7 +18,7 @@ export default function BubblePage() {
   const [selectedType, setSelectedType] = useState(null);
   const [joinedBubbles, setJoinedBubbles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [refreshKey, setRefreshKey] = useState(0);
   // fetch CategoryList
   useEffect(() => {
     const fetchBubbleCategory = async () => {
@@ -46,7 +46,7 @@ export default function BubblePage() {
       }
     };
     fetchBubbleList();
-  }, []);
+  }, [refreshKey]);
 
   //fetch JoinedBubbleList
   useEffect(() => {
@@ -75,7 +75,8 @@ export default function BubblePage() {
     https
       .post("api/v1/bubble", form)
       .then((response) => {
-        console.log("방생성 성공", response);
+        console.log("방생성 성공", response)
+        setRefreshKey(prev => prev + 1);
       })
       .catch((error) => {
         console.log("방생성 실패", error);
@@ -126,7 +127,7 @@ export default function BubblePage() {
         </button>
       </div>
       <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <BubbleForm onSubmit={handleFormSubmit} />
+        <BubbleForm onSubmit={handleFormSubmit} onClose={() => setIsModalOpen(false)} />
       </Modal>
 
       <div className={classes.oldChat}>

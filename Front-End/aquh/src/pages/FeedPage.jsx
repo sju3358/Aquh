@@ -16,6 +16,9 @@ function FeedPage() {
   const [filter, setFilter] = useState("recent");
   const [renderFlag, setRenderFlag] = useState(1);
 
+  const [clickedFeedNumber, setclickedFeedNumber] = useState(-1);
+  const [modalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     getList(filter);
   }, [renderFlag]);
@@ -49,23 +52,6 @@ function FeedPage() {
     setIsPopular(true);
     setRenderFlag(renderFlag + 1);
   };
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [clickFeedData, setClickFeedData] = useState();
-
-  useEffect(() => {
-    if (modalOpen === true) {
-      https
-        .get(`/api/v1/feed/${localStorage.getItem("feedNumber")}`)
-        .then((responseData) => {
-          console.log(responseData);
-          setClickFeedData(responseData.data.data);
-        })
-        .then((error) => {
-          console.log(error);
-        });
-    }
-  }, [modalOpen]);
 
   return (
     <div className={classes.feedPage}>
@@ -116,7 +102,10 @@ function FeedPage() {
                       feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
                       userNickName={feed.nickName}
+                      feedLikeCount={feed.feedLikeCnt}
+                      feedSymbolList={feed.symbolLink}
                       setModalOpen={setModalOpen}
+                      setclickedFeedNumber={setclickedFeedNumber}
                       feedLevel={feed.level}
                     />
                   </div>
@@ -126,7 +115,7 @@ function FeedPage() {
             <FeedModal
               modalOpen={modalOpen}
               setModalOpen={setModalOpen}
-              clickFeedData={clickFeedData}
+              feedNumber={clickedFeedNumber}
             />
           </div>
         ) : null}
@@ -154,8 +143,11 @@ function FeedPage() {
                       feedCreateDate={feed.createDate}
                       feedImage={feed.feedImgTrans}
                       feedNumber={feed.feedNumber}
+                      feedLikeCount={feed.feedLikeCount}
+                      feedSymbolList={feed.symbolLink}
                       userNickName={feed.nickName}
                       setModalOpen={setModalOpen}
+                      setclickedFeedNumber={setclickedFeedNumber}
                       feedLevel={feed.level}
                     />
                   </div>
@@ -165,7 +157,7 @@ function FeedPage() {
             <FeedModal
               modalOpen={modalOpen}
               setModalOpen={setModalOpen}
-              clickFeedData={clickFeedData}
+              feedNumber={clickedFeedNumber}
             />
           </div>
         ) : null}

@@ -1,6 +1,6 @@
 import AuthPage from '../pages/AuthPage';
 import { RecoilRoot } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 export default {
   component: AuthPage,
 }

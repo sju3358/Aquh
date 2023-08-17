@@ -1,7 +1,7 @@
 /*채팅 들어있는 박스 하나->이걸로 세로길이 조정 */
 #chat-box {
   overflow: auto;
-  height: 70vh;
+  height: 65vh;
 }
 
 /* 메시지 입력란 전체 */
@@ -90,7 +90,7 @@
 
 /* flex 하위 - 보낸 메세지 */
 #sendMsgData {
-  background: #4249b3 scroll;
+  background: #4249b3;
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
@@ -156,7 +156,7 @@
 
 /* flex 하위 - 보낸 메세지 */
 #receivedWithdMsgData {
-  background: #ebebeb scroll;
+  background: #ebebeb;
   border-radius: 6px;
   color: #2e2c2c;
   font-size: 14px;
@@ -175,5 +175,22 @@
   padding-top: 3px;
   background-color: white;
   margin-bottom: 10px;
+}
+
+#chat-box::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+}
+
+#chat-box::-webkit-scrollbar-thumb {
+  height: 20%; /* 스크롤바의 길이 */
+  background: #217af4; /* 스크롤바의 색상 */
+  overflow: scroll;
+  border-radius: 2rem;
+}
+
+#chat-box::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
 }
 

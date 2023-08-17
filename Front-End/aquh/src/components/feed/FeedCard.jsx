@@ -8,7 +8,7 @@ import FeedModal from "./FeedModal";
 import Modal from "react-modal";
 import https from "../../utils/https";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import emptyHeart from "../../assets/emptyHeart.png";
 import fullHeart from "../../assets/fullHeart.png";
 
@@ -17,19 +17,17 @@ function FeedCard({
   feedContent,
   feedCreateDate,
   feedImage,
-  feedNumber,
   setModalOpen,
+  feedNumber,
+  setclickedFeedNumber,
   userNickName,
   feedLevel,
+  feedLikeCount,
+  feedSymbolList,
 }) {
-  // const [liked, setLiked] = useState(false);
-  // const toggleLike = () => {
-  //   setLiked(!liked);
-  // };
-
   // 글 상세보기 modal 오픈, 글 불러오기
   const openModal = () => {
-    localStorage.setItem("feedNumber", feedNumber);
+    setclickedFeedNumber(feedNumber);
     setModalOpen(true);
   };
 
@@ -39,19 +37,31 @@ function FeedCard({
       {/* TODO : 카드를 클릭하면 모달창으로 상세페이지 설정 */}
 
       {/* {charImg()} */}
-      <p className={classes.creator_nickname}>{userNickName} </p>
+      <p className={classes.feedHeader}>
+        <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
+        <span className={classes.creator_nickname}>
+          &nbsp;&nbsp;&nbsp;{userNickName}
+        </span>
+      </p>
       <h3 className={classes.feedTitle}>{feedTitle}</h3>
-      <p className={classes.feedCreateDate}>작성 날짜 : {feedCreateDate}</p>
+      <p className={classes.feedInfo}>
+        <span className={classes.feedCreateDate}>
+          작성 날짜 : {feedCreateDate}
+        </span>
+        <span className={classes.feedLike}>좋아요 수 : {feedLikeCount}</span>
+      </p>
       {/* TODO : 생성일 0분전으로 바꾸는 로직 */}
       <img src={`../../pfp${feedLevel}.png`} className={classes.profileImg} />
+      {feedSymbolList != undefined
+        ? feedSymbolList.map((symbol) => {
+            return (
+              <div>
+                <img src={`${symbol}`} className={classes.profileImg} />
+              </div>
+            );
+          })
+        : null}
       <p className={classes.feedContent}> {feedContent}</p>
-      {/* <button className={classes.likeButton} onClick={toggleLike}>
-        <img
-          src={liked ? fullHeart : emptyHeart}
-          alt={liked ? "full_heart" : "empty_heart"}
-        />
-      </button> */}
-
       {feedImage && (
         <img
           className={classes.feedCardImg}
