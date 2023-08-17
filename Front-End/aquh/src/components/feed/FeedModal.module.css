@@ -1,7 +1,13 @@
+*{
+  font-family: pretendard;
+}
+
 .modalReadContainer {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  /* padding: 30px; */
+  padding: 50px;
+
 }
 .title {
   font-size: 25px;
@@ -22,21 +28,49 @@
   display: flex;
   justify-content: center;
 }
+
+
 .buttonRewrite {
   border-radius: 10px;
-  background: #2442a1aa;
+  background: #9ac8f4;
   color: #131111;
   cursor: pointer;
   font-weight: 700;
-  padding: 13px;
-  margin: 20px;
+  padding: 1rem;
+  border-radius:3rem;
+  appearance: none;
   border: none;
+  width: 10rem;
   &:hover,
   &:active {
-    background-color: #3f5cbd;
+    background-color: rgb(86, 142, 255);
     color: #eaf1f7;
-  }
+  } 
 }
+
+.findFeedFile{
+  display: flex;
+  align-items: center;
+}
+
+.modifyFeedFile{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+/* .buttonRewrite:hover {
+  border: 2px solid rgb(102, 137, 152);
+} */
+.buttonRewrite:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(86, 142, 255);
+}
+
+
+
 .buttonDelete {
   border-radius: 10px;
   background: #f45555c3;
@@ -54,42 +88,76 @@
 }
 
 /* modal 내 수정페이지 */
+.feedWriteCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+
+
 .feedTitle {
-  width: 70%;
-  margin: 10px 0px;
-  background-color: #c8c9cd;
-  padding: 2px;
-  border: none;
+  width: 100%;
+  margin: 2rem 0px;
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.488);
   &:focus {
     outline: none;
   }
   border-radius: 20px;
 }
+
+.feedTitle:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedTitle:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}
+
+
+
 .feedContent {
   /* width: 70%; */
   resize: none;
   margin: 10px 0px;
-  background-color: #c8c9cd;
-  padding: 2px;
-  border: none;
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.488);
   &:focus {
     outline: none;
   }
   border-radius: 20px;
 }
+
+.feedContent:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedContent:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}
+
+
+
+
+
 .uploadFeedName {
-  margin: 0px 20px;
-  display: inline-block;
-  height: 45px;
-  padding: 14px;
+  padding: 1.5rem;
   border-radius: 1rem;
   color: #6c6767;
-  background-color: #e0e0e0af;
-
+  background-color: #ecebebcc;
   border: 1px solid #ddddddb9;
-  /* &:focus {
+  &:focus {
     outline: none;
-  } */
+  }
+}
+
+.feedFile{
+  display: inline-block;
 }
 .feedImgRealBtn {
   position: absolute;
@@ -100,19 +168,21 @@
   border: 0;
 }
 .feedFileLabel {
+  /* border-radius: */
+  padding: 1rem;
   display: inline-block;
-  border-radius: 1rem;
-  padding: 10px;
+  border-radius: 3rem;
   color: #020202;
-  background-color: #ffffffac;
+  background-color: #ecebebcc;
   cursor: pointer;
-  height: 45px;
   font-size: 14px;
-  padding: 14px;
-  margin-left: 15px;
+  padding: 1.5rem;
+  /* margin: 1rem; */
+  margin-left: 1rem;
+  margin-right: 1rem;
   &:hover,
   &:active {
-    background-color: #acacaccc;
+    background-color: #cecececc;
     color: #262626;
   }
 }
