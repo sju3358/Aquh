@@ -27,4 +27,5 @@
 .dropLevel {
   appearance: none;
   text-decoration: none;
+  background-color: none;
 }
