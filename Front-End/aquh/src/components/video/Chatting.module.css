@@ -191,10 +191,16 @@ a:hover .demo-logo {
   border-radius: 10px;
   background-color: #d8e7ff;
   box-shadow: 0 0 30px rgba(58, 99, 160, 0.795); */
-  width: 30rem;
-  height: 70rem;
+  display: flex;
+  height: auto;
   margin: auto; 
   /* overflow: hidden; */
+  background-color: rgb(206, 218, 255);
+  width: 80rem;
+  padding: 50px;
+  border-radius: 2rem;
+  justify-content: space-around;
+  margin-top: 100px;
 }
 
 @media (max-width: 768px) {
@@ -206,23 +212,26 @@ a:hover .demo-logo {
 
 
 .thumnailImg {
+  display: block;
   border-radius: 1rem;
   width: 23rem;
   height: 12rem;
   align-self: center;
-  margin: 10px;
 }
 
 .titleContainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
   justify-content: space-between;
+  margin: 20px;
 }
+
 .chatingTitle{
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-left: 0.5rem;
+  margin : 10px;
 }
 
 .bubbleType{
@@ -265,11 +274,13 @@ a:hover .demo-logo {
 
 .chattingContentBox{
   background-color: #ffffff;
+  color: #3c87ff;
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .entranceButtonContainer{
@@ -282,18 +293,20 @@ a:hover .demo-logo {
   position: relative;
   bottom: 0;
   right: 0;
-  background-color: #d8e7ff;
+  background-color: #3c87ff;
   border: 1px solid #000000;
   border-radius: 999px; /* 큰 값을 주어 둥근 모양 생성 */
   padding: 10px 20px;
-  color: black;
+  color: white;
   font-size: 1.4rem;
   cursor: pointer;
   z-index: 10;
+  border : none;
 }
 
 .entranceButton:hover {
   background-color: #acc6f1; /* 마우스 오버 시 더 진한 색상으로 변경 */
+  color: black;
 }
 
 .thumbnailImg{

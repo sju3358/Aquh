@@ -354,33 +354,33 @@ export default class Chatting extends Component {
           <img src={bubbleThumbnail} alt="" className={classes.thumbnailImg}></img>
           <div className={classes.titleContainer}>
             <p className={classes.chatingTitle}> {bubbleTitle}</p>
-            <p className={classes.bubbleType}>여기 타입 {bubbleType}</p>
-          </div>
-          <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
-            <FaRegCalendarCheck /> {formatDateTime(planOpenDate)}</p>
-          <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
-            <FaRegCalendarTimes /> {formatDateTime(planCloseDate)}</p>
-          <p className={classes.chattingContent}>내용</p>
-          <div className={classes.chattingContentBox}>{bubbleContent} </div>
 
-          <div className={classes.entranceButtonContainer}>
-            {memberNumber === hostNumber ? (
-              <button
-                className={classes.entranceButton}
-                onClick={buttonActive ? this.createSession : null}
-              >
-                <FaSignInAlt />
-                &nbsp; 채팅방 생성{" "}
-              </button>
-            ) : (
-              <button
-                className={classes.entranceButton}
-                onClick={buttonActive ? this.joinSession : null}
-              >
-                <FaSignInAlt />
-                &nbsp; 채팅방 입장{" "}
-              </button>
-            )}
+            {/* <p className={classes.openDate}> 생성 일자 :&nbsp;&nbsp;
+              <FaRegCalendarCheck /> {formatDateTime(planOpenDate)}</p>
+            <p className={classes.closeDate}> 종료 일자 :&nbsp;&nbsp;
+              <FaRegCalendarTimes /> {formatDateTime(planCloseDate)}</p> */}
+            {/* <p className={classes.chattingContent}>내용</p> */}
+            <p className={classes.chattingContentBox}>{bubbleContent} </p>
+
+            <div className={classes.entranceButtonContainer}>
+              {memberNumber === hostNumber ? (
+                <button
+                  className={classes.entranceButton}
+                  onClick={buttonActive ? this.createSession : null}
+                >
+                  <FaSignInAlt />
+                  &nbsp; 채팅방 생성{" "}
+                </button>
+              ) : (
+                <button
+                  className={classes.entranceButton}
+                  onClick={buttonActive ? this.joinSession : null}
+                >
+                  <FaSignInAlt />
+                  &nbsp; 채팅방 입장{" "}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
