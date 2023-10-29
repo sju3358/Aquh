@@ -1,0 +1,12 @@
+.login {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  align-self: center;
+}
+
+.naverLogin {
+  width: 25rem;
+  height: 6rem;
+  cursor: pointer;
+}

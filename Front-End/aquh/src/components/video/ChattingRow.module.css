@@ -1,0 +1,54 @@
+/* 1.가장 큰 페이지 */
+.videoPage {
+  display: flex;
+}
+/* 2왼쪽 리모컨 */
+.sessionNav {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  margin: 10px;
+  flex: 0.3;
+}
+/* 그룹방 제목 */
+.sessionTitle {
+  display: inline-block;
+}
+/* 메인 화면 */
+.sessionMain {
+  flex: 6.7;
+  margin: 10px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.sessionChat {
+  flex: 3;
+  background-color: white;
+  margin: 10px;
+  font-size: large;
+  border-radius: 10px;
+}
+/* 2-1-1. 버튼 */
+.controlBtn,
+.switchCameraBtn {
+  /* float: right; */
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+/* 3. 사용자 화면들 모아놓은 section */
+.videoContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+/* 3-1. 참가자들 화면 하나 */
+.streamContainer {
+  padding: 20px;
+  width: 45%;
+  height: 33%;
+  border-radius: 10px;
+}

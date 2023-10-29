@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+/* 
+.bubbleBox{
+  width: 100rem;
+  padding: 100px;
+} */
+
+.bubbleMainImg {
+  width: 100%;
+  height: 53%;
+  margin-bottom: 50px;
+}
+
+.feedMainImg {
+  width: 100%;
+  height: 344px;
+  margin: 50px;
+}
+
+.dynamicEmojies {
+  width: 30rem;
+  height: 30rem;
+}
+
+.figureBox {
+  display: flex;
+  color: aliceblue;
+  width: 100%;
+  padding: 40px;
+  justify-content: center;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.6138830532212884) 0%,
+    rgba(149, 198, 255, 0.47102591036414565) 100%
+  );
+}
+
+.introMessage {
+  font-size: 3rem;
+  font-weight: 500;
+  margin: 50px;
+  margin-top: 100px;
+  color: black;
+}
+
+.feedBox {
+  width: 100%;
+}
+
+.emphasize{
+  font-size: 4rem;
+  color : #ff5b8c;
+  font-weight: 900;
+}
+
+.line{
+  width: 10rem;
+  height: 10rem;
+  margin: 20px;
+}
+
+/* .handclap{
+  background-color: white;
+} */

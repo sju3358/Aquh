@@ -1,0 +1,32 @@
+.track {
+  --height: 30px;
+  width: 50%;
+  height: var(--height);
+  border-radius: calc(var(--height) / 2);
+  background-color: azure;
+}
+
+.inner {
+  background-color: #4475f4;
+  width: 0%;
+  height: var(--height);
+  border-radius: calc(var(--height) / 2);
+  color : white;
+  font-size: 1.5rem;
+  line-height: var(--height);
+}
+
+.textContainer{
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  color : white;
+  font-size: 1.5rem;
+  padding: 0px 5px;
+}
+
+.dropLevel {
+  appearance: none;
+  text-decoration: none;
+  background-color: none;
+}

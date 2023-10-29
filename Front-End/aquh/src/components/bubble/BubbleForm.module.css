@@ -1,0 +1,113 @@
+* {
+  font-family: Pretendard;
+}
+
+.container{
+  font-size: 1.5rem;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 400px; /* Adjust this width according to your design */
+  margin: 0 auto;
+}
+
+.label {
+  font-weight: bold;
+  border-radius: 1rem;
+}
+
+.input{
+  padding: 15px;
+  width: 100%;
+  height: 3rem;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  border-radius: 1.2rem;
+  
+}
+.input:hover {
+  border: 2px solid rgb(56, 195, 255);
+}
+.input:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(111, 185, 255);
+}
+
+.textarea {
+  resize: none;
+  padding: 1rem;
+  width: 100%;
+  height: 40rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  width: 12rem;
+  height: 4rem;
+  background-color: #2b5cfcaa;
+  color: rgb(255, 255, 255);
+  border: rgb(255, 255, 255) solid 2px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 2rem; /* 버튼의 둥근 모서리를 위한 속성 */
+  transition: background-color 0.3s;
+  margin: 10px;
+}
+
+.button:hover {
+  background-color: rgb(176, 190, 221);
+}
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+/*  */
+
+select {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.5;
+
+  color: #444;
+  background-color: #fff;
+
+  padding: 0.6em 1.4em 0.5em 0.8em;
+  margin: 0;
+
+  border: 1px solid #aaa;
+  border-radius: 0.5em;
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+}
+
+select:hover {
+  border-color: #888;
+}
+
+select:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 1px 3px rgba(151, 202, 255, 0.7);
+  box-shadow: 0 0 0 3px -moz-mac-focusring;
+  color: #222;
+  outline: none;
+}
+
+select:disabled {
+  opacity: 0.5;
+}
+
+.thumbnailImg{
+  width: 100%;
+  border-radius: 2rem;
+  
+}
+
+.bubbleIntro{
+  display: flex;
+  margin: auto;
+  width: 15rem;
+}

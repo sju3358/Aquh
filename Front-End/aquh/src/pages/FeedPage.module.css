@@ -1,0 +1,66 @@
+.feedPage {
+  /* position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.latestChat {
+  width: 100rem;
+}
+.droplet {
+  width: 2.5rem;
+  height: 4rem;
+}
+.feedMent {
+  color: white;
+  font-weight: 70;
+  font-family: Pretendard;
+  /* align-self: start; */
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 20px 60px;
+}
+.feedCategories {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: row;
+  margin: 20px 70px;
+  width: 100rem;
+  font-weight: 700;
+  
+}
+.feedCategory {
+  margin: 10px;
+  font-size: 2rem;
+  font-weight: 2rem;
+  width: 10rem;
+  height: 5rem;
+  text-align: center;
+  line-height: 5rem;
+  color:white;
+  border: white solid 2px;
+  cursor: pointer;
+  border-radius: 2rem;
+}
+
+.feedCategory:hover {
+  background-color: azure;
+  color: black;
+}
+
+.selectedButton {
+  background-color: azure;
+  color: black;
+}
+
+
+
+.feedCards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

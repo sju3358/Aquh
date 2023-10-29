@@ -1,0 +1,144 @@
+.feedWriteCard {
+  width: 1140px;
+}
+
+.feedWriteMent {
+  align-items: flex-start;
+  color: white;
+  font-weight: 70;
+  font-family: Pretendard;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 20px 60px;
+}
+.feedWriteSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.feedTitleInput {
+  width: 70%;
+  margin: 10px 0px;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  &:focus {
+    outline: none;
+  }
+  padding: 13px;
+  border-radius: 10px;
+}
+.feedTitleInput:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedTitleInput:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}
+
+
+.feedContent {
+  resize: none;
+  width: 70%;
+  margin: 10px 0px;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  &:focus {
+    outline: none;
+  }
+  padding: 13px;
+  border-radius: 10px;
+}
+
+.feedContent:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedContent:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}
+
+
+
+
+
+.droplet {
+  width: 2.5rem;
+  height: 4rem;
+  margin-right: 1rem;
+}
+.feedWriteUnder {
+  display: flex;
+  width: 1140px;
+  justify-content: flex-end;
+  margin-right: 30%;
+  margin-top: 10px;
+}
+.feedImgRealBtn {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+.uploadFeedName {
+  display: inline-block;
+  padding: 14px;
+  border-radius: 1rem;
+  color: #6c6767;
+  background-color: #e0e0e0af;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  &:focus {
+    outline: none;
+  }
+}
+.feedFileLabel {
+  display: inline-block;
+  border-radius: 1rem;
+  color: #020202;
+  background-color: #ffffffac;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 14px;
+  margin-left: 2rem;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  &:active {
+    background-color: #acacaccc;
+    color: #262626;
+  }
+}
+.feedFileInput {
+  margin-right: 2rem;
+}
+
+
+
+.feedFileLabel:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedFileLabel:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}
+
+.feedWritButton {
+  border-radius: 10px;
+  background: #2442a1aa;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 13px;
+  color : white;
+  border: 2px solid rgba(0, 0, 0, 0.23);
+  &:hover,
+  &:active {
+    background-color: #3f5cbd;
+    color: #eaf1f7;
+  }
+}
+
+.feedWritButton:hover {
+  border: 2px solid rgb(102, 137, 152);
+}
+.feedWritButton:focus-visible {
+  outline: none !important;
+  border: 2px solid rgb(99, 138, 174);
+}

@@ -1,0 +1,206 @@
+package com.ssafy.team8alette.domain.bubble.session.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.BubbleListDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.request.CreateBubbleRequestDto;
+import com.ssafy.team8alette.domain.bubble.session.model.dto.response.BubbleResponseDto;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleParticipantService;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleService;
+import com.ssafy.team8alette.domain.bubble.session.service.BubbleSessionService;
+import com.ssafy.team8alette.domain.member.alarm.model.service.AlarmService;
+import com.ssafy.team8alette.domain.member.auth.model.dto.Member;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberAuthService;
+import com.ssafy.team8alette.domain.member.auth.model.service.MemberService;
+import com.ssafy.team8alette.domain.member.auth.util.JwtTokenProvider;
+import com.ssafy.team8alette.domain.member.record.model.service.MemberRecordService;
+import com.ssafy.team8alette.global.annotation.LoginRequired;
+import com.ssafy.team8alette.global.exception.UnAuthorizedException;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/v1/bubble")
+public class BubbleController {
+
+	private final BubbleService bubbleService;
+	private final BubbleParticipantService bubbleParticipantService;
+	private final MemberAuthService memberAuthService;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final MemberRecordService memberRecordService;
+	private final AlarmService alarmService;
+	private final MemberService memberService;
+	private final BubbleSessionService bubbleSessionService;
+
+	@LoginRequired
+	@GetMapping("/{bubbleNumber}")
+	public BubbleResponseDto getBubbleInfoRequest(
+		@PathVariable Long bubbleNumber) {
+
+		BubbleDto bubble = bubbleService.getBubbleInfo(bubbleNumber);
+
+		return BubbleResponseDto.builder()
+			.data(bubble)
+			.message("success")
+			.build();
+	}
+
+	@LoginRequired
+	@PostMapping
+	public BubbleResponseDto createBubbleRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@RequestBody CreateBubbleRequestDto requestDto) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		Long bubbleNumber = bubbleService.createBubble(requestDto);
+
+		if (memberNumber != requestDto.getHostMemberNumber())
+			throw new UnAuthorizedException("본인만 방을 만들 수 있습니다");
+
+		bubbleParticipantService.createBubbleList(memberNumber, bubbleNumber);
+
+		return BubbleResponseDto.builder()
+			.data(bubbleNumber)
+			.message("success")
+			.build();
+	}
+
+	@LoginRequired
+	@PutMapping("/{bubbleNumber}")
+	public BubbleResponseDto closeBubbleRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable Long bubbleNumber) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		bubbleParticipantService.removeBubbleList(memberNumber, bubbleNumber);
+
+		bubbleSessionService.deleteBubbleSession(memberNumber, bubbleNumber);
+
+		bubbleService.closeBubble(bubbleNumber, memberNumber);
+
+		memberRecordService.updateMemberExp(memberNumber, 100);
+		memberRecordService.updateMemberRoomJoinCnt(memberNumber, 1);
+		
+		return BubbleResponseDto.builder()
+			.message("success")
+			.build();
+	}
+
+	@LoginRequired
+	@PutMapping("/{bubbleNumber}/enter")
+	public BubbleResponseDto enterBubbleRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken,
+		@PathVariable Long bubbleNumber) throws ParseException {
+
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+
+		bubbleParticipantService.createBubbleList(bubbleNumber, memberNumber);
+
+		return BubbleResponseDto.builder()
+			.message("success")
+			.build();
+
+	}
+
+	//
+	@GetMapping("/bubblings")
+	public BubbleResponseDto getBubblingListRequest() {
+		List<BubbleDto> bubblings = bubbleService.getBubblingList();
+
+		return BubbleResponseDto.builder()
+			.data(bubblings)
+			.message("success")
+			.build();
+	}
+
+	@GetMapping("/bubbletalks")
+	public BubbleResponseDto getBubbleTalkRequest() {
+		List<BubbleDto> bubbleTalks = bubbleService.getBubbleTalkList();
+
+		return BubbleResponseDto.builder()
+			.data(bubbleTalks)
+			.message("success")
+			.build();
+	}
+
+	@GetMapping
+	public BubbleResponseDto getAllBubbleRoomRequest() {
+
+		List<BubbleListDto> bubbleList = new ArrayList<>();
+		List<BubbleDto> allBubbleRooms = bubbleService.getAllBubbleRoomList();
+
+		for (BubbleDto bubbleDto : allBubbleRooms) {
+
+			Member member = memberService.getMemberInfo(bubbleDto.getHostMemberNumber());
+			String nickName = member.getMemberNickname();
+			int level = memberRecordService.getMemberLevel(member.getMemberNumber());
+			//
+			bubbleList.add(BubbleListDto.builder()
+				.bubbleNumber(bubbleDto.getBubbleNumber())
+				.hostMemberNumber(bubbleDto.getHostMemberNumber())
+				.categoryName(bubbleDto.getCategoryName())
+				.bubbleType(bubbleDto.isBubbleType())
+				.bubbleTitle(bubbleDto.getBubbleTitle())
+				.bubbleContent(bubbleDto.getBubbleContent())
+				.bubbleThumbnail(bubbleDto.getBubbleThumbnail())
+				.bubbleState(bubbleDto.isBubbleState())
+				.nickName(nickName)
+				.level(level)
+				.build());
+
+		}
+
+		return BubbleResponseDto.builder()
+			.data(bubbleList)
+			.message("success")
+			.build();
+	}
+
+	@GetMapping("/bubblings/my")
+	public BubbleResponseDto getMyBubblingListRequest(
+		@RequestHeader(value = "AUTH-TOKEN") String jwtToken) throws ParseException {
+		Long memberNumber = jwtTokenProvider.getMemberNumber(jwtToken);
+		List<BubbleDto> bubblings = bubbleService.getBubblingList(memberNumber);
+
+		List<BubbleListDto> bubbleList = new ArrayList<>();
+
+		for (BubbleDto bubbleDto : bubblings) {
+			String nickName = memberService.getMemberInfo(memberNumber).getMemberNickname();
+			int level = memberRecordService.getMemberLevel(memberNumber);
+
+			bubbleList.add(BubbleListDto.builder()
+				.bubbleNumber(bubbleDto.getBubbleNumber())
+				.hostMemberNumber(bubbleDto.getHostMemberNumber())
+				.categoryName(bubbleDto.getCategoryName())
+				.bubbleType(bubbleDto.isBubbleType())
+				.bubbleTitle(bubbleDto.getBubbleTitle())
+				.bubbleContent(bubbleDto.getBubbleContent())
+				.bubbleThumbnail(bubbleDto.getBubbleThumbnail())
+				.bubbleState(bubbleDto.isBubbleState())
+				.nickName(nickName)
+				.level(level)
+				.build());
+
+		}
+
+		return BubbleResponseDto.builder()
+			.data(bubbleList)
+			.message("success")
+			.build();
+	}
+
+}
