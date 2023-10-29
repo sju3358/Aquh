@@ -1,0 +1,49 @@
+video {
+    width: 100%;
+    height: auto;
+    float: left;
+    cursor: pointer;
+}
+.streamcomponent  {
+    display: flex;
+    flex-direction: column;
+    /* background-color: #cccfd7b6; */
+    border: 3px solid #5576d2ac;
+    border-radius: 15px;
+    /* position: absolute;
+    background: #f8f8f8;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #777777;
+    font-weight: bold;
+    border-bottom-right-radius: 4px; */
+}
+
+.videoProfileImg{
+    padding-left: 20px;
+    width: 60px;    
+}
+
+.videoProfileNickName{
+    display: inline-block;
+    margin: 0px;
+    /* text-align: center; */
+    font-size: 18px;
+    align-self: center;
+    color: #5576d2;
+    font-weight: bold;
+}
+
+.videoProfile {
+    /* display: block;
+    max-height: 100%; */
+    display: flex;
+    /* flex-direction: column */
+}
+
+.videoBox {
+    border-radius: 18px 18px 0px 0px;
+    /* border-radius: 15px; */
+    padding: 10px 10px  0px 10px;
+    /* margin-bottom: 10px; */
+}

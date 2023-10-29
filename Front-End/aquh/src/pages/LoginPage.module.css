@@ -1,0 +1,41 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: center;
+  margin-top: 80px
+  /* height: 90%; */
+}
+.ment{
+  font-size: 30px;
+  font-weight: bolder;
+  color: #3f5cbd;
+  align-self: center;
+}
+.AquhLogo{
+  width: 280px;
+  height: 140px;
+  align-self: center;
+}
+.loginBox{
+  display: flex;
+  flex-direction: column;
+
+}
+.loginImg{
+  width: 300px;
+  height: 280px;
+  align-self: center;
+}
+
+.intro{
+  align-self: center;
+}
+
+
